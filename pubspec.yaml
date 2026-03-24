@@ -38,6 +38,10 @@ dependencies:
   flutter_bloc: ^9.1.1
   google_fonts: ^8.0.2
   lucide_icons: ^0.257.0
+  firebase_core: ^3.9.0
+  firebase_auth: ^5.3.4
+  cloud_firestore: ^5.6.0
+  firebase_storage: ^12.4.0
 
 dev_dependencies:
   flutter_test:
