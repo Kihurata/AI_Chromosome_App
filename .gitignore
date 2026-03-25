@@ -1,5 +1,6 @@
 # Antigravity & AI Agent folders
 /.agent
+/.agents
 /.gemini
 
 # Miscellaneous
@@ -20,7 +21,10 @@ migrate_working_dir/
 *.iws
 .idea/
 
-# The .vscode folder contains unit test and debugging configurations
+# Firebase Service Account
+serviceAccountKey.json
+
+# Local Netlify folder contains unit test and debugging configurations
 # for VS Code. It is often ignored, but can be committed if you want
 # to share configurations.
 .vscode/
