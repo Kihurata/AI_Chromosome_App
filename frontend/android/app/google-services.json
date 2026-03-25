@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "714209090598",
+    "project_id": "chromosome-app-d6167",
+    "storage_bucket": "chromosome-app-d6167.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714209090598:android:f217b80f5e879aebbe5ae7",
+        "android_client_info": {
+          "package_name": "com.example.medcore_crm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUMvywiM7_3Aoa1nZxX-HkmQ1HVwdoVzM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

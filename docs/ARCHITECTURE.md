@@ -25,9 +25,6 @@ The Chromosome Karyotyping App uses **Firebase Firestore** (NoSQL) for real-time
 | `id` | `String` (Doc ID) | Trùng với `uid` của bảng `users` |
 | `specialty` | `String` | Chuyên khoa (vd: Sản, Di truyền, Huyết học) |
 | `department_id`| `String` | |
-| `biography` | `Text` | |
-| `work_schedule`| `Map` | Lịch trực theo thứ trong tuần |
-| `rating` | `Number` | |
 
 ---
 
@@ -49,7 +46,9 @@ The Chromosome Karyotyping App uses **Firebase Firestore** (NoSQL) for real-time
 |-------|------|------|
 | `id` | `String` (Doc ID) | Primary Key |
 | `patient_id` | `Reference` | Liên kết đến `patients` |
+| `patient_name`| `String` | (Denormalized) Tên bệnh nhân |
 | `doctor_id` | `Reference` | Bác sĩ khám lâm sàng (Liên kết đến `doctors`) |
+| `doctor_name` | `String` | (Denormalized) Tên bác sĩ |
 | `appointment_date`| `Timestamp` | |
 | `status` | `Enum` | `scheduled`, `checked-in`, `completed`, `cancelled` |
 | `reason` | `Text` | Lý do khám |
@@ -64,6 +63,8 @@ The Chromosome Karyotyping App uses **Firebase Firestore** (NoSQL) for real-time
 |-------|------|------|
 | `id` | `String` (Doc ID) | Primary Key |
 | `patient_id` | `Reference` | Liên kết đến bệnh nhân gốc (`patients`) |
+| `patient_name`| `String` | (Denormalized) Tên bệnh nhân |
+| `patient_code`| `String` | (Denormalized) Mã y tế |
 | `appointment_id`| `Reference` | Liên kết đến lịch hẹn khám gốc (`appointments`) |
 | `current_sample_id`| `Reference` | Liên kết với mẫu vật lý hiện tại (`samples`) |
 | `specialist_id`| `Reference` | Bác sĩ di truyền phụ trách xử lý AI (`doctors`) |
@@ -81,6 +82,7 @@ The Chromosome Karyotyping App uses **Firebase Firestore** (NoSQL) for real-time
 | `id` | `String` (Doc ID) | Primary Key (Chính là nội dung mã QR) |
 | `test_order_id` | `Reference` | Liên kết với phiếu chỉ định (`test_orders`) |
 | `patient_id` | `Reference` | Liên kết đến `patients` (để hiển thị nhanh) |
+| `is_current` | `Boolean` | Đánh dấu mẫu đang xử lý chính cho Order |
 | `sample_type` | `Enum` | `PERIPHERAL_BLOOD`, `AMNIOTIC_FLUID`, `BONE_MARROW`,... |
 | `status` | `Enum` | `COLLECTED`, `CULTURING`, `HARVESTED`, `FAILED` |
 | `collection_time` | `Timestamp` | Thời điểm lấy mẫu |
@@ -102,6 +104,7 @@ The Chromosome Karyotyping App uses **Firebase Firestore** (NoSQL) for real-time
 | `id` | `String` (Doc ID) | Primary Key |
 | `raw_image_url`| `String` | Ảnh gốc (Firebase Storage) |
 | `ai_count` | `Number` | Số lượng NST AI đếm sơ bộ |
+| `processing_time` | `Number` | (Denormalized) Thời gian AI xử lý (ms/sec) |
 | `is_selected` | `Boolean` | Bác sĩ chọn ảnh này để làm Karyogram |
 
 #### Collection: `test_orders/{orderId}/metaphase_images/{imageId}/chromosomes`
@@ -136,3 +139,5 @@ The Chromosome Karyotyping App uses **Firebase Firestore** (NoSQL) for real-time
 - **Role-Based Separation:** Separating `users` (basic auth) from `doctors` (heavy specific logic) allows rapid fetching of basic auth/routing without polluting the context space with massive arrays like `work_schedule` maps.
 - **Real-time Sync Constraint:** The highly nested `chromosomes` sub-collection is exactly where active Firestore listeners will latch on for real-time drag-and-drop workspace syncing.
 - **Asset Storage:** All `_url` fields (`raw_image_url`, `mask_url`) store URI references to Firebase Cloud Storage buckets, ensuring the document sizes remain well under Firestore's 1MB limit.
+- **Denormalization Strategy:** Core fields like `patient_name`, `patient_code`, and `doctor_name` are denormalized across collections to significantly reduce document reads for list views and queues.
+- **Sample Lifecycle Management:** The `is_current` flag on `samples` ensures that even if multiple samples exist for a test order (e.g., due to failure), the system always identifies the active one for AI processing.

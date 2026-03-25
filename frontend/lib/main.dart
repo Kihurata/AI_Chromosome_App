@@ -4,11 +4,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'core/theme/app_theme.dart';
 import 'presentation/pages/dashboard/doctor_dashboard_page.dart';
+import 'presentation/cubits/auth/auth_cubit.dart';
+import 'presentation/pages/auth/login_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'core/firebase/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   } catch (e) {
     if (kDebugMode) {
       print("Firebase initialization error: $e");
@@ -28,11 +35,26 @@ class MedCoreApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MedCore Hospital CRM',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      home: const DoctorDashboardPage(),
+    return BlocProvider(
+      create: (context) => AuthCubit(),
+      child: MaterialApp(
+        title: 'MedCore Hospital CRM',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        home: BlocBuilder<AuthCubit, AuthState>(
+          builder: (context, state) {
+            if (state is Authenticated) {
+              return const DoctorDashboardPage();
+            } else if (state is AuthInitial || state is AuthLoading) {
+              return const Scaffold(
+                body: Center(child: CircularProgressIndicator()),
+              );
+            } else {
+              return const LoginPage();
+            }
+          },
+        ),
+      ),
     );
   }
 }

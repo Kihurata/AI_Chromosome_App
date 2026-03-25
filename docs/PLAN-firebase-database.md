@@ -33,22 +33,27 @@ This plan outlines the steps to initialize and configure **Cloud Firestore** for
 
 ---
 
-## Phase 3: Schema Initialization & Seeding - COMPLETED
+## Phase 3: Schema Initialization & Seeding - COMPLETED (Re-architected)
 - **Steps Taken:**
-    - Created root collections: `users`, `doctors`, `patients`, `test_orders`, `audit_logs`.
-    - **Mock Specialist**: `specialist@hospital.med` (ID: `DOC_001`).
-    - **Mock Patients**: `Patient Alpha`, `Patient Beta`.
-    - **Mock Test Order**: `ORDER_001` for Alpha (Status: `PENDING`).
-- **Verification:** Seeding script `backend/scripts/seed_db.py` executed successfully.
+    - Created root collections: `users`, `doctors`, `patients`, `appointments`, `test_orders`, `samples`, `audit_logs`.
+    - **Denormalization Applied**: `patient_name`, `patient_code`, and `doctor_name` added to appropriate collections.
+    - **Mock Records**:
+        - Specialist: `Dr. Nguyen Van A` (ID: `DOC_001`).
+        - Patients: `Alpha`, `Beta`.
+        - Order: `ORDER_001` with sub-collections for images and chromosomes.
+        - Sample: `SMP_001` with `is_current: true`.
+- **Verification:** Updated seeding script `backend/scripts/seed_db.py` executed successfully.
 
-## Phase 4: Hybrid Integration Verification
+## Phase 4: Hybrid Integration & Frontend Architecture - IN PROGRESS
 - **Agent:** `test-engineer`
-- **Task:** Verify Backend (FastAPI) and Frontend (Flutter) connectivity.
-- **Steps:**
-    1. **Flutter Write**: Test creating a simple appointment record from the app.
-    2. **FastAPI Proxy**: Test a status update endpoint (`CULTURING` -> `HARVESTED`).
-    3. **AI Proxy**: Verify image receipt and metadata return through FastAPI.
-- **Verification:** Firestore history reflects writes from both Flutter SDK and FastAPI Admin SDK.
+- **Frontend Architecture Strategy:**
+    - **Real-time Engine**: Use Riverpod **`StreamProvider`** to listen for raw Firestore snapshots (e.g., Chromosome positions).
+    - **UI Controller**: Use **Cubit** to consume the Riverpod stream and manage "active" local UI changes (e.g., drag-and-drop deltas) before syncing back to the stream.
+- **Tasks:**
+    1. **Flutter Config**: Run `flutterfire configure` to generate `lib/core/firebase/firebase_options.dart`.
+    2. **Lib Setup**: Update `main.dart` with the new options path.
+    3. **Provider Layer**: Implement the `StreamProvider` for Test Orders and Workspace objects.
+- **Verification:** Flutter app successfully logs in and listens to seeded `ORDER_001`.
 
 ---
 
