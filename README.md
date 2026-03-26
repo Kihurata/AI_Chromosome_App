@@ -1,71 +1,98 @@
-# MedCore Hospital CRM
+# AI Chromosome Karyotyping App (Monorepo)
 
-Hệ thống quản lý phòng khám chuyên nghiệp (Hospital CRM) với tính năng hỗ trợ Bác sĩ phân tích và điều trị y tế tiên tiến.
+Hệ thống quản lý phòng khám (CRM) và phân tích nhiễm sắc thể (Karyotyping) chuyên dụng. Dự án được chia làm 2 phần chính: Frontend (Flutter) và Backend (FastAPI).
 
-Đây là ứng dụng đa nền tảng (Cross-platform) xây dựng bằng **Flutter**, nhắm mục tiêu triển khai dưới dạng **Web App** và **Desktop App**.
-
-## 🛠 Tech Stack (Công nghệ sử dụng)
-* **Framework:** Flutter 3.x
-* **Global State & API Binding:** [Riverpod](https://riverpod.dev/) (Quản lý User Role, Stream Real-time)
-* **Local UI State:** [BLoC / Cubit](https://bloclibrary.dev/) (Dùng cho các tính năng phức tạp như màn hình kéo thả Karyotype)
-* **UI & Theming:** Tùy biến chuẩn theo Design System nội bộ `docs/UI_DESIGN_SYSTEM.md` sử dụng `lucide_icons` và `google_fonts` (Inter).
+## 📁 Cấu trúc thư mục (Monorepo)
+-   **/frontend**: Ứng dụng Flutter cho Bác sĩ và Nhân viên (Web & Desktop).
+-   **/backend**: API máy chủ xây dựng bằng Python FastAPI (Xử lý AI, Firebase Admin SDK).
+-   **/docs**: Tài liệu kiến trúc, luồng dữ liệu và các quyết định công nghệ.
 
 ---
 
-## 🚀 Hướng dẫn cài đặt & Chạy ứng dụng
+## 🚀 Hướng dẫn khởi chạy
 
-Nếu bạn vừa clone repository này về cấu hình máy mới, hãy làm theo các bước dưới đây để khởi chạy và đóng góp.
-
-### Yêu cầu hệ thống (Prerequisites)
-- Cài đặt [Flutter SDK](https://docs.flutter.dev/get-started/install) (Khuyến nghị phiên bản 3.x trở lên).
-- Đảm bảo máy tính đã kích hoạt hỗ trợ Web/Desktop. Bạn có thể kiểm tra danh sách máy ảo/trình duyệt khả dụng bằng cách gõ dòng lệnh: `flutter doctor`
-
-### Bước 1: Cài đặt Package & Dependency
-Sau khi tải source code về, khởi chạy Terminal/Command Prompt trực tiếp tại thư mục dự án và tải các thư viện:
+### 1. Frontend (Flutter)
+Đảm bảo bạn đã cài đặt Flutter SDK và Firebase CLI.
 
 ```bash
+cd frontend
 flutter pub get
-```
 
-### Bước 2: Build & Chạy thử
-
-Bạn có thể chạy thẳng ứng dụng (Dev Mode) lên Chrome hoặc build nó dưới một app Desktop chạy độc lập:
-
-**💻 Chạy trên trình duyệt Web (Rất tiện lợi để debug Dashboard):**
-```bash
+# Chạy ứng dụng (Chrome/Windows/MacOS)
 flutter run -d chrome
 ```
 
-**🪟 Chạy Native Desktop cho Windows:**
-```bash
-flutter run -d windows
-```
+### 2. Backend (FastAPI)
+Yêu cầu Python 3.9+ và cài đặt các thư viện cần thiết.
 
-**🍎 Chạy Native Desktop cho macOS:**
 ```bash
-flutter run -d macos
+cd backend
+pip install -r requirements.txt
+
+# Chạy server development
+uvicorn main:app --reload
 ```
 
 ---
 
-## 🧩 Cấu trúc thư mục (Project Structure)
-Các file mã nguồn nằm trong thư mục `/lib`. Hệ thống tuân theo Design Pattern Clean kết hợp state-driven.
-```text
-lib/
-├── core/                # Các thành phần cốt lõi: Theme (màu/font), Error Handling, Utils...
-├── presentation/        # Tầng giao diện và Logic hiển thị nội tại UI
-│   ├── pages/           # Code giao diện chung từng màn hình (Ví dụ: Dashboard chuyên gia)
-│   └── widgets/         # Component UI bóc tách, module tái sử dụng (Header chức năng, Sidebar, Data Table,...)
-└── main.dart            # Nơi Bootstrap App (Kết nối ProviderScope cho Riverpod)
-```
+## 🛠 Kiến trúc & Công nghệ (Tech Stack)
+
+### Frontend
+-   **Framework**: Flutter 3.x
+-   **Quản lý trạng thái (Hybrid)**: 
+    -   **Riverpod**: Dùng làm "Data Pipe" để stream dữ liệu realtime từ Firestore.
+    -   **Cubit (Bloc)**: Dùng làm "UI Controller" quản lý tương tác kéo-thả trong workspace.
+-   **Tài liệu chi tiết**: Xem tại [docs/ADR-state-management.md](docs/ADR-state-management.md)
+
+### Backend
+-   **Framework**: FastAPI (Python)
+-   **Firebase Admin SDK**: Quản lý dữ liệu tập trung và Proxy tới AI Server.
+-   **AI Integration**: Tích hợp các mô hình Segmentation/Classification (OpenCV, PyTorch/TensorFlow).
 
 ---
 
-## 📝 Check-list khi viết Code (For Team Members)
-1. **Thiết kế UI:** Tuyệt đối giữ đúng màu sắc (Primary Blue `0xFF0D6EFD`, Border `0xFFE9ECEF`...) và icon line (stroke mỏng 2px) được quy chuẩn trong `docs/UI_DESIGN_SYSTEM.md`. Không nên tự ý chèn thêm thư viện Component UI đóng gói sẵn phá vỡ kiến trúc thuần tuý.
-2. **Cập nhật mã:** Hãy tạo nhánh riêng `feature/...` thay vì đẩy code thẳng lên nhánh chính.
-3. **Phân luồng Quản lý Trạng thái:** Nếu dữ liệu đến từ Database Server cần hiển thị tức thời -> dùng Riverpod. Nếu là một luồng (flow) nhập liệu/kéo thả tại chỗ tốn bộ nhớ -> dùng Cubit. 
-4. **Quy tắc Kiểm tra lỗi Code:** Trước khi Push hoặc Submit Code, VUI LÒNG gõ qua lệnh xác minh chuẩn syntax sau để đảm bảo không dính file rác:
-   ```bash
-   flutter analyze
-   ```
+## 📝 Quy trình phát triển (Data Flow)
+Mọi trạng thái xét nghiệm đi qua 6 giai đoạn từ lúc đặt lịch đến khi có báo cáo PDF.
+Chi tiết xem tại: [docs/DATAFLOW.md](docs/DATAFLOW.md)
+
+---
+
+## 🔒 Firebase Configuration
+Dự án sử dụng Firebase cho Authentication, Firestore và Storage.
+-   File cấu hình Flutter: `frontend/lib/core/firebase/firebase_options.dart`.
+-   File cấu hình Backend: `backend/serviceAccountKey.json` (Không commit lên Git).
+
+---
+
+## 🛠 Cài đặt môi trường mới (Setup for new machine)
+
+Để chạy dự án sau khi clone về máy tính mới, bạn cần thực hiện các bước sau:
+
+### 1. File cấu hình (Secrets)
+Do không được commit lên Git vì lý do bảo mật, bạn cần chuẩn bị:
+-   **Backend**: Copy file `serviceAccountKey.json` vào thư mục `/backend`. Bạn có thể dùng `backend/serviceAccountKey.example.json` làm mẫu hoặc tải file mới từ Firebase Console (Project Settings > Service accounts).
+
+### 2. Firebase CLI
+Đảm bảo bạn đã cài đặt Firebase CLI và đăng nhập:
+```bash
+npm install -g firebase-tools
+firebase login
+```
+
+### 3. Flutter Setup
+```bash
+cd frontend
+flutter pub get
+# Nếu cần cấu hình lại Firebase cho Flutter:
+dart pub global activate flutterfire_cli
+flutterfire configure
+```
+
+### 4. Python Backend Setup
+Dự án yêu cầu cài đặt thư viện cần thiết cho Backend:
+```bash
+cd backend
+pip install -r requirements.txt
+# Nếu chưa có requirements.txt, hãy cài đặt base:
+pip install firebase-admin fastapi uvicorn
+```

@@ -15,6 +15,7 @@ The Chromosome Karyotyping App uses **Firebase Firestore** (NoSQL) for real-time
 | `email` | `String` | |
 | `full_name` | `String` | |
 | `role` | `Enum` | `admin`, `clinician`, `specialist`, `receptionist` |
+
 | `created_at` | `Timestamp` | |
 | `status` | `String` | `active`, `inactive` |
 
