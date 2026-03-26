@@ -31,6 +31,17 @@ def seed():
         'created_at': datetime.now(),
         'status': 'active'
     })
+
+    # 1a. Receptionist User
+    recep_ref = db.collection('users').document('REC_001')
+    batch.set(recep_ref, {
+        'uid': 'REC_001',
+        'email': 'receptionist@hospital.med',
+        'full_name': 'Ms. Receptionist B',
+        'role': 'receptionist',
+        'created_at': datetime.now(),
+        'status': 'active'
+    })
     
     # 2. Specialist Doctor Details (Simplified as per Arch update)
     doctor_ref = db.collection('doctors').document('DOC_001')

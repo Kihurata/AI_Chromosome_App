@@ -35,7 +35,7 @@ class AuthCubit extends Cubit<AuthState> {
           } else {
             // No profile found, logout and error
             await _authService.signOut();
-            emit(AuthError("Tài khoản chưa được gán hồ sơ Bác sĩ."));
+            emit(AuthError("Tài khoản chưa được gán hồ sơ nhân viên."));
           }
         } catch (e) {
           emit(AuthError("Lỗi kết nối dữ liệu người dùng."));

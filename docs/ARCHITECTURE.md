@@ -14,7 +14,7 @@ The Chromosome Karyotyping App uses **Firebase Firestore** (NoSQL) for real-time
 | `uid` | `String` (Doc ID) | Lấy từ Firebase Auth |
 | `email` | `String` | |
 | `full_name` | `String` | |
-| `role` | `Enum` | `admin`, `clinician`, `specialist`, `receptionist` |
+| `role` | `Enum` | `manager`, `clinician`, `specialist`, `receptionist` |
 
 | `created_at` | `Timestamp` | |
 | `status` | `String` | `active`, `inactive` |
@@ -69,7 +69,7 @@ The Chromosome Karyotyping App uses **Firebase Firestore** (NoSQL) for real-time
 | `appointment_id`| `Reference` | Liên kết đến lịch hẹn khám gốc (`appointments`) |
 | `current_sample_id`| `Reference` | Liên kết với mẫu vật lý hiện tại (`samples`) |
 | `specialist_id`| `Reference` | Bác sĩ di truyền phụ trách xử lý AI (`doctors`) |
-| `status` | `Enum` | `PENDING`, `CULTURING`, `ANALYZING`, `COMPLETED`, `FAILED` |
+| `status` | `Enum` | `WAIT_ASSIGN`, `CULTURING`, `ANALYZING`, `PENDING_APPROVAL`, `COMPLETED`, `FAILED` |
 | `iscn_formula`| `String` | Công thức NST rút gọn (vd: `47,XX,+21`) |
 | `diagnosis_conclusion`| `String` | Kết luận chẩn đoán (vd: Hội chứng Down) |
 | `final_report_url`| `String` | Đường dẫn file PDF kết quả |
