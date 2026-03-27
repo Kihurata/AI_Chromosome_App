@@ -22,9 +22,9 @@ def seed():
     batch = db.batch()
     
     # 1. Specialist User
-    user_ref = db.collection('users').document('DOC_001')
+    user_ref = db.collection('users').document('SuyvcITqmXd0pXYMbhR9a6l1cR52')
     batch.set(user_ref, {
-        'uid': 'DOC_001',
+        'uid': 'SuyvcITqmXd0pXYMbhR9a6l1cR52',
         'email': 'specialist@hospital.med',
         'full_name': 'Dr. Nguyen Van A',
         'role': 'specialist',

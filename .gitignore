@@ -62,3 +62,14 @@ macos/Flutter/GeneratedPluginRegistrant.swift
 
 # Firebase Secrets
 serviceAccountKey.json
+
+# iOS/macOS Build & Junk
+**/ios/Pods/
+**/ios/.DS_Store
+**/macos/Pods/
+**/macos/.DS_Store
+**/*.xcworkspace/xcuserdata
+**/*.xcodeproj/xcuserdata
+**/*.xcodeproj/project.xcworkspace
+**/DerivedData/
+*.xcuserstate
