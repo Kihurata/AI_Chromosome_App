@@ -33,9 +33,9 @@ def seed():
     })
 
     # 1a. Receptionist User
-    recep_ref = db.collection('users').document('REC_001')
+    recep_ref = db.collection('users').document('PflVVpVth3YVIwSxtC9SZnodxlR2')
     batch.set(recep_ref, {
-        'uid': 'REC_001',
+        'uid': 'PflVVpVth3YVIwSxtC9SZnodxlR2',
         'email': 'receptionist@hospital.med',
         'full_name': 'Ms. Receptionist B',
         'role': 'receptionist',

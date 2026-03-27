@@ -4,14 +4,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'core/theme/app_theme.dart';
 import 'presentation/pages/dashboard/doctor_dashboard_page.dart';
+import 'presentation/pages/receptionist/receptionist_dashboard_page.dart';
 import 'presentation/cubits/auth/auth_cubit.dart';
 import 'presentation/pages/auth/login_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'core/firebase/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('vi', null);
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -44,6 +47,9 @@ class MedCoreApp extends StatelessWidget {
         home: BlocBuilder<AuthCubit, AuthState>(
           builder: (context, state) {
             if (state is Authenticated) {
+              if (state.role == 'receptionist') {
+                return const ReceptionistDashboardPage();
+              }
               return const DoctorDashboardPage();
             } else if (state is AuthInitial || state is AuthLoading) {
               return const Scaffold(

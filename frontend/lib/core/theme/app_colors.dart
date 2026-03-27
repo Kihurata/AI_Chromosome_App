@@ -25,4 +25,7 @@ class AppColors {
   
   static const Color processingBg = Color(0xFFCFF4FC);
   static const Color processingText = Color(0xFF0D6EFD);
+
+  static const Color warningBg = Color(0xFFFFF3CD);
+  static const Color warningText = Color(0xFFB45309);
 }

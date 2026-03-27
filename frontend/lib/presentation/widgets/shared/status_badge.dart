@@ -25,6 +25,10 @@ class StatusBadge extends StatelessWidget {
         bgColor = AppColors.processingBg;
         textColor = AppColors.processingText;
         break;
+      case BadgeType.warning:
+        bgColor = AppColors.warningBg;
+        textColor = AppColors.warningText;
+        break;
     }
 
     return Container(
@@ -45,4 +49,4 @@ class StatusBadge extends StatelessWidget {
   }
 }
 
-enum BadgeType { success, danger, processing }
+enum BadgeType { success, danger, processing, warning }
