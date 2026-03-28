@@ -3,111 +3,103 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../../../core/theme/app_colors.dart';
 
 class ReceptionistHeader extends StatelessWidget {
+  final String title;
+  final String subtitle;
   final VoidCallback? onAddPatient;
+  final Widget? trailing;
 
-  const ReceptionistHeader({super.key, this.onAddPatient});
+  const ReceptionistHeader({
+    super.key,
+    this.title = 'Tổng quan',
+    this.subtitle = 'Quản lý lịch hẹn và tiếp nhận bệnh nhân',
+    this.onAddPatient,
+    this.trailing,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 72,
       padding: const EdgeInsets.symmetric(horizontal: 28),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.surface,
-        border: Border(bottom: BorderSide(color: AppColors.border, width: 1)),
+        border: const Border(bottom: BorderSide(color: AppColors.border, width: 1)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(8),
+            blurRadius: 4,
+            offset: const Offset(0, 1),
+          ),
+        ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Page Title
-          const Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Bảng điều khiển Tiếp nhận',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                title,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
               ),
+              const SizedBox(height: 2),
               Text(
-                'Quản lý lịch hẹn và tiếp nhận bệnh nhân',
-                style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                subtitle,
+                style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
               ),
             ],
           ),
           const Spacer(),
 
-          // Search
-          SizedBox(
-            width: 220,
-            height: 38,
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Tìm kiếm bệnh nhân...',
-                hintStyle: const TextStyle(fontSize: 13, color: AppColors.textPlaceholder),
-                prefixIcon: const Icon(LucideIcons.search, size: 16, color: AppColors.textPlaceholder),
-                filled: true,
-                fillColor: AppColors.border.withAlpha(76),
-                contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  borderSide: BorderSide.none,
-                ),
+          ?trailing,
+
+          if (onAddPatient != null) ...[
+            const SizedBox(width: 12),
+            ElevatedButton.icon(
+              onPressed: onAddPatient,
+              icon: const Icon(LucideIcons.userPlus, size: 16),
+              label: const Text('Thêm bệnh nhân', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primaryBlue,
+                foregroundColor: Colors.white,
+                elevation: 0,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
             ),
-          ),
-          const SizedBox(width: 12),
+          ],
 
-          // Add Patient Button
-          ElevatedButton.icon(
-            onPressed: onAddPatient,
-            icon: const Icon(LucideIcons.plus, size: 16),
-            label: const Text('Thêm bệnh nhân', style: TextStyle(fontSize: 13)),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryBlue,
-              foregroundColor: Colors.white,
-              elevation: 0,
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            ),
-          ),
           const SizedBox(width: 16),
 
           // Notification Bell
           Stack(
             children: [
-              IconButton(
-                icon: const Icon(LucideIcons.bell, color: AppColors.textSecondary, size: 20),
-                onPressed: () {},
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColors.border.withAlpha(60),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: IconButton(
+                  icon: const Icon(LucideIcons.bell, color: AppColors.textSecondary, size: 18),
+                  onPressed: () {},
+                  padding: EdgeInsets.zero,
+                ),
               ),
               Positioned(
-                right: 10,
-                top: 10,
+                right: 8,
+                top: 8,
                 child: Container(
                   width: 8,
                   height: 8,
-                  decoration: const BoxDecoration(color: AppColors.dangerText, shape: BoxShape.circle),
+                  decoration: BoxDecoration(
+                    color: AppColors.dangerText,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.surface, width: 1.5),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 8),
-
-          // User Avatar
-          Row(
-            children: [
-              CircleAvatar(
-                radius: 16,
-                backgroundColor: Colors.teal[100],
-                child: const Text('L', style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold, fontSize: 13)),
-              ),
-              const SizedBox(width: 8),
-              const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Lê Thị Lan', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-                  Text('Lễ tân', style: TextStyle(fontSize: 11, color: AppColors.textSecondary)),
-                ],
               ),
             ],
           ),

@@ -6,29 +6,94 @@ import '../models/patient_model.dart';
 class ClinicalRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // Giai đoạn 1: Đặt lịch & Thăm khám (Clinical Stage)
-  
-  // Hành động: Tạo patient mới
+  // ────────────────────────────────────────────────────
+  // Patient CRUD
+  // ────────────────────────────────────────────────────
+
   Future<String> createPatient(PatientModel patient) async {
     final docRef = await _db.collection('patients').add(patient.toFirestore());
+
+    // Auto-generate patient_code: BN-000001
+    final code = 'BN-${docRef.id.substring(0, 6).toUpperCase()}';
+    await docRef.update({'patient_code': code});
+
     return docRef.id;
   }
 
-  // Hành động: Tạo appointment mới
+  Stream<List<PatientModel>> getAllPatients() {
+    return _db
+        .collection('patients')
+        .orderBy('created_at', descending: true)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => PatientModel.fromFirestore(doc)).toList());
+  }
+
+  Future<List<PatientModel>> searchPatients(String query) async {
+    if (query.isEmpty) return [];
+
+    final queryUpper = query.toUpperCase();
+
+    // Search by phone or identity_card or name
+    final snapshot = await _db.collection('patients').get();
+
+    return snapshot.docs
+        .map((doc) => PatientModel.fromFirestore(doc))
+        .where((p) =>
+            p.fullName.toUpperCase().contains(queryUpper) ||
+            p.phone.contains(query) ||
+            p.identityCard.contains(query) ||
+            (p.patientCode ?? '').toUpperCase().contains(queryUpper))
+        .toList();
+  }
+
+  /// Check if a patient with the same identity_card or phone already exists
+  Future<PatientModel?> checkDuplicatePatient({
+    String? identityCard,
+    String? phone,
+  }) async {
+    // Check by identity_card first (most reliable)
+    if (identityCard != null && identityCard.isNotEmpty) {
+      final snapshot = await _db
+          .collection('patients')
+          .where('identity_card', isEqualTo: identityCard)
+          .limit(1)
+          .get();
+      if (snapshot.docs.isNotEmpty) {
+        return PatientModel.fromFirestore(snapshot.docs.first);
+      }
+    }
+
+    // Check by phone
+    if (phone != null && phone.isNotEmpty) {
+      final snapshot = await _db
+          .collection('patients')
+          .where('phone', isEqualTo: phone)
+          .limit(1)
+          .get();
+      if (snapshot.docs.isNotEmpty) {
+        return PatientModel.fromFirestore(snapshot.docs.first);
+      }
+    }
+
+    return null;
+  }
+
+  // ────────────────────────────────────────────────────
+  // Appointments
+  // ────────────────────────────────────────────────────
+
   Future<String> createAppointment(AppointmentModel appointment) async {
     final docRef = await _db.collection('appointments').add(appointment.toFirestore());
     return docRef.id;
   }
 
-  // Gộp: Tạo BN và Lịch hẹn đồng thời
   Future<void> registerPatientWithAppointment(PatientModel patient, Map<String, dynamic> apptData) async {
-    // 1. Create Patient
     final patientIdStr = await createPatient(patient);
     final patientRef = _db.doc('patients/$patientIdStr');
 
-    // 2. Create Appointment
     final appointment = AppointmentModel(
-      id: '', // Firestore will generate
+      id: '',
       patientId: patientRef,
       patientName: patient.fullName,
       doctorId: _db.doc('doctors/${apptData['doctor_uid']}'),
@@ -37,11 +102,10 @@ class ClinicalRepository {
       reason: apptData['reason'],
       status: 'scheduled',
     );
-    
+
     await createAppointment(appointment);
   }
 
-  // Lấy lịch hẹn trong ngày (Receptionist xem tất cả)
   Stream<QuerySnapshot> getTodayAppointments() {
     final now = DateTime.now();
     final startOfDay = DateTime(now.year, now.month, now.day);
@@ -55,18 +119,40 @@ class ClinicalRepository {
         .snapshots();
   }
 
-  // Hành động: Bác sĩ khám xong, tạo test_orders (Status: PENDING)
+  /// Get appointments for a date range (for Calendar view)
+  Stream<QuerySnapshot> getAppointmentsInRange(DateTime start, DateTime end) {
+    return _db
+        .collection('appointments')
+        .where('appointment_date', isGreaterThanOrEqualTo: Timestamp.fromDate(start))
+        .where('appointment_date', isLessThanOrEqualTo: Timestamp.fromDate(end))
+        .orderBy('appointment_date')
+        .snapshots();
+  }
+
+  /// Get all clinician doctors for assigning appointments
+  Future<List<Map<String, dynamic>>> getClinicians() async {
+    final usersSnapshot = await _db
+        .collection('users')
+        .where('role', whereIn: ['clinician', 'specialist'])
+        .where('status', isEqualTo: 'active')
+        .get();
+
+    return usersSnapshot.docs.map((doc) {
+      final data = doc.data();
+      return {
+        'uid': doc.id,
+        'full_name': data['full_name'] ?? '',
+        'role': data['role'] ?? '',
+      };
+    }).toList();
+  }
+
   Future<String> initiateTestOrder(TestOrderModel order) async {
-    // 1. Create the test order
     final orderRef = await _db.collection('test_orders').add(order.toFirestore());
-    
-    // 2. Update the appointment status to 'completed'
     await order.appointmentId.update({'status': 'completed'});
-    
     return orderRef.id;
   }
 
-  // Get current appointments for a doctor
   Stream<QuerySnapshot> getDoctorAppointments(String doctorUid) {
     return _db
         .collection('appointments')
@@ -75,7 +161,6 @@ class ClinicalRepository {
         .snapshots();
   }
 
-  // Cập nhật trạng thái lịch hẹn
   Future<void> updateAppointmentStatus(String appointmentId, String newStatus) async {
     await _db.collection('appointments').doc(appointmentId).update({'status': newStatus});
   }
