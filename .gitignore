@@ -7,6 +7,9 @@
 *.class
 *.log
 *.pyc
+*.pyo
+*.pyd
+__pycache__/
 *.swp
 .DS_Store
 .atom/
@@ -62,14 +65,27 @@ macos/Flutter/GeneratedPluginRegistrant.swift
 
 # Firebase Secrets
 serviceAccountKey.json
+.env
+.env.*
+
+# Python Backend
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
 # iOS/macOS Build & Junk
 **/ios/Pods/
 **/ios/.DS_Store
 **/macos/Pods/
 **/macos/.DS_Store
-**/*.xcworkspace/xcuserdata
-**/*.xcodeproj/xcuserdata
-**/*.xcodeproj/project.xcworkspace
+**/ios/*.xcworkspace/xcuserdata
+**/ios/*.xcodeproj/xcuserdata
+**/ios/*.xcodeproj/project.xcworkspace
+**/macos/*.xcworkspace/xcuserdata
+**/macos/*.xcodeproj/xcuserdata
+**/macos/*.xcodeproj/project.xcworkspace
 **/DerivedData/
 *.xcuserstate
