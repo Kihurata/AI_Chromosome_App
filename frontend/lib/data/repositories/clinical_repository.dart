@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/appointment_model.dart';
 import '../models/test_order_model.dart';
 import '../models/patient_model.dart';
+import '../models/icd_code_model.dart';
+import '../models/medical_record_model.dart';
 
 class ClinicalRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -157,11 +159,38 @@ class ClinicalRepository {
     return _db
         .collection('appointments')
         .where('doctor_id', isEqualTo: _db.doc('doctors/$doctorUid'))
-        .where('status', isEqualTo: 'scheduled')
+        .where('status', whereIn: ['scheduled', 'in_progress'])
         .snapshots();
   }
 
   Future<void> updateAppointmentStatus(String appointmentId, String newStatus) async {
     await _db.collection('appointments').doc(appointmentId).update({'status': newStatus});
+  }
+
+  // ────────────────────────────────────────────────────
+  // Clinician & Medical Records
+  // ────────────────────────────────────────────────────
+
+  Future<List<IcdCodeModel>> searchIcdCodes(String query) async {
+    if (query.isEmpty) return [];
+
+    final queryLower = query.toLowerCase();
+
+    // In a real app we might use a dedicated search service,
+    // but for MVP we search by searchable_text using a simple text search
+    // We can fetch a chunk and filter on client side.
+    final snapshot = await _db.collection('icd_codes').limit(100).get();
+
+    return snapshot.docs
+        .map((doc) => IcdCodeModel.fromFirestore(doc))
+        .where((code) =>
+            code.code.toLowerCase().contains(queryLower) ||
+            code.name.toLowerCase().contains(queryLower))
+        .take(10).toList(); // return top 10 matches
+  }
+
+  Future<String> saveMedicalRecord(MedicalRecordModel record) async {
+    final docRef = await _db.collection('medical_records').add(record.toFirestore());
+    return docRef.id;
   }
 }

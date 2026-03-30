@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'core/theme/app_theme.dart';
 import 'presentation/pages/dashboard/doctor_dashboard_page.dart';
 import 'presentation/pages/receptionist/receptionist_dashboard_page.dart';
+import 'presentation/pages/clinician/clinician_dashboard_page.dart';
 import 'presentation/cubits/auth/auth_cubit.dart';
 import 'presentation/pages/auth/login_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,6 +50,8 @@ class MedCoreApp extends StatelessWidget {
             if (state is Authenticated) {
               if (state.role == 'receptionist') {
                 return const ReceptionistDashboardPage();
+              } else if (state.role == 'clinician' || state.role == 'specialist') {
+                return const ClinicianDashboardPage();
               }
               return const DoctorDashboardPage();
             } else if (state is AuthInitial || state is AuthLoading) {
