@@ -8,9 +8,10 @@ import '../../../data/repositories/clinical_repository.dart';
 import '../shared/status_badge.dart';
 
 class TodayAppointmentsTable extends StatelessWidget {
-  TodayAppointmentsTable({super.key});
+  final ClinicalRepository _clinicalRepo;
 
-  final ClinicalRepository _clinicalRepo = ClinicalRepository();
+  TodayAppointmentsTable({super.key, ClinicalRepository? repository})
+      : _clinicalRepo = repository ?? ClinicalRepository();
 
   String _getInitials(String name) {
     if (name.isEmpty) return '??';

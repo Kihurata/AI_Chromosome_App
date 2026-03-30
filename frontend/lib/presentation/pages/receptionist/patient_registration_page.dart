@@ -7,7 +7,8 @@ import '../../../data/repositories/clinical_repository.dart';
 import 'package:intl/intl.dart';
 
 class PatientRegistrationPage extends StatefulWidget {
-  const PatientRegistrationPage({super.key});
+  final ClinicalRepository? repository;
+  const PatientRegistrationPage({super.key, this.repository});
 
   @override
   State<PatientRegistrationPage> createState() => _PatientRegistrationPageState();
@@ -15,7 +16,13 @@ class PatientRegistrationPage extends StatefulWidget {
 
 class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
   final _formKey = GlobalKey<FormState>();
-  final _clinicalRepo = ClinicalRepository();
+  late final ClinicalRepository _clinicalRepo;
+
+  @override
+  void initState() {
+    super.initState();
+    _clinicalRepo = widget.repository ?? ClinicalRepository();
+  }
 
   // Section 1 Controllers
   final _fullNameController = TextEditingController();
@@ -440,7 +447,7 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
         TextFormField(
           controller: _dobController,
           readOnly: true,
-          decoration: _inputDecoration('mm/dd/yyyy').copyWith(
+          decoration: _inputDecoration('dd/mm/yyyy').copyWith(
             prefixIcon: const Padding(
               padding: EdgeInsets.only(left: 12, right: 8),
               child: Icon(LucideIcons.calendar, size: 16, color: AppColors.textPlaceholder),
@@ -449,9 +456,15 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
           ),
           validator: (v) => (v == null || v.isEmpty) ? 'Vui lòng chọn ngày sinh' : null,
           onTap: () async {
+            DateTime initialDateValue = DateTime(1990, 1, 1);
+            if (_dobController.text.isNotEmpty) {
+              try {
+                initialDateValue = DateFormat('dd/MM/yyyy').parse(_dobController.text);
+              } catch (_) {}
+            }
             final date = await showDatePicker(
               context: context,
-              initialDate: DateTime(1990, 1, 1),
+              initialDate: initialDateValue,
               firstDate: DateTime(1900),
               lastDate: DateTime.now(),
               locale: const Locale('vi', 'VN'),

@@ -5,18 +5,26 @@ import '../../../core/theme/app_colors.dart';
 import '../../../data/models/patient_model.dart';
 import '../../../data/repositories/clinical_repository.dart';
 import 'patient_registration_page.dart';
+import 'patient_detail_page.dart';
 
 class PatientListPage extends StatefulWidget {
-  const PatientListPage({super.key});
+  final ClinicalRepository? repository;
+  const PatientListPage({super.key, this.repository});
 
   @override
   State<PatientListPage> createState() => _PatientListPageState();
 }
 
 class _PatientListPageState extends State<PatientListPage> {
-  final ClinicalRepository _clinicalRepo = ClinicalRepository();
+  late final ClinicalRepository _clinicalRepo;
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _clinicalRepo = widget.repository ?? ClinicalRepository();
+  }
 
   @override
   void dispose() {
@@ -275,7 +283,9 @@ class _PatientListPageState extends State<PatientListPage> {
               children: [
                 IconButton(
                   icon: const Icon(LucideIcons.eye, size: 16, color: AppColors.textSecondary),
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => PatientDetailPage(patient: p)),
+                  ),
                   tooltip: 'Xem chi tiết',
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(minWidth: 28, minHeight: 28),

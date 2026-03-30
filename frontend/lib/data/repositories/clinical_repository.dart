@@ -4,7 +4,10 @@ import '../models/test_order_model.dart';
 import '../models/patient_model.dart';
 
 class ClinicalRepository {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseFirestore _db;
+
+  ClinicalRepository({FirebaseFirestore? firestore})
+      : _db = firestore ?? FirebaseFirestore.instance;
 
   // ────────────────────────────────────────────────────
   // Patient CRUD

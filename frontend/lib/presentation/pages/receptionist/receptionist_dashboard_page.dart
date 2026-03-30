@@ -12,7 +12,8 @@ import 'patient_list_page.dart';
 import 'appointment_calendar_page.dart';
 
 class ReceptionistDashboardPage extends StatefulWidget {
-  const ReceptionistDashboardPage({super.key});
+  final ClinicalRepository? repository;
+  const ReceptionistDashboardPage({super.key, this.repository});
 
   @override
   State<ReceptionistDashboardPage> createState() => _ReceptionistDashboardPageState();
@@ -20,7 +21,13 @@ class ReceptionistDashboardPage extends StatefulWidget {
 
 class _ReceptionistDashboardPageState extends State<ReceptionistDashboardPage> {
   int _activeIndex = 0;
-  final ClinicalRepository _clinicalRepo = ClinicalRepository();
+  late final ClinicalRepository _clinicalRepo;
+
+  @override
+  void initState() {
+    super.initState();
+    _clinicalRepo = widget.repository ?? ClinicalRepository();
+  }
 
   static const _headerConfigs = [
     {'title': 'Tổng quan', 'subtitle': 'Theo dõi hoạt động tiếp nhận hôm nay'},
@@ -57,6 +64,15 @@ class _ReceptionistDashboardPageState extends State<ReceptionistDashboardPage> {
                 Expanded(
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 250),
+                    layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
+                      return Stack(
+                        alignment: Alignment.topCenter,
+                        children: <Widget>[
+                          ...previousChildren,
+                          if (currentChild != null) currentChild,
+                        ],
+                      );
+                    },
                     child: _buildPage(),
                   ),
                 ),
@@ -73,9 +89,9 @@ class _ReceptionistDashboardPageState extends State<ReceptionistDashboardPage> {
       case 0:
         return _DashboardContent(key: const ValueKey('dashboard'), clinicalRepo: _clinicalRepo);
       case 1:
-        return const PatientListPage(key: ValueKey('patients'));
+        return PatientListPage(key: const ValueKey('patients'), repository: _clinicalRepo);
       case 2:
-        return const AppointmentCalendarPage(key: ValueKey('calendar'));
+        return AppointmentCalendarPage(key: const ValueKey('calendar'), repository: _clinicalRepo);
       default:
         return _DashboardContent(key: const ValueKey('dashboard'), clinicalRepo: _clinicalRepo);
     }
@@ -150,7 +166,7 @@ class _DashboardContent extends StatelessWidget {
           ),
           const SizedBox(height: 28),
           // Appointments Table
-          TodayAppointmentsTable(),
+          TodayAppointmentsTable(repository: clinicalRepo),
         ],
       ),
     );
