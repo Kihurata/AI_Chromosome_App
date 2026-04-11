@@ -7,7 +7,7 @@ class ClinicalRepository {
   final FirebaseFirestore _db;
 
   ClinicalRepository({FirebaseFirestore? firestore})
-      : _db = firestore ?? FirebaseFirestore.instance;
+    : _db = firestore ?? FirebaseFirestore.instance;
 
   // ────────────────────────────────────────────────────
   // Patient CRUD
@@ -28,8 +28,11 @@ class ClinicalRepository {
         .collection('patients')
         .orderBy('created_at', descending: true)
         .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map((doc) => PatientModel.fromFirestore(doc)).toList());
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => PatientModel.fromFirestore(doc))
+              .toList(),
+        );
   }
 
   Future<List<PatientModel>> searchPatients(String query) async {
@@ -42,11 +45,13 @@ class ClinicalRepository {
 
     return snapshot.docs
         .map((doc) => PatientModel.fromFirestore(doc))
-        .where((p) =>
-            p.fullName.toUpperCase().contains(queryUpper) ||
-            p.phone.contains(query) ||
-            p.identityCard.contains(query) ||
-            (p.patientCode ?? '').toUpperCase().contains(queryUpper))
+        .where(
+          (p) =>
+              p.fullName.toUpperCase().contains(queryUpper) ||
+              p.phone.contains(query) ||
+              p.identityCard.contains(query) ||
+              (p.patientCode ?? '').toUpperCase().contains(queryUpper),
+        )
         .toList();
   }
 
@@ -87,11 +92,16 @@ class ClinicalRepository {
   // ────────────────────────────────────────────────────
 
   Future<String> createAppointment(AppointmentModel appointment) async {
-    final docRef = await _db.collection('appointments').add(appointment.toFirestore());
+    final docRef = await _db
+        .collection('appointments')
+        .add(appointment.toFirestore());
     return docRef.id;
   }
 
-  Future<void> registerPatientWithAppointment(PatientModel patient, Map<String, dynamic> apptData) async {
+  Future<void> registerPatientWithAppointment(
+    PatientModel patient,
+    Map<String, dynamic> apptData,
+  ) async {
     final patientIdStr = await createPatient(patient);
     final patientRef = _db.doc('patients/$patientIdStr');
 
@@ -116,8 +126,14 @@ class ClinicalRepository {
 
     return _db
         .collection('appointments')
-        .where('appointment_date', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay))
-        .where('appointment_date', isLessThanOrEqualTo: Timestamp.fromDate(endOfDay))
+        .where(
+          'appointment_date',
+          isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay),
+        )
+        .where(
+          'appointment_date',
+          isLessThanOrEqualTo: Timestamp.fromDate(endOfDay),
+        )
         .orderBy('appointment_date')
         .snapshots();
   }
@@ -126,7 +142,10 @@ class ClinicalRepository {
   Stream<QuerySnapshot> getAppointmentsInRange(DateTime start, DateTime end) {
     return _db
         .collection('appointments')
-        .where('appointment_date', isGreaterThanOrEqualTo: Timestamp.fromDate(start))
+        .where(
+          'appointment_date',
+          isGreaterThanOrEqualTo: Timestamp.fromDate(start),
+        )
         .where('appointment_date', isLessThanOrEqualTo: Timestamp.fromDate(end))
         .orderBy('appointment_date')
         .snapshots();
@@ -136,7 +155,7 @@ class ClinicalRepository {
   Future<List<Map<String, dynamic>>> getClinicians() async {
     final usersSnapshot = await _db
         .collection('users')
-        .where('role', whereIn: ['clinician', 'specialist'])
+        .where('role', whereIn: ['clinician'])
         .where('status', isEqualTo: 'active')
         .get();
 
@@ -151,7 +170,9 @@ class ClinicalRepository {
   }
 
   Future<String> initiateTestOrder(TestOrderModel order) async {
-    final orderRef = await _db.collection('test_orders').add(order.toFirestore());
+    final orderRef = await _db
+        .collection('test_orders')
+        .add(order.toFirestore());
     await order.appointmentId.update({'status': 'completed'});
     return orderRef.id;
   }
@@ -164,7 +185,12 @@ class ClinicalRepository {
         .snapshots();
   }
 
-  Future<void> updateAppointmentStatus(String appointmentId, String newStatus) async {
-    await _db.collection('appointments').doc(appointmentId).update({'status': newStatus});
+  Future<void> updateAppointmentStatus(
+    String appointmentId,
+    String newStatus,
+  ) async {
+    await _db.collection('appointments').doc(appointmentId).update({
+      'status': newStatus,
+    });
   }
 }
