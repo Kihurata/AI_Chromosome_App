@@ -51,3 +51,4 @@ class NavItem {
   /// Whether a given role can see/access this item
   bool isAllowedFor(AppRole role) => allowedRoles.contains(role);
 }
+

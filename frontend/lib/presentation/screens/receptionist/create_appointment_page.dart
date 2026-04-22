@@ -309,7 +309,7 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
             }
             final patients = snapshot.data ?? [];
             return DropdownButtonFormField<String>(
-              value: _selectedPatientId,
+              initialValue: _selectedPatientId,
               decoration: _inputDecoration('Chọn bệnh nhân...'),
               isExpanded: true,
               icon: const Icon(LucideIcons.chevronDown,
@@ -359,7 +359,7 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
             }
             final doctors = snapshot.data ?? [];
             return DropdownButtonFormField<String>(
-              value: _selectedDoctorUid,
+              initialValue: _selectedDoctorUid,
               decoration: _inputDecoration('Chọn bác sĩ...'),
               isExpanded: true,
               icon: const Icon(LucideIcons.chevronDown,
@@ -616,3 +616,4 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
     }
   }
 }
+

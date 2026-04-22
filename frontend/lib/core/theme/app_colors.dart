@@ -29,3 +29,4 @@ class AppColors {
   static const Color warningBg = Color(0xFFFFF3CD);
   static const Color warningText = Color(0xFFB45309);
 }
+

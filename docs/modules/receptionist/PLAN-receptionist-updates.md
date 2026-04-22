@@ -18,15 +18,15 @@ Dựa trên phản hồi từ người dùng và thiết kế mới được cun
 
 | ID | Nhiệm vụ | Khu vực File | Chi tiết triển khai |
 |---|---|---|---|
-| **T1** | Căn chỉnh Dashboard TopCenter | `receptionist_dashboard_page.dart` | Sửa wrap property thành `Alignment.topCenter`, hoặc thay đổi cơ chế Layout của `AnimatedSwitcher` đảm bảo content (Cards, List) bung sát Header. |
-| **T2** | Component Custom Dropdown Lịch Hẹn | `appointment_calendar_page.dart` (hoặc tạo widget rời) | - Tạo widget Custom Dropdown + Search Input.<br>- Khi tap, load Stream danh sách BN xếp theo `created_at` DESC.<br>- Lọc theo `identity_card` (CCCD) và danh tính. |
-| **T3** | Xây dựng Patient Detail Page | `patient_detail_page.dart` (NEW) | - Header (Tên, Code, SĐT - KHÔNG Avatar).<br>- Hệ thống Tabs (ẩn tab Xét nghiệm với role Receptionist).<br>- Tab Thông tin chi tiết: UI dạng Card/Timeline.<br>- Tab Lịch sử: UI Timeline, Expandable Card.<br>- Tạm kết nối Mock Data. |
-| **T4** | Tích hợp Navigation | `patient_list_page.dart` | Gắn sự kiện chuyển trang khi click icon "Xem chi tiết" (con mắt) tại Patient List sang trang `PatientDetailPage`. |
+| **T1** | Căn chỉnh Dashboard TopCenter | `receptionist_dashboard_page.dart` | ✅ Xong |
+| **T2** | Component Custom Dropdown Lịch Hẹn | `appointment_calendar_page.dart` | ✅ Xong |
+| **T3** | Xây dựng Patient Detail Page | `patient_detail_page.dart` (NEW) | ✅ Xong (Timeline đẹp) |
+| **T4** | Tích hợp Navigation | `patient_list_page.dart` | ✅ Xong |
 
 ## 3. Verification Checklist (Tiêu chí Hoàn thành)
-- [ ] Dashboard không bị khoảng trống giữa màn hình.
-- [ ] Popup Tạo lịch hẹn: Ô "Bệnh nhân" nhấp vào sổ ra ngay danh sách BN mới nhất, gõ nội dung vào sẽ tìm kiếm theo CCCD/tên mượt mà.
-- [ ] Click icon "Mắt" ở danh sách Bệnh nhân -> mở ra giao diện chi tiết đúng với layout thiết kế (Ảnh tab Lịch sử khám bệnh dạng Timeline).
+- [x] Dashboard không bị khoảng trống giữa màn hình.
+- [x] Popup Tạo lịch hẹn: Ô "Bệnh nhân" nhấp vào sổ ra ngay danh sách BN mới nhất, gõ nội dung vào sẽ tìm kiếm theo CCCD/tên mượt mà.
+- [x] Click icon "Mắt" ở danh sách Bệnh nhân -> mở ra giao diện chi tiết đúng với layout thiết kế (Ảnh tab Lịch sử khám bệnh dạng Timeline).
 
 ## 4. Next Steps
 Chờ xác nhận. Nếu bạn đồng ý với plan đã sửa đổi này, vui lòng gõ **"Tạo"** (hoặc `/create`) để tôi vận hành các sub-agents tiến hành viết code và nâng cấp UI!

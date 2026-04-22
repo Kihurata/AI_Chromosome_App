@@ -172,3 +172,4 @@ class RecentPatientsTable extends StatelessWidget {
     );
   }
 }
+

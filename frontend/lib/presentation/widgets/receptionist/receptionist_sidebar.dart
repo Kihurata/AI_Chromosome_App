@@ -346,3 +346,4 @@ class _NavItem {
     required this.index,
   });
 }
+

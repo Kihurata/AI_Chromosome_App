@@ -5,11 +5,11 @@ import 'package:go_router/go_router.dart';
 import '../models/nav_item.dart';
 import '../config/app_nav_items.dart';
 import '../providers/auth_provider.dart';
-import '../../presentation/pages/auth/login_page.dart';
-import '../../presentation/pages/receptionist/receptionist_dashboard_body.dart';
-import '../../presentation/pages/receptionist/patient_list_page.dart';
-import '../../presentation/pages/receptionist/appointment_calendar_page.dart';
-import '../../presentation/pages/dashboard/doctor_dashboard_page.dart';
+import '../../presentation/screens/auth/login_page.dart';
+import '../../presentation/screens/receptionist/receptionist_dashboard_body.dart';
+import '../../presentation/screens/receptionist/patient_list_page.dart';
+import '../../presentation/screens/receptionist/appointment_calendar_page.dart';
+import '../../presentation/screens/dashboard/doctor_dashboard_page.dart';
 import '../../presentation/widgets/shared/app_navigation_wrapper.dart';
 
 // ── Route path constants ──────────────────────────────────────────────────────
@@ -166,7 +166,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
 // ── Listens to auth state changes to trigger GoRouter refresh ─────────────────
 class _AuthStateListenable extends ChangeNotifier {
   _AuthStateListenable(Ref ref) {
-    ref.listen(authNotifierProvider, (_, __) => notifyListeners());
+    ref.listen(authNotifierProvider, (previous, current) => notifyListeners());
   }
 }
 
@@ -230,3 +230,4 @@ class _ForbiddenPage extends StatelessWidget {
     );
   }
 }
+

@@ -10,7 +10,7 @@ import 'core/firebase/firebase_options.dart';
 import 'core/theme/app_theme.dart';
 import 'core/router/app_router.dart';
 import 'core/providers/auth_provider.dart';
-import 'presentation/cubits/auth/auth_cubit.dart';
+import 'logic/bloc/auth/auth_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,3 +62,4 @@ class MedCoreApp extends ConsumerWidget {
     );
   }
 }
+

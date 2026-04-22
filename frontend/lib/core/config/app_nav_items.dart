@@ -111,3 +111,4 @@ String defaultRouteForRole(AppRole role) {
       return '/manager/reports';
   }
 }
+

@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:medcore_crm/presentation/pages/receptionist/receptionist_dashboard_page.dart';
-import 'package:medcore_crm/presentation/pages/receptionist/patient_list_page.dart';
-import 'package:medcore_crm/presentation/pages/receptionist/appointment_calendar_page.dart';
+import 'package:medcore_crm/presentation/screens/receptionist/receptionist_dashboard_page.dart';
+import 'package:medcore_crm/presentation/screens/receptionist/patient_list_page.dart';
+import 'package:medcore_crm/presentation/screens/receptionist/appointment_calendar_page.dart';
 import 'package:medcore_crm/data/repositories/clinical_repository.dart';
 
 class MockClinicalRepository extends Mock implements ClinicalRepository {}
@@ -52,3 +52,4 @@ void main() {
     expect(find.text('Quản lý lịch hẹn và phân công bác sĩ'), findsOneWidget);
   });
 }
+

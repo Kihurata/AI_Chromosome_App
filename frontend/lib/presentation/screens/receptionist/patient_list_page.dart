@@ -5,7 +5,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../data/models/patient_model.dart';
 import '../../../data/repositories/clinical_repository.dart';
 import 'patient_registration_page.dart';
-import 'patient_detail_page.dart';
+import '../patient_detail/patient_detail_screen.dart';
 
 class PatientListPage extends StatefulWidget {
   final ClinicalRepository? repository;
@@ -261,7 +261,7 @@ class _PatientListPageState extends State<PatientListPage> {
                           isLast: isLast,
                           onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => PatientDetailPage(patient: p),
+                              builder: (_) => PatientDetailScreen(patient: p),
                             ),
                           ),
                           maskId: _maskIdentityCard,
@@ -557,3 +557,4 @@ class _PatientRowItemState extends State<_PatientRowItem> {
     );
   }
 }
+

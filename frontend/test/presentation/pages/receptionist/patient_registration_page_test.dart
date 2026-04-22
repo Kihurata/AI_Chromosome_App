@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:medcore_crm/presentation/pages/receptionist/patient_registration_page.dart';
+import 'package:medcore_crm/presentation/screens/receptionist/patient_registration_page.dart';
 import 'package:medcore_crm/data/repositories/clinical_repository.dart';
 import 'package:medcore_crm/data/models/patient_model.dart';
 
@@ -69,3 +69,4 @@ void main() {
     expect(find.byIcon(Icons.warning_amber), findsNothing); // Uses Lucide Icons in real code, but check text is safer
   });
 }
+

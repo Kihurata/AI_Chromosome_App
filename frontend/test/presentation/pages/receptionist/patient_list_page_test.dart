@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:medcore_crm/presentation/pages/receptionist/patient_list_page.dart';
+import 'package:medcore_crm/presentation/screens/receptionist/patient_list_page.dart';
 import 'package:medcore_crm/data/repositories/clinical_repository.dart';
 import 'package:medcore_crm/data/models/patient_model.dart';
 
@@ -74,3 +74,4 @@ void main() {
     expect(find.text('Beta'), findsNothing);
   });
 }
+

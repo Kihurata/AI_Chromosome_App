@@ -673,3 +673,4 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
     }
   }
 }
+

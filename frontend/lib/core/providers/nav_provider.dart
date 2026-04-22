@@ -19,3 +19,4 @@ final defaultRouteProvider = Provider<String>((ref) {
   if (auth.role == null) return '/login';
   return defaultRouteForRole(auth.role!);
 });
+

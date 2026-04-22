@@ -56,3 +56,4 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
     emit(state.copyWith(selectedId: id));
   }
 }
+

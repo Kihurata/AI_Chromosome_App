@@ -16,3 +16,4 @@ final chromosomesStreamProvider = StreamProvider.family<List<ChromosomeModel>, S
     return snapshot.docs.map((doc) => ChromosomeModel.fromFirestore(doc)).toList();
   });
 });
+

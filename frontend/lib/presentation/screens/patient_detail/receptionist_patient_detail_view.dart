@@ -5,16 +5,16 @@ import '../../../core/theme/app_colors.dart';
 import '../../../data/models/patient_model.dart';
 import '../../widgets/shared/status_badge.dart';
 
-class PatientDetailPage extends StatefulWidget {
+class ReceptionistPatientDetailView extends StatefulWidget {
   final PatientModel patient;
 
-  const PatientDetailPage({super.key, required this.patient});
+  const ReceptionistPatientDetailView({super.key, required this.patient});
 
   @override
-  State<PatientDetailPage> createState() => _PatientDetailPageState();
+  State<ReceptionistPatientDetailView> createState() => _ReceptionistPatientDetailViewState();
 }
 
-class _PatientDetailPageState extends State<PatientDetailPage> with SingleTickerProviderStateMixin {
+class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetailView> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   final List<Map<String, dynamic>> _mockVisitHistory = [
@@ -697,3 +697,5 @@ class _TimelineCardState extends State<_TimelineCard> {
     );
   }
 }
+
+

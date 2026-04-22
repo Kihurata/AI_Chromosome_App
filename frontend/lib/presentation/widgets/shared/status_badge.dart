@@ -50,3 +50,4 @@ class StatusBadge extends StatelessWidget {
 }
 
 enum BadgeType { success, danger, processing, warning }
+

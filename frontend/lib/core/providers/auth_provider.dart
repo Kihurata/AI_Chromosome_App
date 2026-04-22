@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/nav_item.dart';
-import '../../presentation/cubits/auth/auth_cubit.dart';
+import '../../logic/bloc/auth/auth_cubit.dart';
 
 /// Snapshot of auth state exposed to Riverpod
 class AuthSnapshot {
@@ -108,3 +108,4 @@ class _SyncOnMountState extends State<_SyncOnMount> {
   @override
   Widget build(BuildContext context) => widget.child;
 }
+

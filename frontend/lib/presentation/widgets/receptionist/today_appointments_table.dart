@@ -342,3 +342,4 @@ class TodayAppointmentsTable extends StatelessWidget {
     );
   }
 }
+

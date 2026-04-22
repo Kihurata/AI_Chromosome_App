@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cubits/auth/auth_cubit.dart';
+import '../../../logic/bloc/auth/auth_cubit.dart';
 import '../../../core/theme/app_colors.dart';
 
 class LoginPage extends StatefulWidget {
@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withAlpha(13), // 0.05 opacity approx
                     blurRadius: 20,
                     offset: const Offset(0, 10),
                   ),
@@ -130,3 +130,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
