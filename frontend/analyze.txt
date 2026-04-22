@@ -1,0 +1,113 @@
+Analyzing frontend...                                           
+
+  error - Undefined class 'ProviderRef' - lib\core\router\app_router.dart:168:24 - undefined_class
+   info - Unnecessary use of multiple underscores - lib\core\router\app_router.dart:169:42 - unnecessary_underscores
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\pages\auth\login_page.dart:47:41 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\pages\receptionist\create_appointment_page.dart:312:15 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\presentation\pages\receptionist\create_appointment_page.dart:362:15 - deprecated_member_use
+  error - Target of URI doesn't exist: '../../core/models/nav_item.dart' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:5:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../../core/providers/auth_provider.dart' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:6:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../../core/providers/nav_provider.dart' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:7:8 - uri_does_not_exist
+  error - Target of URI doesn't exist: '../../core/theme/app_colors.dart' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:8:8 - uri_does_not_exist
+  error - The name 'NavItem' isn't a type, so it can't be used as a type argument - lib\presentation\widgets\shared\app_navigation_wrapper.dart:64:27 - non_type_as_type_argument
+  error - The property 'routePath' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:66:53 - unchecked_use_of_nullable_value
+  error - The name 'NavItem' isn't a type, so it can't be used as a type argument - lib\presentation\widgets\shared\app_navigation_wrapper.dart:71:29 - non_type_as_type_argument
+  error - Undefined name 'filteredNavItemsProvider' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:79:32 - undefined_identifier
+  error - The name 'NavItem' isn't a type, so it can't be used as a type argument - lib\presentation\widgets\shared\app_navigation_wrapper.dart:116:14 - non_type_as_type_argument
+  error - Undefined name 'authNotifierProvider' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:134:28 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:137:24 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:146:22 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:146:22 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:148:42 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:148:42 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:158:49 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:158:49 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:170:37 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:172:30 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:172:30 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:176:30 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:180:30 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:180:30 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:185:30 - undefined_identifier
+  error - The property 'tooltip' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:193:64 - unchecked_use_of_nullable_value
+  error - The property 'label' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:193:80 - unchecked_use_of_nullable_value
+  error - The property 'icon' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:194:48 - unchecked_use_of_nullable_value
+  error - The property 'tooltip' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:197:64 - unchecked_use_of_nullable_value
+  error - The property 'label' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:197:80 - unchecked_use_of_nullable_value
+  error - The property 'activeIcon' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:198:48 - unchecked_use_of_nullable_value
+  error - The property 'icon' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:198:67 - unchecked_use_of_nullable_value
+  error - The property 'label' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:200:46 - unchecked_use_of_nullable_value
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:208:49 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:208:49 - undefined_identifier
+  error - The name 'NavItem' isn't a type, so it can't be used as a type argument - lib\presentation\widgets\shared\app_navigation_wrapper.dart:226:14 - non_type_as_type_argument
+  error - Undefined name 'authNotifierProvider' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:241:28 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:249:24 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:251:26 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:257:18 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:267:28 - invalid_constant
+  error - The values in a const list literal must be constants - lib\presentation\widgets\shared\app_navigation_wrapper.dart:267:28 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:267:28 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:281:24 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:281:24 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:289:44 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:289:44 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:302:24 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:302:24 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:304:42 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:304:42 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:310:34 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:313:36 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:314:38 - undefined_identifier
+  error - The property 'icon' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:321:41 - unchecked_use_of_nullable_value
+  error - The property 'activeIcon' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:322:47 - unchecked_use_of_nullable_value
+  error - The property 'icon' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:322:66 - unchecked_use_of_nullable_value
+  error - The property 'label' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:323:37 - unchecked_use_of_nullable_value
+  error - The property 'tooltip' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:324:39 - unchecked_use_of_nullable_value
+  error - The property 'label' can't be unconditionally accessed because the receiver can be 'null' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:324:55 - unchecked_use_of_nullable_value
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:361:26 - invalid_constant
+  error - The values in a const list literal must be constants - lib\presentation\widgets\shared\app_navigation_wrapper.dart:361:26 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:361:26 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:368:26 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:387:30 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:387:30 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:394:59 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:394:59 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:410:26 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:418:26 - undefined_identifier
+  error - Undefined class 'AuthSnapshot' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:430:9 - undefined_class
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:444:30 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:463:18 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:470:32 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:490:30 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:490:30 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:498:30 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:498:30 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:512:24 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:512:24 - undefined_identifier
+  error - The name 'NavItem' isn't a type, so it can't be used as a type argument - lib\presentation\widgets\shared\app_navigation_wrapper.dart:523:14 - non_type_as_type_argument
+  error - Undefined class 'AuthSnapshot' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:525:9 - undefined_class
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:538:24 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:552:34 - invalid_constant
+  error - The values in a const list literal must be constants - lib\presentation\widgets\shared\app_navigation_wrapper.dart:552:34 - non_constant_list_element
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:552:34 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:569:34 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:569:34 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:577:34 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:577:34 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:585:34 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:585:34 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:611:35 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:623:39 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:624:39 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:635:41 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:636:41 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:650:34 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:650:34 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:657:38 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:677:36 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:677:36 - undefined_identifier
+  error - Invalid constant value - lib\presentation\widgets\shared\app_navigation_wrapper.dart:685:36 - invalid_constant
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:685:36 - undefined_identifier
+  error - Undefined name 'AppColors' - lib\presentation\widgets\shared\app_navigation_wrapper.dart:693:28 - undefined_identifier
+
+109 issues found. (ran in 1.6s)

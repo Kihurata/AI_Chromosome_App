@@ -33,4 +33,19 @@ class TestOrderModel {
       'updated_at': Timestamp.fromDate(createdAt),
     };
   }
+
+  factory TestOrderModel.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    return TestOrderModel(
+      id: doc.id,
+      patientId: data['patient_id'] as DocumentReference,
+      patientName: data['patient_name'] ?? '',
+      patientCode: data['patient_code'] ?? '',
+      appointmentId: data['appointment_id'] as DocumentReference,
+      specialistId: data['specialist_id'] as DocumentReference?,
+      status: data['status'] ?? 'PENDING',
+      createdAt: (data['created_at'] as Timestamp).toDate(),
+    );
+  }
 }
+

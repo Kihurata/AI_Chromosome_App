@@ -32,4 +32,19 @@ class AppointmentModel {
       'reason': reason,
     };
   }
+
+  factory AppointmentModel.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    return AppointmentModel(
+      id: doc.id,
+      patientId: data['patient_id'] as DocumentReference,
+      patientName: data['patient_name'] ?? '',
+      doctorId: data['doctor_id'] as DocumentReference,
+      doctorName: data['doctor_name'] ?? '',
+      appointmentDate: (data['appointment_date'] as Timestamp).toDate(),
+      status: data['status'] ?? 'scheduled',
+      reason: data['reason'] ?? '',
+    );
+  }
 }
+
