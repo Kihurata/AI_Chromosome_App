@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/nav_item.dart';
@@ -9,7 +10,7 @@ import '../../presentation/screens/receptionist/receptionist_dashboard_body.dart
 import '../../presentation/screens/receptionist/patient_list_page.dart';
 import '../../presentation/screens/receptionist/appointment_calendar_page.dart';
 import '../../presentation/screens/dashboard/doctor_dashboard_page.dart';
-import '../../presentation/widgets/shared/app_navigation_wrapper.dart';
+import '../../presentation/widgets/shared/navigation/app_navigation_wrapper.dart';
 
 // ── Route path constants ──────────────────────────────────────────────────────
 class AppRoutes {
@@ -85,15 +86,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           return null; // Not a controlled route, allow
         }
 
-        if (path.startsWith('/manager') && currentUserRole != 'manager') {
-          return _getInitialRouteForRole(currentUserRole);
+        if (!matchedNavItem.isAllowedFor(role)) {
+          // Forbidden — redirect to their own home
+          return defaultRouteForRole(role);
         }
       }
 
       return null; // Allow
     },
 
+    // ── ROUTES ───────────────────────────────────────────────────────────────
     routes: [
+      // Public route
       GoRoute(
         path: AppRoutes.login,
         name: 'login',
@@ -149,27 +153,81 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ],
       ),
 
-      // --- KHU VỰC MANAGER ---
+      // 403 page
       GoRoute(
-        path: '/manager/dashboard',
-        builder: (context, state) =>
-            const Scaffold(body: Center(child: Text('Dashboard (Quản Lý)'))),
+        path: AppRoutes.forbidden,
+        name: 'forbidden',
+        builder: (context, state) => const _ForbiddenPage(),
       ),
     ],
   );
+});
 
-  static String _getInitialRouteForRole(String role) {
-    switch (role) {
-      case 'receptionist':
-        return '/receptionist/patients';
-      case 'clinician':
-        return '/clinician/appointments';
-      case 'specialist':
-        return '/specialist/assigned-tests';
-      case 'manager':
-        return '/manager/lab-tests';
-      default:
-        return '/login';
-    }
+// ── Listens to auth state changes to trigger GoRouter refresh ─────────────────
+class _AuthStateListenable extends ChangeNotifier {
+  _AuthStateListenable(Ref ref) {
+    ref.listen(authNotifierProvider, (previous, current) => notifyListeners());
   }
 }
+
+
+
+/// Placeholder for pages not yet implemented
+class _PlaceholderPage extends StatelessWidget {
+  final String title;
+  const _PlaceholderPage({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8F9FA),
+      body: Center(
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF212529),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ForbiddenPage extends StatelessWidget {
+  const _ForbiddenPage();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8F9FA),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              '403',
+              style: TextStyle(
+                fontSize: 72,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF212529),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Bạn không có quyền truy cập trang này',
+              style: TextStyle(fontSize: 16, color: Color(0xFF6C757D)),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () => context.go('/'),
+              child: const Text('Quay về trang chủ'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
