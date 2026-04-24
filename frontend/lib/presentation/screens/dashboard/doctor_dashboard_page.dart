@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../widgets/shared/app_sidebar.dart';
-import '../../widgets/shared/app_header.dart';
+import '../../widgets/shared/navigation/app_sidebar.dart';
+import '../../widgets/shared/navigation/app_header.dart';
 import '../../widgets/dashboard/stat_card.dart';
 import '../../widgets/dashboard/recent_patients_table.dart';
 
@@ -22,7 +22,10 @@ class DoctorDashboardPage extends StatelessWidget {
             child: Column(
               children: [
                 // Top Header
-                const AppHeader(),
+                const AppHeader(
+                  title: 'Bảng điều khiển bác sĩ',
+                  subtitle: 'Tổng quan lịch khám và bệnh nhân',
+                ),
                 // Scrollable Body
                 Expanded(
                   child: SingleChildScrollView(

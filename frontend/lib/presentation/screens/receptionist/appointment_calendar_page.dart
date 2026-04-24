@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../data/repositories/clinical_repository.dart';
-import '../../widgets/shared/status_badge.dart';
+import '../../widgets/shared/data_display/status_badge.dart';
+import '../../widgets/shared/layouts/main_list_layout.dart';
+import '../../widgets/shared/form/app_buttons.dart';
 import 'create_appointment_page.dart';
 
 class AppointmentCalendarPage extends StatefulWidget {
@@ -31,80 +33,66 @@ class _AppointmentCalendarPageState extends State<AppointmentCalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(28),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // ── Top: Calendar ──
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: AppColors.border),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withAlpha(6),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+    return MainListLayout(
+      title: 'Lịch khám',
+      subtitle: 'Xem và quản lý lịch hẹn khám',
+      headerActions: [
+        AppPrimaryButton(
+          text: 'Tạo lịch hẹn',
+          icon: LucideIcons.plus,
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => CreateAppointmentPage(
+                repository: _clinicalRepo,
+                initialDate: _selectedDay,
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title + Add button
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Row(
-                      children: [
-                        Icon(LucideIcons.calendarDays,
-                            size: 20, color: AppColors.primaryBlue),
-                        SizedBox(width: 10),
-                        Text(
-                          'Lịch hẹn khám',
-                          style: TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    ElevatedButton.icon(
-                      onPressed: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (_) => CreateAppointmentPage(
-                            repository: _clinicalRepo,
-                            initialDate: _selectedDay,
-                          ),
-                        ),
-                      ),
-                      icon: const Icon(LucideIcons.plus, size: 14),
-                      label: const Text(
-                        'Tạo lịch hẹn',
+          ),
+        ),
+      ],
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(28),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // ── Top: Calendar ──
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: AppColors.border),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(6),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(LucideIcons.calendarDays,
+                          size: 20, color: AppColors.primaryBlue),
+                      SizedBox(width: 10),
+                      Text(
+                        'Lịch tổng hợp',
                         style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.w600),
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                        ),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryBlue,
-                        foregroundColor: Colors.white,
-                        elevation: 0,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 14, vertical: 9),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                const Divider(color: AppColors.border, height: 1),
-                const SizedBox(height: 8),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  const Divider(color: AppColors.border, height: 1),
+                  const SizedBox(height: 8),
 
-                // Calendar Widget
+                  // Calendar Widget
                 TableCalendar(
                   firstDay: DateTime.utc(2024, 1, 1),
                   lastDay: DateTime.utc(2030, 12, 31),
@@ -337,6 +325,7 @@ class _AppointmentCalendarPageState extends State<AppointmentCalendarPage> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

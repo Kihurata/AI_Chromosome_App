@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../data/models/appointment_model.dart';
 import '../../../data/repositories/clinical_repository.dart';
-import '../shared/status_badge.dart';
+import '../shared/data_display/status_badge.dart';
 
 class TodayAppointmentsTable extends StatelessWidget {
   final ClinicalRepository _clinicalRepo;

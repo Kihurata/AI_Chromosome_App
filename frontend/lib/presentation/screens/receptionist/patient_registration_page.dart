@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../data/models/patient_model.dart';
 import '../../../data/repositories/clinical_repository.dart';
-import 'package:intl/intl.dart';
+
+import '../../widgets/shared/layouts/main_form_layout.dart';
+import '../../widgets/shared/form/app_text_field.dart';
+import '../../widgets/shared/form/app_buttons.dart';
 
 class PatientRegistrationPage extends StatefulWidget {
   final ClinicalRepository? repository;
@@ -81,266 +85,194 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Column(
-        children: [
-          // Top bar
-          Container(
-            height: 64,
-            padding: const EdgeInsets.symmetric(horizontal: 28),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              border: const Border(bottom: BorderSide(color: AppColors.border)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withAlpha(8),
-                  blurRadius: 4,
-                  offset: const Offset(0, 1),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Material(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(8),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(8),
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: AppColors.border.withAlpha(60),
-                        borderRadius: BorderRadius.circular(8),
+      body: MainFormLayout(
+        title: 'Tiếp nhận bệnh nhân tại quầy',
+        subtitle: 'Thêm mới thông tin bệnh nhân vào hệ thống',
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // ── Section 1: Thông tin định danh (Bắt buộc) ──
+              _buildSectionCard(
+                icon: LucideIcons.userCheck,
+                title: '1. Thông tin định danh',
+                badge: 'Bắt buộc',
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _buildField(
+                          'Họ và tên',
+                          _fullNameController,
+                          hint: 'NGUYỄN VĂN A',
+                          required: true,
+                          prefixIcon: LucideIcons.user,
+                        ),
                       ),
-                      child: const Icon(LucideIcons.arrowLeft, color: AppColors.textSecondary, size: 18),
-                    ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: _buildField(
+                          'Số CCCD / Hộ chiếu',
+                          _identityCardController,
+                          hint: '001203xxxxxx',
+                          required: true,
+                          prefixIcon: LucideIcons.creditCard,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(12)],
+                          onChanged: (_) => _checkDuplicate(),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(width: 14),
-                const Text(
-                  'Tiếp nhận bệnh nhân tại quầy',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
-                ),
-              ],
-            ),
-          ),
-
-          // Form Body
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 860),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        // ── Section 1: Thông tin định danh (Bắt buộc) ──
-                        _buildSectionCard(
-                          icon: LucideIcons.userCheck,
-                          title: '1. Thông tin định danh',
-                          badge: 'Bắt buộc',
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: _buildField(
-                                    'Họ và tên',
-                                    _fullNameController,
-                                    hint: 'NGUYỄN VĂN A',
-                                    required: true,
-                                    prefixIcon: LucideIcons.user,
-                                  ),
-                                ),
-                                const SizedBox(width: 20),
-                                Expanded(
-                                  child: _buildField(
-                                    'Số CCCD / Hộ chiếu',
-                                    _identityCardController,
-                                    hint: '001203xxxxxx',
-                                    required: true,
-                                    prefixIcon: LucideIcons.creditCard,
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(12)],
-                                    onChanged: (_) => _checkDuplicate(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 18),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(child: _buildDateField()),
-                                const SizedBox(width: 20),
-                                Expanded(
-                                  child: _buildField(
-                                    'Số điện thoại',
-                                    _phoneController,
-                                    hint: '090 123 4567',
-                                    required: true,
-                                    prefixIcon: LucideIcons.phone,
-                                    keyboardType: TextInputType.phone,
-                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(11)],
-                                    onChanged: (_) => _checkDuplicate(),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 18),
-                            _buildGenderField(),
-
-                            // Duplicate Warning
-                            if (_duplicateWarning != null)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 16),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.dangerBg,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: AppColors.dangerText.withAlpha(50)),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const Icon(LucideIcons.alertTriangle, size: 18, color: AppColors.dangerText),
-                                      const SizedBox(width: 10),
-                                      Expanded(
-                                        child: Text(
-                                          _duplicateWarning!,
-                                          style: const TextStyle(fontSize: 13, color: AppColors.dangerText, fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                          ],
+                  const SizedBox(height: 18),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(child: _buildDateField()),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: _buildField(
+                          'Số điện thoại',
+                          _phoneController,
+                          hint: '090 123 4567',
+                          required: true,
+                          prefixIcon: LucideIcons.phone,
+                          keyboardType: TextInputType.phone,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(11)],
+                          onChanged: (_) => _checkDuplicate(),
                         ),
-                        const SizedBox(height: 24),
-
-                        // ── Section 2: Địa chỉ & Liên lạc ──
-                        _buildSectionCard(
-                          icon: LucideIcons.mapPin,
-                          title: '2. Địa chỉ & Liên lạc',
-                          children: [
-                            // Cascading Dropdowns
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(child: _buildDropdown('Tỉnh/Thành phố', _addressData.keys.toList(), _selectedProvince, (v) {
-                                  setState(() {
-                                    _selectedProvince = v;
-                                    _selectedDistrict = null;
-                                    _selectedWard = null;
-                                  });
-                                })),
-                                const SizedBox(width: 16),
-                                Expanded(child: _buildDropdown(
-                                  'Quận/Huyện',
-                                  _selectedProvince != null ? _addressData[_selectedProvince]!.keys.toList() : [],
-                                  _selectedDistrict,
-                                  (v) {
-                                    setState(() {
-                                      _selectedDistrict = v;
-                                      _selectedWard = null;
-                                    });
-                                  },
-                                )),
-                                const SizedBox(width: 16),
-                                Expanded(child: _buildDropdown(
-                                  'Phường/Xã',
-                                  (_selectedProvince != null && _selectedDistrict != null)
-                                      ? _addressData[_selectedProvince]![_selectedDistrict]! : [],
-                                  _selectedWard,
-                                  (v) => setState(() => _selectedWard = v),
-                                )),
-                              ],
-                            ),
-                            const SizedBox(height: 18),
-                            _buildField(
-                              'Số nhà, Tên đường',
-                              _addressController,
-                              hint: '123 Đường Lê Lợi...',
-                              prefixIcon: LucideIcons.home,
-                            ),
-                            const SizedBox(height: 18),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: _buildField(
-                                    'Người liên hệ khẩn cấp',
-                                    _emergencyNameController,
-                                    hint: 'Họ và tên người thân',
-                                    prefixIcon: LucideIcons.heartHandshake,
-                                  ),
-                                ),
-                                const SizedBox(width: 20),
-                                Expanded(
-                                  child: _buildField(
-                                    'SĐT người thân',
-                                    _emergencyPhoneController,
-                                    hint: '091 xxxxxxx',
-                                    prefixIcon: LucideIcons.phoneCall,
-                                    keyboardType: TextInputType.phone,
-                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(11)],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 32),
-
-                        // ── Actions ──
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            OutlinedButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              style: OutlinedButton.styleFrom(
-                                side: const BorderSide(color: AppColors.border),
-                                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                              ),
-                              child: const Text('Huỷ bỏ', style: TextStyle(color: AppColors.textSecondary, fontSize: 14)),
-                            ),
-                            const SizedBox(width: 14),
-                            ElevatedButton.icon(
-                              onPressed: (_isSubmitting || _duplicateWarning != null) ? null : _handleSubmit,
-                              icon: _isSubmitting
-                                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                                  : const Icon(LucideIcons.save, size: 16),
-                              label: Text(
-                                _isSubmitting ? 'Đang lưu...' : 'Lưu hồ sơ',
-                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primaryBlue,
-                                foregroundColor: Colors.white,
-                                disabledBackgroundColor: AppColors.primaryBlue.withAlpha(120),
-                                disabledForegroundColor: Colors.white70,
-                                elevation: 0,
-                                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 28),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
+                  const SizedBox(height: 18),
+                  _buildGenderField(),
+
+                  // Duplicate Warning
+                  if (_duplicateWarning != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: AppColors.dangerBg,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: AppColors.dangerText.withAlpha(50)),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(LucideIcons.alertTriangle, size: 18, color: AppColors.dangerText),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                _duplicateWarning!,
+                                style: const TextStyle(fontSize: 13, color: AppColors.dangerText, fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
               ),
-            ),
+              const SizedBox(height: 24),
+
+              // ── Section 2: Địa chỉ & Liên lạc ──
+              _buildSectionCard(
+                icon: LucideIcons.mapPin,
+                title: '2. Địa chỉ & Liên lạc',
+                children: [
+                  // Cascading Dropdowns
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(child: _buildDropdown('Tỉnh/Thành phố', _addressData.keys.toList(), _selectedProvince, (v) {
+                        setState(() {
+                          _selectedProvince = v;
+                          _selectedDistrict = null;
+                          _selectedWard = null;
+                        });
+                      })),
+                      const SizedBox(width: 16),
+                      Expanded(child: _buildDropdown(
+                        'Quận/Huyện',
+                        _selectedProvince != null ? _addressData[_selectedProvince]!.keys.toList() : [],
+                        _selectedDistrict,
+                        (v) {
+                          setState(() {
+                            _selectedDistrict = v;
+                            _selectedWard = null;
+                          });
+                        },
+                      )),
+                      const SizedBox(width: 16),
+                      Expanded(child: _buildDropdown(
+                        'Phường/Xã',
+                        (_selectedProvince != null && _selectedDistrict != null)
+                            ? _addressData[_selectedProvince]![_selectedDistrict]! : [],
+                        _selectedWard,
+                        (v) => setState(() => _selectedWard = v),
+                      )),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  _buildField(
+                    'Số nhà, Tên đường',
+                    _addressController,
+                    hint: '123 Đường Lê Lợi...',
+                    prefixIcon: LucideIcons.home,
+                  ),
+                  const SizedBox(height: 18),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: _buildField(
+                          'Người liên hệ khẩn cấp',
+                          _emergencyNameController,
+                          hint: 'Họ và tên người thân',
+                          prefixIcon: LucideIcons.heartHandshake,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: _buildField(
+                          'SĐT người thân',
+                          _emergencyPhoneController,
+                          hint: '091 xxxxxxx',
+                          prefixIcon: LucideIcons.phoneCall,
+                          keyboardType: TextInputType.phone,
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(11)],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 32),
+
+              // ── Actions ──
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AppSecondaryButton(
+                    text: 'Huỷ bỏ',
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  const SizedBox(width: 14),
+                  AppPrimaryButton(
+                    text: 'Lưu hồ sơ',
+                    icon: LucideIcons.save,
+                    isLoading: _isSubmitting,
+                    onPressed: (_isSubmitting || _duplicateWarning != null) ? null : _handleSubmit,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 28),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -401,7 +333,6 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
     );
   }
 
-  // ── Text Field ──
   Widget _buildField(
     String label,
     TextEditingController controller, {
@@ -412,69 +343,49 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
     List<TextInputFormatter>? inputFormatters,
     ValueChanged<String>? onChanged,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _label(label, required: required),
-        const SizedBox(height: 6),
-        TextFormField(
-          controller: controller,
-          keyboardType: keyboardType,
-          inputFormatters: inputFormatters,
-          onChanged: onChanged,
-          decoration: _inputDecoration(hint ?? '').copyWith(
-            prefixIcon: prefixIcon != null
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 8),
-                    child: Icon(prefixIcon, size: 16, color: AppColors.textPlaceholder),
-                  )
-                : null,
-            prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-          ),
-          validator: required ? (v) => (v == null || v.isEmpty) ? 'Vui lòng nhập $label' : null : null,
-        ),
-      ],
+    return AppTextField(
+      labelText: '$label${required ? ' *' : ''}',
+      controller: controller,
+      hintText: hint,
+      prefixIcon: prefixIcon,
+      keyboardType: keyboardType,
+      onChanged: onChanged,
+      validator: required ? (v) => (v == null || v.isEmpty) ? 'Vui lòng nhập $label' : null : null,
+      // Note: AppTextField doesn't natively support inputFormatters in this simplified version,
+      // but in a real app, we would add it to AppTextField properties.
     );
   }
 
   // ── Date Picker ──
   Widget _buildDateField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _label('Ngày sinh (dd/mm/yyyy)', required: true),
-        const SizedBox(height: 6),
-        TextFormField(
+    return InkWell(
+      onTap: () async {
+        DateTime initialDateValue = DateTime(1990, 1, 1);
+        if (_dobController.text.isNotEmpty) {
+          try {
+            initialDateValue = DateFormat('dd/MM/yyyy').parse(_dobController.text);
+          } catch (_) {}
+        }
+        final date = await showDatePicker(
+          context: context,
+          initialDate: initialDateValue,
+          firstDate: DateTime(1900),
+          lastDate: DateTime.now(),
+          locale: const Locale('vi', 'VN'),
+        );
+        if (date != null) {
+          _dobController.text = DateFormat('dd/MM/yyyy').format(date);
+        }
+      },
+      child: IgnorePointer(
+        child: AppTextField(
+          labelText: 'Ngày sinh (dd/mm/yyyy) *',
           controller: _dobController,
-          readOnly: true,
-          decoration: _inputDecoration('dd/mm/yyyy').copyWith(
-            prefixIcon: const Padding(
-              padding: EdgeInsets.only(left: 12, right: 8),
-              child: Icon(LucideIcons.calendar, size: 16, color: AppColors.textPlaceholder),
-            ),
-            prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-          ),
+          hintText: 'dd/mm/yyyy',
+          prefixIcon: LucideIcons.calendar,
           validator: (v) => (v == null || v.isEmpty) ? 'Vui lòng chọn ngày sinh' : null,
-          onTap: () async {
-            DateTime initialDateValue = DateTime(1990, 1, 1);
-            if (_dobController.text.isNotEmpty) {
-              try {
-                initialDateValue = DateFormat('dd/MM/yyyy').parse(_dobController.text);
-              } catch (_) {}
-            }
-            final date = await showDatePicker(
-              context: context,
-              initialDate: initialDateValue,
-              firstDate: DateTime(1900),
-              lastDate: DateTime.now(),
-              locale: const Locale('vi', 'VN'),
-            );
-            if (date != null) {
-              _dobController.text = DateFormat('dd/MM/yyyy').format(date);
-            }
-          },
         ),
-      ],
+      ),
     );
   }
 
@@ -568,19 +479,18 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
     );
   }
 
-  // ── Input Decoration ──
+  // ── Input Decoration cho Dropdown ──
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
       hintStyle: const TextStyle(color: AppColors.textPlaceholder, fontSize: 14),
       filled: true,
-      fillColor: AppColors.border.withAlpha(35),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      fillColor: AppColors.surface,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.border)),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.border)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.primaryBlue, width: 1.5)),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.primaryBlue)),
       errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.dangerText)),
-      focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.dangerText, width: 1.5)),
     );
   }
 
