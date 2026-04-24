@@ -3,7 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../widgets/shared/layouts/medical_record_layout.dart';
-import '../../../widgets/shared/data_display/status_badge.dart';
+
+
 
 class ClinicianMedicalRecordPage extends StatefulWidget {
   final String id;

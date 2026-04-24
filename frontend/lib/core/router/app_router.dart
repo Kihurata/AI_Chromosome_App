@@ -11,6 +11,10 @@ import '../../presentation/screens/receptionist/patient_list_page.dart';
 import '../../presentation/screens/receptionist/appointment_calendar_page.dart';
 import '../../presentation/screens/dashboard/doctor_dashboard_page.dart';
 import '../../presentation/widgets/shared/navigation/app_navigation_wrapper.dart';
+import '../../presentation/screens/clinician/appointment_list/appointment_list_screen.dart';
+import '../../presentation/screens/clinician/medical_record/medical_record_screen.dart';
+import '../../presentation/screens/clinician/examination_form_screen.dart';
+import '../../presentation/screens/clinician/blood_test_prescription_screen.dart';
 
 // ── Route path constants ──────────────────────────────────────────────────────
 class AppRoutes {
@@ -23,7 +27,10 @@ class AppRoutes {
 
   // Clinician
   static const clinicianDashboard = '/clinician/dashboard';
-  static const clinicianPatients = '/clinician/patients';
+  static const clinicianAppointments = '/clinician/appointments';
+  static const clinicianMedicalRecord = '/clinician/medical-record';
+  static const clinicianExaminationForm = '/clinician/examination-form';
+  static const clinicianBloodTest = '/clinician/blood-test-prescription';
   static const clinicianLab = '/clinician/lab';
 
   // Specialist
@@ -132,6 +139,32 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: AppRoutes.clinicianDashboard,
             name: 'clinician-dashboard',
             builder: (context, state) => const DoctorDashboardPage(),
+          ),
+          GoRoute(
+            path: AppRoutes.clinicianAppointments,
+            name: 'clinician-appointments',
+            builder: (context, state) => const ClinicianAppointmentListPage(),
+          ),
+          GoRoute(
+            path: '${AppRoutes.clinicianMedicalRecord}/:id',
+            name: 'clinician-medical-record',
+            builder: (context, state) => ClinicianMedicalRecordPage(
+              id: state.pathParameters['id'] ?? '',
+            ),
+          ),
+          GoRoute(
+            path: '${AppRoutes.clinicianExaminationForm}/:id',
+            name: 'clinician-examination-form',
+            builder: (context, state) => ClinicianExaminationFormPage(
+              id: state.pathParameters['id'] ?? '',
+            ),
+          ),
+          GoRoute(
+            path: '${AppRoutes.clinicianBloodTest}/:id',
+            name: 'clinician-blood-test',
+            builder: (context, state) => ClinicianBloodTestPrescriptionPage(
+              id: state.pathParameters['id'] ?? '',
+            ),
           ),
           GoRoute(
             path: AppRoutes.specialistDashboard,
