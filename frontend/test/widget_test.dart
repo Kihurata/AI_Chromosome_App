@@ -13,10 +13,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 void main() {
   testWidgets('App loads smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const ProviderScope(child: MedCoreApp()));
+    await tester.pumpWidget(const ProviderScope(child: MainApp()));
 
     // Verify that the title exists.
     expect(find.text('MedCore'), findsOneWidget);
   });
 }
-
