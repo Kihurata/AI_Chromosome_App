@@ -29,7 +29,7 @@ Following the structure defined in `docs/core/implementation_plan.md`:
 
 ## Task Breakdown
 
-### Phase 1: Core Foundation (P0)
+### Phase 1: Core Foundation (P0) 
 | Task ID | Name | Agent | Skill | Priority | Dependencies | INPUT → OUTPUT → VERIFY |
 |---|---|---|---|---|---|---|
 | B1 | Setup DI & Network | `mobile-developer` | `flutter-architecting-apps` | P0 | None | IN: Base API URL → OUT: `core/network/` & `core/di/` setup → VERIFY: Dio instance injects successfully. |

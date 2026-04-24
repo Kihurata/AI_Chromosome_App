@@ -1,43 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../domain/entities/patient.dart';
 
-class PatientModel {
-  final String? id;
-  final String? patientCode;
-  final String fullName;
-  final String identityCard;
-  final DateTime dob;
-  final String gender;
-  final String phone;
-  final String province;
-  final String district;
-  final String ward;
-  final String address;
-  final String emergencyContactName;
-  final String emergencyContactPhone;
-  final String status;
-
-  PatientModel({
-    this.id,
-    this.patientCode,
-    required this.fullName,
-    this.identityCard = '',
-    required this.dob,
-    required this.gender,
-    required this.phone,
-    this.province = '',
-    this.district = '',
-    this.ward = '',
-    this.address = '',
-    this.emergencyContactName = '',
-    this.emergencyContactPhone = '',
-    this.status = 'active',
+class PatientModel extends Patient {
+  const PatientModel({
+    super.id,
+    super.patientCode,
+    required super.fullName,
+    super.identityCard = '',
+    required super.dob,
+    required super.gender,
+    required super.phone,
+    super.province = '',
+    super.district = '',
+    super.ward = '',
+    super.address = '',
+    super.emergencyContactName = '',
+    super.emergencyContactPhone = '',
+    super.status = 'active',
   });
 
   Map<String, dynamic> toFirestore() {
     return {
-      'patient_code': patientCode ?? '',
-      'full_name': fullName,
-      'identity_card': identityCard,
+      'patientCode': patientCode,
+      'fullName': fullName,
+      'identityCard': identityCard,
       'dob': Timestamp.fromDate(dob),
       'gender': gender,
       'phone': phone,
@@ -45,8 +31,8 @@ class PatientModel {
       'district': district,
       'ward': ward,
       'address': address,
-      'emergency_contact_name': emergencyContactName,
-      'emergency_contact_phone': emergencyContactPhone,
+      'emergencyContactName': emergencyContactName,
+      'emergencyContactPhone': emergencyContactPhone,
       'status': status,
       'created_at': FieldValue.serverTimestamp(),
     };
@@ -72,4 +58,3 @@ class PatientModel {
     );
   }
 }
-
