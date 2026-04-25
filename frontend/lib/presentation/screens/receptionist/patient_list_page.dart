@@ -67,21 +67,46 @@ class _PatientListPageState extends State<PatientListPage> {
                     height: 42,
                     child: TextField(
                       controller: _searchController,
-                      onChanged: (v) => setState(() => _searchQuery = v.trim().toLowerCase()),
+                      onChanged: (v) =>
+                          setState(() => _searchQuery = v.trim().toLowerCase()),
                       decoration: InputDecoration(
                         hintText: 'Tìm theo tên, SĐT, CCCD hoặc mã BN...',
-                        hintStyle: const TextStyle(fontSize: 13, color: AppColors.textPlaceholder),
+                        hintStyle: const TextStyle(
+                          fontSize: 13,
+                          color: AppColors.textPlaceholder,
+                        ),
                         prefixIcon: const Padding(
                           padding: EdgeInsets.only(left: 12, right: 8),
-                          child: Icon(LucideIcons.search, size: 16, color: AppColors.textPlaceholder),
+                          child: Icon(
+                            LucideIcons.search,
+                            size: 16,
+                            color: AppColors.textPlaceholder,
+                          ),
                         ),
-                        prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+                        prefixIconConstraints: const BoxConstraints(
+                          minWidth: 0,
+                          minHeight: 0,
+                        ),
                         filled: true,
                         fillColor: AppColors.border.withAlpha(50),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 14),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
-                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
-                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.primaryBlue)),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 0,
+                          horizontal: 14,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                            color: AppColors.primaryBlue,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -93,16 +118,30 @@ class _PatientListPageState extends State<PatientListPage> {
                   builder: (context, snapshot) {
                     final count = snapshot.hasData ? snapshot.data!.length : 0;
                     return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.activeBackground,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Row(
                         children: [
-                          const Icon(LucideIcons.users, size: 14, color: AppColors.primaryBlue),
+                          const Icon(
+                            LucideIcons.users,
+                            size: 14,
+                            color: AppColors.primaryBlue,
+                          ),
                           const SizedBox(width: 6),
-                          Text('$count bệnh nhân', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.primaryBlue)),
+                          Text(
+                            '$count bệnh nhân',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primaryBlue,
+                            ),
+                          ),
                         ],
                       ),
                     );
@@ -132,43 +171,35 @@ class _PatientListPageState extends State<PatientListPage> {
                 // Table Header
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 24, vertical: 12),
+                    horizontal: 24,
+                    vertical: 12,
+                  ),
                   decoration: const BoxDecoration(
                     color: Color(0xFFFAFBFC),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(14),
                       topRight: Radius.circular(14),
                     ),
-                    border:
-                        Border(bottom: BorderSide(color: AppColors.border)),
+                    border: Border(bottom: BorderSide(color: AppColors.border)),
                   ),
                   child: Row(
                     children: [
                       const SizedBox(width: 44),
                       Expanded(
                         flex: 3,
-                        child: _buildSortableHeader(
-                            'HỌ TÊN', 'full_name'),
+                        child: _buildSortableHeader('HỌ TÊN', 'full_name'),
                       ),
                       Expanded(
                         flex: 2,
-                        child: _buildSortableHeader(
-                            'MÃ BN', 'patient_code'),
+                        child: _buildSortableHeader('MÃ BN', 'patient_code'),
                       ),
-                      Expanded(
-                          flex: 2,
-                          child: _buildStaticHeader('SĐT')),
-                      Expanded(
-                          flex: 2,
-                          child: _buildStaticHeader('CCCD')),
+                      Expanded(flex: 2, child: _buildStaticHeader('SĐT')),
+                      Expanded(flex: 2, child: _buildStaticHeader('CCCD')),
                       Expanded(
                         flex: 2,
-                        child: _buildSortableHeader(
-                            'NGÀY SINH', 'dob'),
+                        child: _buildSortableHeader('NGÀY SINH', 'dob'),
                       ),
-                      Expanded(
-                          flex: 1,
-                          child: _buildStaticHeader('GIỚI TÍNH')),
+                      Expanded(flex: 1, child: _buildStaticHeader('GIỚI TÍNH')),
                       const SizedBox(width: 60),
                     ],
                   ),
@@ -191,13 +222,26 @@ class _PatientListPageState extends State<PatientListPage> {
                         child: Center(
                           child: Column(
                             children: [
-                              Icon(LucideIcons.userX, size: 48, color: AppColors.textPlaceholder.withAlpha(120)),
+                              Icon(
+                                LucideIcons.userX,
+                                size: 48,
+                                color: AppColors.textPlaceholder.withAlpha(120),
+                              ),
                               const SizedBox(height: 16),
-                              const Text('Chưa có bệnh nhân nào', style: TextStyle(color: AppColors.textSecondary, fontSize: 14)),
+                              const Text(
+                                'Chưa có bệnh nhân nào',
+                                style: TextStyle(
+                                  color: AppColors.textSecondary,
+                                  fontSize: 14,
+                                ),
+                              ),
                               const SizedBox(height: 8),
                               TextButton.icon(
                                 onPressed: () => Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (_) => const PatientRegistrationPage()),
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        const PatientRegistrationPage(),
+                                  ),
                                 ),
                                 icon: const Icon(LucideIcons.plus, size: 16),
                                 label: const Text('Thêm bệnh nhân đầu tiên'),
@@ -214,7 +258,9 @@ class _PatientListPageState extends State<PatientListPage> {
                       return p.fullName.toLowerCase().contains(_searchQuery) ||
                           p.phone.contains(_searchQuery) ||
                           p.identityCard.contains(_searchQuery) ||
-                          (p.patientCode ?? '').toLowerCase().contains(_searchQuery);
+                          (p.patientCode ?? '').toLowerCase().contains(
+                            _searchQuery,
+                          );
                     }).toList();
 
                     // Sort
@@ -226,12 +272,13 @@ class _PatientListPageState extends State<PatientListPage> {
                           break;
                         case 'patient_code':
                           cmp = (a.patientCode ?? '').compareTo(
-                              b.patientCode ?? '');
+                            b.patientCode ?? '',
+                          );
                           break;
                         default:
-                          cmp = a.fullName
-                              .toLowerCase()
-                              .compareTo(b.fullName.toLowerCase());
+                          cmp = a.fullName.toLowerCase().compareTo(
+                            b.fullName.toLowerCase(),
+                          );
                       }
                       return _sortAscending ? cmp : -cmp;
                     });
@@ -242,9 +289,18 @@ class _PatientListPageState extends State<PatientListPage> {
                         child: Center(
                           child: Column(
                             children: [
-                              const Icon(LucideIcons.searchX, size: 40, color: AppColors.textPlaceholder),
+                              const Icon(
+                                LucideIcons.searchX,
+                                size: 40,
+                                color: AppColors.textPlaceholder,
+                              ),
                               const SizedBox(height: 12),
-                              Text('Không tìm thấy kết quả cho "$_searchQuery"', style: const TextStyle(color: AppColors.textSecondary)),
+                              Text(
+                                'Không tìm thấy kết quả cho "$_searchQuery"',
+                                style: const TextStyle(
+                                  color: AppColors.textSecondary,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -301,9 +357,7 @@ class _PatientListPageState extends State<PatientListPage> {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: isActive
-                  ? AppColors.primaryBlue
-                  : AppColors.textSecondary,
+              color: isActive ? AppColors.primaryBlue : AppColors.textSecondary,
               letterSpacing: 0.5,
             ),
           ),
@@ -311,13 +365,11 @@ class _PatientListPageState extends State<PatientListPage> {
           Icon(
             isActive
                 ? (_sortAscending
-                    ? LucideIcons.chevronUp
-                    : LucideIcons.chevronDown)
+                      ? LucideIcons.chevronUp
+                      : LucideIcons.chevronDown)
                 : LucideIcons.chevronsUpDown,
             size: 12,
-            color: isActive
-                ? AppColors.primaryBlue
-                : AppColors.textPlaceholder,
+            color: isActive ? AppColors.primaryBlue : AppColors.textPlaceholder,
           ),
         ],
       ),
@@ -354,7 +406,7 @@ class _PatientListPageState extends State<PatientListPage> {
       Colors.teal[50]!,
       Colors.green[50]!,
       Colors.orange[50]!,
-      Colors.red[50]!
+      Colors.red[50]!,
     ];
     return colors[name.hashCode.abs() % colors.length];
   }
@@ -365,7 +417,7 @@ class _PatientListPageState extends State<PatientListPage> {
       Colors.teal[800]!,
       Colors.green[800]!,
       Colors.orange[800]!,
-      Colors.red[800]!
+      Colors.red[800]!,
     ];
     return colors[name.hashCode.abs() % colors.length];
   }
@@ -426,9 +478,10 @@ class _PatientRowItemState extends State<_PatientRowItem> {
                 child: Text(
                   widget.initials,
                   style: TextStyle(
-                      color: widget.textColor,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold),
+                    color: widget.textColor,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(width: 10),
@@ -451,7 +504,9 @@ class _PatientRowItemState extends State<_PatientRowItem> {
                       Text(
                         p.address,
                         style: const TextStyle(
-                            fontSize: 11, color: AppColors.textPlaceholder),
+                          fontSize: 11,
+                          color: AppColors.textPlaceholder,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -463,9 +518,10 @@ class _PatientRowItemState extends State<_PatientRowItem> {
                 child: Text(
                   p.patientCode ?? '---',
                   style: const TextStyle(
-                      fontSize: 13,
-                      color: AppColors.primaryBlue,
-                      fontWeight: FontWeight.w600),
+                    fontSize: 13,
+                    color: AppColors.primaryBlue,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               Expanded(
@@ -473,7 +529,9 @@ class _PatientRowItemState extends State<_PatientRowItem> {
                 child: Text(
                   p.phone.isNotEmpty ? p.phone : '---',
                   style: const TextStyle(
-                      fontSize: 13, color: AppColors.textSecondary),
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ),
               Expanded(
@@ -483,7 +541,9 @@ class _PatientRowItemState extends State<_PatientRowItem> {
                       ? widget.maskId(p.identityCard)
                       : '---',
                   style: const TextStyle(
-                      fontSize: 13, color: AppColors.textSecondary),
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ),
               Expanded(
@@ -491,13 +551,12 @@ class _PatientRowItemState extends State<_PatientRowItem> {
                 child: Text(
                   DateFormat('dd/MM/yyyy').format(p.dob),
                   style: const TextStyle(
-                      fontSize: 13, color: AppColors.textSecondary),
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: _buildGenderBadge(p.gender),
-              ),
+              Expanded(flex: 1, child: _buildGenderBadge(p.gender)),
               SizedBox(
                 width: 60,
                 child: Row(
@@ -517,8 +576,10 @@ class _PatientRowItemState extends State<_PatientRowItem> {
                         onPressed: widget.onTap,
                         tooltip: 'Xem chi tiết',
                         padding: EdgeInsets.zero,
-                        constraints:
-                            const BoxConstraints(minWidth: 28, minHeight: 28),
+                        constraints: const BoxConstraints(
+                          minWidth: 28,
+                          minHeight: 28,
+                        ),
                       ),
                     ),
                   ],
@@ -547,14 +608,19 @@ class _PatientRowItemState extends State<_PatientRowItem> {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration:
-          BoxDecoration(color: bg, borderRadius: BorderRadius.circular(6)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(6),
+      ),
       child: Text(
         gender,
-        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: text),
+        style: TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: text,
+        ),
         textAlign: TextAlign.center,
       ),
     );
   }
 }
-

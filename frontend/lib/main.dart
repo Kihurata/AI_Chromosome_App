@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart'; // Thêm import này
 import 'core/di/injection.dart';
 import 'core/router/app_router.dart';
+import 'logic/bloc/patient/patient_cubit.dart'; // Thêm import này
 
 void main() {
-  // 1. Chạy hàm này để khởi tạo cái "Hộp GetIt" của chúng ta
+  WidgetsFlutterBinding.ensureInitialized(); // Đảm bảo Flutter đã sẵn sàng
   configureDependencies();
-
   runApp(const MainApp());
 }
 
@@ -14,11 +15,21 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'MedCore CRM',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      // Báo cho Flutter biết: Hãy giao việc điều hướng cho AppRouter.router quản lý
-      routerConfig: AppRouter.router,
+    // 1. Dùng MultiBlocProvider để quản lý các Cubit của App
+    return MultiBlocProvider(
+      providers: [
+        // Lấy PatientCubit từ trong "Hộp GetIt" ra và cung cấp cho App
+        BlocProvider(create: (context) => getIt<PatientCubit>()),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'MedCore CRM',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          useMaterial3: true, // Dùng giao diện Material 3 hiện đại
+        ),
+        routerConfig: AppRouter.router,
+      ),
     );
   }
 }

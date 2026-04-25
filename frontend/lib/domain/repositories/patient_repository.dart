@@ -11,6 +11,4 @@ abstract class PatientRepository {
   Future<Either<Failure, void>> addPatient(Patient patient);
   // Cập nhật thông tin bệnh nhân
   Future<Either<Failure, void>> updatePatient(Patient patient);
-  // Xóa bệnh nhân (hoặc đổi trạng thái thành inactive)
-  Future<Either<Failure, void>> deletePatient(String id);
 }

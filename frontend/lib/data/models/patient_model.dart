@@ -57,4 +57,23 @@ class PatientModel extends Patient {
       status: data['status'] ?? 'active',
     );
   }
+
+  factory PatientModel.fromEntity(Patient patient) {
+    return PatientModel(
+      id: patient.id,
+      patientCode: patient.patientCode,
+      fullName: patient.fullName,
+      identityCard: patient.identityCard,
+      dob: patient.dob,
+      gender: patient.gender,
+      phone: patient.phone,
+      province: patient.province,
+      district: patient.district,
+      ward: patient.ward,
+      address: patient.address,
+      emergencyContactName: patient.emergencyContactName,
+      emergencyContactPhone: patient.emergencyContactPhone,
+      status: patient.status,
+    );
+  }
 }
