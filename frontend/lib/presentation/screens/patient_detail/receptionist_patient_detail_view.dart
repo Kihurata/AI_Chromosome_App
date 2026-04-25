@@ -11,10 +11,13 @@ class ReceptionistPatientDetailView extends StatefulWidget {
   const ReceptionistPatientDetailView({super.key, required this.patient});
 
   @override
-  State<ReceptionistPatientDetailView> createState() => _ReceptionistPatientDetailViewState();
+  State<ReceptionistPatientDetailView> createState() =>
+      _ReceptionistPatientDetailViewState();
 }
 
-class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetailView> with SingleTickerProviderStateMixin {
+class _ReceptionistPatientDetailViewState
+    extends State<ReceptionistPatientDetailView>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   final List<Map<String, dynamic>> _mockVisitHistory = [
@@ -24,15 +27,34 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
       'doctor': 'BS. Nguyễn Tri Phương',
       'type': 'NGOẠI TRÚ',
       'diagnosis': 'VIÊM HỌNG CẤP (J02.9)',
-      'reason': 'Đau họng kéo dài 3 ngày, có sốt nhẹ về chiều, nuốt vướng và mệt mỏi.',
-      'vitals': {'pulse': '82 bpm', 'bp': '120/80 mmHg', 'temp': '37.5 °C', 'weight': '70 kg'},
-      'symptoms': ['Niêm mạc họng đỏ rực', 'Amidan sưng nhẹ, không có giả mạc', 'Hạch góc hàm sưng đau'],
+      'reason':
+          'Đau họng kéo dài 3 ngày, có sốt nhẹ về chiều, nuốt vướng và mệt mỏi.',
+      'vitals': {
+        'pulse': '82 bpm',
+        'bp': '120/80 mmHg',
+        'temp': '37.5 °C',
+        'weight': '70 kg',
+      },
+      'symptoms': [
+        'Niêm mạc họng đỏ rực',
+        'Amidan sưng nhẹ, không có giả mạc',
+        'Hạch góc hàm sưng đau',
+      ],
       'tests': ['Tổng phân tích máu', 'Nội soi TMH'],
       'prescriptions': [
-        {'name': 'Augmentin 1g', 'qty': '14 viên', 'usage': 'Sáng 1, Chiều 1, sau ăn'},
-        {'name': 'Paracetamol 500mg', 'qty': '10 viên', 'usage': 'Uống khi sốt > 38.5°C'},
+        {
+          'name': 'Augmentin 1g',
+          'qty': '14 viên',
+          'usage': 'Sáng 1, Chiều 1, sau ăn',
+        },
+        {
+          'name': 'Paracetamol 500mg',
+          'qty': '10 viên',
+          'usage': 'Uống khi sốt > 38.5°C',
+        },
       ],
-      'notes': 'Nghỉ ngơi, súc miệng nước muối sinh lý thường xuyên. Tái khám sau 7 ngày hoặc khi có dấu hiệu bất thường.',
+      'notes':
+          'Nghỉ ngơi, súc miệng nước muối sinh lý thường xuyên. Tái khám sau 7 ngày hoặc khi có dấu hiệu bất thường.',
     },
     {
       'date': '12/03/2023',
@@ -41,11 +63,23 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
       'type': 'TÁI KHÁM',
       'diagnosis': 'TĂNG HUYẾT ÁP ĐỘ 1 (I10)',
       'reason': 'Tái khám định kỳ theo lịch sử cao huyết áp.',
-      'vitals': {'pulse': '76 bpm', 'bp': '135/85 mmHg', 'temp': '36.8 °C', 'weight': '72 kg'},
-      'symptoms': ['Bệnh nhân khai không đau đầu, không chóng mặt', 'Sinh hiệu ổn định'],
+      'vitals': {
+        'pulse': '76 bpm',
+        'bp': '135/85 mmHg',
+        'temp': '36.8 °C',
+        'weight': '72 kg',
+      },
+      'symptoms': [
+        'Bệnh nhân khai không đau đầu, không chóng mặt',
+        'Sinh hiệu ổn định',
+      ],
       'tests': ['Đo điện tâm đồ (ECG)'],
       'prescriptions': [
-        {'name': 'Amlodipine 5mg', 'qty': '30 viên', 'usage': 'Sáng 1 viên, trước ăn'},
+        {
+          'name': 'Amlodipine 5mg',
+          'qty': '30 viên',
+          'usage': 'Sáng 1 viên, trước ăn',
+        },
       ],
       'notes': 'Ăn nhạt, vận động nhẹ nhàng. Theo dõi HA tại nhà.',
     },
@@ -56,11 +90,24 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
       'type': 'CẤP CỨU',
       'diagnosis': 'VIÊM PHỔI NẶNG (J18.0)',
       'reason': 'Sốt cao, ho nhiều đờm đục, khó thở nhẹ.',
-      'vitals': {'pulse': '105 bpm', 'bp': '130/80 mmHg', 'temp': '39.2 °C', 'weight': '69 kg'},
-      'symptoms': ['Sốt cao liên tục', 'Khó thở nhịp thở 24 lần/phút', 'Phổi rải rác rales ẩm'],
+      'vitals': {
+        'pulse': '105 bpm',
+        'bp': '130/80 mmHg',
+        'temp': '39.2 °C',
+        'weight': '69 kg',
+      },
+      'symptoms': [
+        'Sốt cao liên tục',
+        'Khó thở nhịp thở 24 lần/phút',
+        'Phổi rải rác rales ẩm',
+      ],
       'tests': ['X-Quang tim phổi', 'Xét nghiệm máu tổng quát'],
       'prescriptions': [
-        {'name': 'Levofloxacin 500mg', 'qty': '10 chai', 'usage': 'Truyền tĩnh mạch (Nội trú)'},
+        {
+          'name': 'Levofloxacin 500mg',
+          'qty': '10 chai',
+          'usage': 'Truyền tĩnh mạch (Nội trú)',
+        },
       ],
       'notes': 'Theo dõi sát diễn tiến hô hấp. Nhập viện nội trú.',
     },
@@ -89,7 +136,14 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
           icon: const Icon(LucideIcons.arrowLeft, color: AppColors.textPrimary),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text('Chi tiết bệnh nhân', style: TextStyle(color: AppColors.textPrimary, fontSize: 16, fontWeight: FontWeight.bold)),
+        title: const Text(
+          'Chi tiết bệnh nhân',
+          style: TextStyle(
+            color: AppColors.textPrimary,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         titleSpacing: 0,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
@@ -108,7 +162,9 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
             // Custom TabBar
             Container(
               decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: AppColors.border, width: 2)),
+                border: Border(
+                  bottom: BorderSide(color: AppColors.border, width: 2),
+                ),
               ),
               child: TabBar(
                 controller: _tabController,
@@ -116,8 +172,14 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
                 indicatorWeight: 3,
                 labelColor: AppColors.primaryBlue,
                 unselectedLabelColor: AppColors.textSecondary,
-                labelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                labelStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+                unselectedLabelStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                ),
                 isScrollable: true,
                 tabs: const [
                   Tab(text: 'Thông tin Chi tiết'),
@@ -150,7 +212,11 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.border),
         boxShadow: [
-          BoxShadow(color: Colors.black.withAlpha(4), blurRadius: 10, offset: const Offset(0, 4)),
+          BoxShadow(
+            color: Colors.black.withAlpha(4),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Row(
@@ -164,11 +230,17 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
                   children: [
                     Text(
                       widget.patient.fullName,
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
                     ),
                     const SizedBox(width: 14),
                     StatusBadge(
-                      text: widget.patient.patientCode?.isNotEmpty == true ? widget.patient.patientCode! : 'Chưa có Mã BN',
+                      text: widget.patient.patientCode?.isNotEmpty == true
+                          ? widget.patient.patientCode!
+                          : 'Chưa có Mã BN',
                       type: BadgeType.success,
                     ),
                   ],
@@ -176,11 +248,20 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    const Icon(LucideIcons.phone, size: 16, color: AppColors.textSecondary),
+                    const Icon(
+                      LucideIcons.phone,
+                      size: 16,
+                      color: AppColors.textSecondary,
+                    ),
                     const SizedBox(width: 8),
                     Text(
-                      widget.patient.phone.isNotEmpty ? widget.patient.phone : 'Không có số điện thoại',
-                      style: const TextStyle(fontSize: 15, color: AppColors.textSecondary),
+                      widget.patient.phone.isNotEmpty
+                          ? widget.patient.phone
+                          : 'Không có số điện thoại',
+                      style: const TextStyle(
+                        fontSize: 15,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                   ],
                 ),
@@ -195,7 +276,9 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
             style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.textPrimary,
               side: const BorderSide(color: AppColors.border),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             ),
           ),
@@ -212,13 +295,24 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.border),
         boxShadow: [
-          BoxShadow(color: Colors.black.withAlpha(4), blurRadius: 10, offset: const Offset(0, 4)),
+          BoxShadow(
+            color: Colors.black.withAlpha(4),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Thông tin chung', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+          const Text(
+            'Thông tin chung',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+            ),
+          ),
           const SizedBox(height: 24),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,10 +320,16 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
               Expanded(
                 child: Column(
                   children: [
-                    _buildInfoRow('Mã Bệnh Nhân', widget.patient.patientCode ?? '---'),
+                    _buildInfoRow(
+                      'Mã Bệnh Nhân',
+                      widget.patient.patientCode ?? '---',
+                    ),
                     _buildInfoRow('Họ và Tên', widget.patient.fullName),
                     _buildInfoRow('Giới tính', widget.patient.gender),
-                    _buildInfoRow('Ngày sinh', DateFormat('dd/MM/yyyy').format(widget.patient.dob)),
+                    _buildInfoRow(
+                      'Ngày sinh',
+                      DateFormat('dd/MM/yyyy').format(widget.patient.dob),
+                    ),
                   ],
                 ),
               ),
@@ -237,9 +337,24 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
               Expanded(
                 child: Column(
                   children: [
-                    _buildInfoRow('CCCD/CMND', widget.patient.identityCard.isNotEmpty ? widget.patient.identityCard : '---'),
-                    _buildInfoRow('Số điện thoại', widget.patient.phone.isNotEmpty ? widget.patient.phone : '---'),
-                    _buildInfoRow('Địa chỉ', widget.patient.address.isNotEmpty ? widget.patient.address : '---'),
+                    _buildInfoRow(
+                      'CCCD/CMND',
+                      widget.patient.identityCard.isNotEmpty
+                          ? widget.patient.identityCard
+                          : '---',
+                    ),
+                    _buildInfoRow(
+                      'Số điện thoại',
+                      widget.patient.phone.isNotEmpty
+                          ? widget.patient.phone
+                          : '---',
+                    ),
+                    _buildInfoRow(
+                      'Địa chỉ',
+                      widget.patient.address.isNotEmpty
+                          ? widget.patient.address
+                          : '---',
+                    ),
                   ],
                 ),
               ),
@@ -248,20 +363,37 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
           const SizedBox(height: 32),
           const Divider(color: AppColors.border),
           const SizedBox(height: 32),
-          const Text('Người liên hệ khẩn cấp', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+          const Text(
+            'Người liên hệ khẩn cấp',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppColors.textPrimary,
+            ),
+          ),
           const SizedBox(height: 24),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: _buildInfoRow('Họ tên', widget.patient.emergencyContactName.isNotEmpty ? widget.patient.emergencyContactName : '---'),
+                child: _buildInfoRow(
+                  'Họ tên',
+                  widget.patient.emergencyContactName.isNotEmpty
+                      ? widget.patient.emergencyContactName
+                      : '---',
+                ),
               ),
               const SizedBox(width: 40),
               Expanded(
-                child: _buildInfoRow('Số điện thoại', widget.patient.emergencyContactPhone.isNotEmpty ? widget.patient.emergencyContactPhone : '---'),
+                child: _buildInfoRow(
+                  'Số điện thoại',
+                  widget.patient.emergencyContactPhone.isNotEmpty
+                      ? widget.patient.emergencyContactPhone
+                      : '---',
+                ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -275,10 +407,24 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
         children: [
           SizedBox(
             width: 140,
-            child: Text(label, style: const TextStyle(fontSize: 14, color: AppColors.textSecondary, fontWeight: FontWeight.w500)),
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14,
+                color: AppColors.textSecondary,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
           Expanded(
-            child: Text(value, style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, fontWeight: FontWeight.w600)),
+            child: Text(
+              value,
+              style: const TextStyle(
+                fontSize: 14,
+                color: AppColors.textPrimary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
         ],
       ),
@@ -295,9 +441,22 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Lịch sử Khám bệnh', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+                const Text(
+                  'Lịch sử Khám bệnh',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text('Tổng cộng ${_mockVisitHistory.length} lượt khám', style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+                Text(
+                  'Tổng cộng ${_mockVisitHistory.length} lượt khám',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ],
             ),
             Row(
@@ -317,7 +476,10 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
           itemCount: _mockVisitHistory.length,
           itemBuilder: (context, index) {
             final visit = _mockVisitHistory[index];
-            return _TimelineCard(visit: visit, isLast: index == _mockVisitHistory.length - 1);
+            return _TimelineCard(
+              visit: visit,
+              isLast: index == _mockVisitHistory.length - 1,
+            );
           },
         ),
         const SizedBox(height: 20),
@@ -327,7 +489,9 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
             style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.textSecondary,
               side: const BorderSide(color: AppColors.border),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
             ),
             child: const Row(
@@ -339,7 +503,7 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -356,7 +520,13 @@ class _ReceptionistPatientDetailViewState extends State<ReceptionistPatientDetai
         children: [
           Icon(icon, size: 14, color: AppColors.textPlaceholder),
           const SizedBox(width: 8),
-          Text(label, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 13,
+              color: AppColors.textSecondary,
+            ),
+          ),
         ],
       ),
     );
@@ -402,7 +572,9 @@ class _TimelineCardState extends State<_TimelineCard> {
                   width: 32,
                   height: 32,
                   decoration: BoxDecoration(
-                    color: isEr ? AppColors.dangerBg : AppColors.primaryBlue.withAlpha(20),
+                    color: isEr
+                        ? AppColors.dangerBg
+                        : AppColors.primaryBlue.withAlpha(20),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -433,10 +605,18 @@ class _TimelineCardState extends State<_TimelineCard> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: _isExpanded ? AppColors.primaryBlue.withAlpha(80) : AppColors.border),
+                    border: Border.all(
+                      color: _isExpanded
+                          ? AppColors.primaryBlue.withAlpha(80)
+                          : AppColors.border,
+                    ),
                     boxShadow: [
                       if (_isExpanded)
-                        BoxShadow(color: AppColors.primaryBlue.withAlpha(10), blurRadius: 10, offset: const Offset(0, 4))
+                        BoxShadow(
+                          color: AppColors.primaryBlue.withAlpha(10),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
                     ],
                   ),
                   child: Column(
@@ -451,11 +631,25 @@ class _TimelineCardState extends State<_TimelineCard> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('${v['date']} - ${v['time']}', style: const TextStyle(fontSize: 12, color: AppColors.textPlaceholder, fontWeight: FontWeight.bold)),
+                                  Text(
+                                    '${v['date']} - ${v['time']}',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      color: AppColors.textPlaceholder,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                   const SizedBox(height: 8),
                                   Row(
                                     children: [
-                                      Text(v['doctor'] as String, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+                                      Text(
+                                        v['doctor'] as String,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: AppColors.textPrimary,
+                                        ),
+                                      ),
                                       const SizedBox(width: 12),
                                       _buildTypeBadge(v['type'] as String),
                                     ],
@@ -463,10 +657,19 @@ class _TimelineCardState extends State<_TimelineCard> {
                                   const SizedBox(height: 6),
                                   RichText(
                                     text: TextSpan(
-                                      style: const TextStyle(fontSize: 14, color: AppColors.textSecondary),
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: AppColors.textSecondary,
+                                      ),
                                       children: [
                                         const TextSpan(text: 'Chẩn đoán: '),
-                                        TextSpan(text: v['diagnosis'] as String, style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+                                        TextSpan(
+                                          text: v['diagnosis'] as String,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.textPrimary,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -475,15 +678,32 @@ class _TimelineCardState extends State<_TimelineCard> {
                             ),
                             Row(
                               children: [
-                                Text(_isExpanded ? 'Thu gọn' : 'Xem chi tiết', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: _isExpanded ? AppColors.primaryBlue : AppColors.textSecondary)),
+                                Text(
+                                  _isExpanded ? 'Thu gọn' : 'Xem chi tiết',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: _isExpanded
+                                        ? AppColors.primaryBlue
+                                        : AppColors.textSecondary,
+                                  ),
+                                ),
                                 const SizedBox(width: 4),
-                                Icon(_isExpanded ? LucideIcons.chevronUp : LucideIcons.chevronRight, size: 16, color: _isExpanded ? AppColors.primaryBlue : AppColors.textSecondary),
+                                Icon(
+                                  _isExpanded
+                                      ? LucideIcons.chevronUp
+                                      : LucideIcons.chevronRight,
+                                  size: 16,
+                                  color: _isExpanded
+                                      ? AppColors.primaryBlue
+                                      : AppColors.textSecondary,
+                                ),
                               ],
                             ),
                           ],
                         ),
                       ),
-                      
+
                       // Expanded Content
                       if (_isExpanded)
                         Container(
@@ -493,7 +713,7 @@ class _TimelineCardState extends State<_TimelineCard> {
                             children: [
                               const Divider(color: AppColors.border),
                               const SizedBox(height: 20),
-                              
+
                               // First Row: Reason & Symptoms & Tests
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -502,31 +722,60 @@ class _TimelineCardState extends State<_TimelineCard> {
                                   Expanded(
                                     flex: 4,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         _buildSectionTitle('LÝ DO ĐẾN KHÁM'),
-                                        Text('"${v['reason']}"', style: const TextStyle(fontSize: 14, fontStyle: FontStyle.italic, color: AppColors.textSecondary)),
+                                        Text(
+                                          '"${v['reason']}"',
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            fontStyle: FontStyle.italic,
+                                            color: AppColors.textSecondary,
+                                          ),
+                                        ),
                                         const SizedBox(height: 24),
-                                        _buildSectionTitle('CHỈ SỐ SINH TỒN (VITALS)'),
+                                        _buildSectionTitle(
+                                          'CHỈ SỐ SINH TỒN (VITALS)',
+                                        ),
                                         Container(
                                           decoration: BoxDecoration(
                                             color: AppColors.background,
-                                            borderRadius: BorderRadius.circular(10),
-                                            border: Border.all(color: AppColors.border.withAlpha(50)),
+                                            borderRadius: BorderRadius.circular(
+                                              10,
+                                            ),
+                                            border: Border.all(
+                                              color: AppColors.border.withAlpha(
+                                                50,
+                                              ),
+                                            ),
                                           ),
                                           child: GridView.count(
                                             crossAxisCount: 2,
                                             shrinkWrap: true,
-                                            physics: const NeverScrollableScrollPhysics(),
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
                                             childAspectRatio: 2.2,
                                             children: [
-                                              _buildVitalBox('MẠCH', v['vitals']['pulse'] as String),
-                                              _buildVitalBox('HUYẾT ÁP', v['vitals']['bp'] as String),
-                                              _buildVitalBox('NHIỆT ĐỘ', v['vitals']['temp'] as String),
-                                              _buildVitalBox('CÂN NẶNG', v['vitals']['weight'] as String),
+                                              _buildVitalBox(
+                                                'MẠCH',
+                                                v['vitals']['pulse'] as String,
+                                              ),
+                                              _buildVitalBox(
+                                                'HUYẾT ÁP',
+                                                v['vitals']['bp'] as String,
+                                              ),
+                                              _buildVitalBox(
+                                                'NHIỆT ĐỘ',
+                                                v['vitals']['temp'] as String,
+                                              ),
+                                              _buildVitalBox(
+                                                'CÂN NẶNG',
+                                                v['vitals']['weight'] as String,
+                                              ),
                                             ],
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -535,82 +784,235 @@ class _TimelineCardState extends State<_TimelineCard> {
                                   Expanded(
                                     flex: 6,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  _buildSectionTitle('TRIỆU CHỨNG & LÂM SÀNG'),
-                                                  ...(v['symptoms'] as List<String>).map((s) => Padding(
-                                                    padding: const EdgeInsets.only(bottom: 6),
-                                                    child: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        const Text('• ', style: TextStyle(color: AppColors.textSecondary)),
-                                                        Expanded(child: Text(s, style: const TextStyle(fontSize: 14, color: AppColors.textSecondary))),
-                                                      ],
+                                                  _buildSectionTitle(
+                                                    'TRIỆU CHỨNG & LÂM SÀNG',
+                                                  ),
+                                                  ...(v['symptoms'] as List<String>).map(
+                                                    (s) => Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                            bottom: 6,
+                                                          ),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          const Text(
+                                                            '• ',
+                                                            style: TextStyle(
+                                                              color: AppColors
+                                                                  .textSecondary,
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Text(
+                                                              s,
+                                                              style: const TextStyle(
+                                                                fontSize: 14,
+                                                                color: AppColors
+                                                                    .textSecondary,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  )),
+                                                  ),
                                                 ],
                                               ),
                                             ),
                                             Expanded(
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  _buildSectionTitle('CẬN LÂM SÀNG'),
+                                                  _buildSectionTitle(
+                                                    'CẬN LÂM SÀNG',
+                                                  ),
                                                   Wrap(
                                                     spacing: 8,
                                                     runSpacing: 8,
-                                                    children: (v['tests'] as List<String>).map((t) => Container(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                                                      decoration: BoxDecoration(color: AppColors.background, borderRadius: BorderRadius.circular(4)),
-                                                      child: Text(t, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textSecondary)),
-                                                    )).toList(),
+                                                    children: (v['tests'] as List<String>)
+                                                        .map(
+                                                          (t) => Container(
+                                                            padding:
+                                                                const EdgeInsets.symmetric(
+                                                                  horizontal:
+                                                                      10,
+                                                                  vertical: 4,
+                                                                ),
+                                                            decoration: BoxDecoration(
+                                                              color: AppColors
+                                                                  .background,
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                    4,
+                                                                  ),
+                                                            ),
+                                                            child: Text(
+                                                              t,
+                                                              style: const TextStyle(
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                color: AppColors
+                                                                    .textSecondary,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        )
+                                                        .toList(),
                                                   ),
                                                 ],
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                         const SizedBox(height: 30),
                                         _buildSectionTitle('ĐƠN THUỐC'),
                                         Container(
                                           decoration: BoxDecoration(
-                                            border: Border.all(color: AppColors.border),
-                                            borderRadius: BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color: AppColors.border,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              8,
+                                            ),
                                           ),
                                           child: Column(
                                             children: [
                                               Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 8,
+                                                    ),
                                                 decoration: const BoxDecoration(
                                                   color: AppColors.background,
-                                                  border: Border(bottom: BorderSide(color: AppColors.border)),
-                                                  borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                                                  border: Border(
+                                                    bottom: BorderSide(
+                                                      color: AppColors.border,
+                                                    ),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.vertical(
+                                                        top: Radius.circular(8),
+                                                      ),
                                                 ),
                                                 child: const Row(
                                                   children: [
-                                                    Expanded(flex: 3, child: Text('Tên thuốc', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textSecondary))),
-                                                    Expanded(flex: 1, child: Text('SL', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textSecondary))),
-                                                    Expanded(flex: 4, child: Text('Cách dùng', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textSecondary))),
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: Text(
+                                                        'Tên thuốc',
+                                                        style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppColors
+                                                              .textSecondary,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Text(
+                                                        'SL',
+                                                        style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppColors
+                                                              .textSecondary,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 4,
+                                                      child: Text(
+                                                        'Cách dùng',
+                                                        style: TextStyle(
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppColors
+                                                              .textSecondary,
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
-                                              ...(v['prescriptions'] as List<Map<String, String>>).map((med) => Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(flex: 3, child: Text(med['name']!, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary))),
-                                                    Expanded(flex: 1, child: Text(med['qty']!, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary))),
-                                                    Expanded(flex: 4, child: Text(med['usage']!, style: const TextStyle(fontSize: 13, fontStyle: FontStyle.italic, color: AppColors.textSecondary))),
-                                                  ],
-                                                ),
-                                              )),
+                                              ...(v['prescriptions']
+                                                      as List<
+                                                        Map<String, String>
+                                                      >)
+                                                  .map(
+                                                    (med) => Padding(
+                                                      padding:
+                                                          const EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: 10,
+                                                          ),
+                                                      child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 3,
+                                                            child: Text(
+                                                              med['name']!,
+                                                              style: const TextStyle(
+                                                                fontSize: 13,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: AppColors
+                                                                    .textPrimary,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Text(
+                                                              med['qty']!,
+                                                              style: const TextStyle(
+                                                                fontSize: 13,
+                                                                color: AppColors
+                                                                    .textSecondary,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            flex: 4,
+                                                            child: Text(
+                                                              med['usage']!,
+                                                              style: const TextStyle(
+                                                                fontSize: 13,
+                                                                fontStyle:
+                                                                    FontStyle
+                                                                        .italic,
+                                                                color: AppColors
+                                                                    .textSecondary,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
                                             ],
                                           ),
                                         ),
@@ -621,7 +1023,13 @@ class _TimelineCardState extends State<_TimelineCard> {
                               ),
                               const SizedBox(height: 24),
                               _buildSectionTitle('GHI CHÚ & LỜI DẶN'),
-                              Text(v['notes'] as String, style: const TextStyle(fontSize: 14, color: AppColors.textPrimary)),
+                              Text(
+                                v['notes'] as String,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -639,7 +1047,15 @@ class _TimelineCardState extends State<_TimelineCard> {
   Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Text(title, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: AppColors.textPlaceholder, letterSpacing: 0.5)),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w800,
+          color: AppColors.textPlaceholder,
+          letterSpacing: 0.5,
+        ),
+      ),
     );
   }
 
@@ -660,14 +1076,34 @@ class _TimelineCardState extends State<_TimelineCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(label, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: AppColors.textPlaceholder)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w800,
+              color: AppColors.textPlaceholder,
+            ),
+          ),
           const SizedBox(height: 4),
           RichText(
             text: TextSpan(
               style: const TextStyle(color: AppColors.textPrimary),
               children: [
-                TextSpan(text: val, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                if (unit.isNotEmpty) TextSpan(text: ' $unit', style: const TextStyle(fontSize: 11, color: AppColors.textSecondary)),
+                TextSpan(
+                  text: val,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (unit.isNotEmpty)
+                  TextSpan(
+                    text: ' $unit',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
               ],
             ),
           ),
@@ -692,10 +1128,18 @@ class _TimelineCardState extends State<_TimelineCard> {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(20)),
-      child: Text(type, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: text)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        type,
+        style: TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.w800,
+          color: text,
+        ),
+      ),
     );
   }
 }
-
-
