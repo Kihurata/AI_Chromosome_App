@@ -1,38 +1,61 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:injectable/injectable.dart';
 import '../models/patient_model.dart';
+import '../../core/errors/exceptions.dart';
 
 abstract class PatientRemoteDataSource {
   Future<List<PatientModel>> getPatients();
-  Future<void> createPatient(PatientModel patient);
-  Future<bool> checkIdentityExists(String identityCard);
+  Future<void> addPatient(PatientModel patient);
+  Future<void> updatePatient(PatientModel patient);
+  Future<PatientModel> getPatientById(String id);
 }
 
-class FirebasePatientRemoteDataSource implements PatientRemoteDataSource {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+@LazySingleton(as: PatientRemoteDataSource)
+class PatientRemoteDataSourceImpl implements PatientRemoteDataSource {
+  final FirebaseFirestore firestore;
+
+  PatientRemoteDataSourceImpl(this.firestore);
 
   @override
   Future<List<PatientModel>> getPatients() async {
-    final snapshot = await _firestore
-        .collection('patients')
-        .orderBy('created_at', descending: true)
-        .get();
-    
-    return snapshot.docs.map((doc) => PatientModel.fromFirestore(doc)).toList();
+    try {
+      final snapshot = await firestore.collection('patients').get();
+      return snapshot.docs
+          .map((doc) => PatientModel.fromFirestore(doc))
+          .toList();
+    } catch (e) {
+      throw ServerException(message: "Không thể lấy dữ liệu bệnh nhân");
+    }
   }
 
   @override
-  Future<void> createPatient(PatientModel patient) async {
-    await _firestore.collection('patients').add(patient.toFirestore());
+  Future<void> addPatient(PatientModel patient) async {
+    try {
+      await firestore.collection('patients').add(patient.toFirestore());
+    } catch (e) {
+      throw ServerException(message: "Không thể thêm bệnh nhân mới");
+    }
   }
 
   @override
-  Future<bool> checkIdentityExists(String identityCard) async {
-    final snapshot = await _firestore
-        .collection('patients')
-        .where('identity_card', isEqualTo: identityCard)
-        .limit(1)
-        .get();
-    
-    return snapshot.docs.isNotEmpty;
+  Future<PatientModel> getPatientById(String id) async {
+    try {
+      final doc = await firestore.collection('patients').doc(id).get();
+      return PatientModel.fromFirestore(doc);
+    } catch (e) {
+      throw ServerException(message: "Không thể lấy dữ liệu bệnh nhân");
+    }
+  }
+
+  @override
+  Future<void> updatePatient(PatientModel patient) async {
+    try {
+      await firestore
+          .collection('patients')
+          .doc(patient.id)
+          .update(patient.toFirestore());
+    } catch (e) {
+      throw ServerException(message: "Không thể cập nhật thông tin bệnh nhân");
+    }
   }
 }
