@@ -34,6 +34,45 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, List<TestOrder>>> getAllPendingOrders() async {
+    try {
+      final models = await remoteDataSource.getAllPendingOrders();
+      return Right(models.map(_modelToEntity).toList());
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateOrderStatus(
+    String orderId,
+    TestOrderStatus status,
+  ) async {
+    try {
+      await remoteDataSource.updateOrderStatus(
+        orderId,
+        status.toFirestoreString(),
+      );
+      return Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> assignSpecialistToOrder(
+    String orderId,
+    String specialistId,
+  ) async {
+    try {
+      await remoteDataSource.assignSpecialistToOrder(orderId, specialistId);
+      return Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
   TestOrder _modelToEntity(TestOrderModel model) {
     return TestOrder(
       id: model.id,
@@ -47,3 +86,4 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
     );
   }
 }
+
