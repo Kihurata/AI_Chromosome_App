@@ -37,11 +37,11 @@ const List<NavItem> appNavItems = [
     tooltip: 'Trang tổng quan',
   ),
   NavItem(
-    label: 'Danh sách BN',
-    icon: LucideIcons.fileSearch,
-    routePath: '/clinician/patients',
+    label: 'Danh sách LK',
+    icon: LucideIcons.calendar,
+    routePath: '/clinician/appointments',
     allowedRoles: [AppRole.clinician],
-    tooltip: 'Danh sách bệnh nhân',
+    tooltip: 'Danh sách lịch khám',
   ),
   NavItem(
     label: 'Phòng Lab AI',
@@ -104,7 +104,7 @@ String defaultRouteForRole(AppRole role) {
     case AppRole.receptionist:
       return '/receptionist/dashboard';
     case AppRole.clinician:
-      return '/clinician/dashboard';
+      return '/clinician/appointments';
     case AppRole.specialist:
       return '/specialist/dashboard';
     case AppRole.manager:

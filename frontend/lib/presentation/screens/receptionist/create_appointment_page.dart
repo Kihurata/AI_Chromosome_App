@@ -7,6 +7,10 @@ import '../../../data/models/appointment_model.dart';
 import '../../../data/models/patient_model.dart';
 import '../../../data/repositories/clinical_repository.dart';
 
+import '../../widgets/shared/layouts/main_form_layout.dart';
+import '../../widgets/shared/form/app_text_field.dart';
+import '../../widgets/shared/form/app_buttons.dart';
+
 class CreateAppointmentPage extends StatefulWidget {
   final ClinicalRepository? repository;
   /// Pre-fill with a specific date (e.g. from Calendar page)
@@ -52,170 +56,80 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Column(
-        children: [
-          // ── Top bar ──
-          Container(
-            height: 64,
-            padding: const EdgeInsets.symmetric(horizontal: 28),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              border: const Border(bottom: BorderSide(color: AppColors.border)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withAlpha(8),
-                  blurRadius: 4,
-                  offset: const Offset(0, 1),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Material(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(8),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(8),
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: AppColors.border.withAlpha(60),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Icon(
-                        LucideIcons.arrowLeft,
-                        color: AppColors.textSecondary,
-                        size: 18,
-                      ),
-                    ),
+      body: MainFormLayout(
+        title: 'Tạo lịch hẹn mới',
+        subtitle: 'Lên lịch hẹn khám cho bệnh nhân',
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 780),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Section 1 — Bệnh nhân
+                  _buildSectionCard(
+                    icon: LucideIcons.users,
+                    title: '1. Bệnh nhân',
+                    badge: 'Bắt buộc',
+                    children: [_buildPatientDropdown()],
                   ),
-                ),
-                const SizedBox(width: 14),
-                const Text(
-                  'Tạo lịch hẹn mới',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                  const SizedBox(height: 20),
 
-          // ── Scrollable form body ──
-          Expanded(
-            child: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 28, vertical: 24),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 780),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  // Section 2 — Bác sĩ phụ trách
+                  _buildSectionCard(
+                    icon: LucideIcons.stethoscope,
+                    title: '2. Bác sĩ phụ trách',
+                    badge: 'Bắt buộc',
+                    children: [_buildDoctorDropdown()],
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Section 3 — Thời gian & Lý do
+                  _buildSectionCard(
+                    icon: LucideIcons.calendarClock,
+                    title: '3. Thời gian & Lý do khám',
+                    badge: 'Bắt buộc',
                     children: [
-                      // Section 1 — Bệnh nhân
-                      _buildSectionCard(
-                        icon: LucideIcons.users,
-                        title: '1. Bệnh nhân',
-                        badge: 'Bắt buộc',
-                        children: [_buildPatientDropdown()],
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Section 2 — Bác sĩ phụ trách
-                      _buildSectionCard(
-                        icon: LucideIcons.stethoscope,
-                        title: '2. Bác sĩ phụ trách',
-                        badge: 'Bắt buộc',
-                        children: [_buildDoctorDropdown()],
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Section 3 — Thời gian & Lý do
-                      _buildSectionCard(
-                        icon: LucideIcons.calendarClock,
-                        title: '3. Thời gian & Lý do khám',
-                        badge: 'Bắt buộc',
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Date picker
-                              Expanded(child: _buildDateSelector()),
-                              const SizedBox(width: 20),
-                              // Time picker
-                              Expanded(child: _buildTimeSelector()),
-                            ],
-                          ),
-                          const SizedBox(height: 18),
-                          _buildReasonField(),
-                        ],
-                      ),
-                      const SizedBox(height: 32),
-
-                      // Actions
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          OutlinedButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(color: AppColors.border),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 28, vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                            ),
-                            child: const Text(
-                              'Huỷ bỏ',
-                              style: TextStyle(
-                                color: AppColors.textSecondary,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 14),
-                          ElevatedButton.icon(
-                            onPressed: _isSubmitting ? null : _handleSubmit,
-                            icon: _isSubmitting
-                                ? const SizedBox(
-                                    width: 16,
-                                    height: 16,
-                                    child: CircularProgressIndicator(
-                                        strokeWidth: 2, color: Colors.white),
-                                  )
-                                : const Icon(LucideIcons.calendarCheck, size: 16),
-                            label: Text(
-                              _isSubmitting ? 'Đang lưu...' : 'Xác nhận lịch hẹn',
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w600),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryBlue,
-                              foregroundColor: Colors.white,
-                              disabledBackgroundColor:
-                                  AppColors.primaryBlue.withAlpha(120),
-                              disabledForegroundColor: Colors.white70,
-                              elevation: 0,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 28, vertical: 14),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                            ),
-                          ),
+                          // Date picker
+                          Expanded(child: _buildDateSelector()),
+                          const SizedBox(width: 20),
+                          // Time picker
+                          Expanded(child: _buildTimeSelector()),
                         ],
                       ),
-                      const SizedBox(height: 28),
+                      const SizedBox(height: 18),
+                      _buildReasonField(),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 32),
+
+                  // Actions
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      AppSecondaryButton(
+                        text: 'Huỷ bỏ',
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      const SizedBox(width: 14),
+                      AppPrimaryButton(
+                        text: 'Xác nhận lịch hẹn',
+                        icon: LucideIcons.calendarCheck,
+                        isLoading: _isSubmitting,
+                        onPressed: _isSubmitting ? null : _handleSubmit,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 28),
+                ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -479,17 +393,11 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
 
   // ── Reason field ──
   Widget _buildReasonField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _label('Lý do khám', required: true),
-        const SizedBox(height: 6),
-        TextField(
-          controller: _reasonController,
-          maxLines: 3,
-          decoration: _inputDecoration('Mô tả triệu chứng hoặc mục đích khám...'),
-        ),
-      ],
+    return AppTextField(
+      labelText: 'Lý do khám *',
+      controller: _reasonController,
+      maxLines: 3,
+      hintText: 'Mô tả triệu chứng hoặc mục đích khám...',
     );
   }
 

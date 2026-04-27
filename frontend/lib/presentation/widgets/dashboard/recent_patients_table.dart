@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../core/theme/app_colors.dart';
-import '../shared/status_badge.dart';
+import '../shared/data_display/status_badge.dart';
 
 class RecentPatientsTable extends StatelessWidget {
   const RecentPatientsTable({super.key});

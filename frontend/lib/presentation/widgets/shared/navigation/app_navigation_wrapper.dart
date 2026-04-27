@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import '../../../core/models/nav_item.dart';
-import '../../../core/providers/auth_provider.dart';
-import '../../../core/providers/nav_provider.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../../core/models/nav_item.dart';
+import '../../../../core/providers/auth_provider.dart';
+import '../../../../core/providers/nav_provider.dart';
+import '../../../../core/theme/app_colors.dart';
 
 // Breakpoint: screens wider than this use NavigationRail
 const double _kRailBreakpoint = 800.0;

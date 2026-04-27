@@ -3,7 +3,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../data/models/patient_model.dart';
-import '../../widgets/shared/status_badge.dart';
+import '../../widgets/shared/data_display/status_badge.dart';
 
 class ReceptionistPatientDetailView extends StatefulWidget {
   final PatientModel patient;
