@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../domain/entities/appointment.dart';
 
 class AppointmentModel {
   final String id;
@@ -44,6 +45,19 @@ class AppointmentModel {
       appointmentDate: (data['appointment_date'] as Timestamp).toDate(),
       status: data['status'] ?? 'scheduled',
       reason: data['reason'] ?? '',
+    );
+  }
+  factory AppointmentModel.fromEntity(Appointment appointment) {
+    final firestore = FirebaseFirestore.instance;
+    return AppointmentModel(
+      id: appointment.id,
+      patientId: firestore.collection('patients').doc(appointment.patientId),
+      patientName: appointment.patientName,
+      doctorId: firestore.collection('users').doc(appointment.doctorId),
+      doctorName: appointment.doctorName,
+      appointmentDate: appointment.appointmentDate,
+      status: appointment.status,
+      reason: appointment.reason,
     );
   }
 }

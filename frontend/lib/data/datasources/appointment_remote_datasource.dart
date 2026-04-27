@@ -5,7 +5,6 @@ abstract class AppointmentRemoteDataSource {
   Future<List<AppointmentModel>> getTodayAppointments();
   Future<List<AppointmentModel>> getAppointmentsInRange(DateTime start, DateTime end);
   Future<void> createAppointment(AppointmentModel appointment);
-  Future<List<Map<String, dynamic>>> getClinicians();
 }
 
 class FirebaseAppointmentRemoteDataSource implements AppointmentRemoteDataSource {
@@ -42,23 +41,5 @@ class FirebaseAppointmentRemoteDataSource implements AppointmentRemoteDataSource
         .get();
         
     return snapshot.docs.map((doc) => AppointmentModel.fromFirestore(doc)).toList();
-  }
-
-  @override
-  Future<List<Map<String, dynamic>>> getClinicians() async {
-    final snapshot = await _firestore
-        .collection('users')
-        .where('role', whereIn: ['clinician'])
-        .where('status', isEqualTo: 'active')
-        .get();
-
-    return snapshot.docs.map((doc) {
-      final data = doc.data();
-      return {
-        'uid': doc.id,
-        'full_name': data['full_name'] ?? '',
-        'role': data['role'] ?? '',
-      };
-    }).toList();
   }
 }
