@@ -1,0 +1,49 @@
+import 'package:dartz/dartz.dart';
+import '../../core/errors/failures.dart';
+import '../../domain/entities/test_order.dart';
+import '../../domain/repositories/test_order_repository.dart';
+import '../datasources/test_order_remote_datasource.dart';
+import '../models/test_order_model.dart';
+
+class TestOrderRepositoryImpl implements TestOrderRepository {
+  final TestOrderRemoteDataSource remoteDataSource;
+
+  TestOrderRepositoryImpl({required this.remoteDataSource});
+
+  @override
+  Future<Either<Failure, void>> createTestOrder(TestOrder testOrder) async {
+    try {
+      final model = TestOrderModel.fromEntity(testOrder);
+      await remoteDataSource.createTestOrder(model);
+      return Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TestOrder>>> getTestOrdersByClinician(
+    String clinicianId,
+  ) async {
+    try {
+      final models =
+          await remoteDataSource.getTestOrdersByClinician(clinicianId);
+      return Right(models.map(_modelToEntity).toList());
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  TestOrder _modelToEntity(TestOrderModel model) {
+    return TestOrder(
+      id: model.id,
+      patientId: model.patientId.id,
+      patientName: model.patientName,
+      patientCode: model.patientCode,
+      appointmentId: model.appointmentId.id,
+      specialistId: model.specialistId?.id,
+      status: TestOrderStatus.fromString(model.status),
+      createdAt: model.createdAt,
+    );
+  }
+}

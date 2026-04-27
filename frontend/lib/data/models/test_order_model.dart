@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../domain/entities/test_order.dart';
 
 class TestOrderModel {
   final String id;
@@ -35,7 +36,7 @@ class TestOrderModel {
   }
 
   factory TestOrderModel.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    final data = doc.data() as Map<String, dynamic>;
     return TestOrderModel(
       id: doc.id,
       patientId: data['patient_id'] as DocumentReference,
@@ -45,6 +46,23 @@ class TestOrderModel {
       specialistId: data['specialist_id'] as DocumentReference?,
       status: data['status'] ?? 'PENDING',
       createdAt: (data['created_at'] as Timestamp).toDate(),
+    );
+  }
+
+  factory TestOrderModel.fromEntity(TestOrder testOrder) {
+    final firestore = FirebaseFirestore.instance;
+    return TestOrderModel(
+      id: testOrder.id,
+      patientId: firestore.collection('patients').doc(testOrder.patientId),
+      patientName: testOrder.patientName,
+      patientCode: testOrder.patientCode,
+      appointmentId:
+          firestore.collection('appointments').doc(testOrder.appointmentId),
+      specialistId: testOrder.specialistId != null
+          ? firestore.collection('users').doc(testOrder.specialistId)
+          : null,
+      status: testOrder.status.toFirestoreString(),
+      createdAt: testOrder.createdAt,
     );
   }
 }
