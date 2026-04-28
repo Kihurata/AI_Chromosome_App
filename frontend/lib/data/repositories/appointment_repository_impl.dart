@@ -46,6 +46,31 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
     }
   }
 
+  @override
+  Stream<Either<Failure, List<Appointment>>> watchTodayAppointments() {
+    return remoteDataSource
+        .watchTodayAppointments()
+        .map<Either<Failure, List<Appointment>>>(
+          (models) => Right(models.map(_modelToEntity).toList()),
+        )
+        .handleError(
+          (error) => Left(ServerFailure(error.toString())),
+        );
+  }
+
+  @override
+  Future<Either<Failure, void>> updateAppointmentStatus(
+    String appointmentId,
+    String status,
+  ) async {
+    try {
+      await remoteDataSource.updateAppointmentStatus(appointmentId, status);
+      return Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
 
   Appointment _modelToEntity(AppointmentModel model) {
     return Appointment(

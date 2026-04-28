@@ -2,7 +2,7 @@
 title: System Architecture and Database Schema
 description: Overview of the system architecture, Firestore collections, and data design decisions.
 createdAt: '2026-04-26T07:07:46.422Z'
-updatedAt: '2026-04-26T07:07:46.422Z'
+updatedAt: '2026-04-27T08:03:21.107Z'
 tags:
   - architecture
   - database
@@ -27,3 +27,13 @@ The app uses Firebase Firestore for real-time synchronization, driven by a FastA
 - **Laboratory**: `test_orders`, `samples`
 - **AI & Images**: `test_orders/{orderId}/metaphase_images` -> `.../chromosomes`
 - **Audit**: `audit_logs`
+
+## Architectural Decision: Event-Driven AI Integration (Microservices)
+- **Decision:** The Flutter App acts purely as a reactive client. It uploads the raw `MetaphaseImage` to Firebase Cloud Storage and creates a record in Firestore with `status: 'UPLOADED'`.
+- **Backend Role (Orchestrator):** The FastAPI backend (or Firebase Cloud Functions) listens to Firestore. It **DOES NOT** download the image. Instead, it makes a lightweight HTTP POST request to the external AI Server (Ngrok) passing the `raw_image_url` (Zero-copy). Upon receiving the JSON result, it bulk-inserts the `Chromosome` data into Firestore using the Firebase Admin SDK.
+- **AI Server Role:** Hosted externally (e.g., via Ngrok), it downloads the image from the provided URL, processes it (PyTorch/OpenCV), and returns the JSON result.
+- **Rationale:** 
+  1. **UX:** Prevents the app from hanging or crashing during the 30-60s AI processing window.
+  2. **Security:** Completely hides the Ngrok/AI Server URL and credentials from the client app, and keeps the AI Model secure on a separate server.
+  3. **Data Integrity:** Prevents incomplete data insertions if the client loses connection.
+  4. **Optimization:** Zero-copy pass-through on the Backend saves RAM and bandwidth.

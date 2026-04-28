@@ -3,8 +3,10 @@ import '../models/appointment_model.dart';
 
 abstract class AppointmentRemoteDataSource {
   Future<List<AppointmentModel>> getTodayAppointments();
+  Stream<List<AppointmentModel>> watchTodayAppointments();
   Future<List<AppointmentModel>> getAppointmentsInRange(DateTime start, DateTime end);
   Future<void> createAppointment(AppointmentModel appointment);
+  Future<void> updateAppointmentStatus(String appointmentId, String status);
 }
 
 class FirebaseAppointmentRemoteDataSource implements AppointmentRemoteDataSource {
@@ -41,5 +43,29 @@ class FirebaseAppointmentRemoteDataSource implements AppointmentRemoteDataSource
         .get();
         
     return snapshot.docs.map((doc) => AppointmentModel.fromFirestore(doc)).toList();
+  }
+
+  @override
+  Stream<List<AppointmentModel>> watchTodayAppointments() {
+    final now = DateTime.now();
+    final startOfDay = DateTime(now.year, now.month, now.day);
+    final endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59);
+
+    return _firestore
+        .collection('appointments')
+        .where('appointment_date', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay))
+        .where('appointment_date', isLessThanOrEqualTo: Timestamp.fromDate(endOfDay))
+        .orderBy('appointment_date')
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => AppointmentModel.fromFirestore(doc)).toList());
+  }
+
+  @override
+  Future<void> updateAppointmentStatus(String appointmentId, String status) async {
+    await _firestore
+        .collection('appointments')
+        .doc(appointmentId)
+        .update({'status': status});
   }
 }

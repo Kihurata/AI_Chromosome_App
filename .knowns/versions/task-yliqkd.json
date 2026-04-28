@@ -1,0 +1,112 @@
+{
+  "taskId": "yliqkd",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "yliqkd",
+      "version": 1,
+      "timestamp": "2026-04-27T08:03:04.5317999Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement a lightweight Backend service (Cloud Function/FastAPI Proxy) that orchestrates the workflow between the Flutter App and the dedicated AI Server (Ngrok). See architectural decision at @doc/(root)/system-architecture-and-database-schema.",
+        "labels": [
+          "backend",
+          "microservice",
+          "ai-integration",
+          "event-driven"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Backend Orchestrator for AI Server (Microservice)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "yliqkd",
+      "version": 2,
+      "timestamp": "2026-04-27T08:03:21.0226027Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "text": "Setup a Firestore trigger listening for `status: 'UPLOADED'` on `metaphase_images`.",
+              "completed": false
+            },
+            {
+              "text": "Implement HTTP client to send a JSON payload containing ONLY the `raw_image_url` and `orderId` to the external AI Server (Ngrok). *(Do not download the image)*",
+              "completed": false
+            },
+            {
+              "text": "Set appropriate timeouts (e.g., 120s) and handle `ngrok-skip-browser-warning` headers.",
+              "completed": false
+            },
+            {
+              "text": "Parse the returned AI JSON result.",
+              "completed": false
+            },
+            {
+              "text": "Implement Firebase Admin SDK bulk-write logic to securely insert `Chromosome` documents into Firestore.",
+              "completed": false
+            },
+            {
+              "text": "Update the `MetaphaseImage` status to `COMPLETED` and trigger the App's UI to update.",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Setup a Firestore trigger listening for `status: 'UPLOADED'` on `metaphase_images`.",
+            "completed": false
+          },
+          {
+            "text": "Implement HTTP client to send a JSON payload containing ONLY the `raw_image_url` and `orderId` to the external AI Server (Ngrok). *(Do not download the image)*",
+            "completed": false
+          },
+          {
+            "text": "Set appropriate timeouts (e.g., 120s) and handle `ngrok-skip-browser-warning` headers.",
+            "completed": false
+          },
+          {
+            "text": "Parse the returned AI JSON result.",
+            "completed": false
+          },
+          {
+            "text": "Implement Firebase Admin SDK bulk-write logic to securely insert `Chromosome` documents into Firestore.",
+            "completed": false
+          },
+          {
+            "text": "Update the `MetaphaseImage` status to `COMPLETED` and trigger the App's UI to update.",
+            "completed": false
+          }
+        ],
+        "description": "Implement a lightweight Backend service (Cloud Function/FastAPI Proxy) that orchestrates the workflow between the Flutter App and the dedicated AI Server (Ngrok). See architectural decision at @doc/(root)/system-architecture-and-database-schema.",
+        "labels": [
+          "backend",
+          "microservice",
+          "ai-integration",
+          "event-driven"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Backend Orchestrator for AI Server (Microservice)"
+      }
+    }
+  ]
+}

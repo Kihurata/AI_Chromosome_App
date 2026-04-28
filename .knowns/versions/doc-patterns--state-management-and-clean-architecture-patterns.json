@@ -1,0 +1,47 @@
+{
+  "docPath": "patterns/state-management-and-clean-architecture-patterns",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "patterns/state-management-and-clean-architecture-patterns",
+      "version": 1,
+      "timestamp": "2026-04-26T07:07:53.4047229Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "State Management and Clean Architecture Patterns"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Implementation patterns for Hybrid State Management (Riverpod + Cubit) and Clean Architecture."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "pattern",
+            "state-management",
+            "riverpod",
+            "cubit",
+            "clean-architecture"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "# State Management and Clean Architecture Patterns\n\n## Hybrid State Management\nThe project utilizes a hybrid approach to handle both real-time Firestore sync and complex UI interactions (like drag-and-drop).\n\n### 1. Riverpod (\"Data Pipe\")\n- **Role**: Data Source and Streaming Engine.\n- **Why**: `StreamProvider` is highly optimized for Firestore real-time listeners. It handles raw cloud data and provides dependency injection.\n\n### 2. Cubit / BLoC (\"UI Controller\")\n- **Role**: Local Interaction Manager.\n- **Why**: Manages ephemeral/predictable UI states (e.g., active drags, rotations, selections) before they are committed to the database.\n- **Example**: `WorkspaceCubit` receives data from Riverpod, handles user interaction locally, and emits UI states without overwhelming the global stream.\n\n## Clean Architecture Integration\nThe Flutter application strictly follows Clean Architecture:\n- **Presentation Layer**: Screens and UI widgets built with Riverpod Providers and Cubit BlocBuilders.\n- **Logic Layer**: Business logic, use cases, Cubits.\n- **Data Layer**: Repositories, models, and data sources (Firebase integration).\n- **Core Layer**: App routing, constants, theme, config.\n\n## Read-Heavy Denormalization Pattern\nTo optimize Firestore reads, data is replicated in strategic places:\n- **`appointments`/`test_orders`**: Replicate `patient_name`, `patient_code`, `doctor_name` to prevent N+1 queries in list views.\n- **`samples.is_current`**: Flags the active physical sample to avoid querying historical failed samples.\n- **`metaphase_images.processing_time`**: Replicates AI performance metrics for fast reporting.",
+        "description": "Implementation patterns for Hybrid State Management (Riverpod + Cubit) and Clean Architecture.",
+        "tags": [
+          "pattern",
+          "state-management",
+          "riverpod",
+          "cubit",
+          "clean-architecture"
+        ],
+        "title": "State Management and Clean Architecture Patterns"
+      }
+    }
+  ]
+}

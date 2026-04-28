@@ -1,0 +1,88 @@
+{
+  "taskId": "fpa40g",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "fpa40g",
+      "version": 1,
+      "timestamp": "2026-04-27T07:09:57.4645138Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Extract getClinicians from AppointmentRepository to a dedicated ClinicianRepository to adhere to the Single Responsibility Principle and Clean Architecture.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Extract getClinicians to ClinicianRepository"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "fpa40g",
+      "version": 2,
+      "timestamp": "2026-04-27T07:10:07.4822138Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. **Extract Data Source**: Create `lib/data/datasources/clinician_remote_datasource.dart`. Move the `getClinicians` logic from `AppointmentRemoteDataSource` to this new class, and remove it from `AppointmentRemoteDataSource`.\n2. **Create ClinicianRepository**: Create `lib/domain/repositories/clinician_repository.dart` (interface) and `lib/data/repositories/clinician_repository_impl.dart` (implementation). Remove `getClinicians` from `AppointmentRepository` and `AppointmentRepositoryImpl`.\n3. **Move Usecase**: Move `lib/domain/usecases/appointment/get_clinicians.dart` to `lib/domain/usecases/clinician/get_clinicians.dart`. Update its dependency to use `ClinicianRepository` instead of `AppointmentRepository`.\n4. **Update Cubit**: Update `lib/logic/bloc/appointment/appointment_cubit.dart` to import `GetClinicians` from the new folder."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Extract getClinicians from AppointmentRepository to a dedicated ClinicianRepository to adhere to the Single Responsibility Principle and Clean Architecture.",
+        "implementationPlan": "1. **Extract Data Source**: Create `lib/data/datasources/clinician_remote_datasource.dart`. Move the `getClinicians` logic from `AppointmentRemoteDataSource` to this new class, and remove it from `AppointmentRemoteDataSource`.\n2. **Create ClinicianRepository**: Create `lib/domain/repositories/clinician_repository.dart` (interface) and `lib/data/repositories/clinician_repository_impl.dart` (implementation). Remove `getClinicians` from `AppointmentRepository` and `AppointmentRepositoryImpl`.\n3. **Move Usecase**: Move `lib/domain/usecases/appointment/get_clinicians.dart` to `lib/domain/usecases/clinician/get_clinicians.dart`. Update its dependency to use `ClinicianRepository` instead of `AppointmentRepository`.\n4. **Update Cubit**: Update `lib/logic/bloc/appointment/appointment_cubit.dart` to import `GetClinicians` from the new folder.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Extract getClinicians to ClinicianRepository"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "fpa40g",
+      "version": 3,
+      "timestamp": "2026-04-27T07:11:36.5633265Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Bóc tách thành công hàm getClinicians sang ClinicianRepository, tạo mới ClinicianRemoteDataSource, và dời Usecase sang thư mục clinician."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Extract getClinicians from AppointmentRepository to a dedicated ClinicianRepository to adhere to the Single Responsibility Principle and Clean Architecture.",
+        "implementationNotes": "Done: Bóc tách thành công hàm getClinicians sang ClinicianRepository, tạo mới ClinicianRemoteDataSource, và dời Usecase sang thư mục clinician.",
+        "implementationPlan": "1. **Extract Data Source**: Create `lib/data/datasources/clinician_remote_datasource.dart`. Move the `getClinicians` logic from `AppointmentRemoteDataSource` to this new class, and remove it from `AppointmentRemoteDataSource`.\n2. **Create ClinicianRepository**: Create `lib/domain/repositories/clinician_repository.dart` (interface) and `lib/data/repositories/clinician_repository_impl.dart` (implementation). Remove `getClinicians` from `AppointmentRepository` and `AppointmentRepositoryImpl`.\n3. **Move Usecase**: Move `lib/domain/usecases/appointment/get_clinicians.dart` to `lib/domain/usecases/clinician/get_clinicians.dart`. Update its dependency to use `ClinicianRepository` instead of `AppointmentRepository`.\n4. **Update Cubit**: Update `lib/logic/bloc/appointment/appointment_cubit.dart` to import `GetClinicians` from the new folder.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Extract getClinicians to ClinicianRepository"
+      }
+    }
+  ]
+}

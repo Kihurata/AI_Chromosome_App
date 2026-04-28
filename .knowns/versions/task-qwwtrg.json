@@ -1,0 +1,88 @@
+{
+  "taskId": "qwwtrg",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "qwwtrg",
+      "version": 1,
+      "timestamp": "2026-04-27T06:48:01.2793197Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement missing Domain and Logic layers for the Appointment module in Receptionist flow.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Implement Domain and Logic for Appointment Module"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "qwwtrg",
+      "version": 2,
+      "timestamp": "2026-04-27T06:48:12.3669113Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. **Domain Layer - Entity \u0026 Repository Interface**: Create `lib/domain/entities/appointment.dart` based on fields from `AppointmentModel` and `lib/domain/repositories/appointment_repository.dart` interface.\n2. **Data Layer - Repository Implementation**: Create `lib/data/repositories/appointment_repository_impl.dart` to map `AppointmentModel` to `Appointment` entity and handle Failures via `dartz`.\n3. **Domain Layer - Usecases**: Create 3 usecases (`create_appointment.dart`, `get_today_appointments.dart`, `get_clinicians.dart`) inside `lib/domain/usecases/appointment/`.\n4. **Logic Layer - Cubit \u0026 State**: Create `lib/logic/bloc/appointment/appointment_cubit.dart` and `appointment_state.dart` to manage UI states for the Receptionist appointment flow."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Implement missing Domain and Logic layers for the Appointment module in Receptionist flow.",
+        "implementationPlan": "1. **Domain Layer - Entity \u0026 Repository Interface**: Create `lib/domain/entities/appointment.dart` based on fields from `AppointmentModel` and `lib/domain/repositories/appointment_repository.dart` interface.\n2. **Data Layer - Repository Implementation**: Create `lib/data/repositories/appointment_repository_impl.dart` to map `AppointmentModel` to `Appointment` entity and handle Failures via `dartz`.\n3. **Domain Layer - Usecases**: Create 3 usecases (`create_appointment.dart`, `get_today_appointments.dart`, `get_clinicians.dart`) inside `lib/domain/usecases/appointment/`.\n4. **Logic Layer - Cubit \u0026 State**: Create `lib/logic/bloc/appointment/appointment_cubit.dart` and `appointment_state.dart` to manage UI states for the Receptionist appointment flow.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement Domain and Logic for Appointment Module"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "qwwtrg",
+      "version": 3,
+      "timestamp": "2026-04-27T06:51:34.0644074Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Implemented Appointment entity, AppointmentRepository, AppointmentRepositoryImpl, Usecases (CreateAppointment, GetTodayAppointments, GetClinicians), and AppointmentCubit. Note: 'dart analyze' shows errors in the presentation layer because it still incorrectly imports a non-existent 'ClinicalRepository' and bypasses Clean Architecture. A new task should be created to refactor the Receptionist UI to use the new AppointmentCubit and PatientCubit."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Implement missing Domain and Logic layers for the Appointment module in Receptionist flow.",
+        "implementationNotes": "Done: Implemented Appointment entity, AppointmentRepository, AppointmentRepositoryImpl, Usecases (CreateAppointment, GetTodayAppointments, GetClinicians), and AppointmentCubit. Note: 'dart analyze' shows errors in the presentation layer because it still incorrectly imports a non-existent 'ClinicalRepository' and bypasses Clean Architecture. A new task should be created to refactor the Receptionist UI to use the new AppointmentCubit and PatientCubit.",
+        "implementationPlan": "1. **Domain Layer - Entity \u0026 Repository Interface**: Create `lib/domain/entities/appointment.dart` based on fields from `AppointmentModel` and `lib/domain/repositories/appointment_repository.dart` interface.\n2. **Data Layer - Repository Implementation**: Create `lib/data/repositories/appointment_repository_impl.dart` to map `AppointmentModel` to `Appointment` entity and handle Failures via `dartz`.\n3. **Domain Layer - Usecases**: Create 3 usecases (`create_appointment.dart`, `get_today_appointments.dart`, `get_clinicians.dart`) inside `lib/domain/usecases/appointment/`.\n4. **Logic Layer - Cubit \u0026 State**: Create `lib/logic/bloc/appointment/appointment_cubit.dart` and `appointment_state.dart` to manage UI states for the Receptionist appointment flow.",
+        "priority": "high",
+        "status": "done",
+        "title": "Implement Domain and Logic for Appointment Module"
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "docPath": "guides/business-workflow-and-data-flow",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "guides/business-workflow-and-data-flow",
+      "version": 1,
+      "timestamp": "2026-04-26T07:07:49.7270147Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Business Workflow and Data Flow"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Detailed breakdown of the 6-stage workflow, user roles, state transitions, and exception handling."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "workflow",
+            "dataflow",
+            "roles",
+            "business-logic"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "# Business Workflow and Data Flow\nThe AI Chromosome App revolves around a 6-stage workflow coordinating four main roles: Receptionist, Clinician, Manager, and Specialist.\n\n## Roles \u0026 Responsibilities\n1. **Receptionist**: Creates patient profiles and schedules appointments. Assigns patients to clinicians.\n2. **Clinician**: Conducts examinations, creates genetic test orders, collects physical samples (labeled with QR codes), and transfers them to the Lab.\n3. **Manager (Lab)**: Receives orders/samples, assigns them to Specialists, and approves the final Karyotyping results.\n4. **Specialist**: Handles lab procedures (culturing, harvesting), utilizes AI tools for Karyotyping, finalizes the ISCN formula, and submits for approval.\n\n## Status Transitions\n- **Appointments**: `scheduled` -\u003e `completed`\n- **Samples**: `COLLECTED` -\u003e `CULTURING` -\u003e `HARVESTED` (or `FAILED`)\n- **Test Orders**: `WAIT_ASSIGN` -\u003e `CULTURING` -\u003e `ANALYZING` -\u003e `PENDING_APPROVAL` -\u003e `COMPLETED`\n\n## Automated State Management (Cloud Functions)\n- **Assign Specialist**: `test_orders` -\u003e `CULTURING`\n- **Start Culturing**: `samples.status = CULTURING` -\u003e `test_orders` -\u003e `CULTURING`\n- **AI Counting/Imaging**: `metaphase_images` updated -\u003e `test_orders` -\u003e `ANALYZING`\n- **Specialist Submit**: `test_orders` -\u003e `PENDING_APPROVAL`\n- **Manager Approve**: `test_orders` -\u003e `COMPLETED` (Generates PDF report)\n\n## Exception Handling\n- **Failed Culture**: If a sample fails, the system alerts the Clinician to recollect. The order is suspended until a new sample is provided.\n- **Approval Rejection**: If the Manager rejects, the order reverts to `ANALYZING` for the Specialist to correct.\n\n## Workflow Diagram\n```mermaid\ngraph TD\n    R[Receptionist]\n    C[Clinician]\n    M[Manager]\n    S[Specialist]\n\n    Start((Patient Arrives)) --\u003e R\n    R -- \"1. Create Profile/Appt\" --\u003e C\n    R -- \"Assign Doctor\" --\u003e C\n    \n    C -- \"2. Examine \u0026 Create Orders/Samples\" --\u003e M\n    C -- \"Physical Transfer: Samples\" --\u003e M\n    \n    M -- \"3. Assign Specialist\" --\u003e S\n    \n    S -- \"4. Lab Processing \u0026 AI Analysis\" --\u003e S\n    S -- \"Status: PENDING\" --\u003e M\n    \n    M -- \"5. Approve Results\" --\u003e C\n    C -- \"6. Notify Patient\" --\u003e End((Completed))\n```",
+        "description": "Detailed breakdown of the 6-stage workflow, user roles, state transitions, and exception handling.",
+        "tags": [
+          "workflow",
+          "dataflow",
+          "roles",
+          "business-logic"
+        ],
+        "title": "Business Workflow and Data Flow"
+      }
+    }
+  ]
+}

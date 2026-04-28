@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../logic/bloc/appointment/appointment_cubit.dart';
+import '../../../logic/bloc/appointment/appointment_state.dart';
 import '../../widgets/receptionist/receptionist_sidebar.dart';
 import '../../widgets/receptionist/receptionist_header.dart';
 import '../../widgets/receptionist/today_appointments_table.dart';
 import '../../widgets/dashboard/stat_card.dart';
-import '../../../data/repositories/clinical_repository.dart';
 import 'patient_registration_page.dart';
 import 'patient_list_page.dart';
 import 'appointment_calendar_page.dart';
 
 class ReceptionistDashboardPage extends StatefulWidget {
-  final ClinicalRepository? repository;
-  const ReceptionistDashboardPage({super.key, this.repository});
+  const ReceptionistDashboardPage({super.key});
 
   @override
   State<ReceptionistDashboardPage> createState() => _ReceptionistDashboardPageState();
@@ -21,13 +21,6 @@ class ReceptionistDashboardPage extends StatefulWidget {
 
 class _ReceptionistDashboardPageState extends State<ReceptionistDashboardPage> {
   int _activeIndex = 0;
-  late final ClinicalRepository _clinicalRepo;
-
-  @override
-  void initState() {
-    super.initState();
-    _clinicalRepo = widget.repository ?? ClinicalRepository();
-  }
 
   static const _headerConfigs = [
     {'title': 'Tổng quan', 'subtitle': 'Theo dõi hoạt động tiếp nhận hôm nay'},
@@ -87,22 +80,20 @@ class _ReceptionistDashboardPageState extends State<ReceptionistDashboardPage> {
   Widget _buildPage() {
     switch (_activeIndex) {
       case 0:
-        return _DashboardContent(key: const ValueKey('dashboard'), clinicalRepo: _clinicalRepo);
+        return const _DashboardContent(key: ValueKey('dashboard'));
       case 1:
-        return PatientListPage(key: const ValueKey('patients'), repository: _clinicalRepo);
+        return const PatientListPage(key: ValueKey('patients'));
       case 2:
-        return AppointmentCalendarPage(key: const ValueKey('calendar'), repository: _clinicalRepo);
+        return const AppointmentCalendarPage(key: ValueKey('calendar'));
       default:
-        return _DashboardContent(key: const ValueKey('dashboard'), clinicalRepo: _clinicalRepo);
+        return const _DashboardContent(key: ValueKey('dashboard'));
     }
   }
 }
 
-/// Dashboard overview content (extracted from old ReceptionistDashboardPage)
+/// Dashboard overview content — reads appointment stats from AppointmentCubit.
 class _DashboardContent extends StatelessWidget {
-  final ClinicalRepository clinicalRepo;
-
-  const _DashboardContent({super.key, required this.clinicalRepo});
+  const _DashboardContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -111,18 +102,15 @@ class _DashboardContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Stat Cards
-          StreamBuilder<QuerySnapshot>(
-            stream: clinicalRepo.getTodayAppointments(),
-            builder: (context, snapshot) {
-              final total = snapshot.hasData ? snapshot.data!.docs.length : 0;
-              final pending = snapshot.hasData
-                  ? snapshot.data!.docs.where((d) => d['status'] == 'scheduled').length
-                  : 0;
-              final completed = snapshot.hasData
-                  ? snapshot.data!.docs.where((d) => d['status'] == 'completed').length
-                  : 0;
-
+          // Stat Cards via BlocBuilder
+          BlocBuilder<AppointmentCubit, AppointmentState>(
+            builder: (context, state) {
+              int total = 0, pending = 0, completed = 0;
+              if (state is AppointmentLoaded) {
+                total = state.appointments.length;
+                pending = state.appointments.where((a) => a.status == 'scheduled').length;
+                completed = state.appointments.where((a) => a.status == 'completed').length;
+              }
               return Row(
                 children: [
                   Expanded(
@@ -166,10 +154,9 @@ class _DashboardContent extends StatelessWidget {
           ),
           const SizedBox(height: 28),
           // Appointments Table
-          TodayAppointmentsTable(repository: clinicalRepo),
+          const TodayAppointmentsTable(),
         ],
       ),
     );
   }
 }
-
