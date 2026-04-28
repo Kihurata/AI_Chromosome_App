@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../data/models/appointment_model.dart';
-import '../../../data/repositories/clinical_repository.dart';
+import '../../../domain/entities/appointment.dart';
+import '../../../logic/bloc/appointment/appointment_cubit.dart';
+import '../../../logic/bloc/appointment/appointment_state.dart';
 import '../shared/data_display/status_badge.dart';
 
-class TodayAppointmentsTable extends StatelessWidget {
-  final ClinicalRepository _clinicalRepo;
+class TodayAppointmentsTable extends StatefulWidget {
+  const TodayAppointmentsTable({super.key});
 
-  TodayAppointmentsTable({super.key, ClinicalRepository? repository})
-      : _clinicalRepo = repository ?? ClinicalRepository();
+  @override
+  State<TodayAppointmentsTable> createState() => _TodayAppointmentsTableState();
+}
+
+class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AppointmentCubit>().listenToTodayAppointments();
+  }
 
   String _getInitials(String name) {
     if (name.isEmpty) return '??';
@@ -139,18 +148,26 @@ class TodayAppointmentsTable extends StatelessWidget {
             ),
           ),
 
-          // Data Rows
-          StreamBuilder<QuerySnapshot>(
-            stream: _clinicalRepo.getTodayAppointments(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
+          // Data Rows via BlocBuilder
+          BlocBuilder<AppointmentCubit, AppointmentState>(
+            builder: (context, state) {
+              if (state is AppointmentLoading || state is AppointmentInitial) {
                 return const Padding(
                   padding: EdgeInsets.all(32.0),
                   child: Center(child: CircularProgressIndicator()),
                 );
               }
-              
-              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+
+              if (state is AppointmentError) {
+                return Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Center(
+                    child: Text('Lỗi: ${state.message}', style: const TextStyle(color: AppColors.textSecondary)),
+                  ),
+                );
+              }
+
+              if (state is AppointmentLoaded && state.appointments.isEmpty) {
                 return const Padding(
                   padding: EdgeInsets.all(48.0),
                   child: Center(
@@ -165,21 +182,10 @@ class TodayAppointmentsTable extends StatelessWidget {
                 );
               }
 
-              final docs = snapshot.data!.docs;
+              final appointments = state is AppointmentLoaded ? state.appointments : <Appointment>[];
               return Column(
-                children: List.generate(docs.length, (index) {
-                  final doc = docs[index];
-                  final appt = AppointmentModel(
-                    id: doc.id,
-                    patientId: doc['patient_id'],
-                    patientName: doc['patient_name'],
-                    doctorId: doc['doctor_id'],
-                    doctorName: doc['doctor_name'],
-                    appointmentDate: (doc['appointment_date'] as Timestamp).toDate(),
-                    status: doc['status'],
-                    reason: doc['reason'],
-                  );
-
+                children: List.generate(appointments.length, (index) {
+                  final appt = appointments[index];
                   return _buildRow(
                     initials: _getInitials(appt.patientName),
                     avatarBg: _getAvatarColor(appt.patientName),
@@ -190,8 +196,8 @@ class TodayAppointmentsTable extends StatelessWidget {
                     doctor: appt.doctorName,
                     status: _mapStatus(appt.status),
                     statusText: _mapStatusText(appt.status),
-                    isLast: index == docs.length - 1,
-                    onAccept: () => _clinicalRepo.updateAppointmentStatus(appt.id, 'in_progress'),
+                    isLast: index == appointments.length - 1,
+                    onAccept: () => context.read<AppointmentCubit>().updateStatus(appt.id, 'in_progress'),
                   );
                 }),
               );
@@ -202,10 +208,9 @@ class TodayAppointmentsTable extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.border))),
-            child: StreamBuilder<QuerySnapshot>(
-              stream: _clinicalRepo.getTodayAppointments(),
-              builder: (context, snapshot) {
-                final count = snapshot.hasData ? snapshot.data!.docs.length : 0;
+            child: BlocBuilder<AppointmentCubit, AppointmentState>(
+              builder: (context, state) {
+                final count = state is AppointmentLoaded ? state.appointments.length : 0;
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -221,7 +226,7 @@ class TodayAppointmentsTable extends StatelessWidget {
                     ),
                   ],
                 );
-              }
+              },
             ),
           ),
         ],
@@ -342,4 +347,3 @@ class TodayAppointmentsTable extends StatelessWidget {
     );
   }
 }
-

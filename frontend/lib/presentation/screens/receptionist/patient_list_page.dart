@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 
-
 import '../../../core/theme/app_colors.dart';
 import '../../../data/models/patient_model.dart';
-import '../../../data/repositories/clinical_repository.dart';
+import '../../../domain/entities/patient.dart';
+import '../../../logic/bloc/patient/patient_cubit.dart';
+import '../../../logic/bloc/patient/patient_state.dart';
 import 'patient_registration_page.dart';
 import '../patient_detail/patient_detail_screen.dart';
 
-import '../../widgets/shared/layouts/main_list_layout.dart';
-import '../../widgets/shared/data_display/app_data_table.dart';
-import '../../widgets/shared/form/app_buttons.dart';
-
 class PatientListPage extends StatefulWidget {
-  final ClinicalRepository? repository;
-  const PatientListPage({super.key, this.repository});
+  const PatientListPage({super.key});
 
   @override
   State<PatientListPage> createState() => _PatientListPageState();
 }
 
 class _PatientListPageState extends State<PatientListPage> {
-  late final ClinicalRepository _clinicalRepo;
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
@@ -33,7 +29,7 @@ class _PatientListPageState extends State<PatientListPage> {
   @override
   void initState() {
     super.initState();
-    _clinicalRepo = widget.repository ?? ClinicalRepository();
+    context.read<PatientCubit>().fetchPatients();
   }
 
   @override
@@ -93,11 +89,10 @@ class _PatientListPageState extends State<PatientListPage> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                // Stats
-                StreamBuilder<List<PatientModel>>(
-                  stream: _clinicalRepo.getAllPatients(),
-                  builder: (context, snapshot) {
-                    final count = snapshot.hasData ? snapshot.data!.length : 0;
+                // Patient count badge
+                BlocBuilder<PatientCubit, PatientState>(
+                  builder: (context, state) {
+                    final count = state is PatientLoaded ? state.patients.length : 0;
                     return Container(
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                       decoration: BoxDecoration(
@@ -137,61 +132,47 @@ class _PatientListPageState extends State<PatientListPage> {
               children: [
                 // Table Header
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 24, vertical: 12),
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   decoration: const BoxDecoration(
                     color: Color(0xFFFAFBFC),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(14),
                       topRight: Radius.circular(14),
                     ),
-                    border:
-                        Border(bottom: BorderSide(color: AppColors.border)),
+                    border: Border(bottom: BorderSide(color: AppColors.border)),
                   ),
                   child: Row(
                     children: [
                       const SizedBox(width: 44),
-                      Expanded(
-                        flex: 3,
-                        child: _buildSortableHeader(
-                            'HỌ TÊN', 'full_name'),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: _buildSortableHeader(
-                            'MÃ BN', 'patient_code'),
-                      ),
-                      Expanded(
-                          flex: 2,
-                          child: _buildStaticHeader('SĐT')),
-                      Expanded(
-                          flex: 2,
-                          child: _buildStaticHeader('CCCD')),
-                      Expanded(
-                        flex: 2,
-                        child: _buildSortableHeader(
-                            'NGÀY SINH', 'dob'),
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: _buildStaticHeader('GIỚI TÍNH')),
+                      Expanded(flex: 3, child: _buildSortableHeader('HỌ TÊN', 'full_name')),
+                      Expanded(flex: 2, child: _buildSortableHeader('MÃ BN', 'patient_code')),
+                      const Expanded(flex: 2, child: Text('SĐT', style: _headerStyle)),
+                      const Expanded(flex: 2, child: Text('CCCD', style: _headerStyle)),
+                      Expanded(flex: 2, child: _buildSortableHeader('NGÀY SINH', 'dob')),
+                      const Expanded(flex: 1, child: Text('GIỚI TÍNH', style: _headerStyle)),
                       const SizedBox(width: 60),
                     ],
                   ),
                 ),
 
                 // Data Rows
-                StreamBuilder<List<PatientModel>>(
-                  stream: _clinicalRepo.getAllPatients(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
+                BlocBuilder<PatientCubit, PatientState>(
+                  builder: (context, state) {
+                    if (state is PatientLoading || state is PatientInitial) {
                       return const Padding(
                         padding: EdgeInsets.all(40),
                         child: Center(child: CircularProgressIndicator()),
                       );
                     }
 
-                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    if (state is PatientError) {
+                      return Padding(
+                        padding: const EdgeInsets.all(40),
+                        child: Center(child: Text('Lỗi: ${state.message}', style: const TextStyle(color: AppColors.textSecondary))),
+                      );
+                    }
+
+                    if (state is PatientLoaded && state.patients.isEmpty) {
                       return Padding(
                         padding: const EdgeInsets.all(60),
                         child: Center(
@@ -214,8 +195,10 @@ class _PatientListPageState extends State<PatientListPage> {
                       );
                     }
 
+                    final allPatients = state is PatientLoaded ? state.patients : <Patient>[];
+
                     // Filter by search query
-                    var patients = snapshot.data!.where((p) {
+                    var patients = allPatients.where((p) {
                       if (_searchQuery.isEmpty) return true;
                       return p.fullName.toLowerCase().contains(_searchQuery) ||
                           p.phone.contains(_searchQuery) ||
@@ -231,13 +214,10 @@ class _PatientListPageState extends State<PatientListPage> {
                           cmp = a.dob.compareTo(b.dob);
                           break;
                         case 'patient_code':
-                          cmp = (a.patientCode ?? '').compareTo(
-                              b.patientCode ?? '');
+                          cmp = (a.patientCode ?? '').compareTo(b.patientCode ?? '');
                           break;
                         default:
-                          cmp = a.fullName
-                              .toLowerCase()
-                              .compareTo(b.fullName.toLowerCase());
+                          cmp = a.fullName.toLowerCase().compareTo(b.fullName.toLowerCase());
                       }
                       return _sortAscending ? cmp : -cmp;
                     });
@@ -267,7 +247,7 @@ class _PatientListPageState extends State<PatientListPage> {
                           isLast: isLast,
                           onTap: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (_) => PatientDetailScreen(patient: p),
+                              builder: (_) => PatientDetailScreen(patient: PatientModel.fromEntity(p)),
                             ),
                           ),
                           maskId: _maskIdentityCard,
@@ -286,6 +266,13 @@ class _PatientListPageState extends State<PatientListPage> {
       ),
     );
   }
+
+  static const TextStyle _headerStyle = TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textSecondary,
+    letterSpacing: 0.5,
+  );
 
   // ── Sortable header ──
   Widget _buildSortableHeader(String label, String column) {
@@ -314,26 +301,12 @@ class _PatientListPageState extends State<PatientListPage> {
           const SizedBox(width: 4),
           Icon(
             isActive
-                ? (_sortAscending
-                      ? LucideIcons.chevronUp
-                      : LucideIcons.chevronDown)
+                ? (_sortAscending ? LucideIcons.chevronUp : LucideIcons.chevronDown)
                 : LucideIcons.chevronsUpDown,
             size: 12,
             color: isActive ? AppColors.primaryBlue : AppColors.textPlaceholder,
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildStaticHeader(String label) {
-    return Text(
-      label,
-      style: const TextStyle(
-        fontSize: 11,
-        fontWeight: FontWeight.w600,
-        color: AppColors.textSecondary,
-        letterSpacing: 0.5,
       ),
     );
   }
@@ -374,7 +347,7 @@ class _PatientListPageState extends State<PatientListPage> {
 }
 
 class _PatientRowItem extends StatefulWidget {
-  final PatientModel patient;
+  final Patient patient;
   final bool isLast;
   final VoidCallback onTap;
   final String Function(String) maskId;
@@ -413,12 +386,8 @@ class _PatientRowItemState extends State<_PatientRowItem> {
           duration: const Duration(milliseconds: 150),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           decoration: BoxDecoration(
-            color: _isHovered
-                ? AppColors.activeBackground.withAlpha(120)
-                : Colors.transparent,
-            border: widget.isLast
-                ? null
-                : const Border(bottom: BorderSide(color: AppColors.border)),
+            color: _isHovered ? AppColors.activeBackground.withAlpha(120) : Colors.transparent,
+            border: widget.isLast ? null : const Border(bottom: BorderSide(color: AppColors.border)),
           ),
           child: Row(
             children: [
@@ -427,11 +396,7 @@ class _PatientRowItemState extends State<_PatientRowItem> {
                 backgroundColor: widget.avatarColor,
                 child: Text(
                   widget.initials,
-                  style: TextStyle(
-                    color: widget.textColor,
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(color: widget.textColor, fontSize: 11, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(width: 10),
@@ -445,18 +410,13 @@ class _PatientRowItemState extends State<_PatientRowItem> {
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
-                        color: _isHovered
-                            ? AppColors.primaryBlue
-                            : AppColors.textPrimary,
+                        color: _isHovered ? AppColors.primaryBlue : AppColors.textPrimary,
                       ),
                     ),
                     if (p.address.isNotEmpty)
                       Text(
                         p.address,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          color: AppColors.textPlaceholder,
-                        ),
+                        style: const TextStyle(fontSize: 11, color: AppColors.textPlaceholder),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -467,43 +427,28 @@ class _PatientRowItemState extends State<_PatientRowItem> {
                 flex: 2,
                 child: Text(
                   p.patientCode ?? '---',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.primaryBlue,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: const TextStyle(fontSize: 13, color: AppColors.primaryBlue, fontWeight: FontWeight.w600),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
                   p.phone.isNotEmpty ? p.phone : '---',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textSecondary,
-                  ),
+                  style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
-                  p.identityCard.isNotEmpty
-                      ? widget.maskId(p.identityCard)
-                      : '---',
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textSecondary,
-                  ),
+                  p.identityCard.isNotEmpty ? widget.maskId(p.identityCard) : '---',
+                  style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
                 ),
               ),
               Expanded(
                 flex: 2,
                 child: Text(
                   DateFormat('dd/MM/yyyy').format(p.dob),
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textSecondary,
-                  ),
+                  style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
                 ),
               ),
               Expanded(flex: 1, child: _buildGenderBadge(p.gender)),
@@ -519,17 +464,12 @@ class _PatientRowItemState extends State<_PatientRowItem> {
                         icon: Icon(
                           LucideIcons.eye,
                           size: 16,
-                          color: _isHovered
-                              ? AppColors.primaryBlue
-                              : AppColors.textSecondary,
+                          color: _isHovered ? AppColors.primaryBlue : AppColors.textSecondary,
                         ),
                         onPressed: widget.onTap,
                         tooltip: 'Xem chi tiết',
                         padding: EdgeInsets.zero,
-                        constraints: const BoxConstraints(
-                          minWidth: 28,
-                          minHeight: 28,
-                        ),
+                        constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
                       ),
                     ),
                   ],
@@ -558,17 +498,10 @@ class _PatientRowItemState extends State<_PatientRowItem> {
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(6),
-      ),
+      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(6)),
       child: Text(
         gender,
-        style: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-          color: text,
-        ),
+        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: text),
         textAlign: TextAlign.center,
       ),
     );

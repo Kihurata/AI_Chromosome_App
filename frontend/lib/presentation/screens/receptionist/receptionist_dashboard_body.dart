@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../data/repositories/clinical_repository.dart';
+import '../../../logic/bloc/appointment/appointment_cubit.dart';
+import '../../../logic/bloc/appointment/appointment_state.dart';
 import '../../widgets/receptionist/today_appointments_table.dart';
 import '../../widgets/dashboard/stat_card.dart';
 import '../../widgets/shared/layouts/main_list_layout.dart';
@@ -11,13 +12,10 @@ import 'patient_registration_page.dart';
 
 /// Slim receptionist dashboard — no sidebar/header (handled by AppNavigationWrapper).
 class ReceptionistDashboardBody extends StatelessWidget {
-  final ClinicalRepository? repository;
-  const ReceptionistDashboardBody({super.key, this.repository});
+  const ReceptionistDashboardBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final clinicalRepo = repository ?? ClinicalRepository();
-
     return MainListLayout(
       title: 'Tổng quan',
       subtitle: 'Theo dõi hoạt động tiếp nhận hôm nay',
@@ -37,24 +35,15 @@ class ReceptionistDashboardBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            // Stat Cards
-            StreamBuilder<QuerySnapshot>(
-              stream: clinicalRepo.getTodayAppointments(),
-              builder: (context, snapshot) {
-                final total =
-                    snapshot.hasData ? snapshot.data!.docs.length : 0;
-                final pending = snapshot.hasData
-                    ? snapshot.data!.docs
-                        .where((d) => d['status'] == 'scheduled')
-                        .length
-                    : 0;
-                final completed = snapshot.hasData
-                    ? snapshot.data!.docs
-                        .where((d) => d['status'] == 'completed')
-                        .length
-                    : 0;
-
+            // Stat Cards via BlocBuilder
+            BlocBuilder<AppointmentCubit, AppointmentState>(
+              builder: (context, state) {
+                int total = 0, pending = 0, completed = 0;
+                if (state is AppointmentLoaded) {
+                  total = state.appointments.length;
+                  pending = state.appointments.where((a) => a.status == 'scheduled').length;
+                  completed = state.appointments.where((a) => a.status == 'completed').length;
+                }
                 return Row(
                   children: [
                     Expanded(
@@ -99,11 +88,10 @@ class ReceptionistDashboardBody extends StatelessWidget {
             const SizedBox(height: 28),
 
             // Appointments Table
-            TodayAppointmentsTable(repository: clinicalRepo),
+            const TodayAppointmentsTable(),
           ],
         ),
       ),
     );
   }
 }
-

@@ -21,6 +21,15 @@ class AppointmentLoaded extends AppointmentState {
   List<Object?> get props => [appointments];
 }
 
+class RangeAppointmentsLoaded extends AppointmentState {
+  final List<Appointment> appointments;
+
+  const RangeAppointmentsLoaded(this.appointments);
+
+  @override
+  List<Object?> get props => [appointments];
+}
+
 class CliniciansLoaded extends AppointmentState {
   final List<Map<String, dynamic>> clinicians;
 
@@ -47,3 +56,4 @@ class AppointmentError extends AppointmentState {
   @override
   List<Object?> get props => [message];
 }
+

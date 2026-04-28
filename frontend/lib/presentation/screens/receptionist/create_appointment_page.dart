@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../data/models/appointment_model.dart';
-import '../../../data/models/patient_model.dart';
-import '../../../data/repositories/clinical_repository.dart';
+import '../../../domain/entities/appointment.dart';
+import '../../../logic/bloc/appointment/appointment_cubit.dart';
+import '../../../logic/bloc/appointment/appointment_state.dart';
+import '../../../logic/bloc/patient/patient_cubit.dart';
+import '../../../logic/bloc/patient/patient_state.dart';
 
 import '../../widgets/shared/layouts/main_form_layout.dart';
 import '../../widgets/shared/form/app_text_field.dart';
 import '../../widgets/shared/form/app_buttons.dart';
 
 class CreateAppointmentPage extends StatefulWidget {
-  final ClinicalRepository? repository;
   /// Pre-fill with a specific date (e.g. from Calendar page)
   final DateTime? initialDate;
 
   const CreateAppointmentPage({
     super.key,
-    this.repository,
     this.initialDate,
   });
 
@@ -27,8 +27,6 @@ class CreateAppointmentPage extends StatefulWidget {
 }
 
 class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
-  late final ClinicalRepository _clinicalRepo;
-
   // Form state
   final _reasonController = TextEditingController();
   String? _selectedPatientId;
@@ -42,8 +40,10 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
   @override
   void initState() {
     super.initState();
-    _clinicalRepo = widget.repository ?? ClinicalRepository();
     _selectedDate = widget.initialDate ?? DateTime.now();
+    // Fetch patients and clinicians for dropdowns
+    context.read<PatientCubit>().fetchPatients();
+    context.read<AppointmentCubit>().fetchClinicians();
   }
 
   @override
@@ -94,10 +94,8 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Date picker
                           Expanded(child: _buildDateSelector()),
                           const SizedBox(width: 20),
-                          // Time picker
                           Expanded(child: _buildTimeSelector()),
                         ],
                       ),
@@ -116,11 +114,45 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                       const SizedBox(width: 14),
-                      AppPrimaryButton(
-                        text: 'Xác nhận lịch hẹn',
-                        icon: LucideIcons.calendarCheck,
-                        isLoading: _isSubmitting,
-                        onPressed: _isSubmitting ? null : _handleSubmit,
+                      // Listen to submission state
+                      BlocListener<AppointmentCubit, AppointmentState>(
+                        listener: (context, state) {
+                          if (state is AppointmentSuccess) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Row(
+                                  children: [
+                                    Icon(LucideIcons.checkCircle, color: Colors.white, size: 18),
+                                    SizedBox(width: 8),
+                                    Text('Đã tạo lịch hẹn thành công!'),
+                                  ],
+                                ),
+                                backgroundColor: AppColors.successText,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                margin: const EdgeInsets.all(20),
+                              ),
+                            );
+                            Navigator.of(context).pop(true);
+                          } else if (state is AppointmentError) {
+                            setState(() => _isSubmitting = false);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Lỗi: ${state.message}'),
+                                backgroundColor: AppColors.dangerText,
+                                behavior: SnackBarBehavior.floating,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                margin: const EdgeInsets.all(20),
+                              ),
+                            );
+                          }
+                        },
+                        child: AppPrimaryButton(
+                          text: 'Xác nhận lịch hẹn',
+                          icon: LucideIcons.calendarCheck,
+                          isLoading: _isSubmitting,
+                          onPressed: _isSubmitting ? null : _handleSubmit,
+                        ),
                       ),
                     ],
                   ),
@@ -148,11 +180,7 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: AppColors.border),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(6),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
+          BoxShadow(color: Colors.black.withAlpha(6), blurRadius: 8, offset: const Offset(0, 2)),
         ],
       ),
       child: Column(
@@ -163,38 +191,17 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
               Container(
                 width: 36,
                 height: 36,
-                decoration: BoxDecoration(
-                  color: AppColors.activeBackground,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                decoration: BoxDecoration(color: AppColors.activeBackground, borderRadius: BorderRadius.circular(10)),
                 child: Icon(icon, color: AppColors.primaryBlue, size: 18),
               ),
               const SizedBox(width: 12),
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryBlue,
-                ),
-              ),
+              Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.primaryBlue)),
               if (badge != null) ...[
                 const SizedBox(width: 10),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: AppColors.dangerBg,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    badge,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.dangerText,
-                    ),
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(color: AppColors.dangerBg, borderRadius: BorderRadius.circular(6)),
+                  child: Text(badge, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppColors.dangerText)),
                 ),
               ],
             ],
@@ -208,38 +215,30 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
     );
   }
 
-  // ── Patient dropdown ──
+  // ── Patient dropdown via PatientCubit ──
   Widget _buildPatientDropdown() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _label('Tìm bệnh nhân', required: true),
         const SizedBox(height: 6),
-        StreamBuilder<List<PatientModel>>(
-          stream: _clinicalRepo.getAllPatients(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+        BlocBuilder<PatientCubit, PatientState>(
+          builder: (context, state) {
+            if (state is PatientLoading || state is PatientInitial) {
               return const LinearProgressIndicator();
             }
-            final patients = snapshot.data ?? [];
+            final patients = state is PatientLoaded ? state.patients : [];
             return DropdownButtonFormField<String>(
               initialValue: _selectedPatientId,
               decoration: _inputDecoration('Chọn bệnh nhân...'),
               isExpanded: true,
-              icon: const Icon(LucideIcons.chevronDown,
-                  size: 16, color: AppColors.textPlaceholder),
-              items: patients.map((p) {
+              icon: const Icon(LucideIcons.chevronDown, size: 16, color: AppColors.textPlaceholder),
+              items: patients.map<DropdownMenuItem<String>>((p) {
                 final code = p.patientCode ?? p.id ?? '';
-                final card = p.identityCard.isNotEmpty
-                    ? ' — CCCD: ${p.identityCard}'
-                    : '';
-                return DropdownMenuItem(
+                final card = p.identityCard.isNotEmpty ? ' — CCCD: ${p.identityCard}' : '';
+                return DropdownMenuItem<String>(
                   value: p.id,
-                  child: Text(
-                    '${p.fullName} ($code)$card',
-                    style: const TextStyle(
-                        fontSize: 14, color: AppColors.textPrimary),
-                  ),
+                  child: Text('${p.fullName} ($code)$card', style: const TextStyle(fontSize: 14, color: AppColors.textPrimary)),
                 );
               }).toList(),
               onChanged: (v) {
@@ -258,34 +257,28 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
     );
   }
 
-  // ── Doctor dropdown ──
+  // ── Doctor dropdown via AppointmentCubit (fetchClinicians) ──
   Widget _buildDoctorDropdown() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _label('Bác sĩ phụ trách', required: true),
         const SizedBox(height: 6),
-        FutureBuilder<List<Map<String, dynamic>>>(
-          future: _clinicalRepo.getClinicians(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+        BlocBuilder<AppointmentCubit, AppointmentState>(
+          builder: (context, state) {
+            if (state is AppointmentLoading || state is AppointmentInitial) {
               return const LinearProgressIndicator();
             }
-            final doctors = snapshot.data ?? [];
+            final doctors = state is CliniciansLoaded ? state.clinicians : <Map<String, dynamic>>[];
             return DropdownButtonFormField<String>(
               initialValue: _selectedDoctorUid,
               decoration: _inputDecoration('Chọn bác sĩ...'),
               isExpanded: true,
-              icon: const Icon(LucideIcons.chevronDown,
-                  size: 16, color: AppColors.textPlaceholder),
-              items: doctors.map((d) {
-                return DropdownMenuItem(
+              icon: const Icon(LucideIcons.chevronDown, size: 16, color: AppColors.textPlaceholder),
+              items: doctors.map<DropdownMenuItem<String>>((d) {
+                return DropdownMenuItem<String>(
                   value: d['uid'] as String,
-                  child: Text(
-                    d['full_name'] as String,
-                    style: const TextStyle(
-                        fontSize: 14, color: AppColors.textPrimary),
-                  ),
+                  child: Text(d['full_name'] as String, style: const TextStyle(fontSize: 14, color: AppColors.textPrimary)),
                 );
               }).toList(),
               onChanged: (v) {
@@ -333,14 +326,9 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
             ),
             child: Row(
               children: [
-                const Icon(LucideIcons.calendar,
-                    size: 16, color: AppColors.textPlaceholder),
+                const Icon(LucideIcons.calendar, size: 16, color: AppColors.textPlaceholder),
                 const SizedBox(width: 10),
-                Text(
-                  DateFormat('dd/MM/yyyy').format(_selectedDate),
-                  style: const TextStyle(
-                      fontSize: 14, color: AppColors.textPrimary),
-                ),
+                Text(DateFormat('dd/MM/yyyy').format(_selectedDate), style: const TextStyle(fontSize: 14, color: AppColors.textPrimary)),
               ],
             ),
           ),
@@ -359,10 +347,7 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
         InkWell(
           borderRadius: BorderRadius.circular(10),
           onTap: () async {
-            final t = await showTimePicker(
-              context: context,
-              initialTime: _selectedTime,
-            );
+            final t = await showTimePicker(context: context, initialTime: _selectedTime);
             if (t != null) setState(() => _selectedTime = t);
           },
           child: Container(
@@ -375,13 +360,11 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
             ),
             child: Row(
               children: [
-                const Icon(LucideIcons.clock,
-                    size: 16, color: AppColors.textPlaceholder),
+                const Icon(LucideIcons.clock, size: 16, color: AppColors.textPlaceholder),
                 const SizedBox(width: 10),
                 Text(
                   '${_selectedTime.hour.toString().padLeft(2, '0')}:${_selectedTime.minute.toString().padLeft(2, '0')}',
-                  style: const TextStyle(
-                      fontSize: 14, color: AppColors.textPrimary),
+                  style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
                 ),
               ],
             ),
@@ -405,19 +388,8 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
   Widget _label(String text, {bool required = false}) {
     return Row(
       children: [
-        Text(
-          text,
-          style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: AppColors.textSecondary),
-        ),
-        if (required)
-          const Text(' *',
-              style: TextStyle(
-                  color: AppColors.dangerText,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700)),
+        Text(text, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.textSecondary)),
+        if (required) const Text(' *', style: TextStyle(color: AppColors.dangerText, fontSize: 13, fontWeight: FontWeight.w700)),
       ],
     );
   }
@@ -425,37 +397,25 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
-      hintStyle:
-          const TextStyle(color: AppColors.textPlaceholder, fontSize: 14),
+      hintStyle: const TextStyle(color: AppColors.textPlaceholder, fontSize: 14),
       filled: true,
       fillColor: AppColors.border.withAlpha(35),
-      contentPadding:
-          const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.border)),
-      enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: AppColors.border)),
-      focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide:
-              const BorderSide(color: AppColors.primaryBlue, width: 1.5)),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.border)),
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.border)),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.primaryBlue, width: 1.5)),
     );
   }
 
-  // ── Submit ──
+  // ── Submit: build domain entity and call cubit ──
   Future<void> _handleSubmit() async {
-    if (_selectedPatientId == null ||
-        _selectedDoctorUid == null ||
-        _reasonController.text.trim().isEmpty) {
+    if (_selectedPatientId == null || _selectedDoctorUid == null || _reasonController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text('Vui lòng điền đầy đủ thông tin bắt buộc'),
           backgroundColor: AppColors.warningText,
           behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           margin: const EdgeInsets.all(20),
         ),
       );
@@ -464,64 +424,27 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
 
     setState(() => _isSubmitting = true);
 
-    try {
-      final appointmentDate = DateTime(
-        _selectedDate.year,
-        _selectedDate.month,
-        _selectedDate.day,
-        _selectedTime.hour,
-        _selectedTime.minute,
-      );
+    final appointmentDate = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+      _selectedTime.hour,
+      _selectedTime.minute,
+    );
 
-      final db = FirebaseFirestore.instance;
-      final appointment = AppointmentModel(
-        id: '',
-        patientId: db.doc('patients/$_selectedPatientId'),
-        patientName: _selectedPatientName ?? '',
-        doctorId: db.doc('doctors/$_selectedDoctorUid'),
-        doctorName: _selectedDoctorName ?? '',
-        appointmentDate: appointmentDate,
-        reason: _reasonController.text.trim(),
-        status: 'scheduled',
-      );
+    final appointment = Appointment(
+      id: '',
+      patientId: _selectedPatientId!,
+      patientName: _selectedPatientName ?? '',
+      doctorId: _selectedDoctorUid!,
+      doctorName: _selectedDoctorName ?? '',
+      appointmentDate: appointmentDate,
+      reason: _reasonController.text.trim(),
+      status: 'scheduled',
+    );
 
-      await _clinicalRepo.createAppointment(appointment);
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Row(
-              children: [
-                Icon(LucideIcons.checkCircle, color: Colors.white, size: 18),
-                SizedBox(width: 8),
-                Text('Đã tạo lịch hẹn thành công!'),
-              ],
-            ),
-            backgroundColor: AppColors.successText,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)),
-            margin: const EdgeInsets.all(20),
-          ),
-        );
-        Navigator.of(context).pop(true); // return true = refresh needed
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Lỗi: ${e.toString()}'),
-            backgroundColor: AppColors.dangerText,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)),
-            margin: const EdgeInsets.all(20),
-          ),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _isSubmitting = false);
+    if (mounted) {
+      context.read<AppointmentCubit>().addAppointment(appointment);
     }
   }
 }
-
