@@ -1,0 +1,247 @@
+{
+  "taskId": "1ghsqv",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "1ghsqv",
+      "version": 1,
+      "timestamp": "2026-04-27T07:32:06.7582632Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Manager role. This includes managing pending orders, assigning specialists, and approving or rejecting final Karyotype results.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "manager"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Manager Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "1ghsqv",
+      "version": 2,
+      "timestamp": "2026-04-27T07:32:15.5640779Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Extend `TestOrderRepository` with `getAllPendingOrders`, `updateOrderStatus`, and `assignSpecialistToOrder`."
+            },
+            {
+              "completed": false,
+              "text": "Implement `SpecialistRemoteDataSource` to fetch users with the `specialist` role."
+            },
+            {
+              "completed": false,
+              "text": "Implement Usecases: `AssignOrderToSpecialist`, `ApproveKaryotypeResult`, `RejectKaryotypeResult`."
+            },
+            {
+              "completed": false,
+              "text": "Implement `ManagerDashboardCubit` to fetch and manage the list of pending/unassigned orders."
+            },
+            {
+              "completed": false,
+              "text": "Implement `ManagerApprovalCubit` to handle the approve/reject state and logic."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Extend `TestOrderRepository` with `getAllPendingOrders`, `updateOrderStatus`, and `assignSpecialistToOrder`."
+          },
+          {
+            "completed": false,
+            "text": "Implement `SpecialistRemoteDataSource` to fetch users with the `specialist` role."
+          },
+          {
+            "completed": false,
+            "text": "Implement Usecases: `AssignOrderToSpecialist`, `ApproveKaryotypeResult`, `RejectKaryotypeResult`."
+          },
+          {
+            "completed": false,
+            "text": "Implement `ManagerDashboardCubit` to fetch and manage the list of pending/unassigned orders."
+          },
+          {
+            "completed": false,
+            "text": "Implement `ManagerApprovalCubit` to handle the approve/reject state and logic."
+          }
+        ],
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Manager role. This includes managing pending orders, assigning specialists, and approving or rejecting final Karyotype results.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "manager"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Manager Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "1ghsqv",
+      "version": 3,
+      "timestamp": "2026-04-27T07:51:06.4906473Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Extend `TestOrderRepository` with `getAllPendingOrders`, `updateOrderStatus`, and `assignSpecialistToOrder`."
+          },
+          {
+            "completed": false,
+            "text": "Implement `SpecialistRemoteDataSource` to fetch users with the `specialist` role."
+          },
+          {
+            "completed": false,
+            "text": "Implement Usecases: `AssignOrderToSpecialist`, `ApproveKaryotypeResult`, `RejectKaryotypeResult`."
+          },
+          {
+            "completed": false,
+            "text": "Implement `ManagerDashboardCubit` to fetch and manage the list of pending/unassigned orders."
+          },
+          {
+            "completed": false,
+            "text": "Implement `ManagerApprovalCubit` to handle the approve/reject state and logic."
+          }
+        ],
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Manager role. This includes managing pending orders, assigning specialists, and approving or rejecting final Karyotype results.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "manager"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Manager Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "1ghsqv",
+      "version": 4,
+      "timestamp": "2026-04-27T07:53:44.7932615Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Extended TestOrderRemoteDataSource with getAllPendingOrders/updateOrderStatus/assignSpecialistToOrder. Extended TestOrderRepository interface + TestOrderRepositoryImpl with 3 new Manager methods. Created SpecialistRemoteDataSource (fetches users with role=specialist). Created usecases: GetAllPendingOrders, AssignOrderToSpecialist, ApproveKaryotypeResult, RejectKaryotypeResult. Created ManagerDashboardCubit + ManagerDashboardState. Created ManagerApprovalCubit + ManagerApprovalState. dart analyze: No issues found on all 12 target files."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Extend `TestOrderRepository` with `getAllPendingOrders`, `updateOrderStatus`, and `assignSpecialistToOrder`."
+          },
+          {
+            "completed": true,
+            "text": "Implement `SpecialistRemoteDataSource` to fetch users with the `specialist` role."
+          },
+          {
+            "completed": true,
+            "text": "Implement Usecases: `AssignOrderToSpecialist`, `ApproveKaryotypeResult`, `RejectKaryotypeResult`."
+          },
+          {
+            "completed": true,
+            "text": "Implement `ManagerDashboardCubit` to fetch and manage the list of pending/unassigned orders."
+          },
+          {
+            "completed": true,
+            "text": "Implement `ManagerApprovalCubit` to handle the approve/reject state and logic."
+          }
+        ],
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Manager role. This includes managing pending orders, assigning specialists, and approving or rejecting final Karyotype results.",
+        "implementationNotes": "Done: Extended TestOrderRemoteDataSource with getAllPendingOrders/updateOrderStatus/assignSpecialistToOrder. Extended TestOrderRepository interface + TestOrderRepositoryImpl with 3 new Manager methods. Created SpecialistRemoteDataSource (fetches users with role=specialist). Created usecases: GetAllPendingOrders, AssignOrderToSpecialist, ApproveKaryotypeResult, RejectKaryotypeResult. Created ManagerDashboardCubit + ManagerDashboardState. Created ManagerApprovalCubit + ManagerApprovalState. dart analyze: No issues found on all 12 target files.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "manager"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Manager Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "1ghsqv",
+      "version": 5,
+      "timestamp": "2026-04-27T07:53:54.8628034Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Extend `TestOrderRepository` with `getAllPendingOrders`, `updateOrderStatus`, and `assignSpecialistToOrder`.",
+            "completed": true
+          },
+          {
+            "text": "Implement `SpecialistRemoteDataSource` to fetch users with the `specialist` role.",
+            "completed": true
+          },
+          {
+            "text": "Implement Usecases: `AssignOrderToSpecialist`, `ApproveKaryotypeResult`, `RejectKaryotypeResult`.",
+            "completed": true
+          },
+          {
+            "text": "Implement `ManagerDashboardCubit` to fetch and manage the list of pending/unassigned orders.",
+            "completed": true
+          },
+          {
+            "text": "Implement `ManagerApprovalCubit` to handle the approve/reject state and logic.",
+            "completed": true
+          }
+        ],
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Manager role. This includes managing pending orders, assigning specialists, and approving or rejecting final Karyotype results.",
+        "implementationNotes": "Done: Extended TestOrderRemoteDataSource with getAllPendingOrders/updateOrderStatus/assignSpecialistToOrder. Extended TestOrderRepository interface + TestOrderRepositoryImpl with 3 new Manager methods. Created SpecialistRemoteDataSource (fetches users with role=specialist). Created usecases: GetAllPendingOrders, AssignOrderToSpecialist, ApproveKaryotypeResult, RejectKaryotypeResult. Created ManagerDashboardCubit + ManagerDashboardState. Created ManagerApprovalCubit + ManagerApprovalState. dart analyze: No issues found on all 12 target files.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "manager"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "Manager Data \u0026 Logic Layer Implementation"
+      }
+    }
+  ]
+}

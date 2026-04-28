@@ -1,0 +1,281 @@
+{
+  "taskId": "a3m4u4",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "a3m4u4",
+      "version": 1,
+      "timestamp": "2026-04-27T17:00:54.7778381Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement `watchTodayAppointments` (Stream) and `updateAppointmentStatus` in the Data (DataSource, Repository), Domain (Usecases), and Logic (AppointmentCubit) layers to support real-time updates and status transitions for the Receptionist. The UI layer is explicitly excluded from this task.",
+        "labels": [
+          "data",
+          "domain",
+          "logic",
+          "receptionist",
+          "real-time"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Implement Real-time \u0026 Update Status for Receptionist Appointments (Data/Logic)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "a3m4u4",
+      "version": 2,
+      "timestamp": "2026-04-27T17:01:04.825363Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Update AppointmentRemoteDataSource with `watchTodayAppointments` and `updateAppointmentStatus`"
+            },
+            {
+              "completed": false,
+              "text": "Update AppointmentRepository interface and Implementation"
+            },
+            {
+              "completed": false,
+              "text": "Create Usecases: `WatchTodayAppointments` and `UpdateAppointmentStatus`"
+            },
+            {
+              "completed": false,
+              "text": "Update AppointmentCubit with `listenToTodayAppointments` and `updateStatus`"
+            },
+            {
+              "completed": false,
+              "text": "Run dart analyze to verify Data, Domain, and Logic layers"
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Update Data Source: Add `watchTodayAppointments` (returns `Stream\u003cList\u003cAppointmentModel\u003e\u003e`) and `updateAppointmentStatus` to `AppointmentRemoteDataSource` and its Firebase implementation.\n2. Update Repository: Add the equivalent methods to `AppointmentRepository` and `AppointmentRepositoryImpl`, mapping Models to Entities via `_modelToEntity`.\n3. Create Usecases: Implement `WatchTodayAppointments` (returns `Stream\u003cEither\u003cFailure, List\u003cAppointment\u003e\u003e\u003e`) and `UpdateAppointmentStatus` (returns `Future\u003cEither\u003cFailure, void\u003e\u003e`).\n4. Update Logic: Modify `AppointmentCubit` to inject the new usecases. Implement `listenToTodayAppointments` using `emit.forEach` and `updateStatus`.\n5. Verify: Run `dart analyze` on the modified files to ensure correctness."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Update AppointmentRemoteDataSource with `watchTodayAppointments` and `updateAppointmentStatus`"
+          },
+          {
+            "completed": false,
+            "text": "Update AppointmentRepository interface and Implementation"
+          },
+          {
+            "completed": false,
+            "text": "Create Usecases: `WatchTodayAppointments` and `UpdateAppointmentStatus`"
+          },
+          {
+            "completed": false,
+            "text": "Update AppointmentCubit with `listenToTodayAppointments` and `updateStatus`"
+          },
+          {
+            "completed": false,
+            "text": "Run dart analyze to verify Data, Domain, and Logic layers"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement `watchTodayAppointments` (Stream) and `updateAppointmentStatus` in the Data (DataSource, Repository), Domain (Usecases), and Logic (AppointmentCubit) layers to support real-time updates and status transitions for the Receptionist. The UI layer is explicitly excluded from this task.",
+        "implementationPlan": "1. Update Data Source: Add `watchTodayAppointments` (returns `Stream\u003cList\u003cAppointmentModel\u003e\u003e`) and `updateAppointmentStatus` to `AppointmentRemoteDataSource` and its Firebase implementation.\n2. Update Repository: Add the equivalent methods to `AppointmentRepository` and `AppointmentRepositoryImpl`, mapping Models to Entities via `_modelToEntity`.\n3. Create Usecases: Implement `WatchTodayAppointments` (returns `Stream\u003cEither\u003cFailure, List\u003cAppointment\u003e\u003e\u003e`) and `UpdateAppointmentStatus` (returns `Future\u003cEither\u003cFailure, void\u003e\u003e`).\n4. Update Logic: Modify `AppointmentCubit` to inject the new usecases. Implement `listenToTodayAppointments` using `emit.forEach` and `updateStatus`.\n5. Verify: Run `dart analyze` on the modified files to ensure correctness.",
+        "labels": [
+          "data",
+          "domain",
+          "logic",
+          "receptionist",
+          "real-time"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement Real-time \u0026 Update Status for Receptionist Appointments (Data/Logic)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "a3m4u4",
+      "version": 3,
+      "timestamp": "2026-04-27T17:11:02.8575896Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "AC1+2 done: Added watchTodayAppointments (Stream) and updateAppointmentStatus to DataSource, Repository interface, and RepositoryImpl."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Update AppointmentRemoteDataSource with `watchTodayAppointments` and `updateAppointmentStatus`"
+          },
+          {
+            "completed": true,
+            "text": "Update AppointmentRepository interface and Implementation"
+          },
+          {
+            "completed": false,
+            "text": "Create Usecases: `WatchTodayAppointments` and `UpdateAppointmentStatus`"
+          },
+          {
+            "completed": false,
+            "text": "Update AppointmentCubit with `listenToTodayAppointments` and `updateStatus`"
+          },
+          {
+            "completed": false,
+            "text": "Run dart analyze to verify Data, Domain, and Logic layers"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement `watchTodayAppointments` (Stream) and `updateAppointmentStatus` in the Data (DataSource, Repository), Domain (Usecases), and Logic (AppointmentCubit) layers to support real-time updates and status transitions for the Receptionist. The UI layer is explicitly excluded from this task.",
+        "implementationNotes": "AC1+2 done: Added watchTodayAppointments (Stream) and updateAppointmentStatus to DataSource, Repository interface, and RepositoryImpl.",
+        "implementationPlan": "1. Update Data Source: Add `watchTodayAppointments` (returns `Stream\u003cList\u003cAppointmentModel\u003e\u003e`) and `updateAppointmentStatus` to `AppointmentRemoteDataSource` and its Firebase implementation.\n2. Update Repository: Add the equivalent methods to `AppointmentRepository` and `AppointmentRepositoryImpl`, mapping Models to Entities via `_modelToEntity`.\n3. Create Usecases: Implement `WatchTodayAppointments` (returns `Stream\u003cEither\u003cFailure, List\u003cAppointment\u003e\u003e\u003e`) and `UpdateAppointmentStatus` (returns `Future\u003cEither\u003cFailure, void\u003e\u003e`).\n4. Update Logic: Modify `AppointmentCubit` to inject the new usecases. Implement `listenToTodayAppointments` using `emit.forEach` and `updateStatus`.\n5. Verify: Run `dart analyze` on the modified files to ensure correctness.",
+        "labels": [
+          "data",
+          "domain",
+          "logic",
+          "receptionist",
+          "real-time"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement Real-time \u0026 Update Status for Receptionist Appointments (Data/Logic)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "a3m4u4",
+      "version": 4,
+      "timestamp": "2026-04-27T17:11:39.5027318Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "AC1+2 done: Added watchTodayAppointments (Stream) and updateAppointmentStatus to DataSource, Repository interface, and RepositoryImpl.",
+          "newValue": "AC1+2 done: Added watchTodayAppointments (Stream) and updateAppointmentStatus to DataSource, Repository interface, and RepositoryImpl.\nAC3+4 done: Created WatchTodayAppointments and UpdateAppointmentStatus usecases. Updated AppointmentCubit with listenToTodayAppointments (emit.forEach) and updateStatus."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Update AppointmentRemoteDataSource with `watchTodayAppointments` and `updateAppointmentStatus`"
+          },
+          {
+            "completed": true,
+            "text": "Update AppointmentRepository interface and Implementation"
+          },
+          {
+            "completed": true,
+            "text": "Create Usecases: `WatchTodayAppointments` and `UpdateAppointmentStatus`"
+          },
+          {
+            "completed": true,
+            "text": "Update AppointmentCubit with `listenToTodayAppointments` and `updateStatus`"
+          },
+          {
+            "completed": false,
+            "text": "Run dart analyze to verify Data, Domain, and Logic layers"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement `watchTodayAppointments` (Stream) and `updateAppointmentStatus` in the Data (DataSource, Repository), Domain (Usecases), and Logic (AppointmentCubit) layers to support real-time updates and status transitions for the Receptionist. The UI layer is explicitly excluded from this task.",
+        "implementationNotes": "AC1+2 done: Added watchTodayAppointments (Stream) and updateAppointmentStatus to DataSource, Repository interface, and RepositoryImpl.\nAC3+4 done: Created WatchTodayAppointments and UpdateAppointmentStatus usecases. Updated AppointmentCubit with listenToTodayAppointments (emit.forEach) and updateStatus.",
+        "implementationPlan": "1. Update Data Source: Add `watchTodayAppointments` (returns `Stream\u003cList\u003cAppointmentModel\u003e\u003e`) and `updateAppointmentStatus` to `AppointmentRemoteDataSource` and its Firebase implementation.\n2. Update Repository: Add the equivalent methods to `AppointmentRepository` and `AppointmentRepositoryImpl`, mapping Models to Entities via `_modelToEntity`.\n3. Create Usecases: Implement `WatchTodayAppointments` (returns `Stream\u003cEither\u003cFailure, List\u003cAppointment\u003e\u003e\u003e`) and `UpdateAppointmentStatus` (returns `Future\u003cEither\u003cFailure, void\u003e\u003e`).\n4. Update Logic: Modify `AppointmentCubit` to inject the new usecases. Implement `listenToTodayAppointments` using `emit.forEach` and `updateStatus`.\n5. Verify: Run `dart analyze` on the modified files to ensure correctness.",
+        "labels": [
+          "data",
+          "domain",
+          "logic",
+          "receptionist",
+          "real-time"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement Real-time \u0026 Update Status for Receptionist Appointments (Data/Logic)"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "a3m4u4",
+      "version": 5,
+      "timestamp": "2026-04-27T17:12:22.7882761Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "AC1+2 done: Added watchTodayAppointments (Stream) and updateAppointmentStatus to DataSource, Repository interface, and RepositoryImpl.\nAC3+4 done: Created WatchTodayAppointments and UpdateAppointmentStatus usecases. Updated AppointmentCubit with listenToTodayAppointments (emit.forEach) and updateStatus.",
+          "newValue": "AC1+2 done: Added watchTodayAppointments (Stream) and updateAppointmentStatus to DataSource, Repository interface, and RepositoryImpl.\nAC3+4 done: Created WatchTodayAppointments and UpdateAppointmentStatus usecases. Updated AppointmentCubit with listenToTodayAppointments (emit.forEach) and updateStatus.\nAC5 done: dart analyze passes on all 6 target files with no issues. Fixed emit.forEach → await for loop (correct Cubit Stream pattern in flutter_bloc)."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Update AppointmentRemoteDataSource with `watchTodayAppointments` and `updateAppointmentStatus`",
+            "completed": true
+          },
+          {
+            "text": "Update AppointmentRepository interface and Implementation",
+            "completed": true
+          },
+          {
+            "text": "Create Usecases: `WatchTodayAppointments` and `UpdateAppointmentStatus`",
+            "completed": true
+          },
+          {
+            "text": "Update AppointmentCubit with `listenToTodayAppointments` and `updateStatus`",
+            "completed": true
+          },
+          {
+            "text": "Run dart analyze to verify Data, Domain, and Logic layers",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement `watchTodayAppointments` (Stream) and `updateAppointmentStatus` in the Data (DataSource, Repository), Domain (Usecases), and Logic (AppointmentCubit) layers to support real-time updates and status transitions for the Receptionist. The UI layer is explicitly excluded from this task.",
+        "implementationNotes": "AC1+2 done: Added watchTodayAppointments (Stream) and updateAppointmentStatus to DataSource, Repository interface, and RepositoryImpl.\nAC3+4 done: Created WatchTodayAppointments and UpdateAppointmentStatus usecases. Updated AppointmentCubit with listenToTodayAppointments (emit.forEach) and updateStatus.\nAC5 done: dart analyze passes on all 6 target files with no issues. Fixed emit.forEach → await for loop (correct Cubit Stream pattern in flutter_bloc).",
+        "implementationPlan": "1. Update Data Source: Add `watchTodayAppointments` (returns `Stream\u003cList\u003cAppointmentModel\u003e\u003e`) and `updateAppointmentStatus` to `AppointmentRemoteDataSource` and its Firebase implementation.\n2. Update Repository: Add the equivalent methods to `AppointmentRepository` and `AppointmentRepositoryImpl`, mapping Models to Entities via `_modelToEntity`.\n3. Create Usecases: Implement `WatchTodayAppointments` (returns `Stream\u003cEither\u003cFailure, List\u003cAppointment\u003e\u003e\u003e`) and `UpdateAppointmentStatus` (returns `Future\u003cEither\u003cFailure, void\u003e\u003e`).\n4. Update Logic: Modify `AppointmentCubit` to inject the new usecases. Implement `listenToTodayAppointments` using `emit.forEach` and `updateStatus`.\n5. Verify: Run `dart analyze` on the modified files to ensure correctness.",
+        "labels": [
+          "data",
+          "domain",
+          "logic",
+          "receptionist",
+          "real-time"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "Implement Real-time \u0026 Update Status for Receptionist Appointments (Data/Logic)"
+      }
+    }
+  ]
+}

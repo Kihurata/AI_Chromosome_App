@@ -1,0 +1,88 @@
+{
+  "taskId": "5csj3w",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "5csj3w",
+      "version": 1,
+      "timestamp": "2026-04-27T06:59:33.2628921Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Refactor AppointmentModel to include a `factory AppointmentModel.fromEntity(Appointment appointment)` method according to the new convention. Update AppointmentRepositoryImpl to use this new factory method.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Refactor AppointmentModel to apply fromEntity convention"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "5csj3w",
+      "version": 2,
+      "timestamp": "2026-04-27T06:59:44.0627781Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. **Update AppointmentModel**: Open `lib/data/models/appointment_model.dart` and add `factory AppointmentModel.fromEntity(Appointment appointment)`. It will import `cloud_firestore` and the `Appointment` entity to map `patientId` and `doctorId` strings back to Firestore `DocumentReference` objects.\n2. **Refactor AppointmentRepositoryImpl**: Open `lib/data/repositories/appointment_repository_impl.dart`. Delete the custom `_entityToModel(Appointment appointment)` method. Update the `createAppointment` method to call `AppointmentModel.fromEntity(appointment)` instead of using the custom method."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Refactor AppointmentModel to include a `factory AppointmentModel.fromEntity(Appointment appointment)` method according to the new convention. Update AppointmentRepositoryImpl to use this new factory method.",
+        "implementationPlan": "1. **Update AppointmentModel**: Open `lib/data/models/appointment_model.dart` and add `factory AppointmentModel.fromEntity(Appointment appointment)`. It will import `cloud_firestore` and the `Appointment` entity to map `patientId` and `doctorId` strings back to Firestore `DocumentReference` objects.\n2. **Refactor AppointmentRepositoryImpl**: Open `lib/data/repositories/appointment_repository_impl.dart`. Delete the custom `_entityToModel(Appointment appointment)` method. Update the `createAppointment` method to call `AppointmentModel.fromEntity(appointment)` instead of using the custom method.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Refactor AppointmentModel to apply fromEntity convention"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "5csj3w",
+      "version": 3,
+      "timestamp": "2026-04-27T07:00:59.4082497Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Added factory AppointmentModel.fromEntity and updated AppointmentRepositoryImpl."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Refactor AppointmentModel to include a `factory AppointmentModel.fromEntity(Appointment appointment)` method according to the new convention. Update AppointmentRepositoryImpl to use this new factory method.",
+        "implementationNotes": "Done: Added factory AppointmentModel.fromEntity and updated AppointmentRepositoryImpl.",
+        "implementationPlan": "1. **Update AppointmentModel**: Open `lib/data/models/appointment_model.dart` and add `factory AppointmentModel.fromEntity(Appointment appointment)`. It will import `cloud_firestore` and the `Appointment` entity to map `patientId` and `doctorId` strings back to Firestore `DocumentReference` objects.\n2. **Refactor AppointmentRepositoryImpl**: Open `lib/data/repositories/appointment_repository_impl.dart`. Delete the custom `_entityToModel(Appointment appointment)` method. Update the `createAppointment` method to call `AppointmentModel.fromEntity(appointment)` instead of using the custom method.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Refactor AppointmentModel to apply fromEntity convention"
+      }
+    }
+  ]
+}

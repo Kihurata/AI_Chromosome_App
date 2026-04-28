@@ -1,0 +1,45 @@
+{
+  "docPath": "patterns/ui-design-system",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "patterns/ui-design-system",
+      "version": 1,
+      "timestamp": "2026-04-26T07:07:53.7181227Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "UI Design System"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Design tokens, color palette, typography, and component patterns for the application frontend."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "ui",
+            "design-system",
+            "frontend",
+            "styling"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "# UI Design System\nThe frontend follows a clean, high-contrast, data-heavy dashboard design optimized for Healthcare CRM (Trust, Clarity, Efficiency).\n\n## Color Palette\n- **Brand/Primary**: Clinical Blue (`#0D6EFD`, Tailwind: `blue-600`), Hover (`blue-700`), Active Bg (`blue-50`).\n- **Neutrals**: App Bg (`gray-50`), Surfaces/Cards (`white`), Borders (`gray-200`).\n- **Typography**: Primary Text (`gray-900`), Secondary Text (`gray-500`), Placeholders (`gray-400`).\n- **Semantic Badges**:\n  - Success: Text (`green-700`), Bg (`green-100`)\n  - Danger/Urgency: Text (`red-600`), Bg (`red-100`)\n  - Processing: Text (`blue-600`), Bg (`cyan-100` or `blue-100`)\n\n*Note: Violet/Purple is strictly banned as a primary/structural color, limited only to auto-generated user avatars.*\n\n## Typography\n- **Font**: Inter, Roboto, or system-ui.\n- **Sizes**: Page Title (24px, Bold), Card Titles (16px, Semi-bold), Stat Numbers (32px, Bold), Body Text (14px, Regular), Table Headers (12px, Semi-bold, Uppercase).\n\n## Layout \u0026 Component Patterns\n- **Grid**: 8-Point Grid system. Standard SaaS shell with fixed sidebar, top header, and main workspace.\n- **Cards**: White bg, rounded-xl, subtle shadow, p-5.\n- **Tables**: White bg, rounded-xl, border. Headers are uppercase. Avatars are rounded-full. Badges use pill shape (`rounded-full`).\n- **Buttons**: Primary buttons are Blue, rounded-lg, with icons on the left.",
+        "description": "Design tokens, color palette, typography, and component patterns for the application frontend.",
+        "tags": [
+          "ui",
+          "design-system",
+          "frontend",
+          "styling"
+        ],
+        "title": "UI Design System"
+      }
+    }
+  ]
+}

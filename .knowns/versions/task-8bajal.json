@@ -1,0 +1,247 @@
+{
+  "taskId": "8bajal",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "8bajal",
+      "version": 1,
+      "timestamp": "2026-04-27T07:32:06.7377056Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement the Domain, Data, and Logic layers for the Clinician role. This includes managing Test Orders and physical Samples, allowing Clinicians to assign patients and transfer samples to the lab.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "clinician"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Clinician Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "8bajal",
+      "version": 2,
+      "timestamp": "2026-04-27T07:32:15.5400004Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Update/Create `TestOrder` and `Sample` entities/models with `fromEntity` and `toModel` factories."
+            },
+            {
+              "completed": false,
+              "text": "Implement `TestOrderRepository` (`createTestOrder`, `getTestOrdersByClinician`)."
+            },
+            {
+              "completed": false,
+              "text": "Implement `SampleRepository` (`createSample`, `updateSampleStatus`)."
+            },
+            {
+              "completed": false,
+              "text": "Implement Usecases: `CreateGeneticTestOrder`, `CollectPhysicalSample`, `TransferSampleToLab`."
+            },
+            {
+              "completed": false,
+              "text": "Implement `ClinicianOrderCubit` to handle state management for order creation and sample updates."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Update/Create `TestOrder` and `Sample` entities/models with `fromEntity` and `toModel` factories."
+          },
+          {
+            "completed": false,
+            "text": "Implement `TestOrderRepository` (`createTestOrder`, `getTestOrdersByClinician`)."
+          },
+          {
+            "completed": false,
+            "text": "Implement `SampleRepository` (`createSample`, `updateSampleStatus`)."
+          },
+          {
+            "completed": false,
+            "text": "Implement Usecases: `CreateGeneticTestOrder`, `CollectPhysicalSample`, `TransferSampleToLab`."
+          },
+          {
+            "completed": false,
+            "text": "Implement `ClinicianOrderCubit` to handle state management for order creation and sample updates."
+          }
+        ],
+        "description": "Implement the Domain, Data, and Logic layers for the Clinician role. This includes managing Test Orders and physical Samples, allowing Clinicians to assign patients and transfer samples to the lab.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "clinician"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Clinician Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "8bajal",
+      "version": 3,
+      "timestamp": "2026-04-27T07:37:16.3981409Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Update/Create `TestOrder` and `Sample` entities/models with `fromEntity` and `toModel` factories."
+          },
+          {
+            "completed": false,
+            "text": "Implement `TestOrderRepository` (`createTestOrder`, `getTestOrdersByClinician`)."
+          },
+          {
+            "completed": false,
+            "text": "Implement `SampleRepository` (`createSample`, `updateSampleStatus`)."
+          },
+          {
+            "completed": false,
+            "text": "Implement Usecases: `CreateGeneticTestOrder`, `CollectPhysicalSample`, `TransferSampleToLab`."
+          },
+          {
+            "completed": false,
+            "text": "Implement `ClinicianOrderCubit` to handle state management for order creation and sample updates."
+          }
+        ],
+        "description": "Implement the Domain, Data, and Logic layers for the Clinician role. This includes managing Test Orders and physical Samples, allowing Clinicians to assign patients and transfer samples to the lab.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "clinician"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Clinician Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "8bajal",
+      "version": 4,
+      "timestamp": "2026-04-27T07:39:50.2024955Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Created TestOrder + Sample domain entities with status enums (fromString + toFirestoreString). Updated TestOrderModel with fromEntity factory. Created SampleModel (fromFirestore, toFirestore, fromEntity). Created TestOrderRemoteDataSource + FirebaseImpl, SampleRemoteDataSource + FirebaseImpl. Created domain interfaces TestOrderRepository + SampleRepository. Created TestOrderRepositoryImpl + SampleRepositoryImpl. Created 3 usecases: CreateGeneticTestOrder, CollectPhysicalSample, TransferSampleToLab. Created ClinicianOrderCubit (submitTestOrder, collectSample, transferToLab) + ClinicianOrderState. dart analyze: No issues found on all 15 new files."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Update/Create `TestOrder` and `Sample` entities/models with `fromEntity` and `toModel` factories."
+          },
+          {
+            "completed": true,
+            "text": "Implement `TestOrderRepository` (`createTestOrder`, `getTestOrdersByClinician`)."
+          },
+          {
+            "completed": true,
+            "text": "Implement `SampleRepository` (`createSample`, `updateSampleStatus`)."
+          },
+          {
+            "completed": true,
+            "text": "Implement Usecases: `CreateGeneticTestOrder`, `CollectPhysicalSample`, `TransferSampleToLab`."
+          },
+          {
+            "completed": true,
+            "text": "Implement `ClinicianOrderCubit` to handle state management for order creation and sample updates."
+          }
+        ],
+        "description": "Implement the Domain, Data, and Logic layers for the Clinician role. This includes managing Test Orders and physical Samples, allowing Clinicians to assign patients and transfer samples to the lab.",
+        "implementationNotes": "Done: Created TestOrder + Sample domain entities with status enums (fromString + toFirestoreString). Updated TestOrderModel with fromEntity factory. Created SampleModel (fromFirestore, toFirestore, fromEntity). Created TestOrderRemoteDataSource + FirebaseImpl, SampleRemoteDataSource + FirebaseImpl. Created domain interfaces TestOrderRepository + SampleRepository. Created TestOrderRepositoryImpl + SampleRepositoryImpl. Created 3 usecases: CreateGeneticTestOrder, CollectPhysicalSample, TransferSampleToLab. Created ClinicianOrderCubit (submitTestOrder, collectSample, transferToLab) + ClinicianOrderState. dart analyze: No issues found on all 15 new files.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "clinician"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Clinician Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "8bajal",
+      "version": 5,
+      "timestamp": "2026-04-27T07:40:00.2397719Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Update/Create `TestOrder` and `Sample` entities/models with `fromEntity` and `toModel` factories.",
+            "completed": true
+          },
+          {
+            "text": "Implement `TestOrderRepository` (`createTestOrder`, `getTestOrdersByClinician`).",
+            "completed": true
+          },
+          {
+            "text": "Implement `SampleRepository` (`createSample`, `updateSampleStatus`).",
+            "completed": true
+          },
+          {
+            "text": "Implement Usecases: `CreateGeneticTestOrder`, `CollectPhysicalSample`, `TransferSampleToLab`.",
+            "completed": true
+          },
+          {
+            "text": "Implement `ClinicianOrderCubit` to handle state management for order creation and sample updates.",
+            "completed": true
+          }
+        ],
+        "description": "Implement the Domain, Data, and Logic layers for the Clinician role. This includes managing Test Orders and physical Samples, allowing Clinicians to assign patients and transfer samples to the lab.",
+        "implementationNotes": "Done: Created TestOrder + Sample domain entities with status enums (fromString + toFirestoreString). Updated TestOrderModel with fromEntity factory. Created SampleModel (fromFirestore, toFirestore, fromEntity). Created TestOrderRemoteDataSource + FirebaseImpl, SampleRemoteDataSource + FirebaseImpl. Created domain interfaces TestOrderRepository + SampleRepository. Created TestOrderRepositoryImpl + SampleRepositoryImpl. Created 3 usecases: CreateGeneticTestOrder, CollectPhysicalSample, TransferSampleToLab. Created ClinicianOrderCubit (submitTestOrder, collectSample, transferToLab) + ClinicianOrderState. dart analyze: No issues found on all 15 new files.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "clinician"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "Clinician Data \u0026 Logic Layer Implementation"
+      }
+    }
+  ]
+}

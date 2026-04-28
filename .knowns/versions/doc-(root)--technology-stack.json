@@ -1,0 +1,45 @@
+{
+  "docPath": "(root)/technology-stack",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "(root)/technology-stack",
+      "version": 1,
+      "timestamp": "2026-04-26T07:07:42.0269553Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Technology Stack"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Technology stack overview for Frontend, Backend, and Infrastructure."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "tech-stack",
+            "flutter",
+            "fastapi",
+            "firebase"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "# Technology Stack\nThe AI Chromosome Karyotyping App is a Monorepo containing:\n\n## Frontend (Flutter)\n- **Framework**: Flutter 3.x\n- **State Management (Hybrid)**:\n  - **Riverpod**: Used as a \"Data Pipe\" for streaming real-time data from Firestore.\n  - **Cubit (BLoC)**: Used as a \"UI Controller\" for managing local drag-and-drop interactions in the workspace.\n- **Architecture**: Flutter Clean Architecture (Presentation, Logic, Data, Core).\n\n## Backend (FastAPI)\n- **Framework**: FastAPI (Python 3.9+)\n- **Integration**: Firebase Admin SDK for centralized data management and proxying to the AI Server.\n- **AI Processing**: Segmentation/Classification models using OpenCV and PyTorch/TensorFlow.\n\n## Infrastructure \u0026 Database\n- **Platform**: Firebase\n- **Services**: Authentication, Firestore (NoSQL), Cloud Storage.",
+        "description": "Technology stack overview for Frontend, Backend, and Infrastructure.",
+        "tags": [
+          "tech-stack",
+          "flutter",
+          "fastapi",
+          "firebase"
+        ],
+        "title": "Technology Stack"
+      }
+    }
+  ]
+}

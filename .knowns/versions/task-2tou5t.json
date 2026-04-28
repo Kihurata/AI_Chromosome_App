@@ -1,0 +1,37 @@
+{
+  "taskId": "2tou5t",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "2tou5t",
+      "version": 1,
+      "timestamp": "2026-04-27T17:15:12.665081Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "in-progress"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Remove all ClinicalRepository and direct cloud_firestore dependencies from the Receptionist Presentation layer. Replace with BlocBuilder/BlocListener patterns consuming AppointmentCubit. Affects 7 files across screens and widgets.",
+        "labels": [
+          "ui",
+          "refactor",
+          "receptionist",
+          "clean-architecture"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Receptionist UI to Clean Architecture"
+      }
+    }
+  ]
+}

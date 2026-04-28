@@ -1,0 +1,93 @@
+{
+  "docPath": "(root)/system-architecture-and-database-schema",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "(root)/system-architecture-and-database-schema",
+      "version": 1,
+      "timestamp": "2026-04-26T07:07:46.4291608Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "System Architecture and Database Schema"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Overview of the system architecture, Firestore collections, and data design decisions."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "architecture",
+            "database",
+            "firestore",
+            "schema"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "# System Architecture \u0026 Database Schema\nThe app uses Firebase Firestore for real-time synchronization, driven by a FastAPI backend proxy and Flutter frontend.\n\n## Database Design Decisions\n1. **NoSQL Adaptation (Deep Nested Sub-collections)**: Images are stored as `test_orders/{orderId}/metaphase_images` and chromosomes are nested further under `.../chromosomes` to optimize read performance and reduce costs during workspace loading.\n2. **Role-Based Separation**: Separating `users` from `doctors` allows fast basic auth/routing without fetching heavy specific logic.\n3. **Real-time Sync**: The highly nested `chromosomes` sub-collection allows active Firestore listeners for real-time drag-and-drop workspace syncing.\n4. **Asset Storage**: Image paths (`raw_image_url`, `mask_url`) store URI references to Firebase Cloud Storage, keeping document sizes under 1MB limit.\n5. **Denormalization Strategy**: Core fields like `patient_name`, `patient_code`, and `doctor_name` are replicated to reduce reads for list views.\n6. **Sample Lifecycle**: The `is_current` flag on `samples` tracks the active sample for a test order.\n\n## Core Collections\n- **Authentication**: `users`, `doctors`\n- **Patient Management**: `patients`, `appointments`\n- **Laboratory**: `test_orders`, `samples`\n- **AI \u0026 Images**: `test_orders/{orderId}/metaphase_images` -\u003e `.../chromosomes`\n- **Audit**: `audit_logs`",
+        "description": "Overview of the system architecture, Firestore collections, and data design decisions.",
+        "tags": [
+          "architecture",
+          "database",
+          "firestore",
+          "schema"
+        ],
+        "title": "System Architecture and Database Schema"
+      }
+    },
+    {
+      "id": "v2",
+      "docPath": "(root)/system-architecture-and-database-schema",
+      "version": 2,
+      "timestamp": "2026-04-27T07:50:40.8093992Z",
+      "changes": [
+        {
+          "field": "content",
+          "oldValue": "# System Architecture \u0026 Database Schema\nThe app uses Firebase Firestore for real-time synchronization, driven by a FastAPI backend proxy and Flutter frontend.\n\n## Database Design Decisions\n1. **NoSQL Adaptation (Deep Nested Sub-collections)**: Images are stored as `test_orders/{orderId}/metaphase_images` and chromosomes are nested further under `.../chromosomes` to optimize read performance and reduce costs during workspace loading.\n2. **Role-Based Separation**: Separating `users` from `doctors` allows fast basic auth/routing without fetching heavy specific logic.\n3. **Real-time Sync**: The highly nested `chromosomes` sub-collection allows active Firestore listeners for real-time drag-and-drop workspace syncing.\n4. **Asset Storage**: Image paths (`raw_image_url`, `mask_url`) store URI references to Firebase Cloud Storage, keeping document sizes under 1MB limit.\n5. **Denormalization Strategy**: Core fields like `patient_name`, `patient_code`, and `doctor_name` are replicated to reduce reads for list views.\n6. **Sample Lifecycle**: The `is_current` flag on `samples` tracks the active sample for a test order.\n\n## Core Collections\n- **Authentication**: `users`, `doctors`\n- **Patient Management**: `patients`, `appointments`\n- **Laboratory**: `test_orders`, `samples`\n- **AI \u0026 Images**: `test_orders/{orderId}/metaphase_images` -\u003e `.../chromosomes`\n- **Audit**: `audit_logs`",
+          "newValue": "# System Architecture \u0026 Database Schema\nThe app uses Firebase Firestore for real-time synchronization, driven by a FastAPI backend proxy and Flutter frontend.\n\n## Database Design Decisions\n1. **NoSQL Adaptation (Deep Nested Sub-collections)**: Images are stored as `test_orders/{orderId}/metaphase_images` and chromosomes are nested further under `.../chromosomes` to optimize read performance and reduce costs during workspace loading.\n2. **Role-Based Separation**: Separating `users` from `doctors` allows fast basic auth/routing without fetching heavy specific logic.\n3. **Real-time Sync**: The highly nested `chromosomes` sub-collection allows active Firestore listeners for real-time drag-and-drop workspace syncing.\n4. **Asset Storage**: Image paths (`raw_image_url`, `mask_url`) store URI references to Firebase Cloud Storage, keeping document sizes under 1MB limit.\n5. **Denormalization Strategy**: Core fields like `patient_name`, `patient_code`, and `doctor_name` are replicated to reduce reads for list views.\n6. **Sample Lifecycle**: The `is_current` flag on `samples` tracks the active sample for a test order.\n\n## Core Collections\n- **Authentication**: `users`, `doctors`\n- **Patient Management**: `patients`, `appointments`\n- **Laboratory**: `test_orders`, `samples`\n- **AI \u0026 Images**: `test_orders/{orderId}/metaphase_images` -\u003e `.../chromosomes`\n- **Audit**: `audit_logs`\n\n\n## Architectural Decision: Event-Driven AI Integration\n- **Decision:** The Flutter App acts purely as a reactive client. It uploads the raw `MetaphaseImage` to Firebase Cloud Storage and creates a record in Firestore with `status: 'UPLOADED'`.\n- **Backend Role:** The FastAPI backend (or Firebase Cloud Functions) listens to Firestore. It downloads the image, calls the external AI Server (Ngrok/Internal), and bulk-inserts the resulting `Chromosome` data into Firestore using the Firebase Admin SDK.\n- **Rationale:** \n  1. **UX:** Prevents the app from hanging or crashing during the 30-60s AI processing window.\n  2. **Security:** Completely hides the Ngrok/AI Server URL and credentials from the client app.\n  3. **Data Integrity:** Prevents incomplete data insertions (e.g., writing only 20 out of 46 chromosomes) if the client loses connection."
+        }
+      ],
+      "snapshot": {
+        "content": "# System Architecture \u0026 Database Schema\nThe app uses Firebase Firestore for real-time synchronization, driven by a FastAPI backend proxy and Flutter frontend.\n\n## Database Design Decisions\n1. **NoSQL Adaptation (Deep Nested Sub-collections)**: Images are stored as `test_orders/{orderId}/metaphase_images` and chromosomes are nested further under `.../chromosomes` to optimize read performance and reduce costs during workspace loading.\n2. **Role-Based Separation**: Separating `users` from `doctors` allows fast basic auth/routing without fetching heavy specific logic.\n3. **Real-time Sync**: The highly nested `chromosomes` sub-collection allows active Firestore listeners for real-time drag-and-drop workspace syncing.\n4. **Asset Storage**: Image paths (`raw_image_url`, `mask_url`) store URI references to Firebase Cloud Storage, keeping document sizes under 1MB limit.\n5. **Denormalization Strategy**: Core fields like `patient_name`, `patient_code`, and `doctor_name` are replicated to reduce reads for list views.\n6. **Sample Lifecycle**: The `is_current` flag on `samples` tracks the active sample for a test order.\n\n## Core Collections\n- **Authentication**: `users`, `doctors`\n- **Patient Management**: `patients`, `appointments`\n- **Laboratory**: `test_orders`, `samples`\n- **AI \u0026 Images**: `test_orders/{orderId}/metaphase_images` -\u003e `.../chromosomes`\n- **Audit**: `audit_logs`\n\n\n## Architectural Decision: Event-Driven AI Integration\n- **Decision:** The Flutter App acts purely as a reactive client. It uploads the raw `MetaphaseImage` to Firebase Cloud Storage and creates a record in Firestore with `status: 'UPLOADED'`.\n- **Backend Role:** The FastAPI backend (or Firebase Cloud Functions) listens to Firestore. It downloads the image, calls the external AI Server (Ngrok/Internal), and bulk-inserts the resulting `Chromosome` data into Firestore using the Firebase Admin SDK.\n- **Rationale:** \n  1. **UX:** Prevents the app from hanging or crashing during the 30-60s AI processing window.\n  2. **Security:** Completely hides the Ngrok/AI Server URL and credentials from the client app.\n  3. **Data Integrity:** Prevents incomplete data insertions (e.g., writing only 20 out of 46 chromosomes) if the client loses connection.",
+        "description": "Overview of the system architecture, Firestore collections, and data design decisions.",
+        "tags": [
+          "architecture",
+          "database",
+          "firestore",
+          "schema"
+        ],
+        "title": "System Architecture and Database Schema"
+      }
+    },
+    {
+      "id": "v3",
+      "docPath": "(root)/system-architecture-and-database-schema",
+      "version": 3,
+      "timestamp": "2026-04-27T08:03:21.1115334Z",
+      "changes": [
+        {
+          "field": "content",
+          "oldValue": "# System Architecture \u0026 Database Schema\nThe app uses Firebase Firestore for real-time synchronization, driven by a FastAPI backend proxy and Flutter frontend.\n\n## Database Design Decisions\n1. **NoSQL Adaptation (Deep Nested Sub-collections)**: Images are stored as `test_orders/{orderId}/metaphase_images` and chromosomes are nested further under `.../chromosomes` to optimize read performance and reduce costs during workspace loading.\n2. **Role-Based Separation**: Separating `users` from `doctors` allows fast basic auth/routing without fetching heavy specific logic.\n3. **Real-time Sync**: The highly nested `chromosomes` sub-collection allows active Firestore listeners for real-time drag-and-drop workspace syncing.\n4. **Asset Storage**: Image paths (`raw_image_url`, `mask_url`) store URI references to Firebase Cloud Storage, keeping document sizes under 1MB limit.\n5. **Denormalization Strategy**: Core fields like `patient_name`, `patient_code`, and `doctor_name` are replicated to reduce reads for list views.\n6. **Sample Lifecycle**: The `is_current` flag on `samples` tracks the active sample for a test order.\n\n## Core Collections\n- **Authentication**: `users`, `doctors`\n- **Patient Management**: `patients`, `appointments`\n- **Laboratory**: `test_orders`, `samples`\n- **AI \u0026 Images**: `test_orders/{orderId}/metaphase_images` -\u003e `.../chromosomes`\n- **Audit**: `audit_logs`\n\n\n## Architectural Decision: Event-Driven AI Integration\n- **Decision:** The Flutter App acts purely as a reactive client. It uploads the raw `MetaphaseImage` to Firebase Cloud Storage and creates a record in Firestore with `status: 'UPLOADED'`.\n- **Backend Role:** The FastAPI backend (or Firebase Cloud Functions) listens to Firestore. It downloads the image, calls the external AI Server (Ngrok/Internal), and bulk-inserts the resulting `Chromosome` data into Firestore using the Firebase Admin SDK.\n- **Rationale:** \n  1. **UX:** Prevents the app from hanging or crashing during the 30-60s AI processing window.\n  2. **Security:** Completely hides the Ngrok/AI Server URL and credentials from the client app.\n  3. **Data Integrity:** Prevents incomplete data insertions (e.g., writing only 20 out of 46 chromosomes) if the client loses connection.",
+          "newValue": "# System Architecture \u0026 Database Schema\nThe app uses Firebase Firestore for real-time synchronization, driven by a FastAPI backend proxy and Flutter frontend.\n\n## Database Design Decisions\n1. **NoSQL Adaptation (Deep Nested Sub-collections)**: Images are stored as `test_orders/{orderId}/metaphase_images` and chromosomes are nested further under `.../chromosomes` to optimize read performance and reduce costs during workspace loading.\n2. **Role-Based Separation**: Separating `users` from `doctors` allows fast basic auth/routing without fetching heavy specific logic.\n3. **Real-time Sync**: The highly nested `chromosomes` sub-collection allows active Firestore listeners for real-time drag-and-drop workspace syncing.\n4. **Asset Storage**: Image paths (`raw_image_url`, `mask_url`) store URI references to Firebase Cloud Storage, keeping document sizes under 1MB limit.\n5. **Denormalization Strategy**: Core fields like `patient_name`, `patient_code`, and `doctor_name` are replicated to reduce reads for list views.\n6. **Sample Lifecycle**: The `is_current` flag on `samples` tracks the active sample for a test order.\n\n## Core Collections\n- **Authentication**: `users`, `doctors`\n- **Patient Management**: `patients`, `appointments`\n- **Laboratory**: `test_orders`, `samples`\n- **AI \u0026 Images**: `test_orders/{orderId}/metaphase_images` -\u003e `.../chromosomes`\n- **Audit**: `audit_logs`\n\n## Architectural Decision: Event-Driven AI Integration (Microservices)\n- **Decision:** The Flutter App acts purely as a reactive client. It uploads the raw `MetaphaseImage` to Firebase Cloud Storage and creates a record in Firestore with `status: 'UPLOADED'`.\n- **Backend Role (Orchestrator):** The FastAPI backend (or Firebase Cloud Functions) listens to Firestore. It **DOES NOT** download the image. Instead, it makes a lightweight HTTP POST request to the external AI Server (Ngrok) passing the `raw_image_url` (Zero-copy). Upon receiving the JSON result, it bulk-inserts the `Chromosome` data into Firestore using the Firebase Admin SDK.\n- **AI Server Role:** Hosted externally (e.g., via Ngrok), it downloads the image from the provided URL, processes it (PyTorch/OpenCV), and returns the JSON result.\n- **Rationale:** \n  1. **UX:** Prevents the app from hanging or crashing during the 30-60s AI processing window.\n  2. **Security:** Completely hides the Ngrok/AI Server URL and credentials from the client app, and keeps the AI Model secure on a separate server.\n  3. **Data Integrity:** Prevents incomplete data insertions if the client loses connection.\n  4. **Optimization:** Zero-copy pass-through on the Backend saves RAM and bandwidth."
+        }
+      ],
+      "snapshot": {
+        "content": "# System Architecture \u0026 Database Schema\nThe app uses Firebase Firestore for real-time synchronization, driven by a FastAPI backend proxy and Flutter frontend.\n\n## Database Design Decisions\n1. **NoSQL Adaptation (Deep Nested Sub-collections)**: Images are stored as `test_orders/{orderId}/metaphase_images` and chromosomes are nested further under `.../chromosomes` to optimize read performance and reduce costs during workspace loading.\n2. **Role-Based Separation**: Separating `users` from `doctors` allows fast basic auth/routing without fetching heavy specific logic.\n3. **Real-time Sync**: The highly nested `chromosomes` sub-collection allows active Firestore listeners for real-time drag-and-drop workspace syncing.\n4. **Asset Storage**: Image paths (`raw_image_url`, `mask_url`) store URI references to Firebase Cloud Storage, keeping document sizes under 1MB limit.\n5. **Denormalization Strategy**: Core fields like `patient_name`, `patient_code`, and `doctor_name` are replicated to reduce reads for list views.\n6. **Sample Lifecycle**: The `is_current` flag on `samples` tracks the active sample for a test order.\n\n## Core Collections\n- **Authentication**: `users`, `doctors`\n- **Patient Management**: `patients`, `appointments`\n- **Laboratory**: `test_orders`, `samples`\n- **AI \u0026 Images**: `test_orders/{orderId}/metaphase_images` -\u003e `.../chromosomes`\n- **Audit**: `audit_logs`\n\n## Architectural Decision: Event-Driven AI Integration (Microservices)\n- **Decision:** The Flutter App acts purely as a reactive client. It uploads the raw `MetaphaseImage` to Firebase Cloud Storage and creates a record in Firestore with `status: 'UPLOADED'`.\n- **Backend Role (Orchestrator):** The FastAPI backend (or Firebase Cloud Functions) listens to Firestore. It **DOES NOT** download the image. Instead, it makes a lightweight HTTP POST request to the external AI Server (Ngrok) passing the `raw_image_url` (Zero-copy). Upon receiving the JSON result, it bulk-inserts the `Chromosome` data into Firestore using the Firebase Admin SDK.\n- **AI Server Role:** Hosted externally (e.g., via Ngrok), it downloads the image from the provided URL, processes it (PyTorch/OpenCV), and returns the JSON result.\n- **Rationale:** \n  1. **UX:** Prevents the app from hanging or crashing during the 30-60s AI processing window.\n  2. **Security:** Completely hides the Ngrok/AI Server URL and credentials from the client app, and keeps the AI Model secure on a separate server.\n  3. **Data Integrity:** Prevents incomplete data insertions if the client loses connection.\n  4. **Optimization:** Zero-copy pass-through on the Backend saves RAM and bandwidth.",
+        "description": "Overview of the system architecture, Firestore collections, and data design decisions.",
+        "tags": [
+          "architecture",
+          "database",
+          "firestore",
+          "schema"
+        ],
+        "title": "System Architecture and Database Schema"
+      }
+    }
+  ]
+}
