@@ -1,18 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/theme/app_colors.dart';
-import '../../../data/models/patient_model.dart';
-import '../../../data/repositories/clinical_repository.dart';
+import '../../../domain/entities/patient.dart';
+import '../../../logic/bloc/patient/patient_cubit.dart';
+import '../../../logic/bloc/patient/patient_state.dart';
 
 import '../../widgets/shared/layouts/main_form_layout.dart';
 import '../../widgets/shared/form/app_text_field.dart';
 import '../../widgets/shared/form/app_buttons.dart';
 
 class PatientRegistrationPage extends StatefulWidget {
-  final ClinicalRepository? repository;
-  const PatientRegistrationPage({super.key, this.repository});
+  const PatientRegistrationPage({super.key});
 
   @override
   State<PatientRegistrationPage> createState() => _PatientRegistrationPageState();
@@ -20,12 +19,10 @@ class PatientRegistrationPage extends StatefulWidget {
 
 class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
   final _formKey = GlobalKey<FormState>();
-  late final ClinicalRepository _clinicalRepo;
 
   @override
   void initState() {
     super.initState();
-    _clinicalRepo = widget.repository ?? ClinicalRepository();
   }
 
   // Section 1 Controllers
@@ -85,14 +82,46 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: MainFormLayout(
-        title: 'Tiếp nhận bệnh nhân tại quầy',
-        subtitle: 'Thêm mới thông tin bệnh nhân vào hệ thống',
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
+      body: BlocListener<PatientCubit, PatientState>(
+        listener: (context, state) {
+          if (state is PatientDuplicateChecked) {
+            setState(() {
+              if (state.existingPatient != null) {
+                final p = state.existingPatient!;
+                _duplicateWarning = 'Bệnh nhân "${p.fullName}" đã tồn tại trong hệ thống (Mã: ${p.patientCode ?? p.id}). Vui lòng kiểm tra lại.';
+              } else {
+                _duplicateWarning = null;
+              }
+            });
+          } else if (state is PatientActionSuccess) {
+            setState(() => _isSubmitting = false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: AppColors.successText,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+            Navigator.of(context).pop(true);
+          } else if (state is PatientError) {
+            setState(() => _isSubmitting = false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Lỗi: ${state.message}'),
+                backgroundColor: AppColors.dangerText,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+        },
+        child: MainFormLayout(
+          title: 'Tiếp nhận bệnh nhân tại quầy',
+          subtitle: 'Thêm mới thông tin bệnh nhân vào hệ thống',
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
               // ── Section 1: Thông tin định danh (Bắt buộc) ──
               _buildSectionCard(
                 icon: LucideIcons.userCheck,
@@ -495,7 +524,7 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
   }
 
   // ── Duplicate Check ──
-  Future<void> _checkDuplicate() async {
+  void _checkDuplicate() {
     final idCard = _identityCardController.text.trim();
     final phone = _phoneController.text.trim();
 
@@ -506,20 +535,10 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
       return;
     }
 
-    final existingPatient = await _clinicalRepo.checkDuplicatePatient(
-      identityCard: idCard.length >= 9 ? idCard : null,
-      phone: phone.length >= 9 ? phone : null,
-    );
-
-    if (mounted) {
-      setState(() {
-        if (existingPatient != null) {
-          _duplicateWarning = 'Bệnh nhân "${existingPatient.fullName}" đã tồn tại trong hệ thống (Mã: ${existingPatient.patientCode ?? existingPatient.id}). Vui lòng kiểm tra lại.';
-        } else {
-          _duplicateWarning = null;
-        }
-      });
-    }
+    context.read<PatientCubit>().checkDuplicate(
+          identityCard: idCard.length >= 9 ? idCard : null,
+          phone: phone.length >= 9 ? phone : null,
+        );
   }
 
   // ── Submit ──
@@ -532,8 +551,10 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
     try {
       final dob = DateFormat('dd/MM/yyyy').parse(_dobController.text);
 
-      final patient = PatientModel(
-        fullName: _fullNameController.text.trim(),
+      // Build Domain Entity
+      final patient = Patient(
+        id: '', // Generated by Firestore
+        fullName: _fullNameController.text.trim().toUpperCase(),
         identityCard: _identityCardController.text.trim(),
         dob: dob,
         gender: _selectedGender,
@@ -546,40 +567,20 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
         emergencyContactPhone: _emergencyPhoneController.text.trim(),
       );
 
-      await _clinicalRepo.createPatient(patient);
-
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Row(
-              children: [
-                Icon(LucideIcons.checkCircle, color: Colors.white, size: 18),
-                SizedBox(width: 8),
-                Text('Đã lưu hồ sơ bệnh nhân thành công!'),
-              ],
-            ),
-            backgroundColor: AppColors.successText,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            margin: const EdgeInsets.all(20),
-          ),
-        );
-        Navigator.of(context).pop();
+        context.read<PatientCubit>().createPatient(patient);
       }
     } catch (e) {
       if (mounted) {
+        setState(() => _isSubmitting = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Lỗi: ${e.toString()}'),
+            content: Text('Lỗi xử lý dữ liệu: ${e.toString()}'),
             backgroundColor: AppColors.dangerText,
             behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            margin: const EdgeInsets.all(20),
           ),
         );
       }
-    } finally {
-      if (mounted) setState(() => _isSubmitting = false);
     }
   }
 }

@@ -5,6 +5,7 @@ import '../../../domain/usecases/patient/get_patients.dart';
 import '../../../domain/usecases/patient/add_patient.dart';
 import '../../../domain/usecases/patient/update_patient.dart';
 import '../../../domain/usecases/patient/get_patient_by_id.dart';
+import '../../../domain/usecases/patient/check_duplicate_patient.dart';
 import 'patient_state.dart';
 
 @injectable
@@ -13,12 +14,14 @@ class PatientCubit extends Cubit<PatientState> {
   final AddPatient addPatientUsecase;
   final UpdatePatient updatePatientUsecase;
   final GetPatientById getPatientByIdUsecase;
+  final CheckDuplicatePatient checkDuplicatePatientUsecase;
 
   PatientCubit({
     required this.getPatientsUsecase,
     required this.addPatientUsecase,
     required this.updatePatientUsecase,
     required this.getPatientByIdUsecase,
+    required this.checkDuplicatePatientUsecase,
   }) : super(PatientInitial());
 
   // Hàm lấy danh sách bệnh nhân
@@ -56,6 +59,18 @@ class PatientCubit extends Cubit<PatientState> {
     result.fold(
       (failure) => emit(PatientError(failure.message)),
       (patient) => emit(PatientDetailLoaded(patient)),
+    );
+  }
+
+  Future<void> checkDuplicate({String? identityCard, String? phone}) async {
+    // Không emit PatientLoading ở đây vì UI check liên tục khi gõ phím
+    final result = await checkDuplicatePatientUsecase(
+      identityCard: identityCard,
+      phone: phone,
+    );
+    result.fold(
+      (failure) => emit(PatientError(failure.message)),
+      (patient) => emit(PatientDuplicateChecked(patient)),
     );
   }
 }
