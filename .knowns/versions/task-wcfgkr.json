@@ -1,0 +1,97 @@
+{
+  "taskId": "wcfgkr",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "wcfgkr",
+      "version": 1,
+      "timestamp": "2026-04-29T09:14:46.0307499Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Kết nối các hành động bấm nút Bắt đầu và điều hướng vào màn hình Workspace.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Actions \u0026 Navigation Integration (Integration)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "wcfgkr",
+      "version": 2,
+      "timestamp": "2026-04-29T09:14:52.2914981Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Implement hàm startAnalysis gọi repository cập nhật Firestore status=ANALYZING"
+            },
+            {
+              "completed": false,
+              "text": "Điều hướng người dùng vào màn hình Workspace sau khi cập nhật thành công"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Implement hàm startAnalysis gọi repository cập nhật Firestore status=ANALYZING"
+          },
+          {
+            "completed": false,
+            "text": "Điều hướng người dùng vào màn hình Workspace sau khi cập nhật thành công"
+          }
+        ],
+        "description": "Kết nối các hành động bấm nút Bắt đầu và điều hướng vào màn hình Workspace.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Actions \u0026 Navigation Integration (Integration)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "wcfgkr",
+      "version": 3,
+      "timestamp": "2026-04-29T09:19:05.5337417Z",
+      "changes": [
+        {
+          "field": "description",
+          "oldValue": "Kết nối các hành động bấm nút Bắt đầu và điều hướng vào màn hình Workspace.",
+          "newValue": "Kết nối các hành động bấm nút Bắt đầu và điều hướng vào màn hình Workspace. Phụ thuộc vào @task-bf8486 (UI list) và @task-q6tj9n (Frame layout)."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Implement hàm startAnalysis gọi repository cập nhật Firestore status=ANALYZING",
+            "completed": false
+          },
+          {
+            "text": "Điều hướng người dùng vào màn hình Workspace sau khi cập nhật thành công",
+            "completed": false
+          }
+        ],
+        "description": "Kết nối các hành động bấm nút Bắt đầu và điều hướng vào màn hình Workspace. Phụ thuộc vào @task-bf8486 (UI list) và @task-q6tj9n (Frame layout).",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Actions \u0026 Navigation Integration (Integration)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "taskId": "q6tj9n",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "q6tj9n",
+      "version": 1,
+      "timestamp": "2026-04-29T09:14:44.9189512Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Kết hợp Header và SideRail thành một khung chung bao quanh các màn hình.",
+        "priority": "high",
+        "status": "todo",
+        "title": "MainShell Layout Integration (Shell)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "q6tj9n",
+      "version": 2,
+      "timestamp": "2026-04-29T09:14:50.9618767Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Xây dựng MainShell kết hợp Header và SideRail sử dụng Row/Expanded"
+            },
+            {
+              "completed": false,
+              "text": "Bọc toàn bộ app bằng MainShell trong AppRouter configuration"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng MainShell kết hợp Header và SideRail sử dụng Row/Expanded"
+          },
+          {
+            "completed": false,
+            "text": "Bọc toàn bộ app bằng MainShell trong AppRouter configuration"
+          }
+        ],
+        "description": "Kết hợp Header và SideRail thành một khung chung bao quanh các màn hình.",
+        "priority": "high",
+        "status": "todo",
+        "title": "MainShell Layout Integration (Shell)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "q6tj9n",
+      "version": 3,
+      "timestamp": "2026-04-29T09:19:04.6265337Z",
+      "changes": [
+        {
+          "field": "description",
+          "oldValue": "Kết hợp Header và SideRail thành một khung chung bao quanh các màn hình.",
+          "newValue": "Kết hợp Header và SideRail thành một khung chung bao quanh các màn hình. Phụ thuộc vào @task-zuhdmz và @task-i0pvui."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng MainShell kết hợp Header và SideRail sử dụng Row/Expanded"
+          },
+          {
+            "completed": false,
+            "text": "Bọc toàn bộ app bằng MainShell trong AppRouter configuration"
+          }
+        ],
+        "description": "Kết hợp Header và SideRail thành một khung chung bao quanh các màn hình. Phụ thuộc vào @task-zuhdmz và @task-i0pvui.",
+        "priority": "high",
+        "status": "todo",
+        "title": "MainShell Layout Integration (Shell)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "q6tj9n",
+      "version": 4,
+      "timestamp": "2026-04-29T09:37:37.1248967Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Create MainShell**: Xây dựng widget `MainShell` tại `lib/presentation/widgets/shared/navigation/main_shell.dart`.\n    - Sử dụng `Row` để chia không gian: Bên trái là `AppSideRail`, bên phải là vùng nội dung chính.\n    - Vùng nội dung chính chứa `AppHeader` ở trên cùng và `child` (màn hình) ở dưới.\n2. **Update AppRouter**: \n    - Cấu hình `ShellRoute` trong `lib/core/router/app_router.dart` để sử dụng `MainShell`.\n    - Đảm bảo các route con được bọc đúng cách bởi Shell này.\n3. **Clean Up**: Di chuyển logic từ `AppNavigationWrapper` cũ sang `MainShell` hoặc xóa bỏ nếu không còn sử dụng.\n\n## Verification Plan\n- Kiểm tra toàn bộ ứng dụng hiển thị Sidebar và Header đồng nhất.\n- Kiểm tra điều hướng giữa các trang vẫn hoạt động mượt mà.\n- Kiểm tra trạng thái co giãn của Sidebar được duy trì chính xác khi chuyển trang."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng MainShell kết hợp Header và SideRail sử dụng Row/Expanded"
+          },
+          {
+            "completed": false,
+            "text": "Bọc toàn bộ app bằng MainShell trong AppRouter configuration"
+          }
+        ],
+        "description": "Kết hợp Header và SideRail thành một khung chung bao quanh các màn hình. Phụ thuộc vào @task-zuhdmz và @task-i0pvui.",
+        "implementationPlan": "## Implementation Plan\n1. **Create MainShell**: Xây dựng widget `MainShell` tại `lib/presentation/widgets/shared/navigation/main_shell.dart`.\n    - Sử dụng `Row` để chia không gian: Bên trái là `AppSideRail`, bên phải là vùng nội dung chính.\n    - Vùng nội dung chính chứa `AppHeader` ở trên cùng và `child` (màn hình) ở dưới.\n2. **Update AppRouter**: \n    - Cấu hình `ShellRoute` trong `lib/core/router/app_router.dart` để sử dụng `MainShell`.\n    - Đảm bảo các route con được bọc đúng cách bởi Shell này.\n3. **Clean Up**: Di chuyển logic từ `AppNavigationWrapper` cũ sang `MainShell` hoặc xóa bỏ nếu không còn sử dụng.\n\n## Verification Plan\n- Kiểm tra toàn bộ ứng dụng hiển thị Sidebar và Header đồng nhất.\n- Kiểm tra điều hướng giữa các trang vẫn hoạt động mượt mà.\n- Kiểm tra trạng thái co giãn của Sidebar được duy trì chính xác khi chuyển trang.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "MainShell Layout Integration (Shell)"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "q6tj9n",
+      "version": 5,
+      "timestamp": "2026-04-29T09:38:15.6051416Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Xây dựng MainShell kết hợp Header và SideRail sử dụng Row/Expanded",
+            "completed": true
+          },
+          {
+            "text": "Bọc toàn bộ app bằng MainShell trong AppRouter configuration",
+            "completed": true
+          }
+        ],
+        "description": "Kết hợp Header và SideRail thành một khung chung bao quanh các màn hình. Phụ thuộc vào @task-zuhdmz và @task-i0pvui.",
+        "implementationPlan": "## Implementation Plan\n1. **Create MainShell**: Xây dựng widget `MainShell` tại `lib/presentation/widgets/shared/navigation/main_shell.dart`.\n    - Sử dụng `Row` để chia không gian: Bên trái là `AppSideRail`, bên phải là vùng nội dung chính.\n    - Vùng nội dung chính chứa `AppHeader` ở trên cùng và `child` (màn hình) ở dưới.\n2. **Update AppRouter**: \n    - Cấu hình `ShellRoute` trong `lib/core/router/app_router.dart` để sử dụng `MainShell`.\n    - Đảm bảo các route con được bọc đúng cách bởi Shell này.\n3. **Clean Up**: Di chuyển logic từ `AppNavigationWrapper` cũ sang `MainShell` hoặc xóa bỏ nếu không còn sử dụng.\n\n## Verification Plan\n- Kiểm tra toàn bộ ứng dụng hiển thị Sidebar và Header đồng nhất.\n- Kiểm tra điều hướng giữa các trang vẫn hoạt động mượt mà.\n- Kiểm tra trạng thái co giãn của Sidebar được duy trì chính xác khi chuyển trang.",
+        "priority": "high",
+        "status": "done",
+        "title": "MainShell Layout Integration (Shell)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "taskId": "7n55ph",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "7n55ph",
+      "version": 1,
+      "timestamp": "2026-04-29T13:43:28.0014798Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai tầng Logic cho Manager bao gồm: Tính toán chỉ số thống kê toàn phòng Lab và dịch vụ Lookup danh sách Specialist.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Manager Dashboard Logic \\u0026 Specialist Services (Logic)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "7n55ph",
+      "version": 2,
+      "timestamp": "2026-04-29T13:43:32.7676318Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "text": "Triển khai SpecialistLookupService (fetch users where role=specialist)",
+              "completed": false
+            },
+            {
+              "text": "Cập nhật ManagerDashboardCubit lắng nghe Stream toàn bộ TestOrders",
+              "completed": false
+            },
+            {
+              "text": "Viết logic tính toán stats cho Manager (Bento Box)",
+              "completed": false
+            },
+            {
+              "text": "Implement logic assignSpecialist, approveOrder, rejectOrder trong Cubit/Repository",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Triển khai SpecialistLookupService (fetch users where role=specialist)",
+            "completed": false
+          },
+          {
+            "text": "Cập nhật ManagerDashboardCubit lắng nghe Stream toàn bộ TestOrders",
+            "completed": false
+          },
+          {
+            "text": "Viết logic tính toán stats cho Manager (Bento Box)",
+            "completed": false
+          },
+          {
+            "text": "Implement logic assignSpecialist, approveOrder, rejectOrder trong Cubit/Repository",
+            "completed": false
+          }
+        ],
+        "description": "Triển khai tầng Logic cho Manager bao gồm: Tính toán chỉ số thống kê toàn phòng Lab và dịch vụ Lookup danh sách Specialist.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Manager Dashboard Logic \\u0026 Specialist Services (Logic)"
+      }
+    }
+  ]
+}

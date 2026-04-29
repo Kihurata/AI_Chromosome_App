@@ -1,0 +1,63 @@
+{
+  "taskId": "rqirhn",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "rqirhn",
+      "version": 1,
+      "timestamp": "2026-04-29T09:12:33.9902921Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement LayoutCubit and LayoutState to manage sidebar toggle and other layout-related UI states. Register with GetIt.",
+        "labels": [
+          "from-spec",
+          "logic"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Layout State Management Implementation"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "rqirhn",
+      "version": 2,
+      "timestamp": "2026-04-29T13:45:12.037633Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Duplicate of f9ugr0 (Layout State Management) which is already completed."
+        }
+      ],
+      "snapshot": {
+        "description": "Implement LayoutCubit and LayoutState to manage sidebar toggle and other layout-related UI states. Register with GetIt.",
+        "implementationNotes": "Duplicate of f9ugr0 (Layout State Management) which is already completed.",
+        "labels": [
+          "from-spec",
+          "logic"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Layout State Management Implementation"
+      }
+    }
+  ]
+}

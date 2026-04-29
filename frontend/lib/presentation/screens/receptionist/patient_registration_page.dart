@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/theme/app_colors.dart';
@@ -303,8 +305,9 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   // ── Section Card ──
   Widget _buildSectionCard({

@@ -1,0 +1,110 @@
+{
+  "taskId": "0oboeb",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "0oboeb",
+      "version": 1,
+      "timestamp": "2026-04-29T09:26:21.1103302Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Thêm watchAssignedOrders(String specialistId) vào TestOrderRepository interface.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Update TestOrderRepository Interface (Domain)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "0oboeb",
+      "version": 2,
+      "timestamp": "2026-04-29T09:39:30.0642396Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Thêm watchAssignedOrders(String specialistId) trả về Stream\u003cEither\u003cFailure, List\u003cTestOrder\u003e\u003e\u003e vào TestOrderRepository interface."
+            },
+            {
+              "completed": false,
+              "text": "Thêm implement rỗng hoặc cơ bản vào TestOrderRepositoryImpl để code không bị lỗi compile."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Mở file `lib/domain/repositories/test_order_repository.dart` và thêm `Stream\u003cEither\u003cFailure, List\u003cTestOrder\u003e\u003e\u003e watchAssignedOrders(String specialistId);`.\n2. Mở file `lib/data/repositories/test_order_repository_impl.dart` và thêm một implementation cơ bản cho `watchAssignedOrders` (trả về Stream trống hoặc throw UnimplementedError) để đảm bảo không bị lỗi build, chuẩn bị cho task tiếp theo (27iuwg)."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Thêm watchAssignedOrders(String specialistId) trả về Stream\u003cEither\u003cFailure, List\u003cTestOrder\u003e\u003e\u003e vào TestOrderRepository interface."
+          },
+          {
+            "completed": false,
+            "text": "Thêm implement rỗng hoặc cơ bản vào TestOrderRepositoryImpl để code không bị lỗi compile."
+          }
+        ],
+        "description": "Thêm watchAssignedOrders(String specialistId) vào TestOrderRepository interface.",
+        "implementationPlan": "1. Mở file `lib/domain/repositories/test_order_repository.dart` và thêm `Stream\u003cEither\u003cFailure, List\u003cTestOrder\u003e\u003e\u003e watchAssignedOrders(String specialistId);`.\n2. Mở file `lib/data/repositories/test_order_repository_impl.dart` và thêm một implementation cơ bản cho `watchAssignedOrders` (trả về Stream trống hoặc throw UnimplementedError) để đảm bảo không bị lỗi build, chuẩn bị cho task tiếp theo (27iuwg).",
+        "priority": "high",
+        "status": "todo",
+        "title": "Update TestOrderRepository Interface (Domain)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "0oboeb",
+      "version": 3,
+      "timestamp": "2026-04-29T09:43:33.0863892Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Added watchAssignedOrders to TestOrderRepository interface and provided a stub implementation in TestOrderRepositoryImpl. Passed dart analyze."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Thêm watchAssignedOrders(String specialistId) trả về Stream\u003cEither\u003cFailure, List\u003cTestOrder\u003e\u003e\u003e vào TestOrderRepository interface.",
+            "completed": true
+          },
+          {
+            "text": "Thêm implement rỗng hoặc cơ bản vào TestOrderRepositoryImpl để code không bị lỗi compile.",
+            "completed": true
+          }
+        ],
+        "description": "Thêm watchAssignedOrders(String specialistId) vào TestOrderRepository interface.",
+        "implementationNotes": "Done: Added watchAssignedOrders to TestOrderRepository interface and provided a stub implementation in TestOrderRepositoryImpl. Passed dart analyze.",
+        "implementationPlan": "1. Mở file `lib/domain/repositories/test_order_repository.dart` và thêm `Stream\u003cEither\u003cFailure, List\u003cTestOrder\u003e\u003e\u003e watchAssignedOrders(String specialistId);`.\n2. Mở file `lib/data/repositories/test_order_repository_impl.dart` và thêm một implementation cơ bản cho `watchAssignedOrders` (trả về Stream trống hoặc throw UnimplementedError) để đảm bảo không bị lỗi build, chuẩn bị cho task tiếp theo (27iuwg).",
+        "priority": "high",
+        "status": "done",
+        "title": "Update TestOrderRepository Interface (Domain)"
+      }
+    }
+  ]
+}

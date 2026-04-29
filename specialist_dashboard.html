@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clinical Cobalt - Genetic Specialist Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#ffffff",
+                        "surface-container": "#f1f5f9",
+                        "tertiary-fixed-dim": "#ffb59b",
+                        "surface-tint": "#0052cc",
+                        "surface-bright": "#ffffff",
+                        "on-tertiary-fixed-variant": "#812800",
+                        "on-primary-container": "#003d9b",
+                        "secondary-container": "#f1f5f9",
+                        "on-tertiary-container": "#92400e",
+                        "on-background": "#0f172a",
+                        "inverse-surface": "#1e293b",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f8fafc",
+                        "surface-dim": "#f1f5f9",
+                        "on-surface": "#0f172a",
+                        "inverse-primary": "#b2c5ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#ebf2ff",
+                        "on-primary": "#ffffff",
+                        "error-container": "#fee2e2",
+                        "on-primary-fixed": "#001848",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#e2e8f0",
+                        "tertiary": "#d97706",
+                        "secondary": "#475569",
+                        "outline": "#e2e8f0",
+                        "surface-container-low": "#f8fafc",
+                        "on-primary-fixed-variant": "#0040a2",
+                        "error": "#ef4444",
+                        "tertiary-fixed": "#ffdbcf",
+                        "surface-variant": "#f1f5f9",
+                        "secondary-fixed": "#e2e8f0",
+                        "primary": "#0052cc",
+                        "on-secondary-fixed": "#0f172a",
+                        "surface-container-highest": "#cbd5e1",
+                        "on-secondary-fixed-variant": "#334155",
+                        "outline-variant": "#94a3b8",
+                        "on-error-container": "#991b1b",
+                        "tertiary-container": "#fef3c7",
+                        "on-secondary-container": "#1e293b",
+                        "on-error": "#ffffff",
+                        "background": "#f5f7f8",
+                        "secondary-fixed-dim": "#cbd5e1",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "primary-fixed": "#dae2ff",
+                        "on-surface-variant": "#64748b",
+                        "on-tertiary-fixed": "#380d00"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"],
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill-1 {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-[#f8fafc] dark:bg-slate-950 font-display text-slate-900 dark:text-slate-100 antialiased overflow-x-hidden">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="bg-white border-r border-slate-200 dark:border-slate-800 flex flex-col flex-shrink-0 w-64 z-50">
+<div class="p-6 flex items-center gap-3 justify-between">
+<div class="flex items-center gap-2">
+<div class="bg-primary size-9 rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl icon-fill-1">medical_services</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white font-bold text-[13px] leading-tight">Hệ thống</h1>
+<span class="text-slate-900 dark:text-white text-[13px] font-bold leading-tight">Bệnh viện</span>
+</div>
+</div>
+<button class="text-slate-400 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined text-[18px]">notes</span>
+</button>
+</div>
+<nav class="flex-1 px-3 py-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors bg-[#eff6ff] text-[#0052cc]" href="#">
+<span class="material-symbols-outlined text-[20px] font-semibold">biotech</span>
+<span class="text-[13px] font-semibold">Lab - Xét nghiệm Máu</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+<!-- Header Section -->
+<header class="sticky top-0 z-20 bg-white border-b border-slate-200 dark:border-slate-800 px-8 py-3.5 flex items-center justify-between">
+<div>
+<h2 class="text-lg font-bold text-slate-800">Phiếu xét nghiệm được giao</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="p-1.5 text-gray-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full relative group">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<div class="relative group">
+<button class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+<div class="hidden lg:block text-left">
+<p class="text-[13px] font-bold text-slate-800 leading-none">CV. Trần Văn An</p>
+<p class="text-slate-400 dark:text-slate-400 text-[11px] mt-1 font-medium uppercase">Chuyên viên Di truyền</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-sm">expand_more</span>
+</button>
+<!-- Dropdown Menu -->
+<div class="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 py-2 hidden group-hover:block z-50">
+<a class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50" href="#">
+<span class="material-symbols-outlined text-lg">person</span>
+<span>Xem thông tin cá nhân</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span>Cài đặt hệ thống</span>
+</a>
+<div class="h-px bg-slate-200 dark:bg-slate-700 my-1 mx-2"></div>
+<a class="flex items-center gap-3 px-4 py-2.5 text-sm text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/10" href="#">
+<span class="material-symbols-outlined text-lg">logout</span>
+<span>Đăng xuất</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</header>
+<div class="p-8 flex-1 overflow-y-auto">
+<!-- Header Subtext Section -->
+<div class="mb-10">
+<p class="text-slate-500 font-medium">Theo dõi và quản lý các yêu cầu xét nghiệm di truyền trong ngày.</p>
+</div>
+<!-- Bento Summary Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<div class="bg-white p-6 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-orange-50 rounded-lg text-orange-600">
+<span class="material-symbols-outlined" data-icon="pending_actions">pending_actions</span>
+</div>
+<span class="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded-full">+2 mới</span>
+</div>
+<p class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-1">Chờ xử lý</p>
+<p class="text-4xl font-black text-slate-900 group-hover:text-primary transition-colors">5</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+<span class="material-symbols-outlined" data-icon="science">science</span>
+</div>
+<span class="flex items-center gap-1.5 text-xs font-bold text-blue-600">
+<span class="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span>
+                                Real-time
+                            </span>
+</div>
+<p class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-1">Đang phân tích</p>
+<p class="text-4xl font-black text-slate-900 group-hover:text-primary transition-colors">3</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-amber-50 rounded-lg text-amber-600">
+<span class="material-symbols-outlined" data-icon="rule">rule</span>
+</div>
+</div>
+<p class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-1">Chờ duyệt</p>
+<p class="text-4xl font-black text-slate-900 group-hover:text-primary transition-colors">2</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-transparent hover:border-primary/20 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+<span class="material-symbols-outlined" data-icon="task_alt">task_alt</span>
+</div>
+<span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">Tuần này</span>
+</div>
+<p class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-1">Hoàn thành</p>
+<p class="text-4xl font-black text-slate-900 group-hover:text-primary transition-colors">12</p>
+</div>
+</div>
+<!-- Main Data Table Container -->
+<div class="bg-white rounded-xl shadow-sm border border-slate-200/50 overflow-hidden">
+<div class="px-6 py-5 border-b border-slate-200/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="w-1 bg-primary h-6 rounded-full"></div>
+<h3 class="text-md font-bold text-slate-800">Hệ thống Xét nghiệm</h3>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+<span class="material-symbols-outlined text-slate-400 text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-xs font-medium w-48 text-slate-700 p-0" placeholder="Tìm kiếm hồ sơ..." type="text"/>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">filter_list</span>
+<select class="pl-9 pr-8 py-2 text-xs font-bold bg-slate-50 border-none rounded-lg focus:ring-primary/20 appearance-none text-slate-600 uppercase tracking-tight">
+<option>Tất cả trạng thái</option>
+<option>Chờ xử lý</option>
+<option>Đang phân tích</option>
+</select>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50/50">
+<th class="px-6 py-4 text-[11px] font-extrabold text-slate-500 uppercase tracking-widest">Mã phiếu</th>
+<th class="px-6 py-4 text-[11px] font-extrabold text-slate-500 uppercase tracking-widest">Bệnh nhân</th>
+<th class="px-6 py-4 text-[11px] font-extrabold text-slate-500 uppercase tracking-widest">Lý do xét nghiệm</th>
+<th class="px-6 py-4 text-[11px] font-extrabold text-slate-500 uppercase tracking-widest">Ngày giao</th>
+<th class="px-6 py-4 text-[11px] font-extrabold text-slate-500 uppercase tracking-widest">Trạng thái</th>
+<th class="px-6 py-4 text-[11px] font-extrabold text-slate-500 uppercase tracking-widest text-right">Thao tác</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<span class="text-xs font-mono font-bold text-primary bg-primary-container px-2 py-1 rounded">#GX-9821</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">NH</div>
+<div>
+<p class="text-sm font-bold text-slate-800 leading-tight">Nguyễn Văn Hùng</p>
+<p class="text-[10px] text-slate-400">Nam, 45 tuổi</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-slate-700">Tầm soát đột biến gen BRCA1/2</p>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-slate-500">12/10/2023</p>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-orange-100 text-orange-700">
+<span class="w-1.5 h-1.5 bg-orange-600 rounded-full"></span>
+                                            Chờ xử lý
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 hover:bg-primary-container text-primary rounded-lg transition-colors group-hover:shadow-sm" title="Phân tích">
+<span class="material-symbols-outlined text-xl" data-icon="biotech">biotech</span>
+</button>
+<button class="p-2 hover:bg-slate-100 text-slate-400 rounded-lg transition-colors" title="Xem chi tiết">
+<span class="material-symbols-outlined text-xl" data-icon="visibility">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<span class="text-xs font-mono font-bold text-primary bg-primary-container px-2 py-1 rounded">#GX-9844</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">LT</div>
+<div>
+<p class="text-sm font-bold text-slate-800 leading-tight">Lê Thị Thu</p>
+<p class="text-[10px] text-slate-400">Nữ, 32 tuổi</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-slate-700">Phân tích đa hình nucleotide đơn (SNP)</p>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-slate-500">13/10/2023</p>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700">
+<span class="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span>
+                                            Đang phân tích
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 hover:bg-primary-container text-primary rounded-lg transition-colors" title="Phân tích">
+<span class="material-symbols-outlined text-xl" data-icon="biotech">biotech</span>
+</button>
+<button class="p-2 hover:bg-slate-100 text-slate-400 rounded-lg transition-colors" title="Xem chi tiết">
+<span class="material-symbols-outlined text-xl" data-icon="visibility">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<span class="text-xs font-mono font-bold text-primary bg-primary-container px-2 py-1 rounded">#GX-9850</span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">PV</div>
+<div>
+<p class="text-sm font-bold text-slate-800 leading-tight">Phạm Văn Minh</p>
+<p class="text-[10px] text-slate-400">Nam, 28 tuổi</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-slate-700">Xét nghiệm karyotype truyền thống</p>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-slate-500">13/10/2023</p>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-orange-100 text-orange-700">
+<span class="w-1.5 h-1.5 bg-orange-600 rounded-full"></span>
+                                            Chờ xử lý
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 hover:bg-primary-container text-primary rounded-lg transition-colors" title="Phân tích">
+<span class="material-symbols-outlined text-xl" data-icon="biotech">biotech</span>
+</button>
+<button class="p-2 hover:bg-slate-100 text-slate-400 rounded-lg transition-colors" title="Xem chi tiết">
+<span class="material-symbols-outlined text-xl" data-icon="visibility">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 border-t border-slate-200/50 flex items-center justify-between bg-slate-50/30 text-sm">
+<p class="text-xs font-medium text-slate-500">Hiển thị 3 trên 5 kết quả</p>
+<div class="flex items-center gap-4">
+<span class="text-xs font-bold text-slate-800 uppercase tracking-widest">Trang 1/2</span>
+<div class="flex gap-2">
+<button class="p-1.5 rounded-lg border border-slate-200 hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center" disabled="">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</button>
+<button class="p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

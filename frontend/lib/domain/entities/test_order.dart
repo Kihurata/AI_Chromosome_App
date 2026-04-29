@@ -2,18 +2,25 @@ import 'package:equatable/equatable.dart';
 
 enum TestOrderStatus {
   pending,
-  inProgress,
+  analyzing,
+  waitingApproval,
   completed,
   rejected;
 
   static TestOrderStatus fromString(String value) {
     switch (value.toUpperCase()) {
-      case 'IN_PROGRESS':
-        return TestOrderStatus.inProgress;
+      case 'ANALYZING':
+        return TestOrderStatus.analyzing;
+      case 'WAITING_APPROVAL':
+        return TestOrderStatus.waitingApproval;
       case 'COMPLETED':
         return TestOrderStatus.completed;
       case 'REJECTED':
         return TestOrderStatus.rejected;
+      case 'IN_PROGRESS': // Compatibility
+        return TestOrderStatus.analyzing;
+      case 'WAITING_FOR_APPROVAL': // Compatibility
+        return TestOrderStatus.waitingApproval;
       default:
         return TestOrderStatus.pending;
     }
@@ -23,12 +30,29 @@ enum TestOrderStatus {
     switch (this) {
       case TestOrderStatus.pending:
         return 'PENDING';
-      case TestOrderStatus.inProgress:
-        return 'IN_PROGRESS';
+      case TestOrderStatus.analyzing:
+        return 'ANALYZING';
+      case TestOrderStatus.waitingApproval:
+        return 'WAITING_APPROVAL';
       case TestOrderStatus.completed:
         return 'COMPLETED';
       case TestOrderStatus.rejected:
         return 'REJECTED';
+    }
+  }
+
+  String get displayName {
+    switch (this) {
+      case TestOrderStatus.pending:
+        return 'Chờ xử lý';
+      case TestOrderStatus.analyzing:
+        return 'Đang phân tích';
+      case TestOrderStatus.waitingApproval:
+        return 'Chờ duyệt';
+      case TestOrderStatus.completed:
+        return 'Hoàn thành';
+      case TestOrderStatus.rejected:
+        return 'Bị từ chối';
     }
   }
 }

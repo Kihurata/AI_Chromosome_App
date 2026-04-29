@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../domain/entities/chromosome.dart';
 
 class ChromosomeModel {
   final String id;
@@ -34,6 +35,32 @@ class ChromosomeModel {
       height: (coords['h'] ?? 0).toDouble(),
       rotation: (data['rotation'] ?? 0).toDouble(),
       isFlipped: data['is_flipped'] ?? false,
+    );
+  }
+
+  factory ChromosomeModel.fromEntity(Chromosome entity) {
+    return ChromosomeModel(
+      id: entity.id,
+      label: entity.label,
+      x: entity.x,
+      y: entity.y,
+      width: entity.width,
+      height: entity.height,
+      rotation: entity.rotation,
+      isFlipped: entity.isFlipped,
+    );
+  }
+
+  Chromosome toEntity() {
+    return Chromosome(
+      id: id,
+      label: label,
+      x: x,
+      y: y,
+      width: width,
+      height: height,
+      rotation: rotation,
+      isFlipped: isFlipped,
     );
   }
 

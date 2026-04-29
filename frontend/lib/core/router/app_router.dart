@@ -10,7 +10,8 @@ import '../../presentation/screens/receptionist/receptionist_dashboard_body.dart
 import '../../presentation/screens/receptionist/patient_list_page.dart';
 import '../../presentation/screens/receptionist/appointment_calendar_page.dart';
 import '../../presentation/screens/dashboard/doctor_dashboard_page.dart';
-import '../../presentation/widgets/shared/navigation/app_navigation_wrapper.dart';
+import '../../presentation/screens/specialist/specialist_dashboard_page.dart';
+import '../../presentation/widgets/shared/navigation/main_shell.dart';
 import '../../presentation/screens/clinician/appointment_list/appointment_list_screen.dart';
 import '../../presentation/screens/clinician/medical_record/medical_record_screen.dart';
 import '../../presentation/screens/clinician/examination_form_screen.dart';
@@ -111,12 +112,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const LoginPage(),
       ),
 
-      // ── Receptionist Shell ────────────────────────────────────────────────
+      // ── Main App Shell ────────────────────────────────────────────────
       ShellRoute(
-        builder: (context, state, child) => AppNavigationWrapper(
-          currentRoute: state.matchedLocation,
-          child: child,
-        ),
+        builder: (context, state, child) => MainShell(child: child),
         routes: [
           GoRoute(
             path: AppRoutes.receptionistDashboard,
@@ -169,7 +167,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.specialistDashboard,
             name: 'specialist-dashboard',
-            builder: (context, state) => const DoctorDashboardPage(),
+            builder: (context, state) => const SpecialistDashboardPage(),
           ),
           GoRoute(
             path: AppRoutes.managerReports,

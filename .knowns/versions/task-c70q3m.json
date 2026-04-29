@@ -1,0 +1,84 @@
+{
+  "taskId": "c70q3m",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "c70q3m",
+      "version": 1,
+      "timestamp": "2026-04-29T13:43:28.066611Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Xây dựng giao diện Dashboard cho Manager với đầy đủ các tab chức năng và quy trình phân công/phê duyệt.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Manager Dashboard UI \\u0026 Workflows (UI)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "c70q3m",
+      "version": 2,
+      "timestamp": "2026-04-29T13:43:33.314126Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "text": "Xây dựng giao diện TabView cho Manager (Unassigned, Ongoing, Pending Approval, Completed)",
+              "completed": false
+            },
+            {
+              "text": "Thiết kế Card hiển thị thông tin phiếu và nút hành động nhanh (Assign/Review)",
+              "completed": false
+            },
+            {
+              "text": "Triển khai Assignment Dialog hiển thị danh sách Specialist",
+              "completed": false
+            },
+            {
+              "text": "Triển khai Review UI đơn giản (View-only Workspace) và bộ nút Approve/Reject kèm Comment",
+              "completed": false
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Xây dựng giao diện TabView cho Manager (Unassigned, Ongoing, Pending Approval, Completed)",
+            "completed": false
+          },
+          {
+            "text": "Thiết kế Card hiển thị thông tin phiếu và nút hành động nhanh (Assign/Review)",
+            "completed": false
+          },
+          {
+            "text": "Triển khai Assignment Dialog hiển thị danh sách Specialist",
+            "completed": false
+          },
+          {
+            "text": "Triển khai Review UI đơn giản (View-only Workspace) và bộ nút Approve/Reject kèm Comment",
+            "completed": false
+          }
+        ],
+        "description": "Xây dựng giao diện Dashboard cho Manager với đầy đủ các tab chức năng và quy trình phân công/phê duyệt.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Manager Dashboard UI \\u0026 Workflows (UI)"
+      }
+    }
+  ]
+}

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../navigation/app_header.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../../../../core/providers/header_provider.dart';
+import '../../../../core/theme/app_colors.dart';
 
-class MedicalRecordLayout extends StatelessWidget {
+class MedicalRecordLayout extends ConsumerWidget {
   final String title;
   final Widget? headerAction;
   final String breadcrumbText;
@@ -28,16 +29,17 @@ class MedicalRecordLayout extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Dynamically update the global AppHeader in MainShell
+    Future.microtask(() {
+      ref.read(headerProvider.notifier).update(
+        title: title,
+        actions: headerAction != null ? [headerAction!] : null,
+      );
+    });
+
     return Column(
       children: [
-        // Top Header
-        AppHeader(
-          title: title,
-          subtitle: '',
-          actions: headerAction != null ? [headerAction!] : null,
-        ),
-        
         // Scrollable Body
         Expanded(
           child: SingleChildScrollView(
@@ -45,7 +47,7 @@ class MedicalRecordLayout extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Breadcrumbs
+                // Breadcrumbs (Inner)
                 Row(
                   children: [
                     GestureDetector(

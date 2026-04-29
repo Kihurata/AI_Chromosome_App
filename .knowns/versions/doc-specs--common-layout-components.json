@@ -1,0 +1,84 @@
+{
+  "docPath": "specs/common-layout-components",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "specs/common-layout-components",
+      "version": 1,
+      "timestamp": "2026-04-29T09:08:47.6062539Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Common Layout Components"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Specification for common layout components (Header and Side Rail)."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "spec",
+            "draft",
+            "ui",
+            "layout",
+            "common"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\nTriển khai bộ thành phần giao diện chung (Common Layout Components) bao gồm **Side Rail (Sidebar)** và **Global Header**. Các thành phần này sẽ tạo thành khung (Shell) của ứng dụng, giúp điều hướng đồng nhất giữa các vai trò người dùng (Receptionist, Clinician, Specialist, Manager).\n\n## Locked Decisions\n- **D1 (Desktop-First Side Rail):** Sử dụng thanh điều hướng dọc (Side Rail) nằm bên trái màn hình.\n- **D2 (Rich Header):** Header chứa Breadcrumbs (phía trái) để chỉ dẫn vị trí, User Profile và Notifications (phía phải).\n- **D3 (Collapsible Sidebar):** Side Rail hỗ trợ thu gọn (Collapse) để tối ưu không gian làm việc, đặc biệt là trong màn hình Workspace phân tích NST.\n\n## Requirements\n\n### Functional Requirements\n- **FR-1:** Side Rail hiển thị danh sách Menu dựa trên vai trò của User (lấy từ `appNavItems`).\n- **FR-2:** Cho phép người dùng thu gọn/mở rộng Side Rail bằng một nút bấm (Toggle).\n- **FR-3:** Header hiển thị chính xác đường dẫn hiện tại (Breadcrumbs) dựa trên Route Path.\n- **FR-4:** Header hiển thị thông tin User (Tên, Avatar) và tích hợp nút Logout.\n- **FR-5:** Header tích hợp Badge thông báo (Notifications).\n\n### Non-Functional Requirements\n- **NFR-1 (Consistency):** Sử dụng các Design Tokens từ `lib/core/theme/` (AppColors, AppShadows).\n- **NFR-2 (Aesthetics):** Hiệu ứng chuyển cảnh (animation) khi thu gọn Sidebar phải mượt mà.\n- **NFR-3 (Clean Architecture):** Tách biệt Widget hiển thị và Logic quản lý trạng thái Sidebar (có thể dùng một `LayoutCubit` đơn giản).\n\n## Acceptance Criteria\n- [ ] **AC-1:** Người dùng có thể click vào menu để chuyển trang thành công.\n- [ ] **AC-2:** Khi Sidebar thu gọn, chỉ hiển thị Icons; khi mở rộng, hiển thị cả Icons và Labels.\n- [ ] **AC-3:** Breadcrumbs tự động thay đổi khi người dùng chuyển từ Dashboard sang trang chi tiết.\n- [ ] **AC-4:** Bấm nút Logout trong Header sẽ xóa session và quay về trang Login.\n\n## Scenarios\n\n### Scenario 1: Thu gọn Sidebar để phân tích NST\n**Given** Specialist đang ở trang \"Phân tích NST\".\n**When** Specialist bấm nút Toggle trên Sidebar.\n**Then** Sidebar thu nhỏ lại chỉ còn Icons, vùng không gian làm việc chính được mở rộng ra.\n\n### Scenario 2: Kiểm tra Breadcrumbs\n**Given** Người dùng đang ở trang `/receptionist/patients`.\n**When** Người dùng bấm vào một bệnh nhân để xem chi tiết.\n**Then** Breadcrumbs trên Header hiển thị: `Tiếp nhận \u003e Danh sách bệnh nhân \u003e [Tên bệnh nhân]`.\n\n## Technical Notes\n- **Side Rail:** Xây dựng component `AppSideRail`.\n- **Header:** Xây dựng component `AppHeader`.\n- **Shell Layout:** Sử dụng `Scaffold` với `body` bao quanh bởi một `Row` chứa `SideRail` và `Expanded content area`.\n- **State:** Sử dụng một Provider hoặc Cubit đơn giản để lưu trạng thái `isSidebarCollapsed`.\n",
+        "description": "Specification for common layout components (Header and Side Rail).",
+        "tags": [
+          "spec",
+          "draft",
+          "ui",
+          "layout",
+          "common"
+        ],
+        "title": "Common Layout Components"
+      }
+    },
+    {
+      "id": "v2",
+      "docPath": "specs/common-layout-components",
+      "version": 2,
+      "timestamp": "2026-04-29T09:14:43.0532575Z",
+      "changes": [
+        {
+          "field": "tags",
+          "oldValue": [
+            "spec",
+            "draft",
+            "ui",
+            "layout",
+            "common"
+          ],
+          "newValue": [
+            "spec",
+            "approved",
+            "ui",
+            "layout",
+            "common"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\nTriển khai bộ thành phần giao diện chung (Common Layout Components) bao gồm **Side Rail (Sidebar)** và **Global Header**. Các thành phần này sẽ tạo thành khung (Shell) của ứng dụng, giúp điều hướng đồng nhất giữa các vai trò người dùng (Receptionist, Clinician, Specialist, Manager).\n\n## Locked Decisions\n- **D1 (Desktop-First Side Rail):** Sử dụng thanh điều hướng dọc (Side Rail) nằm bên trái màn hình.\n- **D2 (Rich Header):** Header chứa Breadcrumbs (phía trái) để chỉ dẫn vị trí, User Profile và Notifications (phía phải).\n- **D3 (Collapsible Sidebar):** Side Rail hỗ trợ thu gọn (Collapse) để tối ưu không gian làm việc, đặc biệt là trong màn hình Workspace phân tích NST.\n\n## Requirements\n\n### Functional Requirements\n- **FR-1:** Side Rail hiển thị danh sách Menu dựa trên vai trò của User (lấy từ `appNavItems`).\n- **FR-2:** Cho phép người dùng thu gọn/mở rộng Side Rail bằng một nút bấm (Toggle).\n- **FR-3:** Header hiển thị chính xác đường dẫn hiện tại (Breadcrumbs) dựa trên Route Path.\n- **FR-4:** Header hiển thị thông tin User (Tên, Avatar) và tích hợp nút Logout.\n- **FR-5:** Header tích hợp Badge thông báo (Notifications).\n\n### Non-Functional Requirements\n- **NFR-1 (Consistency):** Sử dụng các Design Tokens từ `lib/core/theme/` (AppColors, AppShadows).\n- **NFR-2 (Aesthetics):** Hiệu ứng chuyển cảnh (animation) khi thu gọn Sidebar phải mượt mà.\n- **NFR-3 (Clean Architecture):** Tách biệt Widget hiển thị và Logic quản lý trạng thái Sidebar (có thể dùng một `LayoutCubit` đơn giản).\n\n## Acceptance Criteria\n- [ ] **AC-1:** Người dùng có thể click vào menu để chuyển trang thành công.\n- [ ] **AC-2:** Khi Sidebar thu gọn, chỉ hiển thị Icons; khi mở rộng, hiển thị cả Icons và Labels.\n- [ ] **AC-3:** Breadcrumbs tự động thay đổi khi người dùng chuyển từ Dashboard sang trang chi tiết.\n- [ ] **AC-4:** Bấm nút Logout trong Header sẽ xóa session và quay về trang Login.\n\n## Scenarios\n\n### Scenario 1: Thu gọn Sidebar để phân tích NST\n**Given** Specialist đang ở trang \"Phân tích NST\".\n**When** Specialist bấm nút Toggle trên Sidebar.\n**Then** Sidebar thu nhỏ lại chỉ còn Icons, vùng không gian làm việc chính được mở rộng ra.\n\n### Scenario 2: Kiểm tra Breadcrumbs\n**Given** Người dùng đang ở trang `/receptionist/patients`.\n**When** Người dùng bấm vào một bệnh nhân để xem chi tiết.\n**Then** Breadcrumbs trên Header hiển thị: `Tiếp nhận \u003e Danh sách bệnh nhân \u003e [Tên bệnh nhân]`.\n\n## Technical Notes\n- **Side Rail:** Xây dựng component `AppSideRail`.\n- **Header:** Xây dựng component `AppHeader`.\n- **Shell Layout:** Sử dụng `Scaffold` với `body` bao quanh bởi một `Row` chứa `SideRail` và `Expanded content area`.\n- **State:** Sử dụng một Provider hoặc Cubit đơn giản để lưu trạng thái `isSidebarCollapsed`.",
+        "description": "Specification for common layout components (Header and Side Rail).",
+        "tags": [
+          "spec",
+          "approved",
+          "ui",
+          "layout",
+          "common"
+        ],
+        "title": "Common Layout Components"
+      }
+    }
+  ]
+}

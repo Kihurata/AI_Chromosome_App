@@ -1,0 +1,65 @@
+{
+  "taskId": "dpruf8",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "dpruf8",
+      "version": 1,
+      "timestamp": "2026-04-29T09:12:35.0364185Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement the MainShell layout that wraps all application screens with the AppHeader and AppSideRail. Handle navigation and logout logic.",
+        "labels": [
+          "from-spec",
+          "ui",
+          "shell"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "MainShell Layout Integration"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "dpruf8",
+      "version": 2,
+      "timestamp": "2026-04-29T13:45:05.0726548Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Duplicate of q6tj9n (MainShell Layout Integration) which is already completed."
+        }
+      ],
+      "snapshot": {
+        "description": "Implement the MainShell layout that wraps all application screens with the AppHeader and AppSideRail. Handle navigation and logout logic.",
+        "implementationNotes": "Duplicate of q6tj9n (MainShell Layout Integration) which is already completed.",
+        "labels": [
+          "from-spec",
+          "ui",
+          "shell"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "MainShell Layout Integration"
+      }
+    }
+  ]
+}

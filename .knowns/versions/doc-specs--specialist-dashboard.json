@@ -1,0 +1,79 @@
+{
+  "docPath": "specs/specialist-dashboard",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "specs/specialist-dashboard",
+      "version": 1,
+      "timestamp": "2026-04-29T09:01:49.8456285Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Specialist Dashboard"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Specification for Lab Specialist Dashboard functionality."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "spec",
+            "draft",
+            "specialist",
+            "dashboard"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\nThiết kế và triển khai màn hình Dashboard dành cho vai trò **Lab Specialist**. Đây là nơi chuyên viên quản lý danh sách các phiếu xét nghiệm được phân công, theo dõi tiến độ công việc qua các chỉ số thống kê (Bento Box) và thực hiện các thao tác tìm kiếm, lọc và bắt đầu phân tích.\n\n## Locked Decisions\n- **D1 (Real-time Sync):** Dashboard lắng nghe Stream từ Firestore để cập nhật danh sách phiếu và trạng thái AI ngay lập tức.\n- **D2 (Logic in Cubit):** Các chỉ số thống kê (Chờ xử lý, Đang phân tích, Chờ duyệt, Hoàn thành) được tính toán trong Cubit và đẩy ra UI qua object `SpecialistStats`.\n- **D3 (Search \u0026 Filter):** Hỗ trợ tìm kiếm theo tên/mã bệnh nhân và lọc theo trạng thái phiếu.\n- **D4 (Manual Transition):** Trạng thái phiếu chuyển từ \"Chờ xử lý\" sang \"Đang phân tích\" thông qua thao tác bấm nút \"Bắt đầu\" thủ công của Specialist.\n\n## Requirements\n\n### Functional Requirements\n- **FR-1:** Hiển thị Bento Box với 4 chỉ số thống kê thời gian thực.\n- **FR-2:** Hiển thị danh sách các phiếu xét nghiệm (TestOrder) được phân công cho Specialist hiện tại.\n- **FR-3:** Tìm kiếm phiếu theo `patientName` hoặc `patientCode` (Local search trên danh sách đã fetch).\n- **FR-4:** Lọc danh sách theo `status`.\n- **FR-5:** Cập nhật trạng thái phiếu sang `ANALYZING` khi người dùng xác nhận bắt đầu.\n- **FR-6:** Điều hướng người dùng tới màn hình **Workspace** khi chọn một phiếu.\n\n### Non-Functional Requirements\n- **NFR-1 (UX):** Các chỉ số thống kê phải cập nhật mượt mà khi có thay đổi từ Firestore (Backend xử lý xong AI hoặc Manager phân công mới).\n- **NFR-2 (Clean Architecture):** Tuân thủ tuyệt đối việc tách biệt Logic (Cubit) và Presentation (UI).\n\n## Acceptance Criteria\n- [ ] **AC-1:** Dashboard hiển thị đúng số lượng phiếu theo từng trạng thái trong Bento Box.\n- [ ] **AC-2:** Thanh tìm kiếm lọc đúng kết quả hiển thị trên danh sách.\n- [ ] **AC-3:** Bấm nút \"Bắt đầu\" trên một phiếu \"Chờ xử lý\" sẽ cập nhật status lên Firestore thành `ANALYZING`.\n- [ ] **AC-4:** Khi một phiếu mới được phân công từ Manager, nó phải xuất hiện ngay lập tức trên Dashboard của Specialist mà không cần tải lại trang.\n\n## Scenarios\n\n### Scenario 1: Specialist bắt đầu làm việc\n**Given** Specialist đang ở Dashboard và thấy một phiếu mới ở trạng thái \"Chờ xử lý\".\n**When** Specialist bấm vào phiếu đó và chọn \"Bắt đầu phân tích\".\n**Then** Trạng thái phiếu trên Firestore chuyển thành `ANALYZING` và Specialist được điều hướng vào màn hình Workspace.\n\n### Scenario 2: Tìm kiếm bệnh nhân\n**Given** Danh sách có 10 phiếu với các tên bệnh nhân khác nhau.\n**When** Specialist gõ \"Nguyễn Văn A\" vào thanh tìm kiếm.\n**Then** Danh sách chỉ hiển thị các phiếu của bệnh nhân có tên khớp với từ khóa.\n\n## Technical Notes\n- Sử dụng `Riverpod` để stream danh sách phiếu từ `WorkspaceRepository`.\n- `SpecialistDashboardCubit` sẽ quản lý cả Stream subscription và logic filtering/search cục bộ để tối ưu performance.\n- Dữ liệu Specialist hiện tại lấy từ `AuthService`.\n",
+        "description": "Specification for Lab Specialist Dashboard functionality.",
+        "tags": [
+          "spec",
+          "draft",
+          "specialist",
+          "dashboard"
+        ],
+        "title": "Specialist Dashboard"
+      }
+    },
+    {
+      "id": "v2",
+      "docPath": "specs/specialist-dashboard",
+      "version": 2,
+      "timestamp": "2026-04-29T09:14:43.4066724Z",
+      "changes": [
+        {
+          "field": "tags",
+          "oldValue": [
+            "spec",
+            "draft",
+            "specialist",
+            "dashboard"
+          ],
+          "newValue": [
+            "spec",
+            "approved",
+            "specialist",
+            "dashboard"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\nThiết kế và triển khai màn hình Dashboard dành cho vai trò **Lab Specialist**. Đây là nơi chuyên viên quản lý danh sách các phiếu xét nghiệm được phân công, theo dõi tiến độ công việc qua các chỉ số thống kê (Bento Box) và thực hiện các thao tác tìm kiếm, lọc và bắt đầu phân tích.\n\n## Locked Decisions\n- **D1 (Real-time Sync):** Dashboard lắng nghe Stream từ Firestore để cập nhật danh sách phiếu và trạng thái AI ngay lập tức.\n- **D2 (Logic in Cubit):** Các chỉ số thống kê (Chờ xử lý, Đang phân tích, Chờ duyệt, Hoàn thành) được tính toán trong Cubit và đẩy ra UI qua object `SpecialistStats`.\n- **D3 (Search \u0026 Filter):** Hỗ trợ tìm kiếm theo tên/mã bệnh nhân và lọc theo trạng thái phiếu.\n- **D4 (Manual Transition):** Trạng thái phiếu chuyển từ \"Chờ xử lý\" sang \"Đang phân tích\" thông qua thao tác bấm nút \"Bắt đầu\" thủ công của Specialist.\n\n## Requirements\n\n### Functional Requirements\n- **FR-1:** Hiển thị Bento Box với 4 chỉ số thống kê thời gian thực.\n- **FR-2:** Hiển thị danh sách các phiếu xét nghiệm (TestOrder) được phân công cho Specialist hiện tại.\n- **FR-3:** Tìm kiếm phiếu theo `patientName` hoặc `patientCode` (Local search trên danh sách đã fetch).\n- **FR-4:** Lọc danh sách theo `status`.\n- **FR-5:** Cập nhật trạng thái phiếu sang `ANALYZING` khi người dùng xác nhận bắt đầu.\n- **FR-6:** Điều hướng người dùng tới màn hình **Workspace** khi chọn một phiếu.\n\n### Non-Functional Requirements\n- **NFR-1 (UX):** Các chỉ số thống kê phải cập nhật mượt mà khi có thay đổi từ Firestore (Backend xử lý xong AI hoặc Manager phân công mới).\n- **NFR-2 (Clean Architecture):** Tuân thủ tuyệt đối việc tách biệt Logic (Cubit) và Presentation (UI).\n\n## Acceptance Criteria\n- [ ] **AC-1:** Dashboard hiển thị đúng số lượng phiếu theo từng trạng thái trong Bento Box.\n- [ ] **AC-2:** Thanh tìm kiếm lọc đúng kết quả hiển thị trên danh sách.\n- [ ] **AC-3:** Bấm nút \"Bắt đầu\" trên một phiếu \"Chờ xử lý\" sẽ cập nhật status lên Firestore thành `ANALYZING`.\n- [ ] **AC-4:** Khi một phiếu mới được phân công từ Manager, nó phải xuất hiện ngay lập tức trên Dashboard của Specialist mà không cần tải lại trang.\n\n## Scenarios\n\n### Scenario 1: Specialist bắt đầu làm việc\n**Given** Specialist đang ở Dashboard và thấy một phiếu mới ở trạng thái \"Chờ xử lý\".\n**When** Specialist bấm vào phiếu đó và chọn \"Bắt đầu phân tích\".\n**Then** Trạng thái phiếu trên Firestore chuyển thành `ANALYZING` và Specialist được điều hướng vào màn hình Workspace.\n\n### Scenario 2: Tìm kiếm bệnh nhân\n**Given** Danh sách có 10 phiếu với các tên bệnh nhân khác nhau.\n**When** Specialist gõ \"Nguyễn Văn A\" vào thanh tìm kiếm.\n**Then** Danh sách chỉ hiển thị các phiếu của bệnh nhân có tên khớp với từ khóa.\n\n## Technical Notes\n- Sử dụng `Riverpod` để stream danh sách phiếu từ `WorkspaceRepository`.\n- `SpecialistDashboardCubit` sẽ quản lý cả Stream subscription và logic filtering/search cục bộ để tối ưu performance.\n- Dữ liệu Specialist hiện tại lấy từ `AuthService`.",
+        "description": "Specification for Lab Specialist Dashboard functionality.",
+        "tags": [
+          "spec",
+          "approved",
+          "specialist",
+          "dashboard"
+        ],
+        "title": "Specialist Dashboard"
+      }
+    }
+  ]
+}
