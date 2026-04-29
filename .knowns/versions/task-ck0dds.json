@@ -1,0 +1,36 @@
+{
+  "taskId": "ck0dds",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "ck0dds",
+      "version": 1,
+      "timestamp": "2026-04-29T15:03:18.0349769Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai service Python FastAPI để nhận toạ độ Vector/Polygon từ App (Bước 2). Sử dụng OpenCV để crop ảnh gốc thành 46 ảnh PNG trong suốt. Đẩy ảnh lên Firebase Storage và trả URLs về cho Flutter để render ở Bước 3.",
+        "labels": [
+          "backend",
+          "python",
+          "opencv",
+          "fastapi"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Image Slicing Service (Backend)"
+      }
+    }
+  ]
+}

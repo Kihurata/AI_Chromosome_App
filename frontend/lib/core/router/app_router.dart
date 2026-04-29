@@ -16,6 +16,7 @@ import '../../presentation/screens/clinician/appointment_list/appointment_list_s
 import '../../presentation/screens/clinician/medical_record/medical_record_screen.dart';
 import '../../presentation/screens/clinician/examination_form_screen.dart';
 import '../../presentation/screens/clinician/blood_test_prescription_screen.dart';
+import '../../presentation/screens/workspace/workspace_screen.dart';
 
 // ── Route path constants ──────────────────────────────────────────────────────
 class AppRoutes {
@@ -168,6 +169,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: AppRoutes.specialistDashboard,
             name: 'specialist-dashboard',
             builder: (context, state) => const SpecialistDashboardPage(),
+          ),
+          GoRoute(
+            path: '${AppRoutes.specialistAnalysis}/:orderId',
+            name: 'specialist-analysis',
+            builder: (context, state) => WorkspaceScreen(
+              orderId: state.pathParameters['orderId'] ?? '',
+            ),
           ),
           GoRoute(
             path: AppRoutes.managerReports,

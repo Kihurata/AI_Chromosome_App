@@ -1,0 +1,96 @@
+{
+  "taskId": "bu76ag",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "bu76ag",
+      "version": 1,
+      "timestamp": "2026-04-29T15:03:15.5061087Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai màn hình Bước 1 (chọn ảnh sơ bộ) và Bước 2 (hiển thị NST bị dính, sử dụng Canvas/Drawing tools để cắt). Lưu toạ độ Bounding Box / Vector Polygon xuống Firestore khi nhấn Xác nhận.",
+        "labels": [
+          "ui",
+          "logic",
+          "workspace"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Sàng lọc \u0026 Tách NST (UI/Logic) - Bước 1 \u0026 2"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "bu76ag",
+      "version": 2,
+      "timestamp": "2026-04-29T18:05:06.9435136Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Create `ScreeningStep` (Bước 1) UI displaying a grid of placeholder images.\n2. Create `SlicingStep` (Bước 2) UI displaying a main image and a `CustomPaint` overlay to collect polygon points for slicing.\n3. Update `WorkspaceScreen` to replace the placeholders with `ScreeningStep` and `SlicingStep`."
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai màn hình Bước 1 (chọn ảnh sơ bộ) và Bước 2 (hiển thị NST bị dính, sử dụng Canvas/Drawing tools để cắt). Lưu toạ độ Bounding Box / Vector Polygon xuống Firestore khi nhấn Xác nhận.",
+        "implementationPlan": "1. Create `ScreeningStep` (Bước 1) UI displaying a grid of placeholder images.\n2. Create `SlicingStep` (Bước 2) UI displaying a main image and a `CustomPaint` overlay to collect polygon points for slicing.\n3. Update `WorkspaceScreen` to replace the placeholders with `ScreeningStep` and `SlicingStep`.",
+        "labels": [
+          "ui",
+          "logic",
+          "workspace"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Sàng lọc \u0026 Tách NST (UI/Logic) - Bước 1 \u0026 2"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "bu76ag",
+      "version": 3,
+      "timestamp": "2026-04-29T18:05:49.7687441Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented ScreeningStep with placeholder grid and selection logic. Implemented SlicingStep with CustomPaint for Lasso vector drawing and undo functionality. Included both into WorkspaceScreen."
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai màn hình Bước 1 (chọn ảnh sơ bộ) và Bước 2 (hiển thị NST bị dính, sử dụng Canvas/Drawing tools để cắt). Lưu toạ độ Bounding Box / Vector Polygon xuống Firestore khi nhấn Xác nhận.",
+        "implementationNotes": "Implemented ScreeningStep with placeholder grid and selection logic. Implemented SlicingStep with CustomPaint for Lasso vector drawing and undo functionality. Included both into WorkspaceScreen.",
+        "implementationPlan": "1. Create `ScreeningStep` (Bước 1) UI displaying a grid of placeholder images.\n2. Create `SlicingStep` (Bước 2) UI displaying a main image and a `CustomPaint` overlay to collect polygon points for slicing.\n3. Update `WorkspaceScreen` to replace the placeholders with `ScreeningStep` and `SlicingStep`.",
+        "labels": [
+          "ui",
+          "logic",
+          "workspace"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "Sàng lọc \u0026 Tách NST (UI/Logic) - Bước 1 \u0026 2"
+      }
+    }
+  ]
+}
