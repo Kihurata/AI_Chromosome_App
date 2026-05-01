@@ -12,6 +12,7 @@ class SpecialistDashboardState extends Equatable {
   final String searchKeyword;
   final TestOrderStatus? statusFilter;
   final String? errorMessage;
+  final String? lastStartedOrderId;
 
   const SpecialistDashboardState({
     this.status = SpecialistDashboardStatus.initial,
@@ -21,6 +22,7 @@ class SpecialistDashboardState extends Equatable {
     this.searchKeyword = '',
     this.statusFilter,
     this.errorMessage,
+    this.lastStartedOrderId,
   });
 
   SpecialistDashboardState copyWith({
@@ -31,6 +33,7 @@ class SpecialistDashboardState extends Equatable {
     String? searchKeyword,
     TestOrderStatus? statusFilter,
     String? errorMessage,
+    String? lastStartedOrderId,
   }) {
     return SpecialistDashboardState(
       status: status ?? this.status,
@@ -40,6 +43,7 @@ class SpecialistDashboardState extends Equatable {
       searchKeyword: searchKeyword ?? this.searchKeyword,
       statusFilter: statusFilter ?? this.statusFilter,
       errorMessage: errorMessage ?? this.errorMessage,
+      lastStartedOrderId: lastStartedOrderId ?? this.lastStartedOrderId,
     );
   }
 
@@ -52,5 +56,6 @@ class SpecialistDashboardState extends Equatable {
         searchKeyword,
         statusFilter,
         errorMessage,
+        lastStartedOrderId,
       ];
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/router/app_router.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/providers/auth_provider.dart';
 import '../../../logic/bloc/specialist_dashboard/specialist_dashboard_cubit.dart';
@@ -46,18 +48,27 @@ class _SpecialistDashboardPageState extends ConsumerState<SpecialistDashboardPag
     
     return BlocProvider.value(
       value: _cubit,
-      child: MainListLayout(
-        title: 'Bảng điều khiển',
-        subtitle: 'Chào mừng trở lại, ${authState.displayName}',
-        onRefresh: () async {
-           if (authState.user?.uid != null) {
-             _cubit.loadOrders(authState.user!.uid);
-           }
+      child: BlocListener<SpecialistDashboardCubit, SpecialistDashboardState>(
+        listenWhen: (previous, current) => current.lastStartedOrderId != null,
+        listener: (context, state) {
+          if (state.lastStartedOrderId != null) {
+            final orderId = state.lastStartedOrderId!;
+            _cubit.clearNavigation();
+            context.push('${AppRoutes.specialistAnalysis}/$orderId');
+          }
         },
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: BlocBuilder<SpecialistDashboardCubit, SpecialistDashboardState>(
-            builder: (context, state) {
+        child: MainListLayout(
+          title: 'Bảng điều khiển',
+          subtitle: 'Chào mừng trở lại, ${authState.displayName}',
+          onRefresh: () async {
+            if (authState.user?.uid != null) {
+              _cubit.loadOrders(authState.user!.uid);
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: BlocBuilder<SpecialistDashboardCubit, SpecialistDashboardState>(
+              builder: (context, state) {
               if (state.status == SpecialistDashboardStatus.loading) {
                 return const Center(child: CircularProgressIndicator());
               }

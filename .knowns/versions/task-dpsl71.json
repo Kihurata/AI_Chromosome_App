@@ -1,6 +1,6 @@
 {
   "taskId": "dpsl71",
-  "currentVersion": 1,
+  "currentVersion": 4,
   "versions": [
     {
       "id": "v1",
@@ -23,6 +23,79 @@
         "description": "Đảm bảo AI Orchestrator được kích hoạt đúng lúc khi Specialist bắt đầu phân tích. Phụ thuộc vào @task-yliqkd.",
         "priority": "high",
         "status": "todo",
+        "title": "AI State Synchronization (Backend)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "dpsl71",
+      "version": 2,
+      "timestamp": "2026-05-01T16:55:53.1332736Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Đảm bảo AI Orchestrator được kích hoạt đúng lúc khi Specialist bắt đầu phân tích. Phụ thuộc vào @task-yliqkd.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "AI State Synchronization (Backend)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "dpsl71",
+      "version": 3,
+      "timestamp": "2026-05-01T16:57:17.3169807Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Refactor Orchestrator Logic**: Extract core analysis logic from `app/api/endpoints/orchestrator.py` into `app/services/orchestrator_service.py` to make it reusable for both API and Listener triggers.\n2. **Create Firestore Listener**: Implement `app/services/firestore_listener.py` to watch the `test_orders` collection. When an order status becomes `ANALYZING`, trigger the analysis service for its `metaphase_images`.\n3. **Integration**: Register the listener in `backend/main.py` startup event to ensure it runs continuously in the background.\n4. **Validation**: Add checks to only trigger AI for images with status `UPLOADED` and prevent redundant processing.\n5. **Testing**: Verify end-to-end sync using a test script that simulates the Specialist Dashboard status update."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Đảm bảo AI Orchestrator được kích hoạt đúng lúc khi Specialist bắt đầu phân tích. Phụ thuộc vào @task-yliqkd.",
+        "implementationPlan": "## Implementation Plan\n1. **Refactor Orchestrator Logic**: Extract core analysis logic from `app/api/endpoints/orchestrator.py` into `app/services/orchestrator_service.py` to make it reusable for both API and Listener triggers.\n2. **Create Firestore Listener**: Implement `app/services/firestore_listener.py` to watch the `test_orders` collection. When an order status becomes `ANALYZING`, trigger the analysis service for its `metaphase_images`.\n3. **Integration**: Register the listener in `backend/main.py` startup event to ensure it runs continuously in the background.\n4. **Validation**: Add checks to only trigger AI for images with status `UPLOADED` and prevent redundant processing.\n5. **Testing**: Verify end-to-end sync using a test script that simulates the Specialist Dashboard status update.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "AI State Synchronization (Backend)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "dpsl71",
+      "version": 4,
+      "timestamp": "2026-05-01T17:01:23.5531247Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented reactive Firestore listener to trigger AI orchestrator when order status changes to ANALYZING. Refactored orchestrator logic into a service for reusability. Verified with test script."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Đảm bảo AI Orchestrator được kích hoạt đúng lúc khi Specialist bắt đầu phân tích. Phụ thuộc vào @task-yliqkd.",
+        "implementationNotes": "Implemented reactive Firestore listener to trigger AI orchestrator when order status changes to ANALYZING. Refactored orchestrator logic into a service for reusability. Verified with test script.",
+        "implementationPlan": "## Implementation Plan\n1. **Refactor Orchestrator Logic**: Extract core analysis logic from `app/api/endpoints/orchestrator.py` into `app/services/orchestrator_service.py` to make it reusable for both API and Listener triggers.\n2. **Create Firestore Listener**: Implement `app/services/firestore_listener.py` to watch the `test_orders` collection. When an order status becomes `ANALYZING`, trigger the analysis service for its `metaphase_images`.\n3. **Integration**: Register the listener in `backend/main.py` startup event to ensure it runs continuously in the background.\n4. **Validation**: Add checks to only trigger AI for images with status `UPLOADED` and prevent redundant processing.\n5. **Testing**: Verify end-to-end sync using a test script that simulates the Specialist Dashboard status update.",
+        "priority": "high",
+        "status": "done",
         "title": "AI State Synchronization (Backend)"
       }
     }

@@ -58,16 +58,18 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
   }
 
   Future<void> startOrderAnalysis(String orderId) async {
-    // Optimistic UI update or just wait for Stream?
-    // Usually wait for Stream is safer in event-driven.
     final result = await updateStatusUsecase(orderId, TestOrderStatus.analyzing);
     result.fold(
       (failure) => emit(state.copyWith(
         status: SpecialistDashboardStatus.error,
         errorMessage: failure.message,
       )),
-      (_) => null, // Success will be reflected by the Stream
+      (_) => emit(state.copyWith(lastStartedOrderId: orderId)),
     );
+  }
+
+  void clearNavigation() {
+    emit(state.copyWith(lastStartedOrderId: null));
   }
 
   List<TestOrder> _applyFilters(
