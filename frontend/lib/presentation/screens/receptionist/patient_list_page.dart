@@ -10,6 +10,7 @@ import '../../../logic/bloc/patient/patient_state.dart';
 import '../../utils/ui_utils.dart';
 import '../../widgets/shared/data_display/app_data_table.dart';
 import '../../widgets/shared/layouts/main_list_layout.dart';
+import '../../widgets/shared/form/app_buttons.dart';
 import '../patient_detail/patient_detail_screen.dart';
 import 'patient_registration_page.dart';
 
@@ -41,7 +42,19 @@ class _PatientListPageState extends State<PatientListPage> {
     return MainListLayout(
       title: 'Danh sách bệnh nhân',
       subtitle: 'Quản lý hồ sơ và lịch sử khám bệnh',
-      child: BlocBuilder<PatientCubit, PatientState>(
+      child: BlocListener<PatientCubit, PatientState>(
+        listener: (context, state) {
+          if (state is PatientError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Lỗi: ${state.message}'),
+                backgroundColor: Colors.red,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+        },
+        child: BlocBuilder<PatientCubit, PatientState>(
         builder: (context, state) {
           final allPatients = state is PatientLoaded ? state.patients : <Patient>[];
           final patients = allPatients.where((p) {
@@ -73,8 +86,9 @@ class _PatientListPageState extends State<PatientListPage> {
           );
         },
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 class _PatientTableHeader extends StatelessWidget {

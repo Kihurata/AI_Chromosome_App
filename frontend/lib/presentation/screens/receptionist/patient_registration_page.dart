@@ -67,7 +67,6 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
       address: _addressController.text.trim(),
       emergencyContactName: _emergencyNameController.text.trim(),
       emergencyContactPhone: _emergencyPhoneController.text.trim(),
-      createdAt: DateTime.now(),
     );
 
     context.read<PatientCubit>().createPatient(patient);

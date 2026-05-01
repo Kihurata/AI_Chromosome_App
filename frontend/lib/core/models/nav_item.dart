@@ -9,8 +9,11 @@ enum AppRole {
 
   /// Parse from Firestore string value
   static AppRole fromString(String value) {
+    final lowerValue = value.toLowerCase();
+    if (lowerValue == 'doctor') return AppRole.clinician;
+    if (lowerValue == 'admin') return AppRole.manager;
     return AppRole.values.firstWhere(
-      (r) => r.name == value,
+      (r) => r.name == lowerValue,
       orElse: () => AppRole.receptionist,
     );
   }

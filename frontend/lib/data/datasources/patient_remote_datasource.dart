@@ -24,7 +24,7 @@ class PatientRemoteDataSourceImpl implements PatientRemoteDataSource {
           .map((doc) => PatientModel.fromFirestore(doc))
           .toList();
     } catch (e) {
-      throw ServerException(message: "Không thể lấy dữ liệu bệnh nhân");
+      throw ServerException(message: "Không thể lấy dữ liệu bệnh nhân: ${e.toString()}");
     }
   }
 

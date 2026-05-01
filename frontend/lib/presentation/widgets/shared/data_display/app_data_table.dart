@@ -92,7 +92,8 @@ class AppDataTable extends StatelessWidget {
         const SizedBox(height: 20),
         
         // Table Container
-        Container(
+        Expanded(
+          child: Container(
           decoration: BoxDecoration(
             color: AppColors.surface,
             borderRadius: BorderRadius.circular(14),
@@ -121,19 +122,20 @@ class AppDataTable extends StatelessWidget {
                 child: headerRow,
               ),
               // Body
-              if (isLoading)
-                const Padding(
-                  padding: EdgeInsets.all(40),
-                  child: Center(child: CircularProgressIndicator()),
-                )
-              else if (rows.isEmpty && emptyState != null)
-                emptyState!
-              else
-                Column(children: rows),
+              Expanded(
+                child: isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : rows.isEmpty && emptyState != null
+                        ? Center(child: SingleChildScrollView(child: emptyState!))
+                        : SingleChildScrollView(
+                            child: Column(children: rows),
+                          ),
+              ),
             ],
           ),
         ),
-      ],
-    );
+      ),
+    ],
+  );
   }
 }

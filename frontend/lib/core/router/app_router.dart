@@ -9,12 +9,11 @@ import '../../presentation/screens/auth/login_page.dart';
 import '../../presentation/screens/receptionist/receptionist_dashboard_body.dart';
 import '../../presentation/screens/receptionist/patient_list_page.dart';
 import '../../presentation/screens/receptionist/appointment_calendar_page.dart';
-import '../../presentation/screens/dashboard/doctor_dashboard_page.dart';
+import '../../presentation/screens/clinician/dashboard/doctor_dashboard_page.dart';
 import '../../presentation/widgets/shared/navigation/app_navigation_wrapper.dart';
-import '../../presentation/screens/clinician/appointment_list/appointment_list_screen.dart';
-import '../../presentation/screens/clinician/medical_record/medical_record_screen.dart';
-import '../../presentation/screens/clinician/examination_form_screen.dart';
-import '../../presentation/screens/clinician/blood_test_prescription_screen.dart';
+import '../../presentation/screens/patient_detail/medical_record/shared_medical_record_page.dart';
+import '../../presentation/screens/clinician/forms/examination_form_screen.dart';
+import '../../presentation/screens/clinician/forms/blood_test_prescription_screen.dart';
 
 // ── Route path constants ──────────────────────────────────────────────────────
 class AppRoutes {
@@ -143,12 +142,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.clinicianAppointments,
             name: 'clinician-appointments',
-            builder: (context, state) => const ClinicianAppointmentListPage(),
+            builder: (context, state) => const DoctorDashboardPage(),
           ),
           GoRoute(
             path: '${AppRoutes.clinicianMedicalRecord}/:id',
             name: 'clinician-medical-record',
-            builder: (context, state) => ClinicianMedicalRecordPage(
+            builder: (context, state) => SharedMedicalRecordPage(
               id: state.pathParameters['id'] ?? '',
             ),
           ),
