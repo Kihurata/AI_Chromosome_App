@@ -15,13 +15,6 @@
       "totalPausedMs": 0
     },
     {
-      "taskId": "5r4thh",
-      "taskTitle": "Merge latest updates from main into ThunKho (Part 2)",
-      "startedAt": "2026-05-02T09:34:42.968Z",
-      "pausedAt": null,
-      "totalPausedMs": 0
-    },
-    {
       "taskId": "rlwl5x",
       "taskTitle": "Implement FastAPI server in ai_server/ directory",
       "startedAt": "2026-05-02T07:14:58.449Z",

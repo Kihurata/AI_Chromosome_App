@@ -32,10 +32,6 @@ import 'domain/usecases/clinician/get_clinicians.dart';
 import 'domain/usecases/sample/collect_physical_sample.dart';
 import 'domain/usecases/sample/transfer_sample_to_lab.dart';
 import 'domain/usecases/test_order/create_genetic_test_order.dart';
-import 'domain/usecases/test_order/get_all_pending_orders.dart';
-import 'domain/usecases/test_order/assign_order_to_specialist.dart';
-import 'domain/usecases/test_order/approve_karyotype_result.dart';
-import 'domain/usecases/test_order/reject_karyotype_result.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -92,24 +88,10 @@ class MedCoreApp extends ConsumerWidget {
         }),
 
         // ── ManagerDashboardCubit (Manager) ──────────────────────────────
-        BlocProvider<ManagerDashboardCubit>(create: (_) {
-          final orderDs = FirebaseTestOrderRemoteDataSource();
-          final orderRepo = TestOrderRepositoryImpl(remoteDataSource: orderDs);
-          return ManagerDashboardCubit(
-            getAllPendingOrders: GetAllPendingOrders(orderRepo),
-            assignOrderToSpecialist: AssignOrderToSpecialist(orderRepo),
-          );
-        }),
+        BlocProvider<ManagerDashboardCubit>(create: (_) => getIt<ManagerDashboardCubit>()),
 
         // ── ManagerApprovalCubit (Manager) ───────────────────────────────
-        BlocProvider<ManagerApprovalCubit>(create: (_) {
-          final orderDs = FirebaseTestOrderRemoteDataSource();
-          final orderRepo = TestOrderRepositoryImpl(remoteDataSource: orderDs);
-          return ManagerApprovalCubit(
-            approveKaryotypeResult: ApproveKaryotypeResult(orderRepo),
-            rejectKaryotypeResult: RejectKaryotypeResult(orderRepo),
-          );
-        }),
+        BlocProvider<ManagerApprovalCubit>(create: (_) => getIt<ManagerApprovalCubit>()),
       ],
       child: AuthBlocBridge(
         child: Consumer(

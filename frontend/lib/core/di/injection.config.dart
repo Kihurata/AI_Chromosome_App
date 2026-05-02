@@ -47,6 +47,7 @@ import '../../domain/usecases/test_order/reject_karyotype_result.dart' as _i749;
 import '../../domain/usecases/test_order/submit_analysis_result.dart' as _i906;
 import '../../domain/usecases/test_order/watch_all_orders.dart' as _i1069;
 import '../../logic/bloc/layout/layout_cubit.dart' as _i556;
+import '../../logic/bloc/manager/manager_approval_cubit.dart' as _i429;
 import '../../logic/bloc/manager/manager_dashboard_cubit.dart' as _i58;
 import '../../logic/bloc/patient/patient_cubit.dart' as _i965;
 import '../../logic/bloc/specialist/ai_analysis_cubit.dart' as _i65;
@@ -151,6 +152,12 @@ extension GetItInjectableX on _i174.GetIt {
         updatePatientUsecase: gh<_i485.UpdatePatient>(),
         getPatientByIdUsecase: gh<_i1004.GetPatientById>(),
         checkDuplicatePatientUsecase: gh<_i188.CheckDuplicatePatient>(),
+      ),
+    );
+    gh.factory<_i429.ManagerApprovalCubit>(
+      () => _i429.ManagerApprovalCubit(
+        approveKaryotypeResult: gh<_i63.ApproveKaryotypeResult>(),
+        rejectKaryotypeResult: gh<_i749.RejectKaryotypeResult>(),
       ),
     );
     gh.factory<_i65.AiAnalysisCubit>(

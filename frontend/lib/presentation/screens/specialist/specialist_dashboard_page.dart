@@ -69,58 +69,56 @@ class _SpecialistDashboardPageState
           },
           child: Padding(
             padding: const EdgeInsets.all(24.0),
-            child:
-                BlocBuilder<SpecialistDashboardCubit, SpecialistDashboardState>(
-                  builder: (context, state) {
-                    if (state.status == SpecialistDashboardStatus.loading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
+            child: BlocBuilder<SpecialistDashboardCubit, SpecialistDashboardState>(
+              builder: (context, state) {
+                if (state.status == SpecialistDashboardStatus.loading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-                    if (state.status == SpecialistDashboardStatus.error) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              LucideIcons.alertTriangle,
-                              color: Colors.red,
-                              size: 48,
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              state.errorMessage ?? 'Có lỗi xảy ra',
-                              style: const TextStyle(color: Colors.red),
-                            ),
-                            const SizedBox(height: 16),
-                            ElevatedButton(
-                              onPressed: () {
-                                if (authState.user?.uid != null) {
-                                  _cubit.loadOrders(authState.user!.uid);
-                                }
-                              },
-                              child: const Text('Thử lại'),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                if (state.status == SpecialistDashboardStatus.error) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SpecialistBentoStats(stats: state.stats),
-                        const SizedBox(height: 32),
-                        const SpecialistFilterBar(),
-                        const SizedBox(height: 24),
-                        SpecialistOrderList(orders: state.filteredOrders),
+                        const Icon(
+                          LucideIcons.alertTriangle,
+                          color: Colors.red,
+                          size: 48,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          state.errorMessage ?? 'Có lỗi xảy ra',
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (authState.user?.uid != null) {
+                              _cubit.loadOrders(authState.user!.uid);
+                            }
+                          },
+                          child: const Text('Thử lại'),
+                        ),
                       ],
-                    );
-                  },
-                ),
+                    ),
+                  );
+                }
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SpecialistBentoStats(stats: state.stats),
+                    const SizedBox(height: 32),
+                    const SpecialistFilterBar(),
+                    const SizedBox(height: 24),
+                    SpecialistOrderList(orders: state.filteredOrders),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
