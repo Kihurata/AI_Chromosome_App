@@ -12,7 +12,6 @@ import '../../presentation/screens/receptionist/appointment_calendar_page.dart';
 import '../../presentation/screens/clinician/dashboard/doctor_dashboard_page.dart';
 import '../../presentation/screens/specialist/specialist_dashboard_page.dart';
 import '../../presentation/widgets/shared/navigation/main_shell.dart';
-import '../../presentation/screens/clinician/appointment_list/appointment_list_screen.dart';
 import '../../presentation/screens/patient_detail/medical_record/shared_medical_record_page.dart';
 import '../../presentation/screens/clinician/forms/examination_form_screen.dart';
 import '../../presentation/screens/clinician/forms/blood_test_prescription_screen.dart';

@@ -11,10 +11,12 @@ import '../../utils/ui_utils.dart';
 import '../../widgets/receptionist/registration_section.dart';
 import '../../widgets/shared/form/app_buttons.dart';
 import '../../widgets/shared/form/app_text_field.dart';
+import '../../widgets/shared/form/app_dropdown.dart';
 import '../../widgets/shared/layouts/main_form_layout.dart';
 
 class PatientRegistrationPage extends StatefulWidget {
-  const PatientRegistrationPage({super.key});
+  final Patient? patient;
+  const PatientRegistrationPage({super.key, this.patient});
 
   @override
   State<PatientRegistrationPage> createState() => _PatientRegistrationPageState();
@@ -41,6 +43,24 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
   String? _selectedProvince;
   String? _selectedDistrict;
   String? _selectedWard;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.patient != null) {
+      _fullNameController.text = widget.patient!.fullName;
+      _identityCardController.text = widget.patient!.identityCard;
+      _dobController.text = DateFormat('dd/MM/yyyy').format(widget.patient!.dob);
+      _phoneController.text = widget.patient!.phone;
+      _selectedGender = widget.patient!.gender;
+      _addressController.text = widget.patient!.address;
+      _emergencyNameController.text = widget.patient!.emergencyContactName;
+      _emergencyPhoneController.text = widget.patient!.emergencyContactPhone;
+      _selectedProvince = widget.patient!.province.isNotEmpty ? widget.patient!.province : null;
+      _selectedDistrict = widget.patient!.district.isNotEmpty ? widget.patient!.district : null;
+      _selectedWard = widget.patient!.ward.isNotEmpty ? widget.patient!.ward : null;
+    }
+  }
 
   @override
   void dispose() {
@@ -83,7 +103,7 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
       final dob = DateFormat('dd/MM/yyyy').parse(_dobController.text);
 
       final patient = Patient(
-        id: '', // Sẽ được Firebase tự tạo
+        id: widget.patient?.id ?? '', // Dùng ID cũ nếu là edit
         fullName: _fullNameController.text.trim().toUpperCase(),
         identityCard: _identityCardController.text.trim(),
         dob: dob,
@@ -95,10 +115,15 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
         address: _addressController.text.trim(),
         emergencyContactName: _emergencyNameController.text.trim(),
         emergencyContactPhone: _emergencyPhoneController.text.trim(),
+        patientCode: widget.patient?.patientCode, // Giữ nguyên mã BN
       );
 
       if (mounted) {
-        context.read<PatientCubit>().createPatient(patient);
+        if (widget.patient != null) {
+          context.read<PatientCubit>().updatePatient(patient);
+        } else {
+          context.read<PatientCubit>().createPatient(patient);
+        }
       }
     } catch (e) {
       if (mounted) {
@@ -149,8 +174,8 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
         }
       },
       child: MainFormLayout(
-        title: 'Tiếp nhận bệnh nhân tại quầy',
-        subtitle: 'Thêm mới thông tin bệnh nhân vào hệ thống',
+        title: widget.patient != null ? 'Chỉnh sửa thông tin bệnh nhân' : 'Tiếp nhận bệnh nhân tại quầy',
+        subtitle: widget.patient != null ? 'Cập nhật các thay đổi vào hệ thống' : 'Thêm mới thông tin bệnh nhân vào hệ thống',
         child: Form(
           key: _formKey,
           child: Column(
@@ -324,7 +349,12 @@ class _DatePickerField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return AppTextField(
+      labelText: 'Ngày sinh *',
+      controller: controller,
+      hintText: 'dd/mm/yyyy',
+      prefixIcon: LucideIcons.calendar,
+      readOnly: true,
       onTap: () async {
         final date = await showDatePicker(
           context: context,
@@ -337,18 +367,11 @@ class _DatePickerField extends StatelessWidget {
           controller.text = UIUtils.formatDate(date);
         }
       },
-      child: IgnorePointer(
-        child: AppTextField(
-          labelText: 'Ngày sinh *',
-          controller: controller,
-          hintText: 'dd/mm/yyyy',
-          prefixIcon: LucideIcons.calendar,
-          validator: (v) => (v == null || v.isEmpty) ? 'Chọn ngày sinh' : null,
-        ),
-      ),
+      validator: (v) => (v == null || v.isEmpty) ? 'Chọn ngày sinh' : null,
     );
   }
 }
+
 
 class _GenderSelector extends StatelessWidget {
   final String selectedGender;
@@ -421,11 +444,38 @@ class _AddressSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            Expanded(child: _SimpleDropdown(label: 'Tỉnh/Thành', value: selectedProvince, items: const ['TP. Hồ Chí Minh', 'Hà Nội', 'Đà Nẵng'], onChanged: onProvinceChanged)),
+            Expanded(
+              child: AppDropdown<String>(
+                labelText: 'Tỉnh/Thành',
+                value: selectedProvince,
+                items: const ['TP. Hồ Chí Minh', 'Hà Nội', 'Đà Nẵng']
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .toList(),
+                onChanged: onProvinceChanged,
+              ),
+            ),
             const SizedBox(width: 16),
-            Expanded(child: _SimpleDropdown(label: 'Quận/Huyện', value: selectedDistrict, items: const ['Quận 1', 'Quận 3', 'Quận 7'], onChanged: onDistrictChanged)),
+            Expanded(
+              child: AppDropdown<String>(
+                labelText: 'Quận/Huyện',
+                value: selectedDistrict,
+                items: const ['Quận 1', 'Quận 3', 'Quận 7']
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .toList(),
+                onChanged: onDistrictChanged,
+              ),
+            ),
             const SizedBox(width: 16),
-            Expanded(child: _SimpleDropdown(label: 'Phường/Xã', value: selectedWard, items: const ['Phường 1', 'Phường 2'], onChanged: onWardChanged)),
+            Expanded(
+              child: AppDropdown<String>(
+                labelText: 'Phường/Xã',
+                value: selectedWard,
+                items: const ['Phường 1', 'Phường 2']
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .toList(),
+                onChanged: onWardChanged,
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 18),
@@ -461,34 +511,6 @@ class _AddressSection extends StatelessWidget {
   }
 }
 
-class _SimpleDropdown extends StatelessWidget {
-  final String label;
-  final String? value;
-  final List<String> items;
-  final ValueChanged<String?> onChanged;
-
-  const _SimpleDropdown({required this.label, this.value, required this.items, required this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
-        const SizedBox(height: 6),
-        DropdownButtonFormField<String>(
-          value: value,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-          items: items.map((e) => DropdownMenuItem(value: e, child: Text(e, style: const TextStyle(fontSize: 13)))).toList(),
-          onChanged: onChanged,
-        ),
-      ],
-    );
-  }
-}
 
 class _FormActions extends StatelessWidget {
   final VoidCallback onCancel;

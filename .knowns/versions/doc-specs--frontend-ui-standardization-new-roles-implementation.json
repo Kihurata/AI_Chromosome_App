@@ -1,0 +1,29 @@
+{
+  "docPath": "specs/frontend-ui-standardization-new-roles-implementation",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "specs/frontend-ui-standardization-new-roles-implementation",
+      "version": 1,
+      "timestamp": "2026-05-01T06:33:40.7204547Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Frontend UI Standardization \u0026 New Roles Implementation"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Spec for standardizing presentation layer, DataTables, and adding Manager/Specialist UI"
+        }
+      ],
+      "snapshot": {
+        "content": "## Functional Requirements\n\n### FR-1: Presentation Architecture Refactor\n- Reuse Layouts: Wrap new screens in `MainFormLayout` or `MainListLayout`.\n- Atomic Widgets: Use `presentation/widgets/shared/form` for inputs.\n- Reactive Binding: Use `BlocListener` for one-time events (snackbars, navigation), `BlocBuilder` for UI rebuilding.\n- No direct API/Firestore calls in UI layer.\n\n### FR-2: Table Standardization\n- Standardize DataTable styling across all list screens.\n- Add 'Thao tác' column as the last column.\n- Replace vertical 3-dots with specific icon buttons.\n\n### FR-3: Receptionist UI Updates\n- Patient List: Click row does NOT navigate. Add Eye icon (navigate to EMR). Add Pen icon (edit patient).\n- Appointment List: Convert to standard DataTable. Add Eye icon in 'Thao tác' column.\n\n### FR-4: Clinician UI Updates\n- Appointment List: Add Stethoscope icon (start exam, state -\u003e checked-in), Pen icon (edit info), Eye icon (view EMR).\n- EMR Screens: Add 'Lập Phiếu Khám bệnh' button linking to `examination_form_screen.dart`.\n- New Screens: Implement 'Lịch sử Khám bệnh' and 'Kết quả Xét nghiệm' based on provided designs.\n\n### FR-5: Manager UI Implementation\n- Screens: 'Danh sách Ca Xét nghiệm' and 'Duyệt Kết quả Xét nghiệm'.\n\n### FR-6: Specialist UI Implementation\n- Screens: 'Danh sách Ca Xét nghiệm được giao' and 'Ca Xét nghiệm Chi tiết' (managing multiple samples).\n\n## Acceptance Criteria\n- AC-1: All lists use `MainListLayout` and have consistent table styles.\n- AC-2: Receptionist and Clinician actions match specifications without row-click navigation.\n- AC-3: New EMR button navigates correctly.\n- AC-4: Manager and Specialist screens are built and wired to Logic layer (no direct API calls).",
+        "description": "Spec for standardizing presentation layer, DataTables, and adding Manager/Specialist UI",
+        "title": "Frontend UI Standardization \u0026 New Roles Implementation"
+      }
+    }
+  ]
+}

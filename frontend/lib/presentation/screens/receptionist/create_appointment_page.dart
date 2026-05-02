@@ -12,6 +12,7 @@ import '../../../logic/bloc/patient/patient_state.dart';
 import '../../widgets/shared/layouts/main_form_layout.dart';
 import '../../widgets/shared/form/app_text_field.dart';
 import '../../widgets/shared/form/app_buttons.dart';
+import '../../widgets/shared/form/app_dropdown.dart';
 
 class CreateAppointmentPage extends StatefulWidget {
   /// Pre-fill with a specific date (e.g. from Calendar page)
@@ -217,160 +218,103 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
 
   // ── Patient dropdown via PatientCubit ──
   Widget _buildPatientDropdown() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _label('Tìm bệnh nhân', required: true),
-        const SizedBox(height: 6),
-        BlocBuilder<PatientCubit, PatientState>(
-          builder: (context, state) {
-            if (state is PatientLoading || state is PatientInitial) {
-              return const LinearProgressIndicator();
-            }
-            final patients = state is PatientLoaded ? state.patients : [];
-            return DropdownButtonFormField<String>(
-              initialValue: _selectedPatientId,
-              decoration: _inputDecoration('Chọn bệnh nhân...'),
-              isExpanded: true,
-              icon: const Icon(LucideIcons.chevronDown, size: 16, color: AppColors.textPlaceholder),
-              items: patients.map<DropdownMenuItem<String>>((p) {
-                final code = p.patientCode ?? p.id ?? '';
-                final card = p.identityCard.isNotEmpty ? ' — CCCD: ${p.identityCard}' : '';
-                return DropdownMenuItem<String>(
-                  value: p.id,
-                  child: Text('${p.fullName} ($code)$card', style: const TextStyle(fontSize: 14, color: AppColors.textPrimary)),
-                );
-              }).toList(),
-              onChanged: (v) {
-                final p = patients.firstWhere((e) => e.id == v);
-                setState(() {
-                  _selectedPatientId = v;
-                  _selectedPatientName = p.fullName;
-                });
-              },
-              dropdownColor: AppColors.surface,
-              borderRadius: BorderRadius.circular(10),
+    return BlocBuilder<PatientCubit, PatientState>(
+      builder: (context, state) {
+        if (state is PatientLoading || state is PatientInitial) {
+          return const LinearProgressIndicator();
+        }
+        final patients = state is PatientLoaded ? state.patients : [];
+        return AppDropdown<String>(
+          labelText: 'Tìm bệnh nhân *',
+          hintText: 'Chọn bệnh nhân...',
+          value: _selectedPatientId,
+          prefixIcon: LucideIcons.user,
+          items: patients.map<DropdownMenuItem<String>>((p) {
+            final code = p.patientCode ?? p.id ?? '';
+            final card = p.identityCard.isNotEmpty ? ' — CCCD: ${p.identityCard}' : '';
+            return DropdownMenuItem<String>(
+              value: p.id,
+              child: Text('${p.fullName} ($code)$card'),
             );
+          }).toList(),
+          onChanged: (v) {
+            final p = patients.firstWhere((e) => e.id == v);
+            setState(() {
+              _selectedPatientId = v;
+              _selectedPatientName = p.fullName;
+            });
           },
-        ),
-      ],
+        );
+      },
     );
   }
 
   // ── Doctor dropdown via AppointmentCubit (fetchClinicians) ──
   Widget _buildDoctorDropdown() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _label('Bác sĩ phụ trách', required: true),
-        const SizedBox(height: 6),
-        BlocBuilder<AppointmentCubit, AppointmentState>(
-          builder: (context, state) {
-            if (state is AppointmentLoading || state is AppointmentInitial) {
-              return const LinearProgressIndicator();
-            }
-            final doctors = state is CliniciansLoaded ? state.clinicians : <Map<String, dynamic>>[];
-            return DropdownButtonFormField<String>(
-              initialValue: _selectedDoctorUid,
-              decoration: _inputDecoration('Chọn bác sĩ...'),
-              isExpanded: true,
-              icon: const Icon(LucideIcons.chevronDown, size: 16, color: AppColors.textPlaceholder),
-              items: doctors.map<DropdownMenuItem<String>>((d) {
-                return DropdownMenuItem<String>(
-                  value: d['uid'] as String,
-                  child: Text(d['full_name'] as String, style: const TextStyle(fontSize: 14, color: AppColors.textPrimary)),
-                );
-              }).toList(),
-              onChanged: (v) {
-                final doc = doctors.firstWhere((d) => d['uid'] == v);
-                setState(() {
-                  _selectedDoctorUid = v;
-                  _selectedDoctorName = doc['full_name'] as String;
-                });
-              },
-              dropdownColor: AppColors.surface,
-              borderRadius: BorderRadius.circular(10),
+    return BlocBuilder<AppointmentCubit, AppointmentState>(
+      builder: (context, state) {
+        if (state is AppointmentLoading || state is AppointmentInitial) {
+          return const LinearProgressIndicator();
+        }
+        final doctors = state is CliniciansLoaded ? state.clinicians : <Map<String, dynamic>>[];
+        return AppDropdown<String>(
+          labelText: 'Bác sĩ phụ trách *',
+          hintText: 'Chọn bác sĩ...',
+          value: _selectedDoctorUid,
+          prefixIcon: LucideIcons.stethoscope,
+          items: doctors.map<DropdownMenuItem<String>>((d) {
+            return DropdownMenuItem<String>(
+              value: d['uid'] as String,
+              child: Text(d['full_name'] as String),
             );
+          }).toList(),
+          onChanged: (v) {
+            final doc = doctors.firstWhere((d) => d['uid'] == v);
+            setState(() {
+              _selectedDoctorUid = v;
+              _selectedDoctorName = doc['full_name'] as String;
+            });
           },
-        ),
-      ],
+        );
+      },
     );
   }
 
   // ── Date selector ──
   Widget _buildDateSelector() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _label('Ngày hẹn', required: true),
-        const SizedBox(height: 6),
-        InkWell(
-          borderRadius: BorderRadius.circular(10),
-          onTap: () async {
-            final picked = await showDatePicker(
-              context: context,
-              initialDate: _selectedDate,
-              firstDate: DateTime.now(),
-              lastDate: DateTime(2030, 12, 31),
-              locale: const Locale('vi', 'VN'),
-            );
-            if (picked != null) setState(() => _selectedDate = picked);
-          },
-          child: Container(
-            height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            decoration: BoxDecoration(
-              color: AppColors.border.withAlpha(35),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColors.border),
-            ),
-            child: Row(
-              children: [
-                const Icon(LucideIcons.calendar, size: 16, color: AppColors.textPlaceholder),
-                const SizedBox(width: 10),
-                Text(DateFormat('dd/MM/yyyy').format(_selectedDate), style: const TextStyle(fontSize: 14, color: AppColors.textPrimary)),
-              ],
-            ),
-          ),
-        ),
-      ],
+    return AppTextField(
+      labelText: 'Ngày hẹn *',
+      hintText: 'dd/MM/yyyy',
+      controller: TextEditingController(text: DateFormat('dd/MM/yyyy').format(_selectedDate)),
+      prefixIcon: LucideIcons.calendar,
+      readOnly: true,
+      onTap: () async {
+        final picked = await showDatePicker(
+          context: context,
+          initialDate: _selectedDate,
+          firstDate: DateTime.now(),
+          lastDate: DateTime(2030, 12, 31),
+          locale: const Locale('vi', 'VN'),
+        );
+        if (picked != null) setState(() => _selectedDate = picked);
+      },
     );
   }
 
   // ── Time selector ──
   Widget _buildTimeSelector() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _label('Giờ hẹn', required: true),
-        const SizedBox(height: 6),
-        InkWell(
-          borderRadius: BorderRadius.circular(10),
-          onTap: () async {
-            final t = await showTimePicker(context: context, initialTime: _selectedTime);
-            if (t != null) setState(() => _selectedTime = t);
-          },
-          child: Container(
-            height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            decoration: BoxDecoration(
-              color: AppColors.border.withAlpha(35),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: AppColors.border),
-            ),
-            child: Row(
-              children: [
-                const Icon(LucideIcons.clock, size: 16, color: AppColors.textPlaceholder),
-                const SizedBox(width: 10),
-                Text(
-                  '${_selectedTime.hour.toString().padLeft(2, '0')}:${_selectedTime.minute.toString().padLeft(2, '0')}',
-                  style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
+    return AppTextField(
+      labelText: 'Giờ hẹn *',
+      hintText: 'hh:mm',
+      controller: TextEditingController(
+        text: '${_selectedTime.hour.toString().padLeft(2, '0')}:${_selectedTime.minute.toString().padLeft(2, '0')}',
+      ),
+      prefixIcon: LucideIcons.clock,
+      readOnly: true,
+      onTap: () async {
+        final t = await showTimePicker(context: context, initialTime: _selectedTime);
+        if (t != null) setState(() => _selectedTime = t);
+      },
     );
   }
 
@@ -384,28 +328,6 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
     );
   }
 
-  // ── Shared helpers ──
-  Widget _label(String text, {bool required = false}) {
-    return Row(
-      children: [
-        Text(text, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppColors.textSecondary)),
-        if (required) const Text(' *', style: TextStyle(color: AppColors.dangerText, fontSize: 13, fontWeight: FontWeight.w700)),
-      ],
-    );
-  }
-
-  InputDecoration _inputDecoration(String hint) {
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: const TextStyle(color: AppColors.textPlaceholder, fontSize: 14),
-      filled: true,
-      fillColor: AppColors.border.withAlpha(35),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.border)),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.border)),
-      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.primaryBlue, width: 1.5)),
-    );
-  }
 
   // ── Submit: build domain entity and call cubit ──
   Future<void> _handleSubmit() async {

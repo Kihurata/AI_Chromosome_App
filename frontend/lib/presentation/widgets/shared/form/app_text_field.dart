@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class AppTextField extends StatelessWidget {
@@ -9,25 +10,34 @@ class AppTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool obscureText;
   final String? Function(String?)? validator;
-  final TextInputType? keyboardType;
   final int maxLines;
   final void Function(String)? onChanged;
   final String? initialValue;
+  final bool readOnly;
+  final VoidCallback? onTap;
+  final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextInputType? keyboardType;
 
   const AppTextField({
     super.key,
+    this.labelText,
     this.controller,
     this.initialValue,
     this.hintText,
-    this.labelText,
     this.prefixIcon,
     this.suffixIcon,
     this.obscureText = false,
     this.validator,
-    this.keyboardType,
     this.maxLines = 1,
     this.onChanged,
+    this.readOnly = false,
+    this.onTap,
+    this.focusNode,
+    this.inputFormatters,
+    this.keyboardType,
   });
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +60,13 @@ class AppTextField extends StatelessWidget {
           initialValue: initialValue,
           obscureText: obscureText,
           validator: validator,
-          keyboardType: keyboardType,
           maxLines: maxLines,
           onChanged: onChanged,
+          readOnly: readOnly,
+          onTap: onTap,
+          focusNode: focusNode,
+          inputFormatters: inputFormatters,
+          keyboardType: keyboardType,
           style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
           decoration: InputDecoration(
             hintText: hintText,

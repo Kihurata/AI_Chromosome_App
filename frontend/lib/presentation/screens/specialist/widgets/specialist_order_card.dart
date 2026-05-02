@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../domain/entities/test_order.dart';
 import '../../../../logic/bloc/specialist_dashboard/specialist_dashboard_cubit.dart';
+import 'package:medcore_crm/presentation/widgets/shared/form/app_buttons.dart';
+import 'package:go_router/go_router.dart';
 
 class SpecialistOrderCard extends StatelessWidget {
   final TestOrder order;
@@ -18,7 +20,7 @@ class SpecialistOrderCard extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -31,7 +33,7 @@ class SpecialistOrderCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: _getStatusColor(order.status).withOpacity(0.1),
+                color: _getStatusColor(order.status).withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(_getStatusIcon(order.status), color: _getStatusColor(order.status), size: 24),
@@ -77,7 +79,7 @@ class SpecialistOrderCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: _getStatusColor(status).withOpacity(0.1),
+        color: _getStatusColor(status).withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
@@ -89,31 +91,22 @@ class SpecialistOrderCard extends StatelessWidget {
 
   Widget _buildActionButton(BuildContext context) {
     if (order.status == TestOrderStatus.pending) {
-      return ElevatedButton.icon(
+      return AppPrimaryButton(
+        text: 'Bắt đầu phân tích',
+        icon: LucideIcons.play,
         onPressed: () => _showStartAnalysisConfirm(context),
-        icon: const Icon(LucideIcons.play, size: 16),
-        label: const Text('Bắt đầu phân tích'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       );
     }
     
     if (order.status == TestOrderStatus.analyzing) {
-      return OutlinedButton.icon(
+      return AppSecondaryButton(
+        text: 'Tiếp tục',
+        icon: LucideIcons.externalLink,
         onPressed: () {
-          // TODO: Navigate to Workspace
+          context.push('/specialist/analysis/${order.id}');
         },
-        icon: const Icon(LucideIcons.externalLink, size: 16),
-        label: const Text('Tiếp tục'),
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       );
     }
 
@@ -127,16 +120,18 @@ class SpecialistOrderCard extends StatelessWidget {
         title: const Text('Xác nhận bắt đầu'),
         content: Text('Bạn có chắc chắn muốn bắt đầu phân tích phiếu của bệnh nhân ${order.patientName}?'),
         actions: [
-          TextButton(
+          AppSecondaryButton(
+            text: 'Hủy',
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('Hủy'),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           ),
-          ElevatedButton(
+          AppPrimaryButton(
+            text: 'Bắt đầu',
             onPressed: () {
               context.read<SpecialistDashboardCubit>().startOrderAnalysis(order.id);
               Navigator.pop(dialogContext);
             },
-            child: const Text('Bắt đầu'),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           ),
         ],
       ),

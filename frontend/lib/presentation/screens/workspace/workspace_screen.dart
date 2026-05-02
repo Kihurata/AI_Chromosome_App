@@ -104,7 +104,7 @@ class WorkspaceScreen extends StatelessWidget {
             width: 32,
             height: 32,
             decoration: BoxDecoration(
-              color: isActive ? color.withOpacity(0.1) : (isCompleted ? color : Colors.transparent),
+              color: isActive ? color.withValues(alpha: 0.1) : (isCompleted ? color : Colors.transparent),
               border: Border.all(color: color, width: 2),
               shape: BoxShape.circle,
             ),

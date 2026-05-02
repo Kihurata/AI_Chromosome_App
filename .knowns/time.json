@@ -6,6 +6,20 @@
       "startedAt": "2026-04-29T09:16:01.824Z",
       "pausedAt": null,
       "totalPausedMs": 0
+    },
+    {
+      "taskId": "ixjpw5",
+      "taskTitle": "Refactor: Replace native flutter inputs/buttons with Atomic Widgets",
+      "startedAt": "2026-05-02T08:43:44.152Z",
+      "pausedAt": null,
+      "totalPausedMs": 0
+    },
+    {
+      "taskId": "5r4thh",
+      "taskTitle": "Merge latest updates from main into ThunKho (Part 2)",
+      "startedAt": "2026-05-02T09:34:42.968Z",
+      "pausedAt": null,
+      "totalPausedMs": 0
     }
   ]
 }

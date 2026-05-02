@@ -1,0 +1,30 @@
+{
+  "taskId": "5r4thh",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "5r4thh",
+      "version": 1,
+      "timestamp": "2026-05-02T09:34:28.9487404Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Sync latest changes from main branch into ThunKho branch and resolve any new conflicts.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Merge latest updates from main into ThunKho (Part 2)"
+      }
+    }
+  ]
+}

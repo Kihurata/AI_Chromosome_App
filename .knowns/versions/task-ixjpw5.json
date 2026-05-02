@@ -1,0 +1,76 @@
+{
+  "taskId": "ixjpw5",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "ixjpw5",
+      "version": 1,
+      "timestamp": "2026-05-02T08:43:35.7956572Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Refactor the entire presentation layer to enforce the 'Atomic Widgets' rule. Replace all direct usages of native Flutter widgets like TextField, TextFormField, ElevatedButton, and OutlinedButton with the project's shared atomic widgets: AppTextField, AppPrimaryButton, and AppSecondaryButton. This ensures visual consistency and adheres to the project's composition-based architecture.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Refactor: Replace native flutter inputs/buttons with Atomic Widgets"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "ixjpw5",
+      "version": 2,
+      "timestamp": "2026-05-02T08:43:49.162593Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Refactor the entire presentation layer to enforce the 'Atomic Widgets' rule. Replace all direct usages of native Flutter widgets like TextField, TextFormField, ElevatedButton, and OutlinedButton with the project's shared atomic widgets: AppTextField, AppPrimaryButton, and AppSecondaryButton. This ensures visual consistency and adheres to the project's composition-based architecture.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor: Replace native flutter inputs/buttons with Atomic Widgets"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "ixjpw5",
+      "version": 3,
+      "timestamp": "2026-05-02T08:43:55.6894864Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. Audit current atomic widgets: Ensure AppTextField and AppButtons support all needed parameters (icons, validation, padding).\n2. Refactor Buttons: Replace ElevatedButton/OutlinedButton with AppPrimaryButton/AppSecondaryButton across all presentation/screens.\n3. Refactor Text Fields: Replace TextField/TextFormField with AppTextField, preserving controllers and validation logic.\n4. Verification: Run 'dart analyze' and perform visual checks on key screens to ensure no regressions."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Refactor the entire presentation layer to enforce the 'Atomic Widgets' rule. Replace all direct usages of native Flutter widgets like TextField, TextFormField, ElevatedButton, and OutlinedButton with the project's shared atomic widgets: AppTextField, AppPrimaryButton, and AppSecondaryButton. This ensures visual consistency and adheres to the project's composition-based architecture.",
+        "implementationPlan": "## Implementation Plan\n1. Audit current atomic widgets: Ensure AppTextField and AppButtons support all needed parameters (icons, validation, padding).\n2. Refactor Buttons: Replace ElevatedButton/OutlinedButton with AppPrimaryButton/AppSecondaryButton across all presentation/screens.\n3. Refactor Text Fields: Replace TextField/TextFormField with AppTextField, preserving controllers and validation logic.\n4. Verification: Run 'dart analyze' and perform visual checks on key screens to ensure no regressions.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor: Replace native flutter inputs/buttons with Atomic Widgets"
+      }
+    }
+  ]
+}

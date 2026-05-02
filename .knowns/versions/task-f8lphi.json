@@ -1,0 +1,87 @@
+{
+  "taskId": "f8lphi",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "f8lphi",
+      "version": 1,
+      "timestamp": "2026-05-01T06:21:04.8424692Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "- Implement 'Danh sách Ca Xét nghiệm' using MainListLayout.\n- Implement 'Duyệt Kết quả Xét nghiệm' using MainFormLayout.\n- Ensure strict use of BlocBuilder/BlocListener to connect to ManagerDashboardCubit and ManagerApprovalCubit.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Implement Manager UI Screens"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "f8lphi",
+      "version": 2,
+      "timestamp": "2026-05-01T06:55:22.0940403Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "f8lphi-plan.md"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Starting implementation of Manager UI. Plan created."
+        }
+      ],
+      "snapshot": {
+        "description": "- Implement 'Danh sách Ca Xét nghiệm' using MainListLayout.\n- Implement 'Duyệt Kết quả Xét nghiệm' using MainFormLayout.\n- Ensure strict use of BlocBuilder/BlocListener to connect to ManagerDashboardCubit and ManagerApprovalCubit.",
+        "implementationNotes": "Starting implementation of Manager UI. Plan created.",
+        "implementationPlan": "f8lphi-plan.md",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Implement Manager UI Screens"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "f8lphi",
+      "version": 3,
+      "timestamp": "2026-05-01T06:59:52.6315796Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Starting implementation of Manager UI. Plan created.",
+          "newValue": "Starting implementation of Manager UI. Plan created.\nImplemented Lab Manager Dashboard, Specialist Assignment Dialog, and Lab Result Review screen. Connected to existing Manager Cubits and updated App Router. Used shared layout and data components for UI consistency."
+        }
+      ],
+      "snapshot": {
+        "description": "- Implement 'Danh sách Ca Xét nghiệm' using MainListLayout.\n- Implement 'Duyệt Kết quả Xét nghiệm' using MainFormLayout.\n- Ensure strict use of BlocBuilder/BlocListener to connect to ManagerDashboardCubit and ManagerApprovalCubit.",
+        "implementationNotes": "Starting implementation of Manager UI. Plan created.\nImplemented Lab Manager Dashboard, Specialist Assignment Dialog, and Lab Result Review screen. Connected to existing Manager Cubits and updated App Router. Used shared layout and data components for UI consistency.",
+        "implementationPlan": "f8lphi-plan.md",
+        "priority": "medium",
+        "status": "done",
+        "title": "Implement Manager UI Screens"
+      }
+    }
+  ]
+}

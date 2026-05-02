@@ -48,7 +48,7 @@ class SpecialistFilterBar extends StatelessWidget {
       label: Text(label),
       selected: isSelected,
       onSelected: (_) => context.read<SpecialistDashboardCubit>().setStatusFilter(status),
-      selectedColor: theme.primaryColor.withOpacity(0.1),
+      selectedColor: theme.primaryColor.withValues(alpha: 0.1),
       labelStyle: TextStyle(
         color: isSelected ? theme.primaryColor : Colors.black87,
         fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,

@@ -19,7 +19,9 @@ class HeaderNotifier extends Notifier<HeaderState> {
     if (state.title == title && 
         state.subtitle == subtitle && 
         state.actions == actions && 
-        state.showBackButton == showBackButton) return;
+        state.showBackButton == showBackButton) {
+      return;
+    }
         
     state = HeaderState(
       title: title, 

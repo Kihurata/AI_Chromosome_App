@@ -55,40 +55,40 @@ class _PatientListPageState extends State<PatientListPage> {
           }
         },
         child: BlocBuilder<PatientCubit, PatientState>(
-        builder: (context, state) {
-          final allPatients = state is PatientLoaded ? state.patients : <Patient>[];
-          final patients = allPatients.where((p) {
-            if (_searchQuery.isEmpty) return true;
-            return p.fullName.toLowerCase().contains(_searchQuery) ||
-                p.phone.contains(_searchQuery) ||
-                (p.patientCode ?? '').toLowerCase().contains(_searchQuery);
-          }).toList();
+          builder: (context, state) {
+            final allPatients = state is PatientLoaded ? state.patients : <Patient>[];
+            final patients = allPatients.where((p) {
+              if (_searchQuery.isEmpty) return true;
+              return p.fullName.toLowerCase().contains(_searchQuery) ||
+                  p.phone.contains(_searchQuery) ||
+                  (p.patientCode ?? '').toLowerCase().contains(_searchQuery);
+            }).toList();
 
-          return Padding(
-            padding: const EdgeInsets.all(28.0),
-            child: AppDataTable(
-              searchHint: 'Tìm theo tên, SĐT hoặc mã BN...',
-              countText: '${patients.length} bệnh nhân',
-              searchController: _searchController,
-              onSearchChanged: (v) => setState(() => _searchQuery = v.trim().toLowerCase()),
-              isLoading: state is PatientLoading,
-              headerRow: const _PatientTableHeader(),
-              emptyState: _EmptyPatients(onAdd: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const PatientRegistrationPage()),
-              )),
-              rows: patients.map((p) => _PatientRow(
-                patient: p,
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => PatientDetailScreen(patient: PatientModel.fromEntity(p))),
-                ),
-              )).toList(),
-            ),
-          );
-        },
+            return Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: AppDataTable(
+                searchHint: 'Tìm theo tên, SĐT hoặc mã BN...',
+                countText: '${patients.length} bệnh nhân',
+                searchController: _searchController,
+                onSearchChanged: (v) => setState(() => _searchQuery = v.trim().toLowerCase()),
+                isLoading: state is PatientLoading,
+                headerRow: const _PatientTableHeader(),
+                emptyState: _EmptyPatients(onAdd: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const PatientRegistrationPage()),
+                )),
+                rows: patients.map((p) => _PatientRow(
+                  patient: p,
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => PatientDetailScreen(patient: PatientModel.fromEntity(p))),
+                  ),
+                )).toList(),
+              ),
+            );
+          },
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
 
 class _PatientTableHeader extends StatelessWidget {
@@ -120,60 +120,63 @@ class _PatientRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-        decoration: const BoxDecoration(
-          border: Border(bottom: BorderSide(color: AppColors.border)),
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 17,
-              backgroundColor: UIUtils.getAvatarColor(patient.fullName),
-              child: Text(
-                UIUtils.getInitials(patient.fullName),
-                style: TextStyle(color: UIUtils.getAvatarTextColor(patient.fullName), fontSize: 11, fontWeight: FontWeight.bold),
-              ),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: AppColors.border)),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 17,
+            backgroundColor: UIUtils.getAvatarColor(patient.fullName),
+            child: Text(
+              UIUtils.getInitials(patient.fullName),
+              style: TextStyle(color: UIUtils.getAvatarTextColor(patient.fullName), fontSize: 11, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(width: 10),
-            Expanded(
-              flex: 3,
-              child: Text(patient.fullName, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            flex: 3,
+            child: Text(patient.fullName, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(patient.patientCode ?? '---', style: const TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.w600)),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(patient.phone, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+          ),
+          Expanded(
+            flex: 2,
+            child: Text(UIUtils.formatDate(patient.dob), style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+          ),
+          Expanded(flex: 1, child: _GenderBadge(gender: patient.gender)),
+          Expanded(
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: onTap,
+                  icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.primaryBlue),
+                  tooltip: 'Xem bệnh án',
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => PatientRegistrationPage(patient: patient),
+                      ),
+                    );
+                  },
+                  icon: const Icon(LucideIcons.edit2, size: 18, color: AppColors.textSecondary),
+                  tooltip: 'Chỉnh sửa thông tin',
+                ),
+              ],
             ),
-            Expanded(
-              flex: 2,
-              child: Text(patient.patientCode ?? '---', style: const TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.w600)),
-            ),
-            Expanded(
-              flex: 2,
-              child: Text(patient.phone, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
-            ),
-            Expanded(
-              flex: 2,
-              child: Text(UIUtils.formatDate(patient.dob), style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
-            ),
-            Expanded(flex: 1, child: _GenderBadge(gender: patient.gender)),
-            Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: onTap,
-                    icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.primaryBlue),
-                    tooltip: 'Xem bệnh án',
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      // TODO: Navigate to edit patient
-                    },
-                    icon: const Icon(LucideIcons.edit2, size: 18, color: AppColors.textSecondary),
-                    tooltip: 'Chỉnh sửa thông tin',
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

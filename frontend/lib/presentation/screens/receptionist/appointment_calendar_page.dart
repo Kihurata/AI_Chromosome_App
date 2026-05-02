@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -150,7 +151,7 @@ class _AppointmentCalendarPageState extends State<AppointmentCalendarPage> {
             const SizedBox(height: 24),
 
             // ── Bottom: Selected Day Appointments ──
-            Container(
+            SizedBox(
               height: 500, // Fixed height for the table container
               child: BlocBuilder<AppointmentCubit, AppointmentState>(
                 builder: (context, state) {
@@ -299,6 +300,5 @@ class _EmptyAppointments extends StatelessWidget {
         ],
       ),
     );
-  }
   }
 }

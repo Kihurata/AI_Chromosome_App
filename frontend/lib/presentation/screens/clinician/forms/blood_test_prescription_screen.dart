@@ -3,6 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../widgets/shared/layouts/main_form_layout.dart';
+import '../../../widgets/shared/form/app_text_field.dart';
+import '../../../widgets/shared/form/app_buttons.dart';
+import '../../../widgets/shared/form/app_dropdown.dart';
 
 class ClinicianBloodTestPrescriptionPage extends StatelessWidget {
   final String id;
@@ -25,9 +28,23 @@ class ClinicianBloodTestPrescriptionPage extends StatelessWidget {
               title: 'THÔNG TIN CHỈ ĐỊNH',
               child: Row(
                 children: [
-                  Expanded(child: _input('Bệnh nhân', 'Tìm kiếm bệnh nhân...')),
+                  Expanded(
+                    child: AppTextField(
+                      labelText: 'Bệnh nhân',
+                      hintText: 'Tìm kiếm bệnh nhân...',
+                    ),
+                  ),
                   const SizedBox(width: 16),
-                  Expanded(child: _dropdown('Loại xét nghiệm', 'Chọn loại xét nghiệm')),
+                  Expanded(
+                    child: AppDropdown<String>(
+                      labelText: 'Loại xét nghiệm',
+                      hintText: 'Chọn loại xét nghiệm',
+                      items: const ['Xét nghiệm máu', 'Xét nghiệm nước tiểu']
+                          .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                          .toList(),
+                      onChanged: (_) {},
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -42,13 +59,32 @@ class ClinicianBloodTestPrescriptionPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Expanded(child: _dropdown('Loại mẫu', 'Máu (huyết thanh/huyết tương)')),
+                      Expanded(
+                        child: AppDropdown<String>(
+                          labelText: 'Loại mẫu',
+                          value: 'Máu',
+                          items: const ['Máu', 'Nước tiểu', 'Khác']
+                              .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                              .toList(),
+                          onChanged: (_) {},
+                        ),
+                      ),
                       const SizedBox(width: 16),
-                      Expanded(child: _input('Thời gian lấy mẫu', '10/25/2023, 08:00 AM', suffixIcon: LucideIcons.calendar)),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: 'Thời gian lấy mẫu',
+                          hintText: '10/25/2023, 08:00 AM',
+                          suffixIcon: const Icon(LucideIcons.calendar, size: 16),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
-                  _input('Ghi chú lâm sàng', 'Nhập tóm tắt bệnh sử, chẩn đoán sơ bộ...', maxLines: 4),
+                  AppTextField(
+                    labelText: 'Ghi chú lâm sàng',
+                    hintText: 'Nhập tóm tắt bệnh sử, chẩn đoán sơ bộ...',
+                    maxLines: 4,
+                  ),
                 ],
               ),
             ),
@@ -58,28 +94,15 @@ class ClinicianBloodTestPrescriptionPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                OutlinedButton(
+                AppSecondaryButton(
+                  text: 'Hủy',
                   onPressed: () => context.pop(),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.textSecondary,
-                    side: const BorderSide(color: AppColors.border),
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    backgroundColor: AppColors.primaryBlue,
-                  ),
-                  child: const Text('Hủy', style: TextStyle(color: Colors.white)),
                 ),
                 const SizedBox(width: 12),
-                ElevatedButton.icon(
+                AppPrimaryButton(
+                  text: 'Lưu',
+                  icon: LucideIcons.save,
                   onPressed: () => context.pop(),
-                  icon: const Icon(LucideIcons.save, size: 16),
-                  label: const Text('Lưu'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryBlue,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  ),
                 ),
               ],
             ),
@@ -112,56 +135,4 @@ class ClinicianBloodTestPrescriptionPage extends StatelessWidget {
     );
   }
 
-  Widget _input(String label, String hint, {int maxLines = 1, IconData? suffixIcon}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-        const SizedBox(height: 6),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: TextField(
-            maxLines: maxLines,
-            decoration: InputDecoration(
-              hintText: hint,
-              hintStyle: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(vertical: maxLines > 1 ? 12 : 13),
-              suffixIcon: suffixIcon != null ? Icon(suffixIcon, color: AppColors.textSecondary, size: 16) : null,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _dropdown(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-        const SizedBox(height: 6),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 13),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(value, style: const TextStyle(color: AppColors.textPrimary, fontSize: 13)),
-              const Icon(LucideIcons.chevronDown, color: AppColors.textSecondary, size: 16),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
 }

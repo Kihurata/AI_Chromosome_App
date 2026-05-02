@@ -3,6 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../widgets/shared/layouts/main_form_layout.dart';
+import '../../../widgets/shared/form/app_text_field.dart';
+import '../../../widgets/shared/form/app_buttons.dart';
+import '../../../widgets/shared/form/app_dropdown.dart';
 
 class ClinicianExaminationFormPage extends StatelessWidget {
   final String id;
@@ -58,11 +61,30 @@ class ClinicianExaminationFormPage extends StatelessWidget {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      Expanded(child: _input('Vị trí đau/khó chịu', 'Vùng thượng vị, ngực trái...')),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: 'Vị trí đau/khó chịu',
+                          hintText: 'Vùng thượng vị, ngực trái...',
+                        ),
+                      ),
                       const SizedBox(width: 16),
-                      Expanded(child: _input('Thời gian bị', '2 ngày trước, kéo dài 10p...')),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: 'Thời gian bị',
+                          hintText: '2 ngày trước, kéo dài 10p...',
+                        ),
+                      ),
                       const SizedBox(width: 16),
-                      Expanded(child: _dropdown('Mức độ đau (1-10)', '5 - Trung bình')),
+                      Expanded(
+                        child: AppDropdown<String>(
+                          labelText: 'Mức độ đau (1-10)',
+                          value: '5',
+                          items: List.generate(10, (index) => (index + 1).toString())
+                              .map((e) => DropdownMenuItem(value: e, child: Text('$e - ${e == '5' ? 'Trung bình' : 'Mức $e'}')))
+                              .toList(),
+                          onChanged: (_) {},
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 24),
@@ -70,19 +92,48 @@ class ClinicianExaminationFormPage extends StatelessWidget {
                   const SizedBox(height: 12),
                   Row(
                     children: [
-                      Expanded(child: _input('Bệnh nền', 'Tiểu đường, cao huyết áp...', maxLines: 3)),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: 'Bệnh nền',
+                          hintText: 'Tiểu đường, cao huyết áp...',
+                          maxLines: 3,
+                        ),
+                      ),
                       const SizedBox(width: 16),
-                      Expanded(child: _input('Dị ứng', 'Thuốc kháng sinh, hải sản...', maxLines: 3)),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: 'Dị ứng',
+                          hintText: 'Thuốc kháng sinh, hải sản...',
+                          maxLines: 3,
+                        ),
+                      ),
                       const SizedBox(width: 16),
-                      Expanded(child: _input('Thuốc đang dùng', 'Tên thuốc, liều dùng...', maxLines: 3)),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: 'Thuốc đang dùng',
+                          hintText: 'Tên thuốc, liều dùng...',
+                          maxLines: 3,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 24),
                   Row(
                     children: [
-                      Expanded(child: _input('CHẨN ĐOÁN SƠ BỘ', 'Nhập chẩn đoán sơ bộ...')),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: 'CHẨN ĐOÁN SƠ BỘ',
+                          hintText: 'Nhập chẩn đoán sơ bộ...',
+                        ),
+                      ),
                       const SizedBox(width: 16),
-                      Expanded(child: _input('CHẨN ĐOÁN CHÍNH (ICD-10)', 'Tìm mã bệnh ICD-10...', suffixIcon: LucideIcons.search)),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: 'CHẨN ĐOÁN CHÍNH (ICD-10)',
+                          hintText: 'Tìm mã bệnh ICD-10...',
+                          suffixIcon: const Icon(LucideIcons.search, size: 16),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -99,9 +150,21 @@ class ClinicianExaminationFormPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Expanded(child: _input('KẾT LUẬN BỆNH', 'Tóm tắt tình trạng và kết luận...', maxLines: 3)),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: 'KẾT LUẬN BỆNH',
+                          hintText: 'Tóm tắt tình trạng và kết luận...',
+                          maxLines: 3,
+                        ),
+                      ),
                       const SizedBox(width: 16),
-                      Expanded(child: _input('HƯỚNG ĐIỀU TRỊ & DẶN DÒ', 'Chế độ ăn uống, sinh hoạt...', maxLines: 3)),
+                      Expanded(
+                        child: AppTextField(
+                          labelText: 'HƯỚNG ĐIỀU TRỊ & DẶN DÒ',
+                          hintText: 'Chế độ ăn uống, sinh hoạt...',
+                          maxLines: 3,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 24),
@@ -143,7 +206,13 @@ class ClinicianExaminationFormPage extends StatelessWidget {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Expanded(child: _input('HẸN TÁI KHÁM', 'dd/mm/yyyy', suffixIcon: LucideIcons.calendar)),
+                            Expanded(
+                              child: AppTextField(
+                                labelText: 'HẸN TÁI KHÁM',
+                                hintText: 'dd/mm/yyyy',
+                                suffixIcon: const Icon(LucideIcons.calendar, size: 16),
+                              ),
+                            ),
                             const SizedBox(width: 16),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 4),
@@ -168,7 +237,11 @@ class ClinicianExaminationFormPage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 24),
-                  _input('GHI CHÚ THUỐC', 'Ghi chú thêm về đơn thuốc...', maxLines: 3),
+                  AppTextField(
+                    labelText: 'GHI CHÚ THUỐC',
+                    hintText: 'Ghi chú thêm về đơn thuốc...',
+                    maxLines: 3,
+                  ),
                 ],
               ),
             ),
@@ -178,40 +251,22 @@ class ClinicianExaminationFormPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                OutlinedButton(
+                AppSecondaryButton(
+                  text: 'Hủy khám',
                   onPressed: () => context.go('/clinician/medical-record/$id'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.dangerText,
-                    side: const BorderSide(color: AppColors.dangerText),
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                  ),
-                  child: const Text('Hủy khám'),
                 ),
                 Row(
                   children: [
-                    ElevatedButton.icon(
+                    AppSecondaryButton(
+                      text: 'Lập Phiếu CĐXN',
+                      icon: LucideIcons.flaskConical,
                       onPressed: () => context.push('/clinician/blood-test-prescription/$id'),
-                      icon: const Icon(LucideIcons.flaskConical, size: 16),
-                      label: const Text('Lập Phiếu CĐXN'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF1E293B),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      ),
                     ),
                     const SizedBox(width: 12),
-                    ElevatedButton.icon(
+                    AppPrimaryButton(
+                      text: 'Lưu thông tin',
+                      icon: LucideIcons.save,
                       onPressed: () => context.go('/clinician/medical-record/$id'),
-                      icon: const Icon(LucideIcons.save, size: 16),
-                      label: const Text('Lưu thông tin'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryBlue,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      ),
                     ),
                   ],
                 ),
@@ -277,56 +332,4 @@ class ClinicianExaminationFormPage extends StatelessWidget {
     );
   }
 
-  Widget _input(String label, String hint, {int maxLines = 1, IconData? suffixIcon}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-        const SizedBox(height: 6),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: TextField(
-            maxLines: maxLines,
-            decoration: InputDecoration(
-              hintText: hint,
-              hintStyle: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(vertical: maxLines > 1 ? 12 : 13),
-              suffixIcon: suffixIcon != null ? Icon(suffixIcon, color: AppColors.textSecondary, size: 16) : null,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _dropdown(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-        const SizedBox(height: 6),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 13),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(value, style: const TextStyle(color: AppColors.textPrimary, fontSize: 13)),
-              const Icon(LucideIcons.chevronDown, color: AppColors.textSecondary, size: 16),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
 }
