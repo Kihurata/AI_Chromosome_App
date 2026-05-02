@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import '../../../core/errors/failures.dart';
 import '../../repositories/test_order_repository.dart';
 
+@injectable
 class AssignOrderToSpecialist {
   final TestOrderRepository repository;
 

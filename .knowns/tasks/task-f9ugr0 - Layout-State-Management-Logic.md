@@ -5,7 +5,7 @@ status: done
 priority: medium
 labels: []
 createdAt: '2026-04-29T09:14:43.748Z'
-updatedAt: '2026-04-29T09:24:50.577Z'
+updatedAt: '2026-04-29T18:06:22.473Z'
 timeSpent: 0
 assignee: '@me'
 spec: specs/common-layout-components

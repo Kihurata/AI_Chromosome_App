@@ -1,6 +1,6 @@
 {
   "taskId": "yliqkd",
-  "currentVersion": 2,
+  "currentVersion": 3,
   "versions": [
     {
       "id": "v1",
@@ -43,30 +43,81 @@
           "oldValue": null,
           "newValue": [
             {
-              "text": "Setup a Firestore trigger listening for `status: 'UPLOADED'` on `metaphase_images`.",
-              "completed": false
+              "completed": false,
+              "text": "Setup a Firestore trigger listening for `status: 'UPLOADED'` on `metaphase_images`."
             },
             {
-              "text": "Implement HTTP client to send a JSON payload containing ONLY the `raw_image_url` and `orderId` to the external AI Server (Ngrok). *(Do not download the image)*",
-              "completed": false
+              "completed": false,
+              "text": "Implement HTTP client to send a JSON payload containing ONLY the `raw_image_url` and `orderId` to the external AI Server (Ngrok). *(Do not download the image)*"
             },
             {
-              "text": "Set appropriate timeouts (e.g., 120s) and handle `ngrok-skip-browser-warning` headers.",
-              "completed": false
+              "completed": false,
+              "text": "Set appropriate timeouts (e.g., 120s) and handle `ngrok-skip-browser-warning` headers."
             },
             {
-              "text": "Parse the returned AI JSON result.",
-              "completed": false
+              "completed": false,
+              "text": "Parse the returned AI JSON result."
             },
             {
-              "text": "Implement Firebase Admin SDK bulk-write logic to securely insert `Chromosome` documents into Firestore.",
-              "completed": false
+              "completed": false,
+              "text": "Implement Firebase Admin SDK bulk-write logic to securely insert `Chromosome` documents into Firestore."
             },
             {
-              "text": "Update the `MetaphaseImage` status to `COMPLETED` and trigger the App's UI to update.",
-              "completed": false
+              "completed": false,
+              "text": "Update the `MetaphaseImage` status to `COMPLETED` and trigger the App's UI to update."
             }
           ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Setup a Firestore trigger listening for `status: 'UPLOADED'` on `metaphase_images`."
+          },
+          {
+            "completed": false,
+            "text": "Implement HTTP client to send a JSON payload containing ONLY the `raw_image_url` and `orderId` to the external AI Server (Ngrok). *(Do not download the image)*"
+          },
+          {
+            "completed": false,
+            "text": "Set appropriate timeouts (e.g., 120s) and handle `ngrok-skip-browser-warning` headers."
+          },
+          {
+            "completed": false,
+            "text": "Parse the returned AI JSON result."
+          },
+          {
+            "completed": false,
+            "text": "Implement Firebase Admin SDK bulk-write logic to securely insert `Chromosome` documents into Firestore."
+          },
+          {
+            "completed": false,
+            "text": "Update the `MetaphaseImage` status to `COMPLETED` and trigger the App's UI to update."
+          }
+        ],
+        "description": "Implement a lightweight Backend service (Cloud Function/FastAPI Proxy) that orchestrates the workflow between the Flutter App and the dedicated AI Server (Ngrok). See architectural decision at @doc/(root)/system-architecture-and-database-schema.",
+        "labels": [
+          "backend",
+          "microservice",
+          "ai-integration",
+          "event-driven"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Backend Orchestrator for AI Server (Microservice)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "yliqkd",
+      "version": 3,
+      "timestamp": "2026-05-02T07:08:11.7599669Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
         }
       ],
       "snapshot": {
@@ -104,7 +155,7 @@
           "event-driven"
         ],
         "priority": "high",
-        "status": "todo",
+        "status": "done",
         "title": "Backend Orchestrator for AI Server (Microservice)"
       }
     }

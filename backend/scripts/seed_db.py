@@ -127,6 +127,14 @@ def seed():
     })
     print("Seeded Chromosome sub-collection")
     
+    # 9. System Configs (AI Server)
+    config_ref = db.collection('system_configs').document('ai_server')
+    config_ref.set({
+        'api_url': 'https://mock-ai-server-ngrok.io',
+        'updated_at': datetime.now()
+    })
+    print("Seeded System Configs (AI Server)")
+    
     print("--- Seeding Complete ---")
 
 if __name__ == "__main__":

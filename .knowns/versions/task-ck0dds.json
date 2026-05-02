@@ -1,6 +1,6 @@
 {
   "taskId": "ck0dds",
-  "currentVersion": 1,
+  "currentVersion": 3,
   "versions": [
     {
       "id": "v1",
@@ -29,6 +29,69 @@
         ],
         "priority": "high",
         "status": "todo",
+        "title": "Image Slicing Service (Backend)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "ck0dds",
+      "version": 2,
+      "timestamp": "2026-04-29T18:13:37.4388734Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Create a `backend` directory at the project root for the Image Slicing Service.\n2. Define `requirements.txt` with FastAPI, OpenCV, Numpy, and Firebase Admin.\n3. Write `main.py` with an endpoint `/api/slice` that receives `image_url` and `polygons`.\n4. Implement OpenCV logic to read the image, apply mask based on polygon coordinates, crop the bounding box, and save as transparent PNG.\n5. Add placeholder Firebase Storage upload logic and return URLs.\n6. Include a simple `Dockerfile` for deployment."
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai service Python FastAPI để nhận toạ độ Vector/Polygon từ App (Bước 2). Sử dụng OpenCV để crop ảnh gốc thành 46 ảnh PNG trong suốt. Đẩy ảnh lên Firebase Storage và trả URLs về cho Flutter để render ở Bước 3.",
+        "implementationPlan": "1. Create a `backend` directory at the project root for the Image Slicing Service.\n2. Define `requirements.txt` with FastAPI, OpenCV, Numpy, and Firebase Admin.\n3. Write `main.py` with an endpoint `/api/slice` that receives `image_url` and `polygons`.\n4. Implement OpenCV logic to read the image, apply mask based on polygon coordinates, crop the bounding box, and save as transparent PNG.\n5. Add placeholder Firebase Storage upload logic and return URLs.\n6. Include a simple `Dockerfile` for deployment.",
+        "labels": [
+          "backend",
+          "python",
+          "opencv",
+          "fastapi"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Image Slicing Service (Backend)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "ck0dds",
+      "version": 3,
+      "timestamp": "2026-04-29T18:14:53.8572794Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented backend service endpoint `/api/slice` in FastAPI. It uses OpenCV to decode the image from URL, apply masks using Polygon coordinates from the request, crop to bounding boxes, encode as PNG, and returns mock storage URLs. Added numpy, opencv-python-headless, and httpx to requirements.txt."
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai service Python FastAPI để nhận toạ độ Vector/Polygon từ App (Bước 2). Sử dụng OpenCV để crop ảnh gốc thành 46 ảnh PNG trong suốt. Đẩy ảnh lên Firebase Storage và trả URLs về cho Flutter để render ở Bước 3.",
+        "implementationNotes": "Implemented backend service endpoint `/api/slice` in FastAPI. It uses OpenCV to decode the image from URL, apply masks using Polygon coordinates from the request, crop to bounding boxes, encode as PNG, and returns mock storage URLs. Added numpy, opencv-python-headless, and httpx to requirements.txt.",
+        "implementationPlan": "1. Create a `backend` directory at the project root for the Image Slicing Service.\n2. Define `requirements.txt` with FastAPI, OpenCV, Numpy, and Firebase Admin.\n3. Write `main.py` with an endpoint `/api/slice` that receives `image_url` and `polygons`.\n4. Implement OpenCV logic to read the image, apply mask based on polygon coordinates, crop the bounding box, and save as transparent PNG.\n5. Add placeholder Firebase Storage upload logic and return URLs.\n6. Include a simple `Dockerfile` for deployment.",
+        "labels": [
+          "backend",
+          "python",
+          "opencv",
+          "fastapi"
+        ],
+        "priority": "high",
+        "status": "done",
         "title": "Image Slicing Service (Backend)"
       }
     }

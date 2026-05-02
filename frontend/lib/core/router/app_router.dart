@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../models/nav_item.dart';
 import '../config/app_nav_items.dart';
 import '../providers/auth_provider.dart';
+import '../di/injection.dart';
 import '../../presentation/screens/auth/login_page.dart';
 import '../../presentation/screens/receptionist/receptionist_dashboard_body.dart';
 import '../../presentation/screens/receptionist/patient_list_page.dart';
@@ -16,9 +18,14 @@ import '../../presentation/screens/patient_detail/medical_record/shared_medical_
 import '../../presentation/screens/clinician/forms/examination_form_screen.dart';
 import '../../presentation/screens/clinician/forms/blood_test_prescription_screen.dart';
 import '../../presentation/screens/workspace/workspace_screen.dart';
+import '../../presentation/screens/manager/manager_dashboard_page.dart';
 import '../../presentation/screens/manager/lab_manager_dashboard_page.dart';
 import '../../presentation/screens/manager/lab_result_review_page.dart';
 import '../../presentation/screens/patient_detail/test_result_detail_page.dart';
+import '../../logic/bloc/specialist/ai_analysis_cubit.dart';
+import '../../logic/bloc/workspace/workspace_cubit.dart';
+import '../../domain/usecases/specialist/update_chromosome_position.dart';
+import '../../domain/usecases/test_order/submit_analysis_result.dart';
 
 // ── Route path constants ──────────────────────────────────────────────────────
 class AppRoutes {
@@ -42,6 +49,7 @@ class AppRoutes {
   static const specialistAnalysis = '/specialist/analysis';
 
   // Manager
+  static const managerDashboard = '/manager/dashboard';
   static const managerReports = '/manager/reports';
   static const managerStaff = '/manager/staff';
 
@@ -187,9 +195,29 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '${AppRoutes.specialistAnalysis}/:orderId',
             name: 'specialist-analysis',
-            builder: (context, state) => WorkspaceScreen(
-              orderId: state.pathParameters['orderId'] ?? '',
-            ),
+            builder: (context, state) {
+              final orderId = state.pathParameters['orderId'] ?? '';
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(create: (_) => getIt<AiAnalysisCubit>()),
+                  BlocProvider(
+                    create: (_) => WorkspaceCubit(
+                      updatePositionUsecase: getIt<UpdateChromosomePosition>(),
+                      submitAnalysisUsecase: getIt<SubmitAnalysisResult>(),
+                      orderId: orderId,
+                    ),
+                  ),
+                ],
+                child: WorkspaceScreen(
+                  orderId: orderId,
+                ),
+              );
+            },
+          ),
+          GoRoute(
+            path: AppRoutes.managerDashboard,
+            name: 'manager-dashboard',
+            builder: (context, state) => const ManagerDashboardPage(),
           ),
           GoRoute(
             path: AppRoutes.managerReports,
@@ -229,8 +257,6 @@ class _AuthStateListenable extends ChangeNotifier {
     ref.listen(authNotifierProvider, (previous, current) => notifyListeners());
   }
 }
-
-
 
 /// Placeholder for pages not yet implemented
 class _PlaceholderPage extends StatelessWidget {
@@ -290,4 +316,3 @@ class _ForbiddenPage extends StatelessWidget {
     );
   }
 }
-

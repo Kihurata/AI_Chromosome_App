@@ -1,0 +1,252 @@
+{
+  "taskId": "2h8rn7",
+  "currentVersion": 6,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "2h8rn7",
+      "version": 1,
+      "timestamp": "2026-05-01T17:15:17.3033953Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Create a comprehensive integration test that simulates a Specialist starting an analysis and verifies that the Backend processes it and populates Firestore correctly.",
+        "labels": [
+          "from-spec",
+          "integration",
+          "testing"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "[Integration] End-to-End AI Workflow Validation"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "2h8rn7",
+      "version": 2,
+      "timestamp": "2026-05-01T17:17:00.9217982Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Create script to mock Specialist 'Start' action on a test order."
+            },
+            {
+              "completed": false,
+              "text": "Verify real-time Firestore updates trigger the orchestrator correctly."
+            },
+            {
+              "completed": false,
+              "text": "Verify that chromosomes sub-collection is populated with valid data."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Create script to mock Specialist 'Start' action on a test order."
+          },
+          {
+            "completed": false,
+            "text": "Verify real-time Firestore updates trigger the orchestrator correctly."
+          },
+          {
+            "completed": false,
+            "text": "Verify that chromosomes sub-collection is populated with valid data."
+          }
+        ],
+        "description": "Create a comprehensive integration test that simulates a Specialist starting an analysis and verifies that the Backend processes it and populates Firestore correctly.",
+        "labels": [
+          "from-spec",
+          "integration",
+          "testing"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "[Integration] End-to-End AI Workflow Validation"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "2h8rn7",
+      "version": 3,
+      "timestamp": "2026-05-01T17:31:48.7969434Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Create script to mock Specialist 'Start' action on a test order."
+          },
+          {
+            "completed": false,
+            "text": "Verify real-time Firestore updates trigger the orchestrator correctly."
+          },
+          {
+            "completed": false,
+            "text": "Verify that chromosomes sub-collection is populated with valid data."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Create a comprehensive integration test that simulates a Specialist starting an analysis and verifies that the Backend processes it and populates Firestore correctly.",
+        "labels": [
+          "from-spec",
+          "integration",
+          "testing"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Integration End-to-End AI Workflow Validation"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "2h8rn7",
+      "version": 4,
+      "timestamp": "2026-05-01T17:32:18.6283961Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Develop backend/scripts/test_e2e_ai_workflow.py: Create a comprehensive script that starts the listener, triggers the ANALYZING state, and monitors the full lifecycle.\n2. Mock AI Server: Intercept httpx calls to return deterministic LabelMe JSON payloads during the test.\n3. Verify Data Payload: Assert chromosome document structure and counts in Firestore after processing.\n4. Verify Audit: Ensure status transitions and audit logs are correctly generated."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Create script to mock Specialist 'Start' action on a test order."
+          },
+          {
+            "completed": false,
+            "text": "Verify real-time Firestore updates trigger the orchestrator correctly."
+          },
+          {
+            "completed": false,
+            "text": "Verify that chromosomes sub-collection is populated with valid data."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Create a comprehensive integration test that simulates a Specialist starting an analysis and verifies that the Backend processes it and populates Firestore correctly.",
+        "implementationPlan": "1. Develop backend/scripts/test_e2e_ai_workflow.py: Create a comprehensive script that starts the listener, triggers the ANALYZING state, and monitors the full lifecycle.\n2. Mock AI Server: Intercept httpx calls to return deterministic LabelMe JSON payloads during the test.\n3. Verify Data Payload: Assert chromosome document structure and counts in Firestore after processing.\n4. Verify Audit: Ensure status transitions and audit logs are correctly generated.",
+        "labels": [
+          "from-spec",
+          "integration",
+          "testing"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Integration End-to-End AI Workflow Validation"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "2h8rn7",
+      "version": 5,
+      "timestamp": "2026-05-01T17:36:51.0275381Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Successfully implemented and verified End-to-End AI analysis workflow. Fixed event loop handling in FirestoreListener to support multithreaded snapshots. Flattened polygon coordinate arrays in DataMapper to comply with Firestore nested array restrictions. Developed test_e2e_ai_workflow.py with AI server mocking and validated: status transitions (UPLOADED -\u003e PROCESSING -\u003e COMPLETED), chromosome document creation, and audit logging."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Create script to mock Specialist 'Start' action on a test order."
+          },
+          {
+            "completed": true,
+            "text": "Verify real-time Firestore updates trigger the orchestrator correctly."
+          },
+          {
+            "completed": true,
+            "text": "Verify that chromosomes sub-collection is populated with valid data."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Create a comprehensive integration test that simulates a Specialist starting an analysis and verifies that the Backend processes it and populates Firestore correctly.",
+        "implementationNotes": "Successfully implemented and verified End-to-End AI analysis workflow. Fixed event loop handling in FirestoreListener to support multithreaded snapshots. Flattened polygon coordinate arrays in DataMapper to comply with Firestore nested array restrictions. Developed test_e2e_ai_workflow.py with AI server mocking and validated: status transitions (UPLOADED -\u003e PROCESSING -\u003e COMPLETED), chromosome document creation, and audit logging.",
+        "implementationPlan": "1. Develop backend/scripts/test_e2e_ai_workflow.py: Create a comprehensive script that starts the listener, triggers the ANALYZING state, and monitors the full lifecycle.\n2. Mock AI Server: Intercept httpx calls to return deterministic LabelMe JSON payloads during the test.\n3. Verify Data Payload: Assert chromosome document structure and counts in Firestore after processing.\n4. Verify Audit: Ensure status transitions and audit logs are correctly generated.",
+        "labels": [
+          "from-spec",
+          "integration",
+          "testing"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Integration End-to-End AI Workflow Validation"
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "2h8rn7",
+      "version": 6,
+      "timestamp": "2026-05-01T17:36:53.4957888Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Create script to mock Specialist 'Start' action on a test order.",
+            "completed": true
+          },
+          {
+            "text": "Verify real-time Firestore updates trigger the orchestrator correctly.",
+            "completed": true
+          },
+          {
+            "text": "Verify that chromosomes sub-collection is populated with valid data.",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Create a comprehensive integration test that simulates a Specialist starting an analysis and verifies that the Backend processes it and populates Firestore correctly.",
+        "implementationNotes": "Successfully implemented and verified End-to-End AI analysis workflow. Fixed event loop handling in FirestoreListener to support multithreaded snapshots. Flattened polygon coordinate arrays in DataMapper to comply with Firestore nested array restrictions. Developed test_e2e_ai_workflow.py with AI server mocking and validated: status transitions (UPLOADED -\u003e PROCESSING -\u003e COMPLETED), chromosome document creation, and audit logging.",
+        "implementationPlan": "1. Develop backend/scripts/test_e2e_ai_workflow.py: Create a comprehensive script that starts the listener, triggers the ANALYZING state, and monitors the full lifecycle.\n2. Mock AI Server: Intercept httpx calls to return deterministic LabelMe JSON payloads during the test.\n3. Verify Data Payload: Assert chromosome document structure and counts in Firestore after processing.\n4. Verify Audit: Ensure status transitions and audit logs are correctly generated.",
+        "labels": [
+          "from-spec",
+          "integration",
+          "testing"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "Integration End-to-End AI Workflow Validation"
+      }
+    }
+  ]
+}

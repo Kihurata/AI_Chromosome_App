@@ -69,6 +69,13 @@ const List<NavItem> appNavItems = [
 
   // ── MANAGER ───────────────────────────────────────────────────────────────
   NavItem(
+    label: 'Điều phối Lab',
+    icon: LucideIcons.layoutDashboard,
+    routePath: '/manager/dashboard',
+    allowedRoles: [AppRole.manager],
+    tooltip: 'Điều phối và duyệt kết quả',
+  ),
+  NavItem(
     label: 'Báo cáo',
     icon: LucideIcons.barChart3,
     routePath: '/manager/reports',
@@ -108,7 +115,7 @@ String defaultRouteForRole(AppRole role) {
     case AppRole.specialist:
       return '/specialist/dashboard';
     case AppRole.manager:
-      return '/manager/reports';
+      return '/manager/dashboard';
   }
 }
 

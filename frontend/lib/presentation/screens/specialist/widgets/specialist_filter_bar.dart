@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../domain/entities/test_order.dart';
-import '../../../../logic/bloc/specialist_dashboard/specialist_dashboard_cubit.dart';
-import '../../../../logic/bloc/specialist_dashboard/specialist_dashboard_state.dart';
+import '../../../../logic/bloc/specialist/specialist_dashboard_cubit.dart';
+import '../../../../logic/bloc/specialist/specialist_dashboard_state.dart';
 import '../../../widgets/shared/form/app_text_field.dart';
 
 class SpecialistFilterBar extends StatelessWidget {

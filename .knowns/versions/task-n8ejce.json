@@ -1,0 +1,36 @@
+{
+  "taskId": "n8ejce",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "n8ejce",
+      "version": 1,
+      "timestamp": "2026-05-01T10:25:07.6640216Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "in-progress"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Triển khai logic mapping từ kết quả AI (LabelMe format) sang Firestore Chromosome documents.",
+        "labels": [
+          "backend",
+          "mapping",
+          "labelme"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "[Backend] LabelMe JSON to Firestore Mapper"
+      }
+    }
+  ]
+}

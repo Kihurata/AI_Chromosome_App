@@ -1,6 +1,6 @@
 {
   "taskId": "qbzv2b",
-  "currentVersion": 1,
+  "currentVersion": 3,
   "versions": [
     {
       "id": "v1",
@@ -28,6 +28,67 @@
         ],
         "priority": "medium",
         "status": "todo",
+        "title": "Phê duyệt QC \u0026 Báo cáo (UI/Logic) - Bước 4 \u0026 5"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "qbzv2b",
+      "version": 2,
+      "timestamp": "2026-04-29T18:11:09.405342Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Create `QcDiagnosticStep` (Bước 4) widget for ISCN formula input and diagnostic remarks.\n2. Create `ReportStep` (Bước 5) widget with a summary and a Submit button.\n3. Add `submitAnalysis` method to `WorkspaceCubit` which updates the order status to `waitingApproval`.\n4. Include both steps in `WorkspaceScreen` and route back to Dashboard on success."
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai màn hình Bước 4 (Nhập chẩn đoán với AI suggestion panel) và Bước 5 (Form báo cáo cuối). Cập nhật trạng thái phiếu thành 'waitingApproval' và điều hướng quay lại Dashboard khi bấm Submit.",
+        "implementationPlan": "1. Create `QcDiagnosticStep` (Bước 4) widget for ISCN formula input and diagnostic remarks.\n2. Create `ReportStep` (Bước 5) widget with a summary and a Submit button.\n3. Add `submitAnalysis` method to `WorkspaceCubit` which updates the order status to `waitingApproval`.\n4. Include both steps in `WorkspaceScreen` and route back to Dashboard on success.",
+        "labels": [
+          "ui",
+          "logic",
+          "workspace"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Phê duyệt QC \u0026 Báo cáo (UI/Logic) - Bước 4 \u0026 5"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "qbzv2b",
+      "version": 3,
+      "timestamp": "2026-04-29T18:13:28.409517Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented QcDiagnosticStep (Step 4) and ReportStep (Step 5). Created SubmitAnalysisResult usecase and wired it to WorkspaceCubit to submit the order status. Fixed router issue from previous task."
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai màn hình Bước 4 (Nhập chẩn đoán với AI suggestion panel) và Bước 5 (Form báo cáo cuối). Cập nhật trạng thái phiếu thành 'waitingApproval' và điều hướng quay lại Dashboard khi bấm Submit.",
+        "implementationNotes": "Implemented QcDiagnosticStep (Step 4) and ReportStep (Step 5). Created SubmitAnalysisResult usecase and wired it to WorkspaceCubit to submit the order status. Fixed router issue from previous task.",
+        "implementationPlan": "1. Create `QcDiagnosticStep` (Bước 4) widget for ISCN formula input and diagnostic remarks.\n2. Create `ReportStep` (Bước 5) widget with a summary and a Submit button.\n3. Add `submitAnalysis` method to `WorkspaceCubit` which updates the order status to `waitingApproval`.\n4. Include both steps in `WorkspaceScreen` and route back to Dashboard on success.",
+        "labels": [
+          "ui",
+          "logic",
+          "workspace"
+        ],
+        "priority": "medium",
+        "status": "done",
         "title": "Phê duyệt QC \u0026 Báo cáo (UI/Logic) - Bước 4 \u0026 5"
       }
     }

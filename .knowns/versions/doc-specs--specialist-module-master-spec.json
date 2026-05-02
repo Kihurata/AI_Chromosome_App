@@ -1,0 +1,43 @@
+{
+  "docPath": "specs/specialist-module-master-spec",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "specs/specialist-module-master-spec",
+      "version": 1,
+      "timestamp": "2026-04-29T18:21:48.265128Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Specialist Module (Master Spec)"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Comprehensive specification for the Lab Specialist role, including Dashboard, AI Workspace, and supporting features."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "spec",
+            "draft",
+            "specialist"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\nTài liệu này đặc tả toàn bộ chức năng dành cho vai trò **Lab Specialist** trong hệ thống AI Chromosome. Specialist chịu trách nhiệm quản lý danh sách phiếu xét nghiệm, thực hiện phân tích NST đồ (Karyotyping) với sự hỗ trợ của AI, và lập báo cáo chẩn đoán cuối cùng.\n\n## Locked Decisions\n- **D1 (Linear Workspace):** Quy trình Workspace gồm 5 bước tuyến tính: Sàng lọc -\u003e Tách NST -\u003e Lập NST đồ -\u003e Chẩn đoán -\u003e Lập báo cáo.\n- **D2 (Hybrid Sync):** Workspace Bước 2 (Tách) dùng Local State; Bước 3 (Karyotype) dùng Auto-save (Debounce 1.5s).\n- **D3 (AI Orchestration):** AI chạy bất đồng bộ (Fire \u0026 Forget). UI hiển thị thanh Progress chung (D7) và trạng thái ngoài Dashboard (D3).\n- **D4 (Data Integrity):** Chuyển đổi tọa độ Polygon sang ảnh PNG thực tế trên Backend (D4) để tiết kiệm RAM thiết bị di động.\n- **D5 (Role Boundaries):** Specialist chỉ thấy các phiếu được Manager phân công trực tiếp cho mình (thông qua FCM Notifications - D8).\n- **D6 (Low-Priority Extras):** Các chức năng xem lịch sử (Archive) và lý do từ chối (Rejection Comments) được thiết kế dạng placeholder/cơ bản trong giai đoạn này.\n\n## Requirements\n\n### 1. Dashboard (Quản lý công việc)\n- **FR-1.1 (Statistics):** Hiển thị Bento Box với 4 chỉ số: Chờ xử lý, Đang phân tích, Chờ duyệt, Hoàn thành.\n- **FR-1.2 (Order List):** Danh sách Test Orders hiển thị theo thời gian thực (Firestore Stream).\n- **FR-1.3 (Notification Interaction):** Khi bấm vào thông báo \"Ca mới được phân công\", app điều hướng thẳng tới chi tiết phiếu đó trên Dashboard.\n- **FR-1.4 (Search \u0026 Filter):** Tìm kiếm theo tên/mã bệnh nhân và lọc theo trạng thái (Waiting, Analyzing, Pending Approval).\n\n### 2. Workspace (Quy trình phân tích 5 bước)\n- **FR-2.1 (Step 1 - Selection):** Chọn 1-3 ảnh Metaphase tốt nhất từ tập ảnh thô.\n- **FR-2.2 (Step 2 - Slicing):** Công cụ Lasso/Crop để tách các NST bị dính. Backend trả về danh sách chromosome images riêng lẻ.\n- **FR-2.3 (Step 3 - Karyotyping):** Kéo thả NST vào lưới 23 cặp (22 tự thể + 1 giới tính). Hỗ trợ xoay ảnh NST.\n- **FR-2.4 (Step 4 - Diagnosis):** Nhập ISCN Formula (ví dụ: 46,XX) và nhận xét lâm sàng sơ bộ.\n- **FR-2.5 (Step 5 - Final Report):** Tổng hợp dữ liệu thành báo cáo mẫu và nút \"Submit for Approval\".\n\n### 3. Supporting Features\n- **FR-3.1 (Rejection View):** Nếu phiếu bị từ chối, hiển thị badge \"Rejected\" và khung text chứa lý do từ Manager (Priority: Low).\n- **FR-3.2 (History Archive):** Tab phụ hoặc filter để xem lại các phiếu đã `COMPLETED` (Priority: Low).\n\n## Acceptance Criteria\n- [ ] **AC-1:** Dashboard cập nhật stats ngay khi Firestore thay đổi (Manager phân công hoặc AI xong).\n- [ ] **AC-2:** Workspace block việc \"Next Step\" nếu dữ liệu bắt buộc của bước hiện tại chưa hoàn thành.\n- [ ] **AC-3:** Ở Bước 3, vị trí NST được lưu lại chính xác sau khi app bị restart (thông qua Firestore persistence).\n- [ ] **AC-4:** Bấm \"Submit for Approval\" sẽ chuyển trạng thái Test Order sang `PENDING_APPROVAL` và ẩn phiếu khỏi danh sách làm việc chính.\n- [ ] **AC-5:** Thông báo FCM hiện đúng thông tin ca bệnh và Specialist nhận được click điều hướng thành công.\n\n## Technical Notes\n- **State Management:** Sử dụng `SpecialistDashboardCubit` cho Dashboard và `WorkspaceCubit` riêng cho luồng 5 bước để tránh rò rỉ bộ nhớ.\n- **AI Bridge:** Giao tiếp với FastAPI qua `task_id`. Sử dụng StreamSubscription để lắng nghe sự thay đổi status của ảnh từ `PROCESSING` -\u003e `COMPLETED`.",
+        "description": "Comprehensive specification for the Lab Specialist role, including Dashboard, AI Workspace, and supporting features.",
+        "tags": [
+          "spec",
+          "draft",
+          "specialist"
+        ],
+        "title": "Specialist Module (Master Spec)"
+      }
+    }
+  ]
+}

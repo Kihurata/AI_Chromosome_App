@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../domain/entities/test_order.dart';
-import '../../../../logic/bloc/specialist_dashboard/specialist_dashboard_cubit.dart';
+import '../../../../logic/bloc/specialist/specialist_dashboard_cubit.dart';
 import 'package:medcore_crm/presentation/widgets/shared/form/app_buttons.dart';
 import 'package:go_router/go_router.dart';
 
@@ -104,7 +104,7 @@ class SpecialistOrderCard extends StatelessWidget {
         text: 'Tiếp tục',
         icon: LucideIcons.externalLink,
         onPressed: () {
-          context.push('/specialist/analysis/${order.id}');
+          context.goNamed('specialist-analysis', pathParameters: {'orderId': order.id});
         },
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       );

@@ -3,6 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../logic/bloc/workspace/workspace_cubit.dart';
 import 'steps/screening_step.dart';
 import 'steps/slicing_step.dart';
+import 'steps/karyogram_step.dart';
+import 'steps/qc_diagnostic_step.dart';
+import 'steps/report_step.dart';
+
+import '../../../logic/bloc/specialist/ai_analysis_cubit.dart';
+import '../../../logic/bloc/specialist/ai_analysis_state.dart';
 
 class WorkspaceScreen extends StatelessWidget {
   final String orderId;
@@ -11,78 +17,87 @@ class WorkspaceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // In a real implementation, we would provide the WorkspaceCubit here 
-    // or retrieve it from a global provider using the orderId.
-    // For now, we assume the Cubit is provided higher up or we inject it.
-    
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: Column(
-        children: [
-          // Stepper Header
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
-              builder: (context, state) {
-                return Row(
-                  children: [
-                    _buildStepIndicator(1, 'Sàng lọc', state.currentStep, state.maxReachedStep, context),
-                    _buildLine(1, state.maxReachedStep),
-                    _buildStepIndicator(2, 'Tách NST', state.currentStep, state.maxReachedStep, context),
-                    _buildLine(2, state.maxReachedStep),
-                    _buildStepIndicator(3, 'Lập NST đồ', state.currentStep, state.maxReachedStep, context),
-                    _buildLine(3, state.maxReachedStep),
-                    _buildStepIndicator(4, 'Phê duyệt QC', state.currentStep, state.maxReachedStep, context),
-                    _buildLine(4, state.maxReachedStep),
-                    _buildStepIndicator(5, 'Báo cáo', state.currentStep, state.maxReachedStep, context),
-                  ],
-                );
-              },
+    return BlocListener<AiAnalysisCubit, AiAnalysisState>(
+      listener: (context, state) {
+        if (state is AiAnalysisCompleted) {
+          context.read<WorkspaceCubit>().goToStep(3);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('AI hoàn tất! Đang chuyển sang lập NST đồ...'),
+              backgroundColor: Colors.green,
             ),
-          ),
-          
-          // Main Content Area
-          Expanded(
-            child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
-              builder: (context, state) {
-                switch (state.currentStep) {
-                  case 1:
-                    return const ScreeningStep();
-                  case 2:
-                    return const SlicingStep();
-                  case 3:
-                    return _buildPlaceholder('Bước 3: Lập NST đồ', context);
-                  case 4:
-                    return _buildPlaceholder('Bước 4: Phê duyệt QC / Chẩn đoán', context);
-                  case 5:
-                    return _buildPlaceholder('Bước 5: Lập Báo cáo', context);
-                  default:
-                    return const Center(child: Text('Unknown Step'));
-                }
-              },
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8F9FA),
+        body: Column(
+          children: [
+            // Stepper Header
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
+                builder: (context, state) {
+                  return Row(
+                    children: [
+                      _buildStepIndicator(1, 'Sàng lọc', state.currentStep, state.maxReachedStep, context),
+                      _buildLine(1, state.maxReachedStep),
+                      _buildStepIndicator(2, 'Tách NST', state.currentStep, state.maxReachedStep, context),
+                      _buildLine(2, state.maxReachedStep),
+                      _buildStepIndicator(3, 'Lập NST đồ', state.currentStep, state.maxReachedStep, context),
+                      _buildLine(3, state.maxReachedStep),
+                      _buildStepIndicator(4, 'Phê duyệt QC', state.currentStep, state.maxReachedStep, context),
+                      _buildLine(4, state.maxReachedStep),
+                      _buildStepIndicator(5, 'Báo cáo', state.currentStep, state.maxReachedStep, context),
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
-          
-          // Temporary Navigation Controls for testing logic
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () => context.read<WorkspaceCubit>().previousStep(),
-                  child: const Text('Quay lại'),
-                ),
-                ElevatedButton(
-                  onPressed: () => context.read<WorkspaceCubit>().nextStep(),
-                  child: const Text('Tiếp tục'),
-                ),
-              ],
+            
+            // Main Content Area
+            Expanded(
+              child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
+                builder: (context, state) {
+                  switch (state.currentStep) {
+                    case 1:
+                      return ScreeningStep(orderId: orderId);
+                    case 2:
+                      return const SlicingStep();
+                    case 3:
+                      return const KaryogramStep();
+                    case 4:
+                      return const QcDiagnosticStep();
+                    case 5:
+                      return const ReportStep();
+                    default:
+                      return const Center(child: Text('Unknown Step'));
+                  }
+                },
+              ),
             ),
-          )
-        ],
+            
+            // Navigation Controls
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => context.read<WorkspaceCubit>().previousStep(),
+                    child: const Text('Quay lại'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => context.read<WorkspaceCubit>().nextStep(),
+                    child: const Text('Tiếp tục'),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -138,17 +153,6 @@ class WorkspaceScreen extends StatelessWidget {
         height: 2,
         margin: const EdgeInsets.symmetric(horizontal: 16),
         color: isCompleted ? Colors.green : Colors.grey.shade300,
-      ),
-    );
-  }
-
-  Widget _buildPlaceholder(String text, BuildContext context) {
-    return Center(
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-          color: Colors.grey.shade600,
-        ),
       ),
     );
   }

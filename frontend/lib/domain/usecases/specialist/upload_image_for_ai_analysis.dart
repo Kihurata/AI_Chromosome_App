@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import '../../../core/errors/failures.dart';
+import 'package:injectable/injectable.dart';
 import '../../entities/metaphase_image.dart';
 import '../../repositories/image_storage_repository.dart';
 import '../../repositories/workspace_repository.dart';
 
+@lazySingleton
 class UploadImageForAiAnalysis {
   final ImageStorageRepository storageRepository;
   final WorkspaceRepository workspaceRepository;

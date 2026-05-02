@@ -23,9 +23,9 @@ async def start_order_listener():
     """
     db = firestore.client()
     orders_ref = db.collection('test_orders')
+    loop = asyncio.get_running_loop()
     
     def on_snapshot(col_snapshot, changes, read_time):
-        loop = asyncio.get_event_loop()
         
         for change in changes:
             order_data = change.document.to_dict()

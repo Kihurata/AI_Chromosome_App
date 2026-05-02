@@ -1,0 +1,84 @@
+{
+  "docPath": "specs/ai-integration-frontend",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "specs/ai-integration-frontend",
+      "version": 1,
+      "timestamp": "2026-05-01T11:08:16.152745Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "AI Integration Frontend"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Specification for integrating AI Orchestrator Backend into Flutter Frontend."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "spec",
+            "draft",
+            "flutter",
+            "ai"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\nTriển khai việc kết nối giữa Flutter Frontend và AI Orchestrator Backend (FastAPI). Flutter sẽ đóng vai trò kích hoạt quá trình phân tích và phản hồi trạng thái thời gian thực từ Firestore.\n\n## Locked Decisions\n- D1: Tự động kích hoạt AI (API Call) ngay sau khi upload ảnh thành công.\n- D2: UI Non-blocking kèm trạng thái overlay khi đang xử lý.\n- D3: Cho phép fallback sang Manual Slicing nếu AI thất bại.\n\n## Requirements\n### Functional Requirements\n- FR-1: Gọi API `POST /api/analyze` ngay khi `UploadImageForAiAnalysis` hoàn tất thành công.\n- FR-2: Lắng nghe trạng thái `status` của `MetaphaseImage` từ Firestore (UPLOADED -\u003e PROCESSING -\u003e COMPLETED/FAILED).\n- FR-3: Hiển thị trạng thái loading chuyên biệt cho phần ảnh đang xử lý AI.\n- FR-4: Vô hiệu hóa việc chuyển bước (Next Step) cho đến khi `status == COMPLETED` hoặc người dùng xác nhận làm thủ công sau khi FAILED.\n\n### Non-Functional Requirements\n- NFR-1: Real-time update. UI phải cập nhật ngay lập tức khi status trên Firestore thay đổi.\n- NFR-2: Timeout handling. Nếu sau 120s không có kết quả, hiển thị thông báo lỗi và nút retry.\n\n## Acceptance Criteria\n- [ ] AC-1: Khi upload ảnh xong, tab Network/Log hiển thị một request POST tới Backend Orchestrator.\n- [ ] AC-2: Trong khi Backend xử lý, UI hiển thị nhãn \"AI is analyzing...\" trên thumbnail ảnh.\n- [ ] AC-3: Khi Backend hoàn tất, danh sách Chromosome tự động xuất hiện (do Firestore sync) và trạng thái chuyển thành COMPLETED.\n- [ ] AC-4: Nút \"Tiếp tục\" ở Bước 1 chỉ enable khi trạng thái là COMPLETED hoặc sau khi người dùng xác nhận bỏ qua lỗi AI.\n\n## Scenarios\n### Scenario 1: Happy Path\n**Given** Specialist đang ở Bước 1 và vừa chọn ảnh để upload.\n**When** Quá trình upload kết thúc.\n**Then** App tự động gọi Backend, hiển thị overlay \"Analyzing...\", và sau ~30s hiển thị kết quả thành công.\n\n### Scenario 2: AI Failure\n**Given** AI Server gặp sự cố.\n**When** Status chuyển sang FAILED.\n**Then** App hiển thị thông báo lỗi và tùy chọn \"Thử lại\" hoặc \"Tự cắt thủ công\".\n",
+        "description": "Specification for integrating AI Orchestrator Backend into Flutter Frontend.",
+        "tags": [
+          "spec",
+          "draft",
+          "flutter",
+          "ai"
+        ],
+        "title": "AI Integration Frontend"
+      }
+    },
+    {
+      "id": "v2",
+      "docPath": "specs/ai-integration-frontend",
+      "version": 2,
+      "timestamp": "2026-05-02T06:52:48.8763298Z",
+      "changes": [
+        {
+          "field": "content",
+          "oldValue": "## Overview\nTriển khai việc kết nối giữa Flutter Frontend và AI Orchestrator Backend (FastAPI). Flutter sẽ đóng vai trò kích hoạt quá trình phân tích và phản hồi trạng thái thời gian thực từ Firestore.\n\n## Locked Decisions\n- D1: Tự động kích hoạt AI (API Call) ngay sau khi upload ảnh thành công.\n- D2: UI Non-blocking kèm trạng thái overlay khi đang xử lý.\n- D3: Cho phép fallback sang Manual Slicing nếu AI thất bại.\n\n## Requirements\n### Functional Requirements\n- FR-1: Gọi API `POST /api/analyze` ngay khi `UploadImageForAiAnalysis` hoàn tất thành công.\n- FR-2: Lắng nghe trạng thái `status` của `MetaphaseImage` từ Firestore (UPLOADED -\u003e PROCESSING -\u003e COMPLETED/FAILED).\n- FR-3: Hiển thị trạng thái loading chuyên biệt cho phần ảnh đang xử lý AI.\n- FR-4: Vô hiệu hóa việc chuyển bước (Next Step) cho đến khi `status == COMPLETED` hoặc người dùng xác nhận làm thủ công sau khi FAILED.\n\n### Non-Functional Requirements\n- NFR-1: Real-time update. UI phải cập nhật ngay lập tức khi status trên Firestore thay đổi.\n- NFR-2: Timeout handling. Nếu sau 120s không có kết quả, hiển thị thông báo lỗi và nút retry.\n\n## Acceptance Criteria\n- [ ] AC-1: Khi upload ảnh xong, tab Network/Log hiển thị một request POST tới Backend Orchestrator.\n- [ ] AC-2: Trong khi Backend xử lý, UI hiển thị nhãn \"AI is analyzing...\" trên thumbnail ảnh.\n- [ ] AC-3: Khi Backend hoàn tất, danh sách Chromosome tự động xuất hiện (do Firestore sync) và trạng thái chuyển thành COMPLETED.\n- [ ] AC-4: Nút \"Tiếp tục\" ở Bước 1 chỉ enable khi trạng thái là COMPLETED hoặc sau khi người dùng xác nhận bỏ qua lỗi AI.\n\n## Scenarios\n### Scenario 1: Happy Path\n**Given** Specialist đang ở Bước 1 và vừa chọn ảnh để upload.\n**When** Quá trình upload kết thúc.\n**Then** App tự động gọi Backend, hiển thị overlay \"Analyzing...\", và sau ~30s hiển thị kết quả thành công.\n\n### Scenario 2: AI Failure\n**Given** AI Server gặp sự cố.\n**When** Status chuyển sang FAILED.\n**Then** App hiển thị thông báo lỗi và tùy chọn \"Thử lại\" hoặc \"Tự cắt thủ công\".",
+          "newValue": "## Overview\nTriển khai việc kết nối giữa Flutter Frontend và AI Orchestrator Backend (FastAPI). Flutter đóng vai trò kích hoạt quá trình phân tích và phản hồi trạng thái thời gian thực từ Firestore, đồng thời tự động điều hướng quy trình khi có kết quả.\n\n## Locked Decisions\n- D1: Kích hoạt AI thủ công thông qua nút bấm \"Bắt đầu phân tích AI\" trên giao diện ảnh Metaphase.\n- D2: UI Non-blocking. Trong khi AI đang xử lý, Specialist có thể tiếp tục thao tác các phần khác (ví dụ: xem thông tin bệnh nhân hoặc chuẩn bị các ảnh khác). Trạng thái xử lý được hiển thị qua indicator trên thumbnail.\n- D3: Cơ chế Fallback. Cho phép người dùng chọn \"Tự cắt thủ công\" (sang Bước 2) nếu AI thất bại hoặc kết quả không ưng ý.\n- D4: Tự động điều hướng. Ngay khi trạng thái ảnh chuyển thành `COMPLETED`, ứng dụng sẽ tự động chuyển Specialist sang **Bước 3 (NST đồ)** để bắt đầu sắp xếp.\n\n## Requirements\n### Functional Requirements\n- FR-1: Triển khai nút \"Run AI Analysis\" tại Bước 1 (Screening) cho mỗi ảnh Metaphase.\n- FR-2: Gọi API `POST /api/analyze` (Backend Orchestrator) khi nhấn nút.\n- FR-3: Lắng nghe trạng thái `status` của `MetaphaseImage` từ Firestore theo thời gian thực.\n- FR-4: Hiển thị trạng thái Loading Indicator và nhãn trạng thái (Analyzing...) trên thumbnail ảnh đang xử lý.\n- FR-5: Thực hiện điều hướng tự động sang Bước 3 (Karyotyping) thông qua `WorkspaceCubit` khi nhận tín hiệu `COMPLETED`.\n- FR-6: Hiển thị thông báo lỗi (SnackBar/Dialog) và nút \"Thử lại\" hoặc \"Làm thủ công\" nếu trạng thái là `FAILED`.\n\n### Non-Functional Requirements\n- NFR-1: Real-time update. Sử dụng Firestore snapshots để UI cập nhật ngay lập tức mà không cần refresh.\n- NFR-2: Trải nghiệm người dùng. Đảm bảo việc điều hướng tự động (D4) không làm người dùng giật mình (có thể thêm thông báo nhẹ trước khi chuyển).\n\n## Acceptance Criteria\n- [ ] AC-1: Nhấn nút \"Run AI\" gửi request thành công tới backend (kiểm tra qua logs/Network).\n- [ ] AC-2: Thumbnail ảnh hiển thị hiệu ứng loading và text \"AI is analyzing...\".\n- [ ] AC-3: Khi Firestore cập nhật `status: COMPLETED`, ứng dụng tự động chuyển từ Bước 1 sang Bước 3.\n- [ ] AC-4: Nếu AI lỗi, hệ thống cho phép người dùng vào Bước 2 để cắt ảnh thủ công.\n\n## Scenarios\n### Scenario 1: Happy Path (Manual Trigger + Auto-move)\n**Given** Specialist đang ở Bước 1.\n**When** Nhấn nút \"Bắt đầu phân tích AI\".\n**Then** App hiển thị trạng thái đang xử lý. Khi xong, App tự động chuyển sang Bước 3 hiển thị các NST đã được tách.\n\n### Scenario 2: AI Failure Fallback\n**Given** AI Server trả về lỗi hoặc timeout.\n**When** Status chuyển sang FAILED.\n**Then** App hiển thị thông báo và nút \"Tự cắt thủ công\" dẫn người dùng sang Bước 2.\n\n## Technical Notes\n- Sử dụng `BlocListener` trong `WorkspaceScreen` để lắng nghe thay đổi trạng thái của ảnh đang chọn và điều khiển `WorkspaceCubit.setStep(3)`.\n- Đảm bảo xử lý race condition nếu người dùng chuyển ảnh khác trong lúc AI đang chạy ảnh cũ.\n"
+        },
+        {
+          "field": "tags",
+          "oldValue": [
+            "spec",
+            "draft",
+            "flutter",
+            "ai"
+          ],
+          "newValue": [
+            "spec",
+            "approved",
+            "flutter",
+            "ai"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\nTriển khai việc kết nối giữa Flutter Frontend và AI Orchestrator Backend (FastAPI). Flutter đóng vai trò kích hoạt quá trình phân tích và phản hồi trạng thái thời gian thực từ Firestore, đồng thời tự động điều hướng quy trình khi có kết quả.\n\n## Locked Decisions\n- D1: Kích hoạt AI thủ công thông qua nút bấm \"Bắt đầu phân tích AI\" trên giao diện ảnh Metaphase.\n- D2: UI Non-blocking. Trong khi AI đang xử lý, Specialist có thể tiếp tục thao tác các phần khác (ví dụ: xem thông tin bệnh nhân hoặc chuẩn bị các ảnh khác). Trạng thái xử lý được hiển thị qua indicator trên thumbnail.\n- D3: Cơ chế Fallback. Cho phép người dùng chọn \"Tự cắt thủ công\" (sang Bước 2) nếu AI thất bại hoặc kết quả không ưng ý.\n- D4: Tự động điều hướng. Ngay khi trạng thái ảnh chuyển thành `COMPLETED`, ứng dụng sẽ tự động chuyển Specialist sang **Bước 3 (NST đồ)** để bắt đầu sắp xếp.\n\n## Requirements\n### Functional Requirements\n- FR-1: Triển khai nút \"Run AI Analysis\" tại Bước 1 (Screening) cho mỗi ảnh Metaphase.\n- FR-2: Gọi API `POST /api/analyze` (Backend Orchestrator) khi nhấn nút.\n- FR-3: Lắng nghe trạng thái `status` của `MetaphaseImage` từ Firestore theo thời gian thực.\n- FR-4: Hiển thị trạng thái Loading Indicator và nhãn trạng thái (Analyzing...) trên thumbnail ảnh đang xử lý.\n- FR-5: Thực hiện điều hướng tự động sang Bước 3 (Karyotyping) thông qua `WorkspaceCubit` khi nhận tín hiệu `COMPLETED`.\n- FR-6: Hiển thị thông báo lỗi (SnackBar/Dialog) và nút \"Thử lại\" hoặc \"Làm thủ công\" nếu trạng thái là `FAILED`.\n\n### Non-Functional Requirements\n- NFR-1: Real-time update. Sử dụng Firestore snapshots để UI cập nhật ngay lập tức mà không cần refresh.\n- NFR-2: Trải nghiệm người dùng. Đảm bảo việc điều hướng tự động (D4) không làm người dùng giật mình (có thể thêm thông báo nhẹ trước khi chuyển).\n\n## Acceptance Criteria\n- [ ] AC-1: Nhấn nút \"Run AI\" gửi request thành công tới backend (kiểm tra qua logs/Network).\n- [ ] AC-2: Thumbnail ảnh hiển thị hiệu ứng loading và text \"AI is analyzing...\".\n- [ ] AC-3: Khi Firestore cập nhật `status: COMPLETED`, ứng dụng tự động chuyển từ Bước 1 sang Bước 3.\n- [ ] AC-4: Nếu AI lỗi, hệ thống cho phép người dùng vào Bước 2 để cắt ảnh thủ công.\n\n## Scenarios\n### Scenario 1: Happy Path (Manual Trigger + Auto-move)\n**Given** Specialist đang ở Bước 1.\n**When** Nhấn nút \"Bắt đầu phân tích AI\".\n**Then** App hiển thị trạng thái đang xử lý. Khi xong, App tự động chuyển sang Bước 3 hiển thị các NST đã được tách.\n\n### Scenario 2: AI Failure Fallback\n**Given** AI Server trả về lỗi hoặc timeout.\n**When** Status chuyển sang FAILED.\n**Then** App hiển thị thông báo và nút \"Tự cắt thủ công\" dẫn người dùng sang Bước 2.\n\n## Technical Notes\n- Sử dụng `BlocListener` trong `WorkspaceScreen` để lắng nghe thay đổi trạng thái của ảnh đang chọn và điều khiển `WorkspaceCubit.setStep(3)`.\n- Đảm bảo xử lý race condition nếu người dùng chuyển ảnh khác trong lúc AI đang chạy ảnh cũ.\n",
+        "description": "Specification for integrating AI Orchestrator Backend into Flutter Frontend.",
+        "tags": [
+          "spec",
+          "approved",
+          "flutter",
+          "ai"
+        ],
+        "title": "AI Integration Frontend"
+      }
+    }
+  ]
+}

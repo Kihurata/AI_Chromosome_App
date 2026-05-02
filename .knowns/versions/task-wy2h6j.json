@@ -1,0 +1,35 @@
+{
+  "taskId": "wy2h6j",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "wy2h6j",
+      "version": 1,
+      "timestamp": "2026-05-01T09:46:14.6931221Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Parse kết quả JSON chuẩn LabelMe. Map các 'shapes' thành Chromosome documents, tính toán bounding box và tọa độ.",
+        "labels": [
+          "backend",
+          "logic",
+          "data-mapping"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "[Backend] LabelMe JSON to Firestore Mapper"
+      }
+    }
+  ]
+}

@@ -1,73 +1,61 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/test_order.dart';
+import '../../../domain/entities/specialist_stats.dart';
 
-class SpecialistStats extends Equatable {
-  final int total;
-  final int pending;
-  final int analyzing;
-  final int completed;
+enum SpecialistDashboardStatus { initial, loading, success, error }
 
-  const SpecialistStats({
-    this.total = 0,
-    this.pending = 0,
-    this.analyzing = 0,
-    this.completed = 0,
-  });
-
-  @override
-  List<Object?> get props => [total, pending, analyzing, completed];
-}
-
-abstract class SpecialistDashboardState extends Equatable {
-  const SpecialistDashboardState();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class SpecialistDashboardInitial extends SpecialistDashboardState {}
-
-class SpecialistDashboardLoading extends SpecialistDashboardState {}
-
-class SpecialistDashboardLoaded extends SpecialistDashboardState {
+class SpecialistDashboardState extends Equatable {
+  final SpecialistDashboardStatus status;
   final List<TestOrder> allOrders;
   final List<TestOrder> filteredOrders;
   final SpecialistStats stats;
-  final String searchQuery;
+  final String searchKeyword;
   final TestOrderStatus? statusFilter;
+  final String? errorMessage;
+  final String? lastStartedOrderId;
 
-  const SpecialistDashboardLoaded({
-    required this.allOrders,
-    required this.filteredOrders,
-    required this.stats,
-    this.searchQuery = '',
+  const SpecialistDashboardState({
+    this.status = SpecialistDashboardStatus.initial,
+    this.allOrders = const [],
+    this.filteredOrders = const [],
+    this.stats = const SpecialistStats(),
+    this.searchKeyword = '',
     this.statusFilter,
+    this.errorMessage,
+    this.lastStartedOrderId,
   });
 
-  @override
-  List<Object?> get props => [allOrders, filteredOrders, stats, searchQuery, statusFilter];
-
-  SpecialistDashboardLoaded copyWith({
+  SpecialistDashboardState copyWith({
+    SpecialistDashboardStatus? status,
     List<TestOrder>? allOrders,
     List<TestOrder>? filteredOrders,
     SpecialistStats? stats,
-    String? searchQuery,
+    String? searchKeyword,
     TestOrderStatus? statusFilter,
+    String? errorMessage,
+    String? lastStartedOrderId,
   }) {
-    return SpecialistDashboardLoaded(
+    return SpecialistDashboardState(
+      status: status ?? this.status,
       allOrders: allOrders ?? this.allOrders,
       filteredOrders: filteredOrders ?? this.filteredOrders,
       stats: stats ?? this.stats,
-      searchQuery: searchQuery ?? this.searchQuery,
+      searchKeyword: searchKeyword ?? this.searchKeyword,
       statusFilter: statusFilter ?? this.statusFilter,
+      errorMessage: errorMessage ?? this.errorMessage,
+      lastStartedOrderId: lastStartedOrderId ?? this.lastStartedOrderId,
     );
   }
-}
-
-class SpecialistDashboardError extends SpecialistDashboardState {
-  final String message;
-  const SpecialistDashboardError(this.message);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [
+        status,
+        allOrders,
+        filteredOrders,
+        stats,
+        searchKeyword,
+        statusFilter,
+        errorMessage,
+        lastStartedOrderId,
+      ];
 }

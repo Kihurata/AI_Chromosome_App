@@ -1,0 +1,43 @@
+{
+  "docPath": "learnings/ai-server-implementation-decisions",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "learnings/ai-server-implementation-decisions",
+      "version": 1,
+      "timestamp": "2026-05-02T07:14:11.2022742Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "AI Server Implementation Decisions"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Learnings and decisions from setting up the External AI Server integration."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "learning",
+            "ai-server",
+            "integration"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "# Learning: AI Server Implementation Decisons\n\n## Patterns\n\n### Zero-copy Proxy Integration\n- **What:** Backend passes only the `image_url` to the AI Server; the AI Server downloads the image directly from storage.\n- **When to use:** When processing large binary assets (images/videos) to avoid overloading the backend orchestrator with data transfer.\n- **Source:** @doc/specs/ai-backend-orchestrator\n\n### LabelMe-to-Firestore Mapping\n- **What:** Standardizing on LabelMe JSON output (`shapes` with `label` and `points`) for seamless consumption by the `DataMapper` service.\n- **When to use:** When integrating heterogenous AI models into a Firestore-based system.\n- **Source:** @doc/specs/ai-backend-orchestrator\n\n## Decisions\n\n### Dedicated AI Server Folder\n- **Chose:** Creating a new, isolated directory `ai_server/` for all server-related logic.\n- **Over:** Modifying existing inference scripts in `src/`.\n- **Tag:** GOOD_CALL\n- **Outcome:** Ensures the core research codebase remains clean and untouched while providing a specialized environment for the production-ready API.\n- **Recommendation:** Keep all server dependencies (FastAPI, Uvicorn, etc.) isolated in this folder.\n\n## Failures\n\n### Coordinate Array Flattening\n- **What went wrong:** Firestore does not support nested arrays (arrays of arrays). \n- **Root cause:** Initial AI output provided `[[x1, y1], [x2, y2]]`.\n- **Prevention:** The `DataMapper` now flattens polygons into `[x1, y1, x2, y2, ...]` before persistence. AI Server should continue providing `[[x,y]]` as per LabelMe standard; backend handles the flattening.\n",
+        "description": "Learnings and decisions from setting up the External AI Server integration.",
+        "tags": [
+          "learning",
+          "ai-server",
+          "integration"
+        ],
+        "title": "AI Server Implementation Decisions"
+      }
+    }
+  ]
+}

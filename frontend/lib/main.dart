@@ -3,11 +3,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'core/di/injection.dart';
 import 'core/router/app_router.dart';
 import 'core/providers/auth_provider.dart';
 import 'core/firebase/firebase_options.dart';
 import 'logic/bloc/auth/auth_cubit.dart';
+import 'logic/bloc/layout/layout_cubit.dart';
 import 'logic/bloc/patient/patient_cubit.dart';
 import 'logic/bloc/appointment/appointment_cubit.dart';
 import 'logic/bloc/clinician/clinician_order_cubit.dart';
@@ -35,85 +37,18 @@ import 'domain/usecases/test_order/assign_order_to_specialist.dart';
 import 'domain/usecases/test_order/approve_karyotype_result.dart';
 import 'domain/usecases/test_order/reject_karyotype_result.dart';
 
-import 'package:intl/date_symbol_data_local.dart';
-
 void main() async {
-  // Bắt buộc phải có trước Firebase.initializeApp() trên Flutter Web
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Khởi tạo Firebase với cấu hình đã được tạo bởi FlutterFire CLI
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // Khởi tạo Locale data cho package intl (sử dụng cho DateFormat)
   await initializeDateFormatting('vi', null);
 
-  // Khởi tạo cái "Hộp GetIt" của chúng ta
   configureDependencies();
 
-  runApp(
-    ProviderScope(
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<AuthCubit>(create: (_) => AuthCubit()),
-          BlocProvider<PatientCubit>(create: (_) => getIt<PatientCubit>()),
-
-          // ── AppointmentCubit (Receptionist) ──────────────────────────────
-          BlocProvider<AppointmentCubit>(create: (_) {
-            final ds = FirebaseAppointmentRemoteDataSource();
-            final repo = AppointmentRepositoryImpl(remoteDataSource: ds);
-            final clinicianDs = FirebaseClinicianRemoteDataSource();
-            final clinicianRepo = ClinicianRepositoryImpl(remoteDataSource: clinicianDs);
-            return AppointmentCubit(
-              createAppointment: CreateAppointment(repo),
-              getTodayAppointments: GetTodayAppointments(repo),
-              getAppointmentsInRange: GetAppointmentsInRange(repo),
-              watchTodayAppointments: WatchTodayAppointments(repo),
-              updateAppointmentStatus: UpdateAppointmentStatus(repo),
-              getClinicians: GetClinicians(clinicianRepo),
-            );
-          }),
-
-          // ── ClinicianOrderCubit (Clinician) ───────────────────────────────
-          BlocProvider<ClinicianOrderCubit>(create: (_) {
-            final sampleDs = FirebaseSampleRemoteDataSource();
-            final sampleRepo = SampleRepositoryImpl(remoteDataSource: sampleDs);
-            final orderDs = FirebaseTestOrderRemoteDataSource();
-            final orderRepo = TestOrderRepositoryImpl(remoteDataSource: orderDs);
-            return ClinicianOrderCubit(
-              createGeneticTestOrder: CreateGeneticTestOrder(orderRepo),
-              collectPhysicalSample: CollectPhysicalSample(sampleRepo),
-              transferSampleToLab: TransferSampleToLab(sampleRepo),
-            );
-          }),
-
-          // ── ManagerDashboardCubit (Manager) ──────────────────────────────
-          BlocProvider<ManagerDashboardCubit>(create: (_) {
-            final orderDs = FirebaseTestOrderRemoteDataSource();
-            final orderRepo = TestOrderRepositoryImpl(remoteDataSource: orderDs);
-            return ManagerDashboardCubit(
-              getAllPendingOrders: GetAllPendingOrders(orderRepo),
-              assignOrderToSpecialist: AssignOrderToSpecialist(orderRepo),
-            );
-          }),
-
-          // ── ManagerApprovalCubit (Manager) ───────────────────────────────
-          BlocProvider<ManagerApprovalCubit>(create: (_) {
-            final orderDs = FirebaseTestOrderRemoteDataSource();
-            final orderRepo = TestOrderRepositoryImpl(remoteDataSource: orderDs);
-            return ManagerApprovalCubit(
-              approveKaryotypeResult: ApproveKaryotypeResult(orderRepo),
-              rejectKaryotypeResult: RejectKaryotypeResult(orderRepo),
-            );
-          }),
-        ],
-        child: const AuthBlocBridge(
-          child: MedCoreApp(),
-        ),
-      ),
-    ),
-  );
+  runApp(const ProviderScope(child: MedCoreApp()));
 }
 
 class MedCoreApp extends ConsumerWidget {
@@ -121,26 +56,86 @@ class MedCoreApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Đọc config router từ provider đã định nghĩa trong app_router.dart
-    final router = ref.watch(appRouterProvider);
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(create: (_) => AuthCubit()),
+        BlocProvider<LayoutCubit>(create: (_) => getIt<LayoutCubit>()),
+        BlocProvider<PatientCubit>(create: (_) => getIt<PatientCubit>()),
 
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'MedCore CRM',
-      theme: ThemeData(
-        useMaterial3: true,
-        primarySwatch: Colors.blue,
+        // ── AppointmentCubit (Receptionist) ──────────────────────────────
+        BlocProvider<AppointmentCubit>(create: (_) {
+          final ds = FirebaseAppointmentRemoteDataSource();
+          final repo = AppointmentRepositoryImpl(remoteDataSource: ds);
+          final clinicianDs = FirebaseClinicianRemoteDataSource();
+          final clinicianRepo = ClinicianRepositoryImpl(remoteDataSource: clinicianDs);
+          return AppointmentCubit(
+            createAppointment: CreateAppointment(repo),
+            getTodayAppointments: GetTodayAppointments(repo),
+            getAppointmentsInRange: GetAppointmentsInRange(repo),
+            watchTodayAppointments: WatchTodayAppointments(repo),
+            updateAppointmentStatus: UpdateAppointmentStatus(repo),
+            getClinicians: GetClinicians(clinicianRepo),
+          );
+        }),
+
+        // ── ClinicianOrderCubit (Clinician) ───────────────────────────────
+        BlocProvider<ClinicianOrderCubit>(create: (_) {
+          final sampleDs = FirebaseSampleRemoteDataSource();
+          final sampleRepo = SampleRepositoryImpl(remoteDataSource: sampleDs);
+          final orderDs = FirebaseTestOrderRemoteDataSource();
+          final orderRepo = TestOrderRepositoryImpl(remoteDataSource: orderDs);
+          return ClinicianOrderCubit(
+            createGeneticTestOrder: CreateGeneticTestOrder(orderRepo),
+            collectPhysicalSample: CollectPhysicalSample(sampleRepo),
+            transferSampleToLab: TransferSampleToLab(sampleRepo),
+          );
+        }),
+
+        // ── ManagerDashboardCubit (Manager) ──────────────────────────────
+        BlocProvider<ManagerDashboardCubit>(create: (_) {
+          final orderDs = FirebaseTestOrderRemoteDataSource();
+          final orderRepo = TestOrderRepositoryImpl(remoteDataSource: orderDs);
+          return ManagerDashboardCubit(
+            getAllPendingOrders: GetAllPendingOrders(orderRepo),
+            assignOrderToSpecialist: AssignOrderToSpecialist(orderRepo),
+          );
+        }),
+
+        // ── ManagerApprovalCubit (Manager) ───────────────────────────────
+        BlocProvider<ManagerApprovalCubit>(create: (_) {
+          final orderDs = FirebaseTestOrderRemoteDataSource();
+          final orderRepo = TestOrderRepositoryImpl(remoteDataSource: orderDs);
+          return ManagerApprovalCubit(
+            approveKaryotypeResult: ApproveKaryotypeResult(orderRepo),
+            rejectKaryotypeResult: RejectKaryotypeResult(orderRepo),
+          );
+        }),
+      ],
+      child: AuthBlocBridge(
+        child: Consumer(
+          builder: (context, ref, _) {
+            final router = ref.watch(appRouterProvider);
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: 'MedCore CRM',
+              theme: ThemeData(
+                useMaterial3: true,
+                primarySwatch: Colors.blue,
+              ),
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('vi', 'VN'),
+                Locale('en', 'US'),
+              ],
+              routerConfig: router,
+            );
+          },
+        ),
       ),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('vi', 'VN'),
-        Locale('en', 'US'),
-      ],
-      routerConfig: router,
     );
   }
 }

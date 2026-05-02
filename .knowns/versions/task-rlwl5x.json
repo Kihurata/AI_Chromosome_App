@@ -1,0 +1,116 @@
+{
+  "taskId": "rlwl5x",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "rlwl5x",
+      "version": 1,
+      "timestamp": "2026-05-02T07:14:49.5327205Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement a FastAPI server in the `ai_server/` directory that fulfills the External AI Server requirements. The server must expose a `POST /analyze` endpoint that accepts an `image_url`, downloads the image, runs the existing chromosome inference pipeline, and returns the results in LabelMe JSON format.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Implement FastAPI server in ai_server/ directory"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "rlwl5x",
+      "version": 2,
+      "timestamp": "2026-05-02T07:14:58.3744549Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Implement a FastAPI server in the `ai_server/` directory that fulfills the External AI Server requirements. The server must expose a `POST /analyze` endpoint that accepts an `image_url`, downloads the image, runs the existing chromosome inference pipeline, and returns the results in LabelMe JSON format.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement FastAPI server in ai_server/ directory"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "rlwl5x",
+      "version": 3,
+      "timestamp": "2026-05-02T07:15:05.9515156Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "text": "Create ai_server/ directory and ai_server/requirements.txt",
+              "completed": false
+            },
+            {
+              "text": "Implement ai_server/inference_wrapper.py to encapsulate models and generate LabelMe JSON output",
+              "completed": false
+            },
+            {
+              "text": "Implement ai_server/main.py with FastAPI POST /analyze endpoint and image download logic",
+              "completed": false
+            },
+            {
+              "text": "Test the AI Server endpoint with a sample image",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Setup**: Create `ai_server/` directory and define `requirements.txt` (FastAPI, uvicorn, httpx).\n2. **Inference Wrapper**: Create `ai_server/inference_wrapper.py`. This class will load the models (Stage 1, 2, 3) once upon initialization, accept an image (numpy array), and return a LabelMe JSON structure (`shapes` with `label` and `points`) instead of saving visual reports to disk.\n3. **API Server**: Create `ai_server/main.py`.\n   - Setup FastAPI app and lifespan event to initialize `inference_wrapper`.\n   - Implement `POST /analyze` endpoint.\n   - Use `httpx` to download the image from the provided `image_url`.\n   - Pass the image to the wrapper and return the JSON response.\n   - Include error handling (timeout, invalid URL, inference errors).\n4. **Validation**: Test the local server endpoint to ensure it returns the correct JSON format (as defined in @doc/learnings/ai-server-implementation-decisions)."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Create ai_server/ directory and ai_server/requirements.txt",
+            "completed": false
+          },
+          {
+            "text": "Implement ai_server/inference_wrapper.py to encapsulate models and generate LabelMe JSON output",
+            "completed": false
+          },
+          {
+            "text": "Implement ai_server/main.py with FastAPI POST /analyze endpoint and image download logic",
+            "completed": false
+          },
+          {
+            "text": "Test the AI Server endpoint with a sample image",
+            "completed": false
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement a FastAPI server in the `ai_server/` directory that fulfills the External AI Server requirements. The server must expose a `POST /analyze` endpoint that accepts an `image_url`, downloads the image, runs the existing chromosome inference pipeline, and returns the results in LabelMe JSON format.",
+        "implementationPlan": "## Implementation Plan\n1. **Setup**: Create `ai_server/` directory and define `requirements.txt` (FastAPI, uvicorn, httpx).\n2. **Inference Wrapper**: Create `ai_server/inference_wrapper.py`. This class will load the models (Stage 1, 2, 3) once upon initialization, accept an image (numpy array), and return a LabelMe JSON structure (`shapes` with `label` and `points`) instead of saving visual reports to disk.\n3. **API Server**: Create `ai_server/main.py`.\n   - Setup FastAPI app and lifespan event to initialize `inference_wrapper`.\n   - Implement `POST /analyze` endpoint.\n   - Use `httpx` to download the image from the provided `image_url`.\n   - Pass the image to the wrapper and return the JSON response.\n   - Include error handling (timeout, invalid URL, inference errors).\n4. **Validation**: Test the local server endpoint to ensure it returns the correct JSON format (as defined in @doc/learnings/ai-server-implementation-decisions).",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement FastAPI server in ai_server/ directory"
+      }
+    }
+  ]
+}

@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:injectable/injectable.dart';
+
 abstract class SpecialistRemoteDataSource {
   Future<List<Map<String, dynamic>>> getSpecialists();
 }
 
+@Injectable(as: SpecialistRemoteDataSource)
 class FirebaseSpecialistRemoteDataSource implements SpecialistRemoteDataSource {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
