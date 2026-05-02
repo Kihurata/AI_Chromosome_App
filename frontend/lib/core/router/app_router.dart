@@ -18,7 +18,6 @@ import '../../presentation/screens/patient_detail/medical_record/shared_medical_
 import '../../presentation/screens/clinician/forms/examination_form_screen.dart';
 import '../../presentation/screens/clinician/forms/blood_test_prescription_screen.dart';
 import '../../presentation/screens/workspace/workspace_screen.dart';
-import '../../presentation/screens/manager/manager_dashboard_page.dart';
 import '../../presentation/screens/manager/lab_manager_dashboard_page.dart';
 import '../../presentation/screens/manager/lab_result_review_page.dart';
 import '../../presentation/screens/patient_detail/test_result_detail_page.dart';
@@ -217,7 +216,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.managerDashboard,
             name: 'manager-dashboard',
-            builder: (context, state) => const ManagerDashboardPage(),
+            builder: (context, state) => const LabManagerDashboardPage(),
           ),
           GoRoute(
             path: AppRoutes.managerReports,

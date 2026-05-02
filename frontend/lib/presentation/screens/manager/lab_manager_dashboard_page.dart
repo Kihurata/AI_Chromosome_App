@@ -19,7 +19,7 @@ class _LabManagerDashboardPageState extends State<LabManagerDashboardPage> {
   @override
   void initState() {
     super.initState();
-    context.read<ManagerDashboardCubit>().fetchPendingOrders();
+    context.read<ManagerDashboardCubit>().initialize();
   }
 
   @override
@@ -37,22 +37,22 @@ class _LabManagerDashboardPageState extends State<LabManagerDashboardPage> {
                 // Stat Cards Row
                 Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: StatCard(
                         title: 'PHIẾU CHỜ CHỈ ĐỊNH',
-                        value: '12',
-                        trend: '+2 New',
+                        value: (state is ManagerDashboardLoaded) ? state.stats.unassignedCount.toString() : '0',
+                        trend: 'Unassigned',
                         isPositive: true,
                         icon: LucideIcons.fileSearch,
-                        iconColor: Color(0xFFF59E0B),
-                        iconBgColor: Color(0xFFFEF3C7),
+                        iconColor: const Color(0xFFF59E0B),
+                        iconBgColor: const Color(0xFFFEF3C7),
                       ),
                     ),
                     const SizedBox(width: 24),
-                    const Expanded(
+                    Expanded(
                       child: StatCard(
                         title: 'ĐANG THỰC HIỆN',
-                        value: '08',
+                        value: (state is ManagerDashboardLoaded) ? state.stats.ongoingCount.toString() : '0',
                         trend: 'In Progress',
                         isPositive: true,
                         icon: LucideIcons.activity,
@@ -61,27 +61,27 @@ class _LabManagerDashboardPageState extends State<LabManagerDashboardPage> {
                       ),
                     ),
                     const SizedBox(width: 24),
-                    const Expanded(
+                    Expanded(
                       child: StatCard(
                         title: 'CHỜ DUYỆT',
-                        value: '05',
+                        value: (state is ManagerDashboardLoaded) ? state.stats.waitingApprovalCount.toString() : '0',
                         trend: 'Needs Review',
                         isPositive: false,
                         icon: LucideIcons.clock,
-                        iconColor: Color(0xFFEF4444),
-                        iconBgColor: Color(0xFFFEE2E2),
+                        iconColor: const Color(0xFFEF4444),
+                        iconBgColor: const Color(0xFFFEE2E2),
                       ),
                     ),
                     const SizedBox(width: 24),
-                    const Expanded(
+                    Expanded(
                       child: StatCard(
                         title: 'HOÀN THÀNH HÔM NAY',
-                        value: '24',
+                        value: (state is ManagerDashboardLoaded) ? state.stats.completedCount.toString() : '0',
                         trend: 'Achieved',
                         isPositive: true,
                         icon: LucideIcons.checkCircle,
-                        iconColor: Color(0xFF10B981),
-                        iconBgColor: Color(0xFFD1FAE5),
+                        iconColor: const Color(0xFF10B981),
+                        iconBgColor: const Color(0xFFD1FAE5),
                       ),
                     ),
                   ],
@@ -91,7 +91,7 @@ class _LabManagerDashboardPageState extends State<LabManagerDashboardPage> {
                 // Examination List
                 LabExaminationTable(
                   isLoading: state is ManagerDashboardLoading,
-                  orders: state is ManagerDashboardLoaded ? state.pendingOrders : [],
+                  orders: state is ManagerDashboardLoaded ? state.filteredOrders : [],
                 ),
               ],
             ),
