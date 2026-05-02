@@ -71,10 +71,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i970.ImageStorageRepository>(
       () => _i644.ImageStorageRepositoryImpl(gh<_i457.FirebaseStorage>()),
     );
-    gh.lazySingleton<_i547.UploadImageForAiAnalysis>(
-      () =>
-          _i547.UploadImageForAiAnalysis(gh<InvalidType>(), gh<InvalidType>()),
-    );
     gh.factory<_i221.TestOrderRemoteDataSource>(
       () => _i221.FirebaseTestOrderRemoteDataSource(),
     );
@@ -114,6 +110,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i485.UpdatePatient>(
       () => _i485.UpdatePatient(gh<_i467.PatientRepository>()),
+    );
+    gh.lazySingleton<_i547.UploadImageForAiAnalysis>(
+      () => _i547.UploadImageForAiAnalysis(
+        gh<_i970.ImageStorageRepository>(),
+        gh<_i77.WorkspaceRepository>(),
+      ),
     );
     gh.factory<_i814.UpdateOrderStatus>(
       () => _i814.UpdateOrderStatus(gh<_i655.TestOrderRepository>()),

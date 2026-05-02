@@ -9,7 +9,6 @@ import 'steps/report_step.dart';
 
 import '../../../logic/bloc/specialist/ai_analysis_cubit.dart';
 import '../../../logic/bloc/specialist/ai_analysis_state.dart';
-import 'steps/screening_step.dart';
 
 class WorkspaceScreen extends StatelessWidget {
   final String orderId;
@@ -21,7 +20,6 @@ class WorkspaceScreen extends StatelessWidget {
     return BlocListener<AiAnalysisCubit, AiAnalysisState>(
       listener: (context, state) {
         if (state is AiAnalysisCompleted) {
-          // D4: Auto-navigate to Step 3 (Karyotyping)
           context.read<WorkspaceCubit>().goToStep(3);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -34,75 +32,75 @@ class WorkspaceScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: const Color(0xFFF8F9FA),
         body: Column(
-        children: [
-          // Stepper Header
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
-              builder: (context, state) {
-                return Row(
-                  children: [
-                    _buildStepIndicator(1, 'Sàng lọc', state.currentStep, state.maxReachedStep, context),
-                    _buildLine(1, state.maxReachedStep),
-                    _buildStepIndicator(2, 'Tách NST', state.currentStep, state.maxReachedStep, context),
-                    _buildLine(2, state.maxReachedStep),
-                    _buildStepIndicator(3, 'Lập NST đồ', state.currentStep, state.maxReachedStep, context),
-                    _buildLine(3, state.maxReachedStep),
-                    _buildStepIndicator(4, 'Phê duyệt QC', state.currentStep, state.maxReachedStep, context),
-                    _buildLine(4, state.maxReachedStep),
-                    _buildStepIndicator(5, 'Báo cáo', state.currentStep, state.maxReachedStep, context),
-                  ],
-                );
-              },
+          children: [
+            // Stepper Header
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
+                builder: (context, state) {
+                  return Row(
+                    children: [
+                      _buildStepIndicator(1, 'Sàng lọc', state.currentStep, state.maxReachedStep, context),
+                      _buildLine(1, state.maxReachedStep),
+                      _buildStepIndicator(2, 'Tách NST', state.currentStep, state.maxReachedStep, context),
+                      _buildLine(2, state.maxReachedStep),
+                      _buildStepIndicator(3, 'Lập NST đồ', state.currentStep, state.maxReachedStep, context),
+                      _buildLine(3, state.maxReachedStep),
+                      _buildStepIndicator(4, 'Phê duyệt QC', state.currentStep, state.maxReachedStep, context),
+                      _buildLine(4, state.maxReachedStep),
+                      _buildStepIndicator(5, 'Báo cáo', state.currentStep, state.maxReachedStep, context),
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
-          
-          // Main Content Area
-          Expanded(
-            child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
-              builder: (context, state) {
-                switch (state.currentStep) {
-                  case 1:
-                    return ScreeningStep(orderId: orderId);
-                  case 2:
-                    return const SlicingStep();
-                  case 3:
-                    return const KaryogramStep();
-                  case 4:
-                    return const QcDiagnosticStep();
-                  case 5:
-                    return const ReportStep();
-                  default:
-                    return const Center(child: Text('Unknown Step'));
-                }
-              },
+            
+            // Main Content Area
+            Expanded(
+              child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
+                builder: (context, state) {
+                  switch (state.currentStep) {
+                    case 1:
+                      return ScreeningStep(orderId: orderId);
+                    case 2:
+                      return const SlicingStep();
+                    case 3:
+                      return const KaryogramStep();
+                    case 4:
+                      return const QcDiagnosticStep();
+                    case 5:
+                      return const ReportStep();
+                    default:
+                      return const Center(child: Text('Unknown Step'));
+                  }
+                },
+              ),
             ),
-          ),
-          
-          // Temporary Navigation Controls for testing logic
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () => context.read<WorkspaceCubit>().previousStep(),
-                  child: const Text('Quay lại'),
-                ),
-                ElevatedButton(
-                  onPressed: () => context.read<WorkspaceCubit>().nextStep(),
-                  child: const Text('Tiếp tục'),
-                ),
-              ],
-            ),
-          )
-        ],
+            
+            // Navigation Controls
+            Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => context.read<WorkspaceCubit>().previousStep(),
+                    child: const Text('Quay lại'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => context.read<WorkspaceCubit>().nextStep(),
+                    child: const Text('Tiếp tục'),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildStepIndicator(int step, String title, int currentStep, int maxReached, BuildContext context) {
     final bool isActive = step == currentStep;
