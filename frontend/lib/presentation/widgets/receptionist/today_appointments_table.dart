@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../domain/entities/appointment.dart';
 import '../../../logic/bloc/appointment/appointment_cubit.dart';
@@ -198,6 +199,7 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
                     statusText: _mapStatusText(appt.status),
                     isLast: index == appointments.length - 1,
                     onAccept: () => context.read<AppointmentCubit>().updateStatus(appt.id, 'in_progress'),
+                    onView: () => context.push('/clinician/medical-record/${appt.patientId}'),
                   );
                 }),
               );
@@ -252,6 +254,7 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
     required BadgeType status,
     required String statusText,
     required VoidCallback onAccept,
+    required VoidCallback onView,
     bool isLast = false,
   }) {
     return Container(
@@ -305,18 +308,23 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (statusText == 'Đang chờ')
-                  SizedBox(
-                    height: 32,
-                    child: TextButton(
-                      onPressed: onAccept,
-                      style: TextButton.styleFrom(
-                        foregroundColor: AppColors.primaryBlue,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                      ),
-                      child: const Text('Tiếp nhận', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
-                    ),
+                IconButton(
+                  onPressed: onView,
+                  icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.primaryBlue),
+                  tooltip: 'Xem bệnh án',
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
+                if (statusText == 'Đang chờ') ...[
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: onAccept,
+                    icon: const Icon(LucideIcons.checkCircle, size: 18, color: AppColors.successText),
+                    tooltip: 'Tiếp nhận',
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
                   ),
+                ],
               ],
             ),
           ),

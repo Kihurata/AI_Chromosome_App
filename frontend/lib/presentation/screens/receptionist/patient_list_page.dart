@@ -105,7 +105,7 @@ class _PatientTableHeader extends StatelessWidget {
         Expanded(flex: 2, child: Text('SĐT', style: style)),
         Expanded(flex: 2, child: Text('NGÀY SINH', style: style)),
         Expanded(flex: 1, child: Text('GIỚI TÍNH', style: style)),
-        SizedBox(width: 60),
+        Expanded(flex: 1, child: Text('THAO TÁC', style: style, textAlign: TextAlign.center)),
       ],
     );
   }
@@ -119,9 +119,7 @@ class _PatientRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
+    return Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         decoration: const BoxDecoration(
           border: Border(bottom: BorderSide(color: AppColors.border)),
@@ -154,9 +152,25 @@ class _PatientRow extends StatelessWidget {
               child: Text(UIUtils.formatDate(patient.dob), style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
             ),
             Expanded(flex: 1, child: _GenderBadge(gender: patient.gender)),
-            const SizedBox(
-              width: 60,
-              child: Icon(LucideIcons.eye, size: 16, color: AppColors.textSecondary),
+            Expanded(
+              flex: 1,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: onTap,
+                    icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.primaryBlue),
+                    tooltip: 'Xem bệnh án',
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      // TODO: Navigate to edit patient
+                    },
+                    icon: const Icon(LucideIcons.edit2, size: 18, color: AppColors.textSecondary),
+                    tooltip: 'Chỉnh sửa thông tin',
+                  ),
+                ],
+              ),
             ),
           ],
         ),

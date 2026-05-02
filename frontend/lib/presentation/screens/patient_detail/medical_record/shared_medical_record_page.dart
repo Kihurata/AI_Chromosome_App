@@ -7,6 +7,8 @@ import 'package:medcore_crm/core/providers/auth_provider.dart';
 import 'package:medcore_crm/core/models/nav_item.dart';
 import 'package:medcore_crm/presentation/widgets/shared/layouts/medical_record_layout.dart';
 import 'package:medcore_crm/presentation/screens/patient_detail/medical_record/tabs/patient_info_tab.dart';
+import 'package:medcore_crm/presentation/screens/patient_detail/medical_record/tabs/history_tab.dart';
+import 'package:medcore_crm/presentation/screens/patient_detail/medical_record/tabs/test_results_tab.dart';
 
 
 
@@ -33,7 +35,7 @@ class _SharedMedicalRecordPageState extends ConsumerState<SharedMedicalRecordPag
           context.push('/clinician/examination-form/${widget.id}');
         },
         icon: const Icon(LucideIcons.plus, size: 18),
-        label: const Text('Lập TTKB'),
+        label: const Text('Lập Phiếu Khám bệnh'),
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primaryBlue,
           foregroundColor: Colors.white,
@@ -95,9 +97,9 @@ class _SharedMedicalRecordPageState extends ConsumerState<SharedMedicalRecordPag
     if (_activeTabIndex == 0) {
       return const PatientInfoTab();
     } else if (_activeTabIndex == 1) {
-      return const Center(child: Text('Lịch sử khám bệnh (Đang xây dựng)', style: TextStyle(color: AppColors.textSecondary)));
+      return const HistoryTab();
     } else {
-      return const Center(child: Text('Kết quả xét nghiệm (Đang xây dựng)', style: TextStyle(color: AppColors.textSecondary)));
+      return const TestResultsTab();
     }
   }
 

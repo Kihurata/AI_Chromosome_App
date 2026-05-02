@@ -17,6 +17,9 @@ import '../../presentation/screens/patient_detail/medical_record/shared_medical_
 import '../../presentation/screens/clinician/forms/examination_form_screen.dart';
 import '../../presentation/screens/clinician/forms/blood_test_prescription_screen.dart';
 import '../../presentation/screens/workspace/workspace_screen.dart';
+import '../../presentation/screens/manager/lab_manager_dashboard_page.dart';
+import '../../presentation/screens/manager/lab_result_review_page.dart';
+import '../../presentation/screens/patient_detail/test_result_detail_page.dart';
 
 // ── Route path constants ──────────────────────────────────────────────────────
 class AppRoutes {
@@ -166,6 +169,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ),
           ),
           GoRoute(
+            path: '${AppRoutes.clinicianLab}/:id',
+            name: 'clinician-lab',
+            builder: (context, state) => const DoctorDashboardPage(),
+          ),
+          GoRoute(
+            path: '/clinician/test-result/:id',
+            name: 'clinician-test-result',
+            builder: (context, state) => TestResultDetailPage(
+              id: state.pathParameters['id'] ?? '',
+            ),
+          ),
+          GoRoute(
             path: AppRoutes.specialistDashboard,
             name: 'specialist-dashboard',
             builder: (context, state) => const SpecialistDashboardPage(),
@@ -180,7 +195,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.managerReports,
             name: 'manager-reports',
-            builder: (context, state) => const DoctorDashboardPage(),
+            builder: (context, state) => const LabManagerDashboardPage(),
+          ),
+          GoRoute(
+            path: '/manager/review/:id',
+            name: 'manager-review',
+            builder: (context, state) => LabResultReviewPage(
+              orderId: state.pathParameters['id'] ?? '',
+            ),
           ),
 
           // Profile (shared)

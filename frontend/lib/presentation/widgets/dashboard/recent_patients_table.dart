@@ -50,7 +50,7 @@ class RecentPatientsTable extends StatelessWidget {
                 Expanded(flex: 3, child: Text('HÀNH ĐỘNG', style: _headerStyle)),
                 Expanded(flex: 2, child: Text('TRẠNG THÁI', style: _headerStyle)),
                 Expanded(flex: 2, child: Text('THỜI GIAN', style: _headerStyle)),
-                SizedBox(width: 32),
+                Expanded(flex: 2, child: Text('THAO TÁC', style: _headerStyle, textAlign: TextAlign.center)),
               ],
             ),
           ),
@@ -160,12 +160,28 @@ class RecentPatientsTable extends StatelessWidget {
             flex: 2,
             child: Text(time, style: const TextStyle(color: AppColors.textSecondary)),
           ),
-          const SizedBox(width: 8),
-          IconButton(
-            icon: const Icon(LucideIcons.moreVertical, size: 20, color: AppColors.textPlaceholder),
-            onPressed: () {},
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
+          Expanded(
+            flex: 2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(LucideIcons.stethoscope, size: 18, color: AppColors.primaryBlue),
+                  onPressed: () {},
+                  tooltip: 'Khám bệnh',
+                ),
+                IconButton(
+                  icon: const Icon(LucideIcons.edit2, size: 18, color: AppColors.textSecondary),
+                  onPressed: () {},
+                  tooltip: 'Chỉnh sửa',
+                ),
+                IconButton(
+                  icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.textSecondary),
+                  onPressed: () {},
+                  tooltip: 'Xem bệnh án',
+                ),
+              ],
+            ),
           ),
         ],
       ),

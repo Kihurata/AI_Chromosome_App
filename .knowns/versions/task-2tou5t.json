@@ -1,6 +1,6 @@
 {
   "taskId": "2tou5t",
-  "currentVersion": 2,
+  "currentVersion": 4,
   "versions": [
     {
       "id": "v1",
@@ -37,55 +37,132 @@
       "id": "v2",
       "taskId": "2tou5t",
       "version": 2,
-      "timestamp": "2026-04-28T07:51:34.213078Z",
+      "timestamp": "2026-05-01T10:17:09.9872878Z",
       "changes": [
         {
-          "field": "status",
-          "oldValue": "in-progress",
-          "newValue": "done"
-        },
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Kiểm tra sự tồn tại của `ClinicalRepository` và `cloud_firestore` trong thư mục `presentation/screens/receptionist` và `presentation/widgets/receptionist`.\n2. Xác nhận tất cả các Widget/Screen đã chuyển sang sử dụng `BlocBuilder` và `BlocListener` kết nối với `PatientCubit`, `AppointmentCubit`.\n3. Xóa code rác/comment không cần thiết (nếu có).\n4. Đóng task vì cấu trúc đã đạt chuẩn Clean Architecture."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Remove all ClinicalRepository and direct cloud_firestore dependencies from the Receptionist Presentation layer. Replace with BlocBuilder/BlocListener patterns consuming AppointmentCubit. Affects 7 files across screens and widgets.",
+        "implementationPlan": "1. Kiểm tra sự tồn tại của `ClinicalRepository` và `cloud_firestore` trong thư mục `presentation/screens/receptionist` và `presentation/widgets/receptionist`.\n2. Xác nhận tất cả các Widget/Screen đã chuyển sang sử dụng `BlocBuilder` và `BlocListener` kết nối với `PatientCubit`, `AppointmentCubit`.\n3. Xóa code rác/comment không cần thiết (nếu có).\n4. Đóng task vì cấu trúc đã đạt chuẩn Clean Architecture.",
+        "labels": [
+          "ui",
+          "refactor",
+          "receptionist",
+          "clean-architecture"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Receptionist UI to Clean Architecture"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "2tou5t",
+      "version": 3,
+      "timestamp": "2026-05-01T10:25:45.7942949Z",
+      "changes": [
         {
           "field": "acceptanceCriteria",
           "oldValue": null,
           "newValue": [
             {
-              "text": "Refactor PatientRegistrationPage to use PatientCubit",
-              "completed": true
+              "completed": true,
+              "text": "Loại bỏ hoàn toàn ClinicalRepository và các dependency Firestore trực tiếp khỏi Presentation layer."
             },
             {
-              "text": "Remove ClinicalRepository dependency from 7 files",
-              "completed": true
+              "completed": true,
+              "text": "Sử dụng BlocBuilder/BlocListener để tiêu thụ dữ liệu từ AppointmentCubit và PatientCubit."
             },
             {
-              "text": "Replace direct Firestore calls with Cubit patterns",
-              "completed": true
+              "completed": true,
+              "text": "Sử dụng MainListLayout/MainFormLayout để chuẩn hóa cấu trúc màn hình."
+            },
+            {
+              "completed": true,
+              "text": "Đảm bảo điều hướng không phụ thuộc vào data layer (sử dụng Navigator hoặc GoRouter)."
             }
           ]
         },
         {
           "field": "implementationNotes",
           "oldValue": null,
-          "newValue": "Completed migration of Receptionist UI to Clean Architecture. All 7 presentation files (screens and widgets) are now consuming PatientCubit and AppointmentCubit instead of direct repositories or Firestore."
+          "newValue": "Đã rà soát toàn bộ thư mục `receptionist` (screens \u0026 widgets). Kết quả: không còn import trực tiếp Repository hay Firestore. Toàn bộ logic đã được chuyển sang Cubit/Bloc. Cấu trúc Layout đã được chuẩn hóa."
         }
       ],
       "snapshot": {
         "acceptanceCriteria": [
           {
-            "text": "Refactor PatientRegistrationPage to use PatientCubit",
+            "completed": true,
+            "text": "Loại bỏ hoàn toàn ClinicalRepository và các dependency Firestore trực tiếp khỏi Presentation layer."
+          },
+          {
+            "completed": true,
+            "text": "Sử dụng BlocBuilder/BlocListener để tiêu thụ dữ liệu từ AppointmentCubit và PatientCubit."
+          },
+          {
+            "completed": true,
+            "text": "Sử dụng MainListLayout/MainFormLayout để chuẩn hóa cấu trúc màn hình."
+          },
+          {
+            "completed": true,
+            "text": "Đảm bảo điều hướng không phụ thuộc vào data layer (sử dụng Navigator hoặc GoRouter)."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Remove all ClinicalRepository and direct cloud_firestore dependencies from the Receptionist Presentation layer. Replace with BlocBuilder/BlocListener patterns consuming AppointmentCubit. Affects 7 files across screens and widgets.",
+        "implementationNotes": "Đã rà soát toàn bộ thư mục `receptionist` (screens \u0026 widgets). Kết quả: không còn import trực tiếp Repository hay Firestore. Toàn bộ logic đã được chuyển sang Cubit/Bloc. Cấu trúc Layout đã được chuẩn hóa.",
+        "implementationPlan": "1. Kiểm tra sự tồn tại của `ClinicalRepository` và `cloud_firestore` trong thư mục `presentation/screens/receptionist` và `presentation/widgets/receptionist`.\n2. Xác nhận tất cả các Widget/Screen đã chuyển sang sử dụng `BlocBuilder` và `BlocListener` kết nối với `PatientCubit`, `AppointmentCubit`.\n3. Xóa code rác/comment không cần thiết (nếu có).\n4. Đóng task vì cấu trúc đã đạt chuẩn Clean Architecture.",
+        "labels": [
+          "ui",
+          "refactor",
+          "receptionist",
+          "clean-architecture"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Receptionist UI to Clean Architecture"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "2tou5t",
+      "version": 4,
+      "timestamp": "2026-05-01T10:26:09.2865208Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Loại bỏ hoàn toàn ClinicalRepository và các dependency Firestore trực tiếp khỏi Presentation layer.",
             "completed": true
           },
           {
-            "text": "Remove ClinicalRepository dependency from 7 files",
+            "text": "Sử dụng BlocBuilder/BlocListener để tiêu thụ dữ liệu từ AppointmentCubit và PatientCubit.",
             "completed": true
           },
           {
-            "text": "Replace direct Firestore calls with Cubit patterns",
+            "text": "Sử dụng MainListLayout/MainFormLayout để chuẩn hóa cấu trúc màn hình.",
+            "completed": true
+          },
+          {
+            "text": "Đảm bảo điều hướng không phụ thuộc vào data layer (sử dụng Navigator hoặc GoRouter).",
             "completed": true
           }
         ],
         "assignee": "@me",
         "description": "Remove all ClinicalRepository and direct cloud_firestore dependencies from the Receptionist Presentation layer. Replace with BlocBuilder/BlocListener patterns consuming AppointmentCubit. Affects 7 files across screens and widgets.",
-        "implementationNotes": "Completed migration of Receptionist UI to Clean Architecture. All 7 presentation files (screens and widgets) are now consuming PatientCubit and AppointmentCubit instead of direct repositories or Firestore.",
+        "implementationNotes": "Đã rà soát toàn bộ thư mục `receptionist` (screens \u0026 widgets). Kết quả: không còn import trực tiếp Repository hay Firestore. Toàn bộ logic đã được chuyển sang Cubit/Bloc. Cấu trúc Layout đã được chuẩn hóa.",
+        "implementationPlan": "1. Kiểm tra sự tồn tại của `ClinicalRepository` và `cloud_firestore` trong thư mục `presentation/screens/receptionist` và `presentation/widgets/receptionist`.\n2. Xác nhận tất cả các Widget/Screen đã chuyển sang sử dụng `BlocBuilder` và `BlocListener` kết nối với `PatientCubit`, `AppointmentCubit`.\n3. Xóa code rác/comment không cần thiết (nếu có).\n4. Đóng task vì cấu trúc đã đạt chuẩn Clean Architecture.",
         "labels": [
           "ui",
           "refactor",
