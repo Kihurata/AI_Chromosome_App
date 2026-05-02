@@ -1,0 +1,222 @@
+{
+  "taskId": "bf8486",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "bf8486",
+      "version": 1,
+      "timestamp": "2026-04-29T09:14:45.9091283Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Xây dựng danh sách các phiếu xét nghiệm kèm theo thanh tìm kiếm và lọc.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Order List \u0026 Filters (UI)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "bf8486",
+      "version": 2,
+      "timestamp": "2026-04-29T09:14:52.2226873Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Xây dựng SearchBar và StatusFilter chips UI"
+            },
+            {
+              "completed": false,
+              "text": "Hiển thị ListView/GridView các TestOrder cards với đầy đủ thông tin bệnh nhân"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng SearchBar và StatusFilter chips UI"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị ListView/GridView các TestOrder cards với đầy đủ thông tin bệnh nhân"
+          }
+        ],
+        "description": "Xây dựng danh sách các phiếu xét nghiệm kèm theo thanh tìm kiếm và lọc.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Order List \u0026 Filters (UI)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "bf8486",
+      "version": 3,
+      "timestamp": "2026-04-29T09:19:05.4185001Z",
+      "changes": [
+        {
+          "field": "description",
+          "oldValue": "Xây dựng danh sách các phiếu xét nghiệm kèm theo thanh tìm kiếm và lọc.",
+          "newValue": "Xây dựng danh sách các phiếu xét nghiệm kèm theo thanh tìm kiếm và lọc. Phụ thuộc vào @task-fk1mqa."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng SearchBar và StatusFilter chips UI"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị ListView/GridView các TestOrder cards với đầy đủ thông tin bệnh nhân"
+          }
+        ],
+        "description": "Xây dựng danh sách các phiếu xét nghiệm kèm theo thanh tìm kiếm và lọc. Phụ thuộc vào @task-fk1mqa.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Order List \u0026 Filters (UI)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "bf8486",
+      "version": 4,
+      "timestamp": "2026-04-29T13:36:10.0205624Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Xây dựng SearchBar và StatusFilter chips UI"
+            },
+            {
+              "completed": false,
+              "text": "Hiển thị ListView/GridView các TestOrder cards với đầy đủ thông tin bệnh nhân"
+            }
+          ],
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Xây dựng SearchBar và StatusFilter chips UI"
+            },
+            {
+              "completed": false,
+              "text": "Hiển thị ListView/GridView các TestOrder cards với đầy đủ thông tin bệnh nhân"
+            },
+            {
+              "completed": false,
+              "text": "Refactor SpecialistDashboardPage để tương thích với SpecialistDashboardCubit mới (enum-based state)."
+            },
+            {
+              "completed": false,
+              "text": "Bóc tách (Extract) các thành phần UI (Stats, FilterBar, OrderList, OrderCard) ra các file riêng trong thư mục widgets."
+            },
+            {
+              "completed": false,
+              "text": "Đảm bảo logic search/filter và start analysis hoạt động đúng với logic mới của Cubit."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Phân tích `SpecialistDashboardPage` hiện tại và đối chiếu với `SpecialistDashboardCubit` mới.\n2. Thực hiện bóc tách các thành phần UI:\n   - Tạo `lib/presentation/screens/specialist/widgets/specialist_bento_stats.dart` từ logic `_buildBentoStats`.\n   - Tạo `lib/presentation/screens/specialist/widgets/specialist_filter_bar.dart` từ logic `_buildSearchAndFilters`.\n   - Tạo `lib/presentation/screens/specialist/widgets/specialist_order_list.dart` và `specialist_order_card.dart` từ logic `_buildOrderList` và `_buildOrderCard`.\n3. Cập nhật `SpecialistDashboardPage` để sử dụng các widget mới và listen state theo `SpecialistDashboardStatus`.\n4. Sửa lỗi gọi method trong Cubit: `initialize` -\u003e `loadOrders`, `setSearch` -\u003e `setSearchKeyword`, `startAnalysis` -\u003e `startOrderAnalysis`.\n5. Verify build và flow lọc dữ liệu."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng SearchBar và StatusFilter chips UI"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị ListView/GridView các TestOrder cards với đầy đủ thông tin bệnh nhân"
+          },
+          {
+            "completed": false,
+            "text": "Refactor SpecialistDashboardPage để tương thích với SpecialistDashboardCubit mới (enum-based state)."
+          },
+          {
+            "completed": false,
+            "text": "Bóc tách (Extract) các thành phần UI (Stats, FilterBar, OrderList, OrderCard) ra các file riêng trong thư mục widgets."
+          },
+          {
+            "completed": false,
+            "text": "Đảm bảo logic search/filter và start analysis hoạt động đúng với logic mới của Cubit."
+          }
+        ],
+        "description": "Xây dựng danh sách các phiếu xét nghiệm kèm theo thanh tìm kiếm và lọc. Phụ thuộc vào @task-fk1mqa.",
+        "implementationPlan": "1. Phân tích `SpecialistDashboardPage` hiện tại và đối chiếu với `SpecialistDashboardCubit` mới.\n2. Thực hiện bóc tách các thành phần UI:\n   - Tạo `lib/presentation/screens/specialist/widgets/specialist_bento_stats.dart` từ logic `_buildBentoStats`.\n   - Tạo `lib/presentation/screens/specialist/widgets/specialist_filter_bar.dart` từ logic `_buildSearchAndFilters`.\n   - Tạo `lib/presentation/screens/specialist/widgets/specialist_order_list.dart` và `specialist_order_card.dart` từ logic `_buildOrderList` và `_buildOrderCard`.\n3. Cập nhật `SpecialistDashboardPage` để sử dụng các widget mới và listen state theo `SpecialistDashboardStatus`.\n4. Sửa lỗi gọi method trong Cubit: `initialize` -\u003e `loadOrders`, `setSearch` -\u003e `setSearchKeyword`, `startAnalysis` -\u003e `startOrderAnalysis`.\n5. Verify build và flow lọc dữ liệu.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Order List \u0026 Filters (UI)"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "bf8486",
+      "version": 5,
+      "timestamp": "2026-04-29T13:38:26.6045771Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Refactored SpecialistDashboardPage and extracted UI components into modular widgets. Updated Page and Widgets to use the new SpecialistDashboardCubit and Enum-based State. Fixed build errors and passed dart analyze."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Xây dựng SearchBar và StatusFilter chips UI",
+            "completed": true
+          },
+          {
+            "text": "Hiển thị ListView/GridView các TestOrder cards với đầy đủ thông tin bệnh nhân",
+            "completed": true
+          },
+          {
+            "text": "Refactor SpecialistDashboardPage để tương thích với SpecialistDashboardCubit mới (enum-based state).",
+            "completed": true
+          },
+          {
+            "text": "Bóc tách (Extract) các thành phần UI (Stats, FilterBar, OrderList, OrderCard) ra các file riêng trong thư mục widgets.",
+            "completed": true
+          },
+          {
+            "text": "Đảm bảo logic search/filter và start analysis hoạt động đúng với logic mới của Cubit.",
+            "completed": true
+          }
+        ],
+        "description": "Xây dựng danh sách các phiếu xét nghiệm kèm theo thanh tìm kiếm và lọc. Phụ thuộc vào @task-fk1mqa.",
+        "implementationNotes": "Done: Refactored SpecialistDashboardPage and extracted UI components into modular widgets. Updated Page and Widgets to use the new SpecialistDashboardCubit and Enum-based State. Fixed build errors and passed dart analyze.",
+        "implementationPlan": "1. Phân tích `SpecialistDashboardPage` hiện tại và đối chiếu với `SpecialistDashboardCubit` mới.\n2. Thực hiện bóc tách các thành phần UI:\n   - Tạo `lib/presentation/screens/specialist/widgets/specialist_bento_stats.dart` từ logic `_buildBentoStats`.\n   - Tạo `lib/presentation/screens/specialist/widgets/specialist_filter_bar.dart` từ logic `_buildSearchAndFilters`.\n   - Tạo `lib/presentation/screens/specialist/widgets/specialist_order_list.dart` và `specialist_order_card.dart` từ logic `_buildOrderList` và `_buildOrderCard`.\n3. Cập nhật `SpecialistDashboardPage` để sử dụng các widget mới và listen state theo `SpecialistDashboardStatus`.\n4. Sửa lỗi gọi method trong Cubit: `initialize` -\u003e `loadOrders`, `setSearch` -\u003e `setSearchKeyword`, `startAnalysis` -\u003e `startOrderAnalysis`.\n5. Verify build và flow lọc dữ liệu.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Order List \u0026 Filters (UI)"
+      }
+    }
+  ]
+}

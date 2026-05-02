@@ -1,0 +1,103 @@
+{
+  "taskId": "k2ajh2",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "k2ajh2",
+      "version": 1,
+      "timestamp": "2026-04-29T09:22:10.1007022Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Tạo trigger lắng nghe thay đổi status trên test_orders để ghi log vào audit_logs.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Audit Log Trigger (Backend)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "k2ajh2",
+      "version": 2,
+      "timestamp": "2026-05-01T17:04:01.8883478Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Tạo trigger lắng nghe thay đổi status trên test_orders để ghi log vào audit_logs.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Audit Log Trigger (Backend)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "k2ajh2",
+      "version": 3,
+      "timestamp": "2026-05-01T17:04:31.6289914Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Create Audit Service**: Implement `backend/app/services/audit_service.py` to centralize writing to the `audit_logs` collection, following the schema defined in `ARCHITECTURE.md`.\n2. **Refactor Firestore Listener**: Update `backend/app/services/firestore_listener.py` to watch all `test_orders` (instead of filtering for `ANALYZING`).\n3. **Implement Status Tracking**:\n   - Maintain an in-memory cache of order statuses.\n   - On every document change, compare the new status with the cached value.\n   - If changed, trigger a log entry via `AuditService`.\n4. **Maintain AI Orchestration**: Ensure the existing logic that triggers AI analysis for `ANALYZING` status remains functional within the new universal listener.\n5. **Testing**: Update `backend/scripts/test_reactive_sync.py` to verify that an `audit_logs` entry is correctly created upon status transition."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Tạo trigger lắng nghe thay đổi status trên test_orders để ghi log vào audit_logs.",
+        "implementationPlan": "## Implementation Plan\n1. **Create Audit Service**: Implement `backend/app/services/audit_service.py` to centralize writing to the `audit_logs` collection, following the schema defined in `ARCHITECTURE.md`.\n2. **Refactor Firestore Listener**: Update `backend/app/services/firestore_listener.py` to watch all `test_orders` (instead of filtering for `ANALYZING`).\n3. **Implement Status Tracking**:\n   - Maintain an in-memory cache of order statuses.\n   - On every document change, compare the new status with the cached value.\n   - If changed, trigger a log entry via `AuditService`.\n4. **Maintain AI Orchestration**: Ensure the existing logic that triggers AI analysis for `ANALYZING` status remains functional within the new universal listener.\n5. **Testing**: Update `backend/scripts/test_reactive_sync.py` to verify that an `audit_logs` entry is correctly created upon status transition.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Audit Log Trigger (Backend)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "k2ajh2",
+      "version": 4,
+      "timestamp": "2026-05-01T17:07:14.870009Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented universal status listener with audit logging. Every TestOrder status change is now recorded in the audit_logs collection. Verified with updated test script."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Tạo trigger lắng nghe thay đổi status trên test_orders để ghi log vào audit_logs.",
+        "implementationNotes": "Implemented universal status listener with audit logging. Every TestOrder status change is now recorded in the audit_logs collection. Verified with updated test script.",
+        "implementationPlan": "## Implementation Plan\n1. **Create Audit Service**: Implement `backend/app/services/audit_service.py` to centralize writing to the `audit_logs` collection, following the schema defined in `ARCHITECTURE.md`.\n2. **Refactor Firestore Listener**: Update `backend/app/services/firestore_listener.py` to watch all `test_orders` (instead of filtering for `ANALYZING`).\n3. **Implement Status Tracking**:\n   - Maintain an in-memory cache of order statuses.\n   - On every document change, compare the new status with the cached value.\n   - If changed, trigger a log entry via `AuditService`.\n4. **Maintain AI Orchestration**: Ensure the existing logic that triggers AI analysis for `ANALYZING` status remains functional within the new universal listener.\n5. **Testing**: Update `backend/scripts/test_reactive_sync.py` to verify that an `audit_logs` entry is correctly created upon status transition.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Audit Log Trigger (Backend)"
+      }
+    }
+  ]
+}

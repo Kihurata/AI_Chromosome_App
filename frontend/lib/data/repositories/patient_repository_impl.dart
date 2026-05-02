@@ -60,4 +60,19 @@ class PatientRepositoryImpl implements PatientRepository {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, Patient?>> checkDuplicatePatient({String? identityCard, String? phone}) async {
+    try {
+      final result = await remoteDataSource.checkDuplicatePatient(
+        identityCard: identityCard,
+        phone: phone,
+      );
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return const Left(ServerFailure('Lỗi kiểm tra trùng lặp bệnh nhân'));
+    }
+  }
 }

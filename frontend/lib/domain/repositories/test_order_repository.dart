@@ -16,4 +16,7 @@ abstract class TestOrderRepository {
     String orderId,
     String specialistId,
   );
+  Stream<Either<Failure, List<TestOrder>>> watchAssignedOrders(
+    String specialistId,
+  );
 }

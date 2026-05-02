@@ -44,3 +44,11 @@ class PatientDetailLoaded extends PatientState {
   @override
   List<Object?> get props => [patient];
 }
+
+// 7. Kết quả kiểm tra trùng lặp
+class PatientDuplicateChecked extends PatientState {
+  final Patient? existingPatient;
+  const PatientDuplicateChecked(this.existingPatient);
+  @override
+  List<Object?> get props => [existingPatient];
+}

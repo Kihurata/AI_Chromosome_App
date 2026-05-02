@@ -1,0 +1,150 @@
+{
+  "taskId": "fk1mqa",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "fk1mqa",
+      "version": 1,
+      "timestamp": "2026-04-29T09:14:45.2494254Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Xây dựng tầng Logic để lắng nghe Stream từ Firestore, tính toán chỉ số thống kê và quản lý trạng thái Search/Filter cục bộ.",
+        "priority": "high",
+        "status": "todo",
+        "title": "SpecialistDashboardCubit (Logic)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "fk1mqa",
+      "version": 2,
+      "timestamp": "2026-04-29T09:14:51.4006264Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Inject WorkspaceRepository và lăng nghe Stream TestOrders"
+            },
+            {
+              "completed": false,
+              "text": "Viết logic tính toán 4 chỉ số thống kê (Bento Box) trong Cubit"
+            },
+            {
+              "completed": false,
+              "text": "Implement logic search (filter list local) theo keyword và status"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Inject WorkspaceRepository và lăng nghe Stream TestOrders"
+          },
+          {
+            "completed": false,
+            "text": "Viết logic tính toán 4 chỉ số thống kê (Bento Box) trong Cubit"
+          },
+          {
+            "completed": false,
+            "text": "Implement logic search (filter list local) theo keyword và status"
+          }
+        ],
+        "description": "Xây dựng tầng Logic để lắng nghe Stream từ Firestore, tính toán chỉ số thống kê và quản lý trạng thái Search/Filter cục bộ.",
+        "priority": "high",
+        "status": "todo",
+        "title": "SpecialistDashboardCubit (Logic)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "fk1mqa",
+      "version": 3,
+      "timestamp": "2026-04-29T09:49:01.4294742Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Định nghĩa `SpecialistStats` model (data class) để chứa 4 chỉ số thống kê.\n2. Tạo `SpecialistDashboardState` (equatable) bao gồm: `status` (loading, success, error), `allOrders`, `filteredOrders`, `stats`, `searchKeyword`, `statusFilter`, và `errorMessage`.\n3. Tạo `SpecialistDashboardCubit`:\n   - Inject `WatchAssignedOrders` và `UpdateOrderStatus` (từ test_order_repository).\n   - `loadOrders(String specialistId)`: Subscribe vào stream từ usecase. Sử dụng `await for` pattern (Critical Pattern).\n   - Mỗi khi stream có data mới:\n     - Tính toán `SpecialistStats` dựa trên `allOrders`.\n     - Chạy logic `_applyFilters` để cập nhật `filteredOrders`.\n   - `setSearchKeyword(String keyword)`: Cập nhật state và chạy `_applyFilters`.\n   - `setStatusFilter(TestOrderStatus? status)`: Cập nhật state và chạy `_applyFilters`.\n   - `startOrderAnalysis(String orderId)`: Gọi `updateOrderStatus` sang `ANALYZING`.\n4. Đảm bảo clean-up subscription trong `close()`."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Inject WorkspaceRepository và lăng nghe Stream TestOrders"
+          },
+          {
+            "completed": false,
+            "text": "Viết logic tính toán 4 chỉ số thống kê (Bento Box) trong Cubit"
+          },
+          {
+            "completed": false,
+            "text": "Implement logic search (filter list local) theo keyword và status"
+          }
+        ],
+        "description": "Xây dựng tầng Logic để lắng nghe Stream từ Firestore, tính toán chỉ số thống kê và quản lý trạng thái Search/Filter cục bộ.",
+        "implementationPlan": "1. Định nghĩa `SpecialistStats` model (data class) để chứa 4 chỉ số thống kê.\n2. Tạo `SpecialistDashboardState` (equatable) bao gồm: `status` (loading, success, error), `allOrders`, `filteredOrders`, `stats`, `searchKeyword`, `statusFilter`, và `errorMessage`.\n3. Tạo `SpecialistDashboardCubit`:\n   - Inject `WatchAssignedOrders` và `UpdateOrderStatus` (từ test_order_repository).\n   - `loadOrders(String specialistId)`: Subscribe vào stream từ usecase. Sử dụng `await for` pattern (Critical Pattern).\n   - Mỗi khi stream có data mới:\n     - Tính toán `SpecialistStats` dựa trên `allOrders`.\n     - Chạy logic `_applyFilters` để cập nhật `filteredOrders`.\n   - `setSearchKeyword(String keyword)`: Cập nhật state và chạy `_applyFilters`.\n   - `setStatusFilter(TestOrderStatus? status)`: Cập nhật state và chạy `_applyFilters`.\n   - `startOrderAnalysis(String orderId)`: Gọi `updateOrderStatus` sang `ANALYZING`.\n4. Đảm bảo clean-up subscription trong `close()`.",
+        "priority": "high",
+        "status": "todo",
+        "title": "SpecialistDashboardCubit (Logic)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "fk1mqa",
+      "version": 4,
+      "timestamp": "2026-04-29T09:52:16.1576827Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Implemented SpecialistDashboardCubit, SpecialistStats entity, and UpdateOrderStatus usecase. Aligned TestOrderStatus enum with spec. Passed dart analyze."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Inject WorkspaceRepository và lăng nghe Stream TestOrders",
+            "completed": true
+          },
+          {
+            "text": "Viết logic tính toán 4 chỉ số thống kê (Bento Box) trong Cubit",
+            "completed": true
+          },
+          {
+            "text": "Implement logic search (filter list local) theo keyword và status",
+            "completed": true
+          }
+        ],
+        "description": "Xây dựng tầng Logic để lắng nghe Stream từ Firestore, tính toán chỉ số thống kê và quản lý trạng thái Search/Filter cục bộ.",
+        "implementationNotes": "Done: Implemented SpecialistDashboardCubit, SpecialistStats entity, and UpdateOrderStatus usecase. Aligned TestOrderStatus enum with spec. Passed dart analyze.",
+        "implementationPlan": "1. Định nghĩa `SpecialistStats` model (data class) để chứa 4 chỉ số thống kê.\n2. Tạo `SpecialistDashboardState` (equatable) bao gồm: `status` (loading, success, error), `allOrders`, `filteredOrders`, `stats`, `searchKeyword`, `statusFilter`, và `errorMessage`.\n3. Tạo `SpecialistDashboardCubit`:\n   - Inject `WatchAssignedOrders` và `UpdateOrderStatus` (từ test_order_repository).\n   - `loadOrders(String specialistId)`: Subscribe vào stream từ usecase. Sử dụng `await for` pattern (Critical Pattern).\n   - Mỗi khi stream có data mới:\n     - Tính toán `SpecialistStats` dựa trên `allOrders`.\n     - Chạy logic `_applyFilters` để cập nhật `filteredOrders`.\n   - `setSearchKeyword(String keyword)`: Cập nhật state và chạy `_applyFilters`.\n   - `setStatusFilter(TestOrderStatus? status)`: Cập nhật state và chạy `_applyFilters`.\n   - `startOrderAnalysis(String orderId)`: Gọi `updateOrderStatus` sang `ANALYZING`.\n4. Đảm bảo clean-up subscription trong `close()`.",
+        "priority": "high",
+        "status": "done",
+        "title": "SpecialistDashboardCubit (Logic)"
+      }
+    }
+  ]
+}

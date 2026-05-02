@@ -5,6 +5,9 @@ import '../../domain/repositories/test_order_repository.dart';
 import '../datasources/test_order_remote_datasource.dart';
 import '../models/test_order_model.dart';
 
+import 'package:injectable/injectable.dart';
+
+@Injectable(as: TestOrderRepository)
 class TestOrderRepositoryImpl implements TestOrderRepository {
   final TestOrderRemoteDataSource remoteDataSource;
 
@@ -71,6 +74,18 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
+  }
+
+  @override
+  Stream<Either<Failure, List<TestOrder>>> watchAssignedOrders(
+    String specialistId,
+  ) {
+    return remoteDataSource.watchAssignedOrders(specialistId).map<
+        Either<Failure, List<TestOrder>>>((models) {
+      return Right(models.map(_modelToEntity).toList());
+    }).handleError((error) {
+      return Left(ServerFailure(error.toString()));
+    });
   }
 
   TestOrder _modelToEntity(TestOrderModel model) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../domain/entities/patient.dart';
 import '../../../logic/bloc/patient/patient_cubit.dart';
@@ -21,6 +22,10 @@ class PatientRegistrationPage extends StatefulWidget {
 
 class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
   final _formKey = GlobalKey<FormState>();
+
+  // State variables from main branch
+  String? _duplicateWarning;
+  bool _isSubmitting = false;
 
   // Controllers
   final _fullNameController = TextEditingController();
@@ -49,46 +54,96 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
     super.dispose();
   }
 
-  void _handleSubmit() {
+  // ── Duplicate Check (from main) ──
+  void _checkDuplicate() {
+    final idCard = _identityCardController.text.trim();
+    final phone = _phoneController.text.trim();
+
+    if (idCard.length < 9 && phone.length < 9) {
+      if (_duplicateWarning != null) {
+        setState(() => _duplicateWarning = null);
+      }
+      return;
+    }
+
+    context.read<PatientCubit>().checkDuplicate(
+          identityCard: idCard.length >= 9 ? idCard : null,
+          phone: phone.length >= 9 ? phone : null,
+        );
+  }
+
+  void _handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
+    if (_duplicateWarning != null) return;
 
-    final dob = DateTime.tryParse(_dobController.text.split('/').reversed.join('-')) ?? DateTime.now();
+    setState(() => _isSubmitting = true);
 
-    final patient = Patient(
-      id: '', // Sẽ được Firebase tự tạo
-      fullName: _fullNameController.text.trim(),
-      identityCard: _identityCardController.text.trim(),
-      dob: dob,
-      gender: _selectedGender,
-      phone: _phoneController.text.trim(),
-      province: _selectedProvince ?? '',
-      district: _selectedDistrict ?? '',
-      ward: _selectedWard ?? '',
-      address: _addressController.text.trim(),
-      emergencyContactName: _emergencyNameController.text.trim(),
-      emergencyContactPhone: _emergencyPhoneController.text.trim(),
-    );
+    try {
+      // Use intl for parsing if format is dd/MM/yyyy
+      final dob = DateFormat('dd/MM/yyyy').parse(_dobController.text);
 
-    context.read<PatientCubit>().createPatient(patient);
+      final patient = Patient(
+        id: '', // Sẽ được Firebase tự tạo
+        fullName: _fullNameController.text.trim().toUpperCase(),
+        identityCard: _identityCardController.text.trim(),
+        dob: dob,
+        gender: _selectedGender,
+        phone: _phoneController.text.trim(),
+        province: _selectedProvince ?? '',
+        district: _selectedDistrict ?? '',
+        ward: _selectedWard ?? '',
+        address: _addressController.text.trim(),
+        emergencyContactName: _emergencyNameController.text.trim(),
+        emergencyContactPhone: _emergencyPhoneController.text.trim(),
+      );
+
+      if (mounted) {
+        context.read<PatientCubit>().createPatient(patient);
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isSubmitting = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Lỗi xử lý dữ liệu: ${e.toString()}'),
+            backgroundColor: AppColors.dangerText,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<PatientCubit, PatientState>(
       listener: (context, state) {
-        if (state is PatientActionSuccess) {
+        if (state is PatientDuplicateChecked) {
+          setState(() {
+            if (state.existingPatient != null) {
+              final p = state.existingPatient!;
+              _duplicateWarning = 'Bệnh nhân "${p.fullName}" đã tồn tại trong hệ thống (Mã: ${p.patientCode ?? p.id}). Vui lòng kiểm tra lại.';
+            } else {
+              _duplicateWarning = null;
+            }
+          });
+        } else if (state is PatientActionSuccess) {
+          setState(() => _isSubmitting = false);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
               backgroundColor: AppColors.successText,
+              behavior: SnackBarBehavior.floating,
             ),
           );
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(true);
         } else if (state is PatientError) {
+          setState(() => _isSubmitting = false);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Lỗi: ${state.message}'),
               backgroundColor: AppColors.dangerText,
+              behavior: SnackBarBehavior.floating,
             ),
           );
         }
@@ -108,6 +163,9 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
                 phoneController: _phoneController,
                 selectedGender: _selectedGender,
                 onGenderChanged: (v) => setState(() => _selectedGender = v),
+                onIdentityChanged: (_) => _checkDuplicate(),
+                onPhoneChanged: (_) => _checkDuplicate(),
+                duplicateWarning: _duplicateWarning,
               ),
               const SizedBox(height: 24),
               _AddressSection(
@@ -132,6 +190,7 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
               _FormActions(
                 onCancel: () => Navigator.of(context).pop(),
                 onSubmit: _handleSubmit,
+                isSubmitting: _isSubmitting,
               ),
               const SizedBox(height: 28),
             ],
@@ -151,6 +210,9 @@ class _IdentitySection extends StatelessWidget {
   final TextEditingController phoneController;
   final String selectedGender;
   final ValueChanged<String> onGenderChanged;
+  final ValueChanged<String> onIdentityChanged;
+  final ValueChanged<String> onPhoneChanged;
+  final String? duplicateWarning;
 
   const _IdentitySection({
     required this.fullNameController,
@@ -159,6 +221,9 @@ class _IdentitySection extends StatelessWidget {
     required this.phoneController,
     required this.selectedGender,
     required this.onGenderChanged,
+    required this.onIdentityChanged,
+    required this.onPhoneChanged,
+    this.duplicateWarning,
   });
 
   @override
@@ -187,6 +252,11 @@ class _IdentitySection extends StatelessWidget {
                 hintText: '001203xxxxxx',
                 prefixIcon: LucideIcons.creditCard,
                 keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(12),
+                ],
+                onChanged: onIdentityChanged,
                 validator: (v) => (v == null || v.isEmpty) ? 'Vui lòng nhập CCCD' : null,
               ),
             ),
@@ -206,6 +276,11 @@ class _IdentitySection extends StatelessWidget {
                 hintText: '090 123 4567',
                 prefixIcon: LucideIcons.phone,
                 keyboardType: TextInputType.phone,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(11),
+                ],
+                onChanged: onPhoneChanged,
                 validator: (v) => (v == null || v.isEmpty) ? 'Vui lòng nhập SĐT' : null,
               ),
             ),
@@ -213,6 +288,31 @@ class _IdentitySection extends StatelessWidget {
         ),
         const SizedBox(height: 18),
         _GenderSelector(selectedGender: selectedGender, onChanged: onGenderChanged),
+
+        if (duplicateWarning != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              decoration: BoxDecoration(
+                color: AppColors.dangerBg,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppColors.dangerText.withAlpha(50)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(LucideIcons.alertTriangle, size: 18, color: AppColors.dangerText),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      duplicateWarning!,
+                      style: const TextStyle(fontSize: 13, color: AppColors.dangerText, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
       ],
     );
   }
@@ -393,12 +493,17 @@ class _SimpleDropdown extends StatelessWidget {
 class _FormActions extends StatelessWidget {
   final VoidCallback onCancel;
   final VoidCallback onSubmit;
+  final bool isSubmitting;
 
-  const _FormActions({required this.onCancel, required this.onSubmit});
+  const _FormActions({
+    required this.onCancel,
+    required this.onSubmit,
+    required this.isSubmitting,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = context.watch<PatientCubit>().state is PatientLoading;
+    final isLoading = context.watch<PatientCubit>().state is PatientLoading || isSubmitting;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [

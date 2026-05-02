@@ -1,6 +1,6 @@
 {
   "taskId": "2tou5t",
-  "currentVersion": 1,
+  "currentVersion": 2,
   "versions": [
     {
       "id": "v1",
@@ -30,6 +30,70 @@
         ],
         "priority": "high",
         "status": "in-progress",
+        "title": "Refactor Receptionist UI to Clean Architecture"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "2tou5t",
+      "version": 2,
+      "timestamp": "2026-04-28T07:51:34.213078Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "text": "Refactor PatientRegistrationPage to use PatientCubit",
+              "completed": true
+            },
+            {
+              "text": "Remove ClinicalRepository dependency from 7 files",
+              "completed": true
+            },
+            {
+              "text": "Replace direct Firestore calls with Cubit patterns",
+              "completed": true
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Completed migration of Receptionist UI to Clean Architecture. All 7 presentation files (screens and widgets) are now consuming PatientCubit and AppointmentCubit instead of direct repositories or Firestore."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Refactor PatientRegistrationPage to use PatientCubit",
+            "completed": true
+          },
+          {
+            "text": "Remove ClinicalRepository dependency from 7 files",
+            "completed": true
+          },
+          {
+            "text": "Replace direct Firestore calls with Cubit patterns",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Remove all ClinicalRepository and direct cloud_firestore dependencies from the Receptionist Presentation layer. Replace with BlocBuilder/BlocListener patterns consuming AppointmentCubit. Affects 7 files across screens and widgets.",
+        "implementationNotes": "Completed migration of Receptionist UI to Clean Architecture. All 7 presentation files (screens and widgets) are now consuming PatientCubit and AppointmentCubit instead of direct repositories or Firestore.",
+        "labels": [
+          "ui",
+          "refactor",
+          "receptionist",
+          "clean-architecture"
+        ],
+        "priority": "high",
+        "status": "done",
         "title": "Refactor Receptionist UI to Clean Architecture"
       }
     }

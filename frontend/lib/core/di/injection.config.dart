@@ -15,13 +15,21 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../data/datasources/patient_remote_datasource.dart' as _i940;
+import '../../data/datasources/test_order_remote_datasource.dart' as _i221;
 import '../../data/repositories/patient_repository_impl.dart' as _i308;
+import '../../data/repositories/test_order_repository_impl.dart' as _i713;
 import '../../domain/repositories/patient_repository.dart' as _i467;
+import '../../domain/repositories/test_order_repository.dart' as _i655;
 import '../../domain/usecases/patient/add_patient.dart' as _i819;
+import '../../domain/usecases/patient/check_duplicate_patient.dart' as _i188;
 import '../../domain/usecases/patient/get_patient_by_id.dart' as _i1004;
 import '../../domain/usecases/patient/get_patients.dart' as _i266;
 import '../../domain/usecases/patient/update_patient.dart' as _i485;
+import '../../domain/usecases/specialist/update_order_status.dart' as _i814;
+import '../../domain/usecases/specialist/watch_assigned_orders.dart' as _i907;
+import '../../logic/bloc/layout/layout_cubit.dart' as _i556;
 import '../../logic/bloc/patient/patient_cubit.dart' as _i965;
+import '../../logic/bloc/specialist/specialist_dashboard_cubit.dart' as _i608;
 import '../network/dio_module.dart' as _i614;
 import '../network/firebase_module.dart' as _i383;
 
@@ -36,14 +44,26 @@ extension GetItInjectableX on _i174.GetIt {
     final firebaseModule = _$FirebaseModule();
     gh.lazySingleton<_i361.Dio>(() => dioModule.dio);
     gh.lazySingleton<_i974.FirebaseFirestore>(() => firebaseModule.firestore);
+    gh.lazySingleton<_i556.LayoutCubit>(() => _i556.LayoutCubit());
+    gh.factory<_i221.TestOrderRemoteDataSource>(
+      () => _i221.FirebaseTestOrderRemoteDataSource(),
+    );
     gh.lazySingleton<_i940.PatientRemoteDataSource>(
       () => _i940.PatientRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
     );
     gh.lazySingleton<_i467.PatientRepository>(
       () => _i308.PatientRepositoryImpl(gh<_i940.PatientRemoteDataSource>()),
     );
+    gh.factory<_i655.TestOrderRepository>(
+      () => _i713.TestOrderRepositoryImpl(
+        remoteDataSource: gh<_i221.TestOrderRemoteDataSource>(),
+      ),
+    );
     gh.factory<_i819.AddPatient>(
       () => _i819.AddPatient(gh<_i467.PatientRepository>()),
+    );
+    gh.factory<_i188.CheckDuplicatePatient>(
+      () => _i188.CheckDuplicatePatient(gh<_i467.PatientRepository>()),
     );
     gh.factory<_i1004.GetPatientById>(
       () => _i1004.GetPatientById(gh<_i467.PatientRepository>()),
@@ -54,12 +74,25 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i485.UpdatePatient>(
       () => _i485.UpdatePatient(gh<_i467.PatientRepository>()),
     );
+    gh.factory<_i814.UpdateOrderStatus>(
+      () => _i814.UpdateOrderStatus(gh<_i655.TestOrderRepository>()),
+    );
+    gh.factory<_i907.WatchAssignedOrders>(
+      () => _i907.WatchAssignedOrders(gh<_i655.TestOrderRepository>()),
+    );
     gh.factory<_i965.PatientCubit>(
       () => _i965.PatientCubit(
         getPatientsUsecase: gh<_i266.GetPatients>(),
         addPatientUsecase: gh<_i819.AddPatient>(),
         updatePatientUsecase: gh<_i485.UpdatePatient>(),
         getPatientByIdUsecase: gh<_i1004.GetPatientById>(),
+        checkDuplicatePatientUsecase: gh<_i188.CheckDuplicatePatient>(),
+      ),
+    );
+    gh.factory<_i608.SpecialistDashboardCubit>(
+      () => _i608.SpecialistDashboardCubit(
+        gh<_i907.WatchAssignedOrders>(),
+        gh<_i814.UpdateOrderStatus>(),
       ),
     );
     return this;

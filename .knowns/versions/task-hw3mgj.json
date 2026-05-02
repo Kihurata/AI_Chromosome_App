@@ -1,6 +1,6 @@
 {
   "taskId": "hw3mgj",
-  "currentVersion": 2,
+  "currentVersion": 9,
   "versions": [
     {
       "id": "v1",
@@ -44,36 +44,36 @@
           "oldValue": null,
           "newValue": [
             {
-              "text": "Core Entities: Update/Create `MetaphaseImage` and `Chromosome` entities/models.",
-              "completed": false
+              "completed": false,
+              "text": "Core Entities: Update/Create `MetaphaseImage` and `Chromosome` entities/models."
             },
             {
-              "text": "Data (Storage): Implement `ImageStorageRepository` to handle uploading raw images to Firebase Cloud Storage.",
-              "completed": false
+              "completed": false,
+              "text": "Data (Storage): Implement `ImageStorageRepository` to handle uploading raw images to Firebase Cloud Storage."
             },
             {
-              "text": "Data (Firestore): Implement `LabProcessingRepository` (to update sample processing status).",
-              "completed": false
+              "completed": false,
+              "text": "Data (Firestore): Implement `LabProcessingRepository` (to update sample processing status)."
             },
             {
-              "text": "Data (Firestore): Implement `WorkspaceRepository` (to stream the `chromosomes` sub-collection for real-time Riverpod updates).",
-              "completed": false
+              "completed": false,
+              "text": "Data (Firestore): Implement `WorkspaceRepository` (to stream the `chromosomes` sub-collection for real-time Riverpod updates)."
             },
             {
-              "text": "Domain (Usecases): Implement `UploadImageForAiAnalysis` (uploads to Storage and creates a Firestore record with `status: 'UPLOADED'`).",
-              "completed": false
+              "completed": false,
+              "text": "Domain (Usecases): Implement `UploadImageForAiAnalysis` (uploads to Storage and creates a Firestore record with `status: 'UPLOADED'`)."
             },
             {
-              "text": "Domain (Usecases): Implement `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`.",
-              "completed": false
+              "completed": false,
+              "text": "Domain (Usecases): Implement `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`."
             },
             {
-              "text": "Logic (Cubit): Implement `AiAnalysisCubit` to handle the asynchronous UI state (Uploading -\u003e Waiting for Backend -\u003e Success/Failure).",
-              "completed": false
+              "completed": false,
+              "text": "Logic (Cubit): Implement `AiAnalysisCubit` to handle the asynchronous UI state (Uploading -\u003e Waiting for Backend -\u003e Success/Failure)."
             },
             {
-              "text": "Logic (Cubit): Implement `WorkspaceCubit` to handle hybrid state management (offline drag-and-drop before Firestore sync).",
-              "completed": false
+              "completed": false,
+              "text": "Logic (Cubit): Implement `WorkspaceCubit` to handle hybrid state management (offline drag-and-drop before Firestore sync)."
             }
           ]
         }
@@ -81,36 +81,36 @@
       "snapshot": {
         "acceptanceCriteria": [
           {
-            "text": "Core Entities: Update/Create `MetaphaseImage` and `Chromosome` entities/models.",
-            "completed": false
+            "completed": false,
+            "text": "Core Entities: Update/Create `MetaphaseImage` and `Chromosome` entities/models."
           },
           {
-            "text": "Data (Storage): Implement `ImageStorageRepository` to handle uploading raw images to Firebase Cloud Storage.",
-            "completed": false
+            "completed": false,
+            "text": "Data (Storage): Implement `ImageStorageRepository` to handle uploading raw images to Firebase Cloud Storage."
           },
           {
-            "text": "Data (Firestore): Implement `LabProcessingRepository` (to update sample processing status).",
-            "completed": false
+            "completed": false,
+            "text": "Data (Firestore): Implement `LabProcessingRepository` (to update sample processing status)."
           },
           {
-            "text": "Data (Firestore): Implement `WorkspaceRepository` (to stream the `chromosomes` sub-collection for real-time Riverpod updates).",
-            "completed": false
+            "completed": false,
+            "text": "Data (Firestore): Implement `WorkspaceRepository` (to stream the `chromosomes` sub-collection for real-time Riverpod updates)."
           },
           {
-            "text": "Domain (Usecases): Implement `UploadImageForAiAnalysis` (uploads to Storage and creates a Firestore record with `status: 'UPLOADED'`).",
-            "completed": false
+            "completed": false,
+            "text": "Domain (Usecases): Implement `UploadImageForAiAnalysis` (uploads to Storage and creates a Firestore record with `status: 'UPLOADED'`)."
           },
           {
-            "text": "Domain (Usecases): Implement `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`.",
-            "completed": false
+            "completed": false,
+            "text": "Domain (Usecases): Implement `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`."
           },
           {
-            "text": "Logic (Cubit): Implement `AiAnalysisCubit` to handle the asynchronous UI state (Uploading -\u003e Waiting for Backend -\u003e Success/Failure).",
-            "completed": false
+            "completed": false,
+            "text": "Logic (Cubit): Implement `AiAnalysisCubit` to handle the asynchronous UI state (Uploading -\u003e Waiting for Backend -\u003e Success/Failure)."
           },
           {
-            "text": "Logic (Cubit): Implement `WorkspaceCubit` to handle hybrid state management (offline drag-and-drop before Firestore sync).",
-            "completed": false
+            "completed": false,
+            "text": "Logic (Cubit): Implement `WorkspaceCubit` to handle hybrid state management (offline drag-and-drop before Firestore sync)."
           }
         ],
         "description": "Implement the Domain, Data, and Logic layers for the Lab Specialist role using an Event-Driven architecture for AI integration. The Flutter app will act as a reactive client—uploading images and listening for results—while offloading the heavy Ngrok/FastAPI calls entirely to the Backend.",
@@ -123,6 +123,454 @@
         ],
         "priority": "high",
         "status": "todo",
+        "title": "Specialist Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "hw3mgj",
+      "version": 3,
+      "timestamp": "2026-04-29T09:30:31.3993047Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Core Entities: Update/Create `MetaphaseImage` and `Chromosome` entities/models."
+          },
+          {
+            "completed": false,
+            "text": "Data (Storage): Implement `ImageStorageRepository` to handle uploading raw images to Firebase Cloud Storage."
+          },
+          {
+            "completed": false,
+            "text": "Data (Firestore): Implement `LabProcessingRepository` (to update sample processing status)."
+          },
+          {
+            "completed": false,
+            "text": "Data (Firestore): Implement `WorkspaceRepository` (to stream the `chromosomes` sub-collection for real-time Riverpod updates)."
+          },
+          {
+            "completed": false,
+            "text": "Domain (Usecases): Implement `UploadImageForAiAnalysis` (uploads to Storage and creates a Firestore record with `status: 'UPLOADED'`)."
+          },
+          {
+            "completed": false,
+            "text": "Domain (Usecases): Implement `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`."
+          },
+          {
+            "completed": false,
+            "text": "Logic (Cubit): Implement `AiAnalysisCubit` to handle the asynchronous UI state (Uploading -\u003e Waiting for Backend -\u003e Success/Failure)."
+          },
+          {
+            "completed": false,
+            "text": "Logic (Cubit): Implement `WorkspaceCubit` to handle hybrid state management (offline drag-and-drop before Firestore sync)."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Specialist role using an Event-Driven architecture for AI integration. The Flutter app will act as a reactive client—uploading images and listening for results—while offloading the heavy Ngrok/FastAPI calls entirely to the Backend.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "specialist",
+          "event-driven"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Specialist Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "hw3mgj",
+      "version": 4,
+      "timestamp": "2026-04-29T09:30:59.9973088Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Create `Chromosome` and `MetaphaseImage` entities in `lib/domain/entities/`.\n2. Refactor `ChromosomeModel` and create `MetaphaseImageModel` in `lib/data/models/` implementing the `fromEntity` convention (see @memory/e83enb).\n3. Create Domain Repository Interfaces in `lib/domain/repositories/`: `ImageStorageRepository`, `LabProcessingRepository`, and `WorkspaceRepository`.\n4. Create Data Repository Implementations in `lib/data/repositories/`: `ImageStorageRepositoryImpl`, `LabProcessingRepositoryImpl`, and `WorkspaceRepositoryImpl` with Firestore and Storage integration.\n5. Create Domain Usecases in `lib/domain/usecases/specialist/`: `UploadImageForAiAnalysis`, `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`.\n6. Implement `AiAnalysisCubit` in `lib/logic/bloc/specialist/` to manage the async states of image upload and AI waiting.\n7. Refactor `WorkspaceCubit` in `lib/logic/bloc/workspace/` to use the new `Chromosome` entity and integrate with `UpdateChromosomePosition` usecase."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Core Entities: Update/Create `MetaphaseImage` and `Chromosome` entities/models."
+          },
+          {
+            "completed": false,
+            "text": "Data (Storage): Implement `ImageStorageRepository` to handle uploading raw images to Firebase Cloud Storage."
+          },
+          {
+            "completed": false,
+            "text": "Data (Firestore): Implement `LabProcessingRepository` (to update sample processing status)."
+          },
+          {
+            "completed": false,
+            "text": "Data (Firestore): Implement `WorkspaceRepository` (to stream the `chromosomes` sub-collection for real-time Riverpod updates)."
+          },
+          {
+            "completed": false,
+            "text": "Domain (Usecases): Implement `UploadImageForAiAnalysis` (uploads to Storage and creates a Firestore record with `status: 'UPLOADED'`)."
+          },
+          {
+            "completed": false,
+            "text": "Domain (Usecases): Implement `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`."
+          },
+          {
+            "completed": false,
+            "text": "Logic (Cubit): Implement `AiAnalysisCubit` to handle the asynchronous UI state (Uploading -\u003e Waiting for Backend -\u003e Success/Failure)."
+          },
+          {
+            "completed": false,
+            "text": "Logic (Cubit): Implement `WorkspaceCubit` to handle hybrid state management (offline drag-and-drop before Firestore sync)."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Specialist role using an Event-Driven architecture for AI integration. The Flutter app will act as a reactive client—uploading images and listening for results—while offloading the heavy Ngrok/FastAPI calls entirely to the Backend.",
+        "implementationPlan": "1. Create `Chromosome` and `MetaphaseImage` entities in `lib/domain/entities/`.\n2. Refactor `ChromosomeModel` and create `MetaphaseImageModel` in `lib/data/models/` implementing the `fromEntity` convention (see @memory/e83enb).\n3. Create Domain Repository Interfaces in `lib/domain/repositories/`: `ImageStorageRepository`, `LabProcessingRepository`, and `WorkspaceRepository`.\n4. Create Data Repository Implementations in `lib/data/repositories/`: `ImageStorageRepositoryImpl`, `LabProcessingRepositoryImpl`, and `WorkspaceRepositoryImpl` with Firestore and Storage integration.\n5. Create Domain Usecases in `lib/domain/usecases/specialist/`: `UploadImageForAiAnalysis`, `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`.\n6. Implement `AiAnalysisCubit` in `lib/logic/bloc/specialist/` to manage the async states of image upload and AI waiting.\n7. Refactor `WorkspaceCubit` in `lib/logic/bloc/workspace/` to use the new `Chromosome` entity and integrate with `UpdateChromosomePosition` usecase.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "specialist",
+          "event-driven"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Specialist Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "hw3mgj",
+      "version": 5,
+      "timestamp": "2026-04-29T09:34:15.9500874Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Core Entities: Update/Create `MetaphaseImage` and `Chromosome` entities/models."
+          },
+          {
+            "completed": false,
+            "text": "Data (Storage): Implement `ImageStorageRepository` to handle uploading raw images to Firebase Cloud Storage."
+          },
+          {
+            "completed": false,
+            "text": "Data (Firestore): Implement `LabProcessingRepository` (to update sample processing status)."
+          },
+          {
+            "completed": false,
+            "text": "Data (Firestore): Implement `WorkspaceRepository` (to stream the `chromosomes` sub-collection for real-time Riverpod updates)."
+          },
+          {
+            "completed": false,
+            "text": "Domain (Usecases): Implement `UploadImageForAiAnalysis` (uploads to Storage and creates a Firestore record with `status: 'UPLOADED'`)."
+          },
+          {
+            "completed": false,
+            "text": "Domain (Usecases): Implement `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`."
+          },
+          {
+            "completed": false,
+            "text": "Logic (Cubit): Implement `AiAnalysisCubit` to handle the asynchronous UI state (Uploading -\u003e Waiting for Backend -\u003e Success/Failure)."
+          },
+          {
+            "completed": false,
+            "text": "Logic (Cubit): Implement `WorkspaceCubit` to handle hybrid state management (offline drag-and-drop before Firestore sync)."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Specialist role using an Event-Driven architecture for AI integration. The Flutter app will act as a reactive client—uploading images and listening for results—while offloading the heavy Ngrok/FastAPI calls entirely to the Backend.",
+        "implementationNotes": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.",
+        "implementationPlan": "1. Create `Chromosome` and `MetaphaseImage` entities in `lib/domain/entities/`.\n2. Refactor `ChromosomeModel` and create `MetaphaseImageModel` in `lib/data/models/` implementing the `fromEntity` convention (see @memory/e83enb).\n3. Create Domain Repository Interfaces in `lib/domain/repositories/`: `ImageStorageRepository`, `LabProcessingRepository`, and `WorkspaceRepository`.\n4. Create Data Repository Implementations in `lib/data/repositories/`: `ImageStorageRepositoryImpl`, `LabProcessingRepositoryImpl`, and `WorkspaceRepositoryImpl` with Firestore and Storage integration.\n5. Create Domain Usecases in `lib/domain/usecases/specialist/`: `UploadImageForAiAnalysis`, `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`.\n6. Implement `AiAnalysisCubit` in `lib/logic/bloc/specialist/` to manage the async states of image upload and AI waiting.\n7. Refactor `WorkspaceCubit` in `lib/logic/bloc/workspace/` to use the new `Chromosome` entity and integrate with `UpdateChromosomePosition` usecase.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "specialist",
+          "event-driven"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Specialist Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "hw3mgj",
+      "version": 6,
+      "timestamp": "2026-04-29T09:35:07.247963Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.",
+          "newValue": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.\nDone: Created Domain Repository Interfaces and Data Repository Implementations for ImageStorage, LabProcessing, and Workspace."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Core Entities: Update/Create `MetaphaseImage` and `Chromosome` entities/models."
+          },
+          {
+            "completed": true,
+            "text": "Data (Storage): Implement `ImageStorageRepository` to handle uploading raw images to Firebase Cloud Storage."
+          },
+          {
+            "completed": true,
+            "text": "Data (Firestore): Implement `LabProcessingRepository` (to update sample processing status)."
+          },
+          {
+            "completed": true,
+            "text": "Data (Firestore): Implement `WorkspaceRepository` (to stream the `chromosomes` sub-collection for real-time Riverpod updates)."
+          },
+          {
+            "completed": false,
+            "text": "Domain (Usecases): Implement `UploadImageForAiAnalysis` (uploads to Storage and creates a Firestore record with `status: 'UPLOADED'`)."
+          },
+          {
+            "completed": false,
+            "text": "Domain (Usecases): Implement `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`."
+          },
+          {
+            "completed": false,
+            "text": "Logic (Cubit): Implement `AiAnalysisCubit` to handle the asynchronous UI state (Uploading -\u003e Waiting for Backend -\u003e Success/Failure)."
+          },
+          {
+            "completed": false,
+            "text": "Logic (Cubit): Implement `WorkspaceCubit` to handle hybrid state management (offline drag-and-drop before Firestore sync)."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Specialist role using an Event-Driven architecture for AI integration. The Flutter app will act as a reactive client—uploading images and listening for results—while offloading the heavy Ngrok/FastAPI calls entirely to the Backend.",
+        "implementationNotes": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.\nDone: Created Domain Repository Interfaces and Data Repository Implementations for ImageStorage, LabProcessing, and Workspace.",
+        "implementationPlan": "1. Create `Chromosome` and `MetaphaseImage` entities in `lib/domain/entities/`.\n2. Refactor `ChromosomeModel` and create `MetaphaseImageModel` in `lib/data/models/` implementing the `fromEntity` convention (see @memory/e83enb).\n3. Create Domain Repository Interfaces in `lib/domain/repositories/`: `ImageStorageRepository`, `LabProcessingRepository`, and `WorkspaceRepository`.\n4. Create Data Repository Implementations in `lib/data/repositories/`: `ImageStorageRepositoryImpl`, `LabProcessingRepositoryImpl`, and `WorkspaceRepositoryImpl` with Firestore and Storage integration.\n5. Create Domain Usecases in `lib/domain/usecases/specialist/`: `UploadImageForAiAnalysis`, `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`.\n6. Implement `AiAnalysisCubit` in `lib/logic/bloc/specialist/` to manage the async states of image upload and AI waiting.\n7. Refactor `WorkspaceCubit` in `lib/logic/bloc/workspace/` to use the new `Chromosome` entity and integrate with `UpdateChromosomePosition` usecase.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "specialist",
+          "event-driven"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Specialist Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v7",
+      "taskId": "hw3mgj",
+      "version": 7,
+      "timestamp": "2026-04-29T09:35:37.0648523Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.\nDone: Created Domain Repository Interfaces and Data Repository Implementations for ImageStorage, LabProcessing, and Workspace.",
+          "newValue": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.\nDone: Created Domain Repository Interfaces and Data Repository Implementations for ImageStorage, LabProcessing, and Workspace.\nDone: Created Domain Usecases: UploadImageForAiAnalysis, UpdateSampleLabStatus, UpdateChromosomePosition, and SubmitResultForApproval."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Core Entities: Update/Create `MetaphaseImage` and `Chromosome` entities/models."
+          },
+          {
+            "completed": true,
+            "text": "Data (Storage): Implement `ImageStorageRepository` to handle uploading raw images to Firebase Cloud Storage."
+          },
+          {
+            "completed": true,
+            "text": "Data (Firestore): Implement `LabProcessingRepository` (to update sample processing status)."
+          },
+          {
+            "completed": true,
+            "text": "Data (Firestore): Implement `WorkspaceRepository` (to stream the `chromosomes` sub-collection for real-time Riverpod updates)."
+          },
+          {
+            "completed": true,
+            "text": "Domain (Usecases): Implement `UploadImageForAiAnalysis` (uploads to Storage and creates a Firestore record with `status: 'UPLOADED'`)."
+          },
+          {
+            "completed": true,
+            "text": "Domain (Usecases): Implement `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`."
+          },
+          {
+            "completed": false,
+            "text": "Logic (Cubit): Implement `AiAnalysisCubit` to handle the asynchronous UI state (Uploading -\u003e Waiting for Backend -\u003e Success/Failure)."
+          },
+          {
+            "completed": false,
+            "text": "Logic (Cubit): Implement `WorkspaceCubit` to handle hybrid state management (offline drag-and-drop before Firestore sync)."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Specialist role using an Event-Driven architecture for AI integration. The Flutter app will act as a reactive client—uploading images and listening for results—while offloading the heavy Ngrok/FastAPI calls entirely to the Backend.",
+        "implementationNotes": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.\nDone: Created Domain Repository Interfaces and Data Repository Implementations for ImageStorage, LabProcessing, and Workspace.\nDone: Created Domain Usecases: UploadImageForAiAnalysis, UpdateSampleLabStatus, UpdateChromosomePosition, and SubmitResultForApproval.",
+        "implementationPlan": "1. Create `Chromosome` and `MetaphaseImage` entities in `lib/domain/entities/`.\n2. Refactor `ChromosomeModel` and create `MetaphaseImageModel` in `lib/data/models/` implementing the `fromEntity` convention (see @memory/e83enb).\n3. Create Domain Repository Interfaces in `lib/domain/repositories/`: `ImageStorageRepository`, `LabProcessingRepository`, and `WorkspaceRepository`.\n4. Create Data Repository Implementations in `lib/data/repositories/`: `ImageStorageRepositoryImpl`, `LabProcessingRepositoryImpl`, and `WorkspaceRepositoryImpl` with Firestore and Storage integration.\n5. Create Domain Usecases in `lib/domain/usecases/specialist/`: `UploadImageForAiAnalysis`, `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`.\n6. Implement `AiAnalysisCubit` in `lib/logic/bloc/specialist/` to manage the async states of image upload and AI waiting.\n7. Refactor `WorkspaceCubit` in `lib/logic/bloc/workspace/` to use the new `Chromosome` entity and integrate with `UpdateChromosomePosition` usecase.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "specialist",
+          "event-driven"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Specialist Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v8",
+      "taskId": "hw3mgj",
+      "version": 8,
+      "timestamp": "2026-04-29T09:36:19.6392751Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.\nDone: Created Domain Repository Interfaces and Data Repository Implementations for ImageStorage, LabProcessing, and Workspace.\nDone: Created Domain Usecases: UploadImageForAiAnalysis, UpdateSampleLabStatus, UpdateChromosomePosition, and SubmitResultForApproval.",
+          "newValue": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.\nDone: Created Domain Repository Interfaces and Data Repository Implementations for ImageStorage, LabProcessing, and Workspace.\nDone: Created Domain Usecases: UploadImageForAiAnalysis, UpdateSampleLabStatus, UpdateChromosomePosition, and SubmitResultForApproval.\nDone: Implemented AiAnalysisCubit to manage async AI processing states and refactored WorkspaceCubit for hybrid state management using the new entities and usecases."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Core Entities: Update/Create `MetaphaseImage` and `Chromosome` entities/models."
+          },
+          {
+            "completed": true,
+            "text": "Data (Storage): Implement `ImageStorageRepository` to handle uploading raw images to Firebase Cloud Storage."
+          },
+          {
+            "completed": true,
+            "text": "Data (Firestore): Implement `LabProcessingRepository` (to update sample processing status)."
+          },
+          {
+            "completed": true,
+            "text": "Data (Firestore): Implement `WorkspaceRepository` (to stream the `chromosomes` sub-collection for real-time Riverpod updates)."
+          },
+          {
+            "completed": true,
+            "text": "Domain (Usecases): Implement `UploadImageForAiAnalysis` (uploads to Storage and creates a Firestore record with `status: 'UPLOADED'`)."
+          },
+          {
+            "completed": true,
+            "text": "Domain (Usecases): Implement `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`."
+          },
+          {
+            "completed": true,
+            "text": "Logic (Cubit): Implement `AiAnalysisCubit` to handle the asynchronous UI state (Uploading -\u003e Waiting for Backend -\u003e Success/Failure)."
+          },
+          {
+            "completed": true,
+            "text": "Logic (Cubit): Implement `WorkspaceCubit` to handle hybrid state management (offline drag-and-drop before Firestore sync)."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Specialist role using an Event-Driven architecture for AI integration. The Flutter app will act as a reactive client—uploading images and listening for results—while offloading the heavy Ngrok/FastAPI calls entirely to the Backend.",
+        "implementationNotes": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.\nDone: Created Domain Repository Interfaces and Data Repository Implementations for ImageStorage, LabProcessing, and Workspace.\nDone: Created Domain Usecases: UploadImageForAiAnalysis, UpdateSampleLabStatus, UpdateChromosomePosition, and SubmitResultForApproval.\nDone: Implemented AiAnalysisCubit to manage async AI processing states and refactored WorkspaceCubit for hybrid state management using the new entities and usecases.",
+        "implementationPlan": "1. Create `Chromosome` and `MetaphaseImage` entities in `lib/domain/entities/`.\n2. Refactor `ChromosomeModel` and create `MetaphaseImageModel` in `lib/data/models/` implementing the `fromEntity` convention (see @memory/e83enb).\n3. Create Domain Repository Interfaces in `lib/domain/repositories/`: `ImageStorageRepository`, `LabProcessingRepository`, and `WorkspaceRepository`.\n4. Create Data Repository Implementations in `lib/data/repositories/`: `ImageStorageRepositoryImpl`, `LabProcessingRepositoryImpl`, and `WorkspaceRepositoryImpl` with Firestore and Storage integration.\n5. Create Domain Usecases in `lib/domain/usecases/specialist/`: `UploadImageForAiAnalysis`, `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`.\n6. Implement `AiAnalysisCubit` in `lib/logic/bloc/specialist/` to manage the async states of image upload and AI waiting.\n7. Refactor `WorkspaceCubit` in `lib/logic/bloc/workspace/` to use the new `Chromosome` entity and integrate with `UpdateChromosomePosition` usecase.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "specialist",
+          "event-driven"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Specialist Data \u0026 Logic Layer Implementation"
+      }
+    },
+    {
+      "id": "v9",
+      "taskId": "hw3mgj",
+      "version": 9,
+      "timestamp": "2026-04-29T09:37:59.6983698Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.\nDone: Created Domain Repository Interfaces and Data Repository Implementations for ImageStorage, LabProcessing, and Workspace.\nDone: Created Domain Usecases: UploadImageForAiAnalysis, UpdateSampleLabStatus, UpdateChromosomePosition, and SubmitResultForApproval.\nDone: Implemented AiAnalysisCubit to manage async AI processing states and refactored WorkspaceCubit for hybrid state management using the new entities and usecases.",
+          "newValue": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.\nDone: Created Domain Repository Interfaces and Data Repository Implementations for ImageStorage, LabProcessing, and Workspace.\nDone: Created Domain Usecases: UploadImageForAiAnalysis, UpdateSampleLabStatus, UpdateChromosomePosition, and SubmitResultForApproval.\nDone: Implemented AiAnalysisCubit to manage async AI processing states and refactored WorkspaceCubit for hybrid state management using the new entities and usecases.\nDone: Passed dart analyze. All requirements for Domain, Data, and Logic layers implemented."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Core Entities: Update/Create `MetaphaseImage` and `Chromosome` entities/models.",
+            "completed": true
+          },
+          {
+            "text": "Data (Storage): Implement `ImageStorageRepository` to handle uploading raw images to Firebase Cloud Storage.",
+            "completed": true
+          },
+          {
+            "text": "Data (Firestore): Implement `LabProcessingRepository` (to update sample processing status).",
+            "completed": true
+          },
+          {
+            "text": "Data (Firestore): Implement `WorkspaceRepository` (to stream the `chromosomes` sub-collection for real-time Riverpod updates).",
+            "completed": true
+          },
+          {
+            "text": "Domain (Usecases): Implement `UploadImageForAiAnalysis` (uploads to Storage and creates a Firestore record with `status: 'UPLOADED'`).",
+            "completed": true
+          },
+          {
+            "text": "Domain (Usecases): Implement `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`.",
+            "completed": true
+          },
+          {
+            "text": "Logic (Cubit): Implement `AiAnalysisCubit` to handle the asynchronous UI state (Uploading -\u003e Waiting for Backend -\u003e Success/Failure).",
+            "completed": true
+          },
+          {
+            "text": "Logic (Cubit): Implement `WorkspaceCubit` to handle hybrid state management (offline drag-and-drop before Firestore sync).",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement the Domain, Data, and Logic layers for the Lab Specialist role using an Event-Driven architecture for AI integration. The Flutter app will act as a reactive client—uploading images and listening for results—while offloading the heavy Ngrok/FastAPI calls entirely to the Backend.",
+        "implementationNotes": "Done: Created Chromosome and MetaphaseImage entities. Refactored ChromosomeModel and created MetaphaseImageModel with fromEntity convention.\nDone: Created Domain Repository Interfaces and Data Repository Implementations for ImageStorage, LabProcessing, and Workspace.\nDone: Created Domain Usecases: UploadImageForAiAnalysis, UpdateSampleLabStatus, UpdateChromosomePosition, and SubmitResultForApproval.\nDone: Implemented AiAnalysisCubit to manage async AI processing states and refactored WorkspaceCubit for hybrid state management using the new entities and usecases.\nDone: Passed dart analyze. All requirements for Domain, Data, and Logic layers implemented.",
+        "implementationPlan": "1. Create `Chromosome` and `MetaphaseImage` entities in `lib/domain/entities/`.\n2. Refactor `ChromosomeModel` and create `MetaphaseImageModel` in `lib/data/models/` implementing the `fromEntity` convention (see @memory/e83enb).\n3. Create Domain Repository Interfaces in `lib/domain/repositories/`: `ImageStorageRepository`, `LabProcessingRepository`, and `WorkspaceRepository`.\n4. Create Data Repository Implementations in `lib/data/repositories/`: `ImageStorageRepositoryImpl`, `LabProcessingRepositoryImpl`, and `WorkspaceRepositoryImpl` with Firestore and Storage integration.\n5. Create Domain Usecases in `lib/domain/usecases/specialist/`: `UploadImageForAiAnalysis`, `UpdateSampleLabStatus`, `UpdateChromosomePosition`, and `SubmitResultForApproval`.\n6. Implement `AiAnalysisCubit` in `lib/logic/bloc/specialist/` to manage the async states of image upload and AI waiting.\n7. Refactor `WorkspaceCubit` in `lib/logic/bloc/workspace/` to use the new `Chromosome` entity and integrate with `UpdateChromosomePosition` usecase.",
+        "labels": [
+          "domain",
+          "data",
+          "logic",
+          "specialist",
+          "event-driven"
+        ],
+        "priority": "high",
+        "status": "done",
         "title": "Specialist Data \u0026 Logic Layer Implementation"
       }
     }

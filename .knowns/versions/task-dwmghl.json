@@ -1,0 +1,63 @@
+{
+  "taskId": "dwmghl",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "dwmghl",
+      "version": 1,
+      "timestamp": "2026-04-29T09:12:34.4600377Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Build the AppHeader widget with Breadcrumbs, User Profile, and Notifications badge. Should integrate with AuthService and Route management.",
+        "labels": [
+          "from-spec",
+          "ui"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "AppHeader Component Implementation"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "dwmghl",
+      "version": 2,
+      "timestamp": "2026-04-29T13:45:15.8303085Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Duplicate of zuhdmz (AppHeader Component) which is already completed."
+        }
+      ],
+      "snapshot": {
+        "description": "Build the AppHeader widget with Breadcrumbs, User Profile, and Notifications badge. Should integrate with AuthService and Route management.",
+        "implementationNotes": "Duplicate of zuhdmz (AppHeader Component) which is already completed.",
+        "labels": [
+          "from-spec",
+          "ui"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "AppHeader Component Implementation"
+      }
+    }
+  ]
+}

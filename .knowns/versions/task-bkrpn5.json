@@ -1,0 +1,132 @@
+{
+  "taskId": "bkrpn5",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "bkrpn5",
+      "version": 1,
+      "timestamp": "2026-04-29T09:14:45.5782415Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Xây dựng Widget hiển thị các ô thống kê (Bento Box) dựa trên dữ liệu từ Cubit.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Bento Box UI Components (UI)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "bkrpn5",
+      "version": 2,
+      "timestamp": "2026-04-29T09:14:51.8541702Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Xây dựng UI 4 card Bento Box với màu sắc và icons theo status"
+            },
+            {
+              "completed": false,
+              "text": "Binding dữ liệu stats từ SpecialistDashboardCubit"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng UI 4 card Bento Box với màu sắc và icons theo status"
+          },
+          {
+            "completed": false,
+            "text": "Binding dữ liệu stats từ SpecialistDashboardCubit"
+          }
+        ],
+        "description": "Xây dựng Widget hiển thị các ô thống kê (Bento Box) dựa trên dữ liệu từ Cubit.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Bento Box UI Components (UI)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "bkrpn5",
+      "version": 3,
+      "timestamp": "2026-04-29T09:19:05.115192Z",
+      "changes": [
+        {
+          "field": "description",
+          "oldValue": "Xây dựng Widget hiển thị các ô thống kê (Bento Box) dựa trên dữ liệu từ Cubit.",
+          "newValue": "Xây dựng Widget hiển thị các ô thống kê (Bento Box) dựa trên dữ liệu từ Cubit. Phụ thuộc vào @task-fk1mqa."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng UI 4 card Bento Box với màu sắc và icons theo status"
+          },
+          {
+            "completed": false,
+            "text": "Binding dữ liệu stats từ SpecialistDashboardCubit"
+          }
+        ],
+        "description": "Xây dựng Widget hiển thị các ô thống kê (Bento Box) dựa trên dữ liệu từ Cubit. Phụ thuộc vào @task-fk1mqa.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Bento Box UI Components (UI)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "bkrpn5",
+      "version": 4,
+      "timestamp": "2026-04-29T14:01:26.4527667Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented SpecialistBentoStats with real-time data binding. Refined SpecialistStats entity with a total getter. Validation passed with 0 errors."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Xây dựng UI 4 card Bento Box với màu sắc và icons theo status",
+            "completed": true
+          },
+          {
+            "text": "Binding dữ liệu stats từ SpecialistDashboardCubit",
+            "completed": true
+          }
+        ],
+        "description": "Xây dựng Widget hiển thị các ô thống kê (Bento Box) dựa trên dữ liệu từ Cubit. Phụ thuộc vào @task-fk1mqa.",
+        "implementationNotes": "Implemented SpecialistBentoStats with real-time data binding. Refined SpecialistStats entity with a total getter. Validation passed with 0 errors.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Bento Box UI Components (UI)"
+      }
+    }
+  ]
+}

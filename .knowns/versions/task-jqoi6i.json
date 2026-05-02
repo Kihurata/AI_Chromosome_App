@@ -1,0 +1,103 @@
+{
+  "taskId": "jqoi6i",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "jqoi6i",
+      "version": 1,
+      "timestamp": "2026-04-29T09:22:10.421452Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Gửi thông báo FCM cho Specialist khi có phiếu xét nghiệm mới được phân công.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Real-time Assignment Notifications (Backend)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "jqoi6i",
+      "version": 2,
+      "timestamp": "2026-05-01T17:09:12.7422358Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Gửi thông báo FCM cho Specialist khi có phiếu xét nghiệm mới được phân công.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Real-time Assignment Notifications (Backend)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "jqoi6i",
+      "version": 3,
+      "timestamp": "2026-05-01T17:09:25.3907755Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Create Notification Service**: Implement `backend/app/services/notification_service.py` to handle Firebase Cloud Messaging (FCM).\n   - Fetch specialist FCM tokens from the `users` collection.\n   - Send push notifications with relevant context (Patient Name, Order ID).\n2. **Update Firestore Listener**: Extend the universal listener in `backend/app/services/firestore_listener.py` to:\n   - Track `specialist_id` in the in-memory cache.\n   - Detect when an order is assigned (transition from `None` to a UID).\n   - Trigger the notification service automatically.\n3. **Error Handling**: Ensure that if a specialist has no FCM token registered, the system logs a warning but doesn't crash the listener.\n4. **Validation**: Create a test script `backend/scripts/test_assignment_notifications.py` to verify the assignment detection logic and mock/dry-run FCM delivery."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Gửi thông báo FCM cho Specialist khi có phiếu xét nghiệm mới được phân công.",
+        "implementationPlan": "## Implementation Plan\n1. **Create Notification Service**: Implement `backend/app/services/notification_service.py` to handle Firebase Cloud Messaging (FCM).\n   - Fetch specialist FCM tokens from the `users` collection.\n   - Send push notifications with relevant context (Patient Name, Order ID).\n2. **Update Firestore Listener**: Extend the universal listener in `backend/app/services/firestore_listener.py` to:\n   - Track `specialist_id` in the in-memory cache.\n   - Detect when an order is assigned (transition from `None` to a UID).\n   - Trigger the notification service automatically.\n3. **Error Handling**: Ensure that if a specialist has no FCM token registered, the system logs a warning but doesn't crash the listener.\n4. **Validation**: Create a test script `backend/scripts/test_assignment_notifications.py` to verify the assignment detection logic and mock/dry-run FCM delivery.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Real-time Assignment Notifications (Backend)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "jqoi6i",
+      "version": 4,
+      "timestamp": "2026-05-01T17:10:43.1695332Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented real-time assignment notifications using FCM. The backend now listens for specialist_id changes on test_orders and notifies the specialist immediately. Verified trigger logic with a dedicated test script."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Gửi thông báo FCM cho Specialist khi có phiếu xét nghiệm mới được phân công.",
+        "implementationNotes": "Implemented real-time assignment notifications using FCM. The backend now listens for specialist_id changes on test_orders and notifies the specialist immediately. Verified trigger logic with a dedicated test script.",
+        "implementationPlan": "## Implementation Plan\n1. **Create Notification Service**: Implement `backend/app/services/notification_service.py` to handle Firebase Cloud Messaging (FCM).\n   - Fetch specialist FCM tokens from the `users` collection.\n   - Send push notifications with relevant context (Patient Name, Order ID).\n2. **Update Firestore Listener**: Extend the universal listener in `backend/app/services/firestore_listener.py` to:\n   - Track `specialist_id` in the in-memory cache.\n   - Detect when an order is assigned (transition from `None` to a UID).\n   - Trigger the notification service automatically.\n3. **Error Handling**: Ensure that if a specialist has no FCM token registered, the system logs a warning but doesn't crash the listener.\n4. **Validation**: Create a test script `backend/scripts/test_assignment_notifications.py` to verify the assignment detection logic and mock/dry-run FCM delivery.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Real-time Assignment Notifications (Backend)"
+      }
+    }
+  ]
+}

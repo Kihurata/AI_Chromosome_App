@@ -1,0 +1,182 @@
+{
+  "taskId": "zuhdmz",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "zuhdmz",
+      "version": 1,
+      "timestamp": "2026-04-29T09:14:44.0751089Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Xây dựng Widget AppHeader hiển thị Breadcrumbs, thông tin User và chuông thông báo.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "AppHeader Component (UI)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "zuhdmz",
+      "version": 2,
+      "timestamp": "2026-04-29T09:14:49.9189739Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Xây dựng UI AppHeader với Breadcrumbs tự động"
+            },
+            {
+              "completed": false,
+              "text": "Hiển thị thông tin User và nút Logout"
+            },
+            {
+              "completed": false,
+              "text": "Hiển thị Notifications icon với Badge"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng UI AppHeader với Breadcrumbs tự động"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị thông tin User và nút Logout"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị Notifications icon với Badge"
+          }
+        ],
+        "description": "Xây dựng Widget AppHeader hiển thị Breadcrumbs, thông tin User và chuông thông báo.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "AppHeader Component (UI)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "zuhdmz",
+      "version": 3,
+      "timestamp": "2026-04-29T09:19:04.0109943Z",
+      "changes": [
+        {
+          "field": "description",
+          "oldValue": "Xây dựng Widget AppHeader hiển thị Breadcrumbs, thông tin User và chuông thông báo.",
+          "newValue": "Xây dựng Widget AppHeader hiển thị Breadcrumbs, thông tin User và chuông thông báo. Phụ thuộc vào @task-f9ugr0 (để toggle sidebar/breadcrumbs logic)."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng UI AppHeader với Breadcrumbs tự động"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị thông tin User và nút Logout"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị Notifications icon với Badge"
+          }
+        ],
+        "description": "Xây dựng Widget AppHeader hiển thị Breadcrumbs, thông tin User và chuông thông báo. Phụ thuộc vào @task-f9ugr0 (để toggle sidebar/breadcrumbs logic).",
+        "priority": "medium",
+        "status": "todo",
+        "title": "AppHeader Component (UI)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "zuhdmz",
+      "version": 4,
+      "timestamp": "2026-04-29T09:34:54.9969958Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Refactor AppHeader**: Cập nhật `lib/presentation/widgets/shared/navigation/app_header.dart` thành một `ConsumerWidget`.\n2. **Breadcrumbs Logic**: \n    - Lấy current path từ `GoRouter`.\n    - Ánh xạ các segment của path sang tên tiếng Việt (VD: `receptionist` -\\u003e `Tiếp nhận`, `patients` -\\u003e `Bệnh nhân`).\n    - Hiển thị danh sách breadcrumbs có thể click được.\n3. **User Profile \\u0026 Logout**:\n    - Lấy thông tin `displayName` và `role` từ `authNotifierProvider`.\n    - Hiển thị Avatar (initials).\n    - Tích hợp nút Logout gọi action logout từ `AuthCubit`.\n4. **Notifications**: Hiển thị icon chuông với Badge đỏ cho thông báo mới.\n\n## Verification Plan\n- Kiểm tra Breadcrumbs thay đổi chính xác khi chuyển giữa các Route (VD: `/receptionist/patients` và `/receptionist/patients/detail`).\n- Kiểm tra thông tin User hiển thị đúng theo tài khoản đang đăng nhập.\n- Kiểm tra tính năng Logout chuyển người dùng về trang Login."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng UI AppHeader với Breadcrumbs tự động"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị thông tin User và nút Logout"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị Notifications icon với Badge"
+          }
+        ],
+        "description": "Xây dựng Widget AppHeader hiển thị Breadcrumbs, thông tin User và chuông thông báo. Phụ thuộc vào @task-f9ugr0 (để toggle sidebar/breadcrumbs logic).",
+        "implementationPlan": "## Implementation Plan\n1. **Refactor AppHeader**: Cập nhật `lib/presentation/widgets/shared/navigation/app_header.dart` thành một `ConsumerWidget`.\n2. **Breadcrumbs Logic**: \n    - Lấy current path từ `GoRouter`.\n    - Ánh xạ các segment của path sang tên tiếng Việt (VD: `receptionist` -\\u003e `Tiếp nhận`, `patients` -\\u003e `Bệnh nhân`).\n    - Hiển thị danh sách breadcrumbs có thể click được.\n3. **User Profile \\u0026 Logout**:\n    - Lấy thông tin `displayName` và `role` từ `authNotifierProvider`.\n    - Hiển thị Avatar (initials).\n    - Tích hợp nút Logout gọi action logout từ `AuthCubit`.\n4. **Notifications**: Hiển thị icon chuông với Badge đỏ cho thông báo mới.\n\n## Verification Plan\n- Kiểm tra Breadcrumbs thay đổi chính xác khi chuyển giữa các Route (VD: `/receptionist/patients` và `/receptionist/patients/detail`).\n- Kiểm tra thông tin User hiển thị đúng theo tài khoản đang đăng nhập.\n- Kiểm tra tính năng Logout chuyển người dùng về trang Login.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "AppHeader Component (UI)"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "zuhdmz",
+      "version": 5,
+      "timestamp": "2026-04-29T09:36:11.5108641Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Xây dựng UI AppHeader với Breadcrumbs tự động",
+            "completed": true
+          },
+          {
+            "text": "Hiển thị thông tin User và nút Logout",
+            "completed": true
+          },
+          {
+            "text": "Hiển thị Notifications icon với Badge",
+            "completed": true
+          }
+        ],
+        "description": "Xây dựng Widget AppHeader hiển thị Breadcrumbs, thông tin User và chuông thông báo. Phụ thuộc vào @task-f9ugr0 (để toggle sidebar/breadcrumbs logic).",
+        "implementationPlan": "## Implementation Plan\n1. **Refactor AppHeader**: Cập nhật `lib/presentation/widgets/shared/navigation/app_header.dart` thành một `ConsumerWidget`.\n2. **Breadcrumbs Logic**: \n    - Lấy current path từ `GoRouter`.\n    - Ánh xạ các segment của path sang tên tiếng Việt (VD: `receptionist` -\\u003e `Tiếp nhận`, `patients` -\\u003e `Bệnh nhân`).\n    - Hiển thị danh sách breadcrumbs có thể click được.\n3. **User Profile \\u0026 Logout**:\n    - Lấy thông tin `displayName` và `role` từ `authNotifierProvider`.\n    - Hiển thị Avatar (initials).\n    - Tích hợp nút Logout gọi action logout từ `AuthCubit`.\n4. **Notifications**: Hiển thị icon chuông với Badge đỏ cho thông báo mới.\n\n## Verification Plan\n- Kiểm tra Breadcrumbs thay đổi chính xác khi chuyển giữa các Route (VD: `/receptionist/patients` và `/receptionist/patients/detail`).\n- Kiểm tra thông tin User hiển thị đúng theo tài khoản đang đăng nhập.\n- Kiểm tra tính năng Logout chuyển người dùng về trang Login.",
+        "priority": "medium",
+        "status": "done",
+        "title": "AppHeader Component (UI)"
+      }
+    }
+  ]
+}

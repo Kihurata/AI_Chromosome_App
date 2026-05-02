@@ -1,0 +1,182 @@
+{
+  "taskId": "i0pvui",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "i0pvui",
+      "version": 1,
+      "timestamp": "2026-04-29T09:14:44.5936163Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Xây dựng thanh điều hướng dọc với danh sách menu lọc theo Role.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "AppSideRail Component (UI)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "i0pvui",
+      "version": 2,
+      "timestamp": "2026-04-29T09:14:50.4539709Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Xây dựng SideRail hỗ trợ Expand/Collapse animation"
+            },
+            {
+              "completed": false,
+              "text": "Lọc danh sách NavItem theo AppRole của user hiện tại"
+            },
+            {
+              "completed": false,
+              "text": "Gắn sự kiện chuyển trang bằng GoRouter/AppRouter"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng SideRail hỗ trợ Expand/Collapse animation"
+          },
+          {
+            "completed": false,
+            "text": "Lọc danh sách NavItem theo AppRole của user hiện tại"
+          },
+          {
+            "completed": false,
+            "text": "Gắn sự kiện chuyển trang bằng GoRouter/AppRouter"
+          }
+        ],
+        "description": "Xây dựng thanh điều hướng dọc với danh sách menu lọc theo Role.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "AppSideRail Component (UI)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "i0pvui",
+      "version": 3,
+      "timestamp": "2026-04-29T09:19:04.3182572Z",
+      "changes": [
+        {
+          "field": "description",
+          "oldValue": "Xây dựng thanh điều hướng dọc với danh sách menu lọc theo Role.",
+          "newValue": "Xây dựng thanh điều hướng dọc với danh sách menu lọc theo Role. Phụ thuộc vào @task-f9ugr0 (quản lý trạng thái đóng/mở)."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng SideRail hỗ trợ Expand/Collapse animation"
+          },
+          {
+            "completed": false,
+            "text": "Lọc danh sách NavItem theo AppRole của user hiện tại"
+          },
+          {
+            "completed": false,
+            "text": "Gắn sự kiện chuyển trang bằng GoRouter/AppRouter"
+          }
+        ],
+        "description": "Xây dựng thanh điều hướng dọc với danh sách menu lọc theo Role. Phụ thuộc vào @task-f9ugr0 (quản lý trạng thái đóng/mở).",
+        "priority": "medium",
+        "status": "todo",
+        "title": "AppSideRail Component (UI)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "i0pvui",
+      "version": 4,
+      "timestamp": "2026-04-29T09:33:34.2097414Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Create AppSideRail**: Xây dựng widget `AppSideRail` tại `lib/presentation/widgets/shared/navigation/app_side_rail.dart`.\n2. **Centralized State**: Sử dụng `BlocBuilder\u003cLayoutCubit, LayoutState\u003e` để lắng nghe trạng thái `isSidebarCollapsed`.\n3. **Role-based Navigation**: Sử dụng `ref.watch(filteredNavItemsProvider)` để lấy danh sách menu theo quyền của User.\n4. **UI Details**: \n    - Hiệu ứng `AnimatedContainer` cho việc co giãn sidebar (230px \\u003c-\\u003e 72px).\n    - Hiển thị Logo và tên ứng dụng (ẩn tên khi co lại).\n    - Tích hợp nút Toggle gọi `LayoutCubit.toggleSidebar()`.\n5. **Event Handling**: Gọi `context.go()` khi người dùng chọn một mục menu.\n\n## Verification Plan\n- Kiểm tra tính năng co giãn sidebar khi bấm nút Toggle.\n- Kiểm tra danh sách menu thay đổi chính xác khi Login với các Role khác nhau (Receptionist, Specialist).\n- Kiểm tra tính năng chuyển trang khi click menu."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng SideRail hỗ trợ Expand/Collapse animation"
+          },
+          {
+            "completed": false,
+            "text": "Lọc danh sách NavItem theo AppRole của user hiện tại"
+          },
+          {
+            "completed": false,
+            "text": "Gắn sự kiện chuyển trang bằng GoRouter/AppRouter"
+          }
+        ],
+        "description": "Xây dựng thanh điều hướng dọc với danh sách menu lọc theo Role. Phụ thuộc vào @task-f9ugr0 (quản lý trạng thái đóng/mở).",
+        "implementationPlan": "## Implementation Plan\n1. **Create AppSideRail**: Xây dựng widget `AppSideRail` tại `lib/presentation/widgets/shared/navigation/app_side_rail.dart`.\n2. **Centralized State**: Sử dụng `BlocBuilder\u003cLayoutCubit, LayoutState\u003e` để lắng nghe trạng thái `isSidebarCollapsed`.\n3. **Role-based Navigation**: Sử dụng `ref.watch(filteredNavItemsProvider)` để lấy danh sách menu theo quyền của User.\n4. **UI Details**: \n    - Hiệu ứng `AnimatedContainer` cho việc co giãn sidebar (230px \\u003c-\\u003e 72px).\n    - Hiển thị Logo và tên ứng dụng (ẩn tên khi co lại).\n    - Tích hợp nút Toggle gọi `LayoutCubit.toggleSidebar()`.\n5. **Event Handling**: Gọi `context.go()` khi người dùng chọn một mục menu.\n\n## Verification Plan\n- Kiểm tra tính năng co giãn sidebar khi bấm nút Toggle.\n- Kiểm tra danh sách menu thay đổi chính xác khi Login với các Role khác nhau (Receptionist, Specialist).\n- Kiểm tra tính năng chuyển trang khi click menu.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "AppSideRail Component (UI)"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "i0pvui",
+      "version": 5,
+      "timestamp": "2026-04-29T09:34:09.8969559Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Xây dựng SideRail hỗ trợ Expand/Collapse animation",
+            "completed": true
+          },
+          {
+            "text": "Lọc danh sách NavItem theo AppRole của user hiện tại",
+            "completed": true
+          },
+          {
+            "text": "Gắn sự kiện chuyển trang bằng GoRouter/AppRouter",
+            "completed": true
+          }
+        ],
+        "description": "Xây dựng thanh điều hướng dọc với danh sách menu lọc theo Role. Phụ thuộc vào @task-f9ugr0 (quản lý trạng thái đóng/mở).",
+        "implementationPlan": "## Implementation Plan\n1. **Create AppSideRail**: Xây dựng widget `AppSideRail` tại `lib/presentation/widgets/shared/navigation/app_side_rail.dart`.\n2. **Centralized State**: Sử dụng `BlocBuilder\u003cLayoutCubit, LayoutState\u003e` để lắng nghe trạng thái `isSidebarCollapsed`.\n3. **Role-based Navigation**: Sử dụng `ref.watch(filteredNavItemsProvider)` để lấy danh sách menu theo quyền của User.\n4. **UI Details**: \n    - Hiệu ứng `AnimatedContainer` cho việc co giãn sidebar (230px \\u003c-\\u003e 72px).\n    - Hiển thị Logo và tên ứng dụng (ẩn tên khi co lại).\n    - Tích hợp nút Toggle gọi `LayoutCubit.toggleSidebar()`.\n5. **Event Handling**: Gọi `context.go()` khi người dùng chọn một mục menu.\n\n## Verification Plan\n- Kiểm tra tính năng co giãn sidebar khi bấm nút Toggle.\n- Kiểm tra danh sách menu thay đổi chính xác khi Login với các Role khác nhau (Receptionist, Specialist).\n- Kiểm tra tính năng chuyển trang khi click menu.",
+        "priority": "medium",
+        "status": "done",
+        "title": "AppSideRail Component (UI)"
+      }
+    }
+  ]
+}

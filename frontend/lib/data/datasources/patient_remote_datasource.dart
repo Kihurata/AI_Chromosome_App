@@ -8,6 +8,7 @@ abstract class PatientRemoteDataSource {
   Future<void> addPatient(PatientModel patient);
   Future<void> updatePatient(PatientModel patient);
   Future<PatientModel> getPatientById(String id);
+  Future<PatientModel?> checkDuplicatePatient({String? identityCard, String? phone});
 }
 
 @LazySingleton(as: PatientRemoteDataSource)
@@ -56,6 +57,37 @@ class PatientRemoteDataSourceImpl implements PatientRemoteDataSource {
           .update(patient.toFirestore());
     } catch (e) {
       throw ServerException(message: "Không thể cập nhật thông tin bệnh nhân");
+    }
+  }
+
+  @override
+  Future<PatientModel?> checkDuplicatePatient({String? identityCard, String? phone}) async {
+    try {
+      if (identityCard != null && identityCard.isNotEmpty) {
+        final snap = await firestore
+            .collection('patients')
+            .where('identityCard', isEqualTo: identityCard)
+            .limit(1)
+            .get();
+        if (snap.docs.isNotEmpty) {
+          return PatientModel.fromFirestore(snap.docs.first);
+        }
+      }
+
+      if (phone != null && phone.isNotEmpty) {
+        final snap = await firestore
+            .collection('patients')
+            .where('phone', isEqualTo: phone)
+            .limit(1)
+            .get();
+        if (snap.docs.isNotEmpty) {
+          return PatientModel.fromFirestore(snap.docs.first);
+        }
+      }
+
+      return null;
+    } catch (e) {
+      throw ServerException(message: "Lỗi kiểm tra trùng lặp bệnh nhân");
     }
   }
 }

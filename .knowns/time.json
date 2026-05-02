@@ -1,3 +1,11 @@
 {
-  "active": []
+  "active": [
+    {
+      "taskId": "f9ugr0",
+      "taskTitle": "Layout State Management (Logic)",
+      "startedAt": "2026-04-29T09:16:01.824Z",
+      "pausedAt": null,
+      "totalPausedMs": 0
+    }
+  ]
 }

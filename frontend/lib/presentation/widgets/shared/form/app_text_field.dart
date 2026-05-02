@@ -12,10 +12,12 @@ class AppTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final int maxLines;
   final void Function(String)? onChanged;
+  final String? initialValue;
 
   const AppTextField({
     super.key,
     this.controller,
+    this.initialValue,
     this.hintText,
     this.labelText,
     this.prefixIcon,
@@ -45,6 +47,7 @@ class AppTextField extends StatelessWidget {
         ],
         TextFormField(
           controller: controller,
+          initialValue: initialValue,
           obscureText: obscureText,
           validator: validator,
           keyboardType: keyboardType,

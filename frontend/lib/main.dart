@@ -121,10 +121,16 @@ class MedCoreApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Đọc config router từ provider đã định nghĩa trong app_router.dart
     final router = ref.watch(appRouterProvider);
+
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'MedCore CRM',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(
+        useMaterial3: true,
+        primarySwatch: Colors.blue,
+      ),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -134,9 +140,7 @@ class MedCoreApp extends ConsumerWidget {
         Locale('vi', 'VN'),
         Locale('en', 'US'),
       ],
-      // Báo cho Flutter biết: Hãy giao việc điều hướng cho appRouterProvider quản lý
       routerConfig: router,
     );
   }
 }
-

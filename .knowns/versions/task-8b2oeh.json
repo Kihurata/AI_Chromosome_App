@@ -1,0 +1,36 @@
+{
+  "taskId": "8b2oeh",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "8b2oeh",
+      "version": 1,
+      "timestamp": "2026-04-29T15:03:16.5495845Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai giao diện Grid và Drag \u0026 Drop cho lưới NST chuẩn ở Bước 3. Áp dụng Optimistic UI và RxDart (Debounce 1.5s) để auto-save toạ độ từng NST lên Firestore sau khi thả chuột. Sử dụng cơ chế Image Caching (Image.network) của hệ điều hành.",
+        "labels": [
+          "ui",
+          "logic",
+          "workspace",
+          "performance"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Drag \u0026 Drop NST đồ (UI/Logic) - Bước 3"
+      }
+    }
+  ]
+}

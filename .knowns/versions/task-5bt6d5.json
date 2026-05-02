@@ -1,0 +1,110 @@
+{
+  "taskId": "5bt6d5",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "5bt6d5",
+      "version": 1,
+      "timestamp": "2026-04-29T09:26:21.5331598Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Tạo WatchAssignedOrders usecase.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Create WatchAssignedOrders Usecase (Domain)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "5bt6d5",
+      "version": 2,
+      "timestamp": "2026-04-29T09:44:17.940644Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Tạo class WatchAssignedOrders trong lib/domain/usecases/specialist/."
+            },
+            {
+              "completed": false,
+              "text": "Method call nhận specialistId và gọi TestOrderRepository.watchAssignedOrders."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Tạo file `lib/domain/usecases/specialist/watch_assigned_orders.dart`.\n2. Khai báo class `WatchAssignedOrders` với dependency `TestOrderRepository`.\n3. Implement method `call(String specialistId)` trả về `Stream\u003cEither\u003cFailure, List\u003cTestOrder\u003e\u003e\u003e` bằng cách gọi repository."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo class WatchAssignedOrders trong lib/domain/usecases/specialist/."
+          },
+          {
+            "completed": false,
+            "text": "Method call nhận specialistId và gọi TestOrderRepository.watchAssignedOrders."
+          }
+        ],
+        "description": "Tạo WatchAssignedOrders usecase.",
+        "implementationPlan": "1. Tạo file `lib/domain/usecases/specialist/watch_assigned_orders.dart`.\n2. Khai báo class `WatchAssignedOrders` với dependency `TestOrderRepository`.\n3. Implement method `call(String specialistId)` trả về `Stream\u003cEither\u003cFailure, List\u003cTestOrder\u003e\u003e\u003e` bằng cách gọi repository.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Create WatchAssignedOrders Usecase (Domain)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "5bt6d5",
+      "version": 3,
+      "timestamp": "2026-04-29T09:44:50.0388397Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Created WatchAssignedOrders usecase and passed dart analyze."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Tạo class WatchAssignedOrders trong lib/domain/usecases/specialist/.",
+            "completed": true
+          },
+          {
+            "text": "Method call nhận specialistId và gọi TestOrderRepository.watchAssignedOrders.",
+            "completed": true
+          }
+        ],
+        "description": "Tạo WatchAssignedOrders usecase.",
+        "implementationNotes": "Done: Created WatchAssignedOrders usecase and passed dart analyze.",
+        "implementationPlan": "1. Tạo file `lib/domain/usecases/specialist/watch_assigned_orders.dart`.\n2. Khai báo class `WatchAssignedOrders` với dependency `TestOrderRepository`.\n3. Implement method `call(String specialistId)` trả về `Stream\u003cEither\u003cFailure, List\u003cTestOrder\u003e\u003e\u003e` bằng cách gọi repository.",
+        "priority": "high",
+        "status": "done",
+        "title": "Create WatchAssignedOrders Usecase (Domain)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "taskId": "106t3s",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "106t3s",
+      "version": 1,
+      "timestamp": "2026-04-29T15:03:06.6854142Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai WorkspaceCubit để quản lý trạng thái Stepper (Bước 1 -\u003e 5). Cấu hình GoRouter với AppRoutes.specialistAnalysis và các nested routes. Xây dựng WorkspaceScreen kế thừa MainShell.",
+        "labels": [
+          "ui",
+          "logic",
+          "workspace"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Workspace Core \u0026 Navigation (UI/Logic)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "106t3s",
+      "version": 2,
+      "timestamp": "2026-04-29T18:03:51.1012438Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Update WorkspaceState and WorkspaceCubit to track `currentStep` (1-5) and handle step navigation logic (prevent skipping ahead).\n2. Create `WorkspaceScreen` (lib/presentation/screens/workspace/workspace_screen.dart) with a 5-step Stepper layout and a placeholder for each step.\n3. Update `AppRouter` to add the `specialistAnalysis` route mapped to `WorkspaceScreen`."
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai WorkspaceCubit để quản lý trạng thái Stepper (Bước 1 -\u003e 5). Cấu hình GoRouter với AppRoutes.specialistAnalysis và các nested routes. Xây dựng WorkspaceScreen kế thừa MainShell.",
+        "implementationPlan": "1. Update WorkspaceState and WorkspaceCubit to track `currentStep` (1-5) and handle step navigation logic (prevent skipping ahead).\n2. Create `WorkspaceScreen` (lib/presentation/screens/workspace/workspace_screen.dart) with a 5-step Stepper layout and a placeholder for each step.\n3. Update `AppRouter` to add the `specialistAnalysis` route mapped to `WorkspaceScreen`.",
+        "labels": [
+          "ui",
+          "logic",
+          "workspace"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Workspace Core \u0026 Navigation (UI/Logic)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "106t3s",
+      "version": 3,
+      "timestamp": "2026-04-29T18:04:52.0487749Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented WorkspaceCubit with currentStep and maxReachedStep. Created WorkspaceScreen with 5-step Stepper layout. Configured AppRouter for specialistAnalysis route."
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai WorkspaceCubit để quản lý trạng thái Stepper (Bước 1 -\u003e 5). Cấu hình GoRouter với AppRoutes.specialistAnalysis và các nested routes. Xây dựng WorkspaceScreen kế thừa MainShell.",
+        "implementationNotes": "Implemented WorkspaceCubit with currentStep and maxReachedStep. Created WorkspaceScreen with 5-step Stepper layout. Configured AppRouter for specialistAnalysis route.",
+        "implementationPlan": "1. Update WorkspaceState and WorkspaceCubit to track `currentStep` (1-5) and handle step navigation logic (prevent skipping ahead).\n2. Create `WorkspaceScreen` (lib/presentation/screens/workspace/workspace_screen.dart) with a 5-step Stepper layout and a placeholder for each step.\n3. Update `AppRouter` to add the `specialistAnalysis` route mapped to `WorkspaceScreen`.",
+        "labels": [
+          "ui",
+          "logic",
+          "workspace"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "Workspace Core \u0026 Navigation (UI/Logic)"
+      }
+    }
+  ]
+}

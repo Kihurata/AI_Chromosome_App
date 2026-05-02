@@ -1,0 +1,222 @@
+{
+  "taskId": "f9ugr0",
+  "currentVersion": 6,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "f9ugr0",
+      "version": 1,
+      "timestamp": "2026-04-29T09:14:43.7490529Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai LayoutCubit để quản lý trạng thái đóng/mở của Sidebar và các thông tin UI chung khác.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Layout State Management (Logic)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "f9ugr0",
+      "version": 2,
+      "timestamp": "2026-04-29T09:14:49.4443119Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Tạo LayoutCubit và LayoutState (isSidebarCollapsed)"
+            },
+            {
+              "completed": false,
+              "text": "Thêm phương thức toggleSidebar"
+            },
+            {
+              "completed": false,
+              "text": "Đăng ký vào injection.dart và chạy build_runner"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo LayoutCubit và LayoutState (isSidebarCollapsed)"
+          },
+          {
+            "completed": false,
+            "text": "Thêm phương thức toggleSidebar"
+          },
+          {
+            "completed": false,
+            "text": "Đăng ký vào injection.dart và chạy build_runner"
+          }
+        ],
+        "description": "Triển khai LayoutCubit để quản lý trạng thái đóng/mở của Sidebar và các thông tin UI chung khác.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Layout State Management (Logic)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "f9ugr0",
+      "version": 3,
+      "timestamp": "2026-04-29T09:16:01.4825651Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo LayoutCubit và LayoutState (isSidebarCollapsed)"
+          },
+          {
+            "completed": false,
+            "text": "Thêm phương thức toggleSidebar"
+          },
+          {
+            "completed": false,
+            "text": "Đăng ký vào injection.dart và chạy build_runner"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Triển khai LayoutCubit để quản lý trạng thái đóng/mở của Sidebar và các thông tin UI chung khác.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Layout State Management (Logic)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "f9ugr0",
+      "version": 4,
+      "timestamp": "2026-04-29T09:16:11.2449958Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Create Layout State**: Tạo `lib/logic/bloc/layout/layout_state.dart` định nghĩa `isSidebarCollapsed`.\n2. **Create Layout Cubit**: Triển khai `LayoutCubit` trong `lib/logic/bloc/layout/layout_cubit.dart` với phương thức `toggleSidebar()`.\n3. **DI Registration**: Sử dụng `@lazySingleton` cho `LayoutCubit` để duy trì trạng thái Sidebar xuyên suốt phiên làm việc.\n4. **Update DI**: Chạy `flutter pub run build_runner build` để cập nhật `injection.config.dart`.\n\n## Verification Plan\n- Chạy `dart analyze` để đảm bảo không có lỗi syntax.\n- Kiểm tra `injection.config.dart` xem `LayoutCubit` đã được đăng ký chưa."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo LayoutCubit và LayoutState (isSidebarCollapsed)"
+          },
+          {
+            "completed": false,
+            "text": "Thêm phương thức toggleSidebar"
+          },
+          {
+            "completed": false,
+            "text": "Đăng ký vào injection.dart và chạy build_runner"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Triển khai LayoutCubit để quản lý trạng thái đóng/mở của Sidebar và các thông tin UI chung khác.",
+        "implementationPlan": "## Implementation Plan\n1. **Create Layout State**: Tạo `lib/logic/bloc/layout/layout_state.dart` định nghĩa `isSidebarCollapsed`.\n2. **Create Layout Cubit**: Triển khai `LayoutCubit` trong `lib/logic/bloc/layout/layout_cubit.dart` với phương thức `toggleSidebar()`.\n3. **DI Registration**: Sử dụng `@lazySingleton` cho `LayoutCubit` để duy trì trạng thái Sidebar xuyên suốt phiên làm việc.\n4. **Update DI**: Chạy `flutter pub run build_runner build` để cập nhật `injection.config.dart`.\n\n## Verification Plan\n- Chạy `dart analyze` để đảm bảo không có lỗi syntax.\n- Kiểm tra `injection.config.dart` xem `LayoutCubit` đã được đăng ký chưa.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Layout State Management (Logic)"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "f9ugr0",
+      "version": 5,
+      "timestamp": "2026-04-29T09:23:48.0903568Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Starting implementation of LayoutCubit and LayoutState."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo LayoutCubit và LayoutState (isSidebarCollapsed)"
+          },
+          {
+            "completed": false,
+            "text": "Thêm phương thức toggleSidebar"
+          },
+          {
+            "completed": false,
+            "text": "Đăng ký vào injection.dart và chạy build_runner"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Triển khai LayoutCubit để quản lý trạng thái đóng/mở của Sidebar và các thông tin UI chung khác.",
+        "implementationNotes": "Starting implementation of LayoutCubit and LayoutState.",
+        "implementationPlan": "## Implementation Plan\n1. **Create Layout State**: Tạo `lib/logic/bloc/layout/layout_state.dart` định nghĩa `isSidebarCollapsed`.\n2. **Create Layout Cubit**: Triển khai `LayoutCubit` trong `lib/logic/bloc/layout/layout_cubit.dart` với phương thức `toggleSidebar()`.\n3. **DI Registration**: Sử dụng `@lazySingleton` cho `LayoutCubit` để duy trì trạng thái Sidebar xuyên suốt phiên làm việc.\n4. **Update DI**: Chạy `flutter pub run build_runner build` để cập nhật `injection.config.dart`.\n\n## Verification Plan\n- Chạy `dart analyze` để đảm bảo không có lỗi syntax.\n- Kiểm tra `injection.config.dart` xem `LayoutCubit` đã được đăng ký chưa.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Layout State Management (Logic)"
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "f9ugr0",
+      "version": 6,
+      "timestamp": "2026-04-29T09:24:50.5793363Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Tạo LayoutCubit và LayoutState (isSidebarCollapsed)",
+            "completed": true
+          },
+          {
+            "text": "Thêm phương thức toggleSidebar",
+            "completed": true
+          },
+          {
+            "text": "Đăng ký vào injection.dart và chạy build_runner",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Triển khai LayoutCubit để quản lý trạng thái đóng/mở của Sidebar và các thông tin UI chung khác.",
+        "implementationNotes": "Starting implementation of LayoutCubit and LayoutState.",
+        "implementationPlan": "## Implementation Plan\n1. **Create Layout State**: Tạo `lib/logic/bloc/layout/layout_state.dart` định nghĩa `isSidebarCollapsed`.\n2. **Create Layout Cubit**: Triển khai `LayoutCubit` trong `lib/logic/bloc/layout/layout_cubit.dart` với phương thức `toggleSidebar()`.\n3. **DI Registration**: Sử dụng `@lazySingleton` cho `LayoutCubit` để duy trì trạng thái Sidebar xuyên suốt phiên làm việc.\n4. **Update DI**: Chạy `flutter pub run build_runner build` để cập nhật `injection.config.dart`.\n\n## Verification Plan\n- Chạy `dart analyze` để đảm bảo không có lỗi syntax.\n- Kiểm tra `injection.config.dart` xem `LayoutCubit` đã được đăng ký chưa.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Layout State Management (Logic)"
+      }
+    }
+  ]
+}
