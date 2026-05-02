@@ -9,7 +9,7 @@ labels:
   - ui
   - logic
 createdAt: '2026-05-02T06:53:29.369Z'
-updatedAt: '2026-05-02T06:57:24.554Z'
+updatedAt: '2026-05-02T07:05:57.985Z'
 timeSpent: 231
 spec: specs/ai-integration-frontend
 fulfills:
@@ -28,4 +28,10 @@ Triển khai nút 'Bắt đầu phân tích AI' tại Bước 1 (Screening) và 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+📚 Extracted to @doc/learnings/learning-ai-frontend-integration-debugging and promoted to @doc/learnings/critical-patterns
+<!-- SECTION:NOTES:END -->
 

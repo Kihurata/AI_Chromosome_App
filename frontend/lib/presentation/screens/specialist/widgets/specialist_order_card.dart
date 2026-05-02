@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../domain/entities/test_order.dart';
-import '../../../../logic/bloc/specialist_dashboard/specialist_dashboard_cubit.dart';
+import '../../../../logic/bloc/specialist/specialist_dashboard_cubit.dart';
 import 'package:go_router/go_router.dart';
 
 class SpecialistOrderCard extends StatelessWidget {

@@ -2,7 +2,7 @@
 title: Critical Patterns
 description: Promoted learnings that save the most time. Read at session start via kn-init.
 createdAt: '2026-04-28T05:23:00.000Z'
-updatedAt: '2026-04-28T05:23:00.000Z'
+updatedAt: '2026-05-02T07:05:50.496Z'
 tags:
   - learning
   - critical
@@ -48,3 +48,15 @@ Any import of `package:cloud_firestore/cloud_firestore.dart` or `*_repository.da
 Legacy screens had `ClinicalRepository` injected as constructor params across 7 files — full refactor required. Enforce at PR review: reject any presentation file importing data-layer or Firestore packages directly.
 
 **Full entry**: @doc/learnings/receptionist-clean-architecture-refactor
+
+
+## [2026-05-02] AI Integration & Flutter Refactor Learnings
+**Category:** failure / decision
+**Source:** @task-ugibx7, @task-mtaugq
+**Tags:** [flutter, debugging, imports]
+
+*   **Import Depth Awareness:** Incorrect relative import depth in nested directories causes major lint errors. Always verify depth and consider using `flutter analyze` immediately after edits.
+*   **DI Registration:** Forgetting `@lazySingleton` or `@injectable` on new logic components results in `InvalidType` in generated DI code.
+*   **Header Replacement Safety:** When editing imports, ensure `package:flutter/material.dart` is preserved to avoid "Undefined name 'Text'" etc.
+
+**Full entry:** @doc/learnings/learning-ai-frontend-integration-debugging

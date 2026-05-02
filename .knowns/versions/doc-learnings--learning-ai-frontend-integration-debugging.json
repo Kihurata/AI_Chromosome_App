@@ -1,0 +1,45 @@
+{
+  "docPath": "learnings/learning-ai-frontend-integration-debugging",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "learnings/learning-ai-frontend-integration-debugging",
+      "version": 1,
+      "timestamp": "2026-05-02T07:05:43.6810478Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Learning: AI Frontend Integration Debugging"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Learnings and failures from the AI Frontend Integration task."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "learning",
+            "flutter",
+            "ai-integration",
+            "debugging"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "# Learning: AI Frontend Integration Debugging\n\n## Patterns\n\n### Reactive Firestore Polling in Cubit\n- **What:** Using `await for` with Firestore snapshots inside a Cubit to monitor backend-driven state changes.\n- **When to use:** When the UI needs to react to external triggers (AI server status updates) without continuous HTTP polling.\n- **Source:** @task-mtaugq\n\n## Decisions\n\n### Manual AI Trigger\n- **Chose:** Explicit \"Start AI\" button.\n- **Over:** Automatic background triggering.\n- **Tag:** GOOD_CALL\n- **Outcome:** Prevented accidental resource consumption and provided clear UX for when expensive operations start.\n- **Recommendation:** Always use explicit triggers for non-instant AI processing.\n\n### Non-blocking Thumbnail Overlays\n- **Chose:** Stack-based status indicators on images.\n- **Over:** Full-screen blocking loaders.\n- **Tag:** GOOD_CALL\n- **Outcome:** specialist can continue reviewing other images while one is being processed.\n\n## Failures\n\n### Relative Import Depth Error\n- **What went wrong:** 115 lint errors due to `../../../` instead of `../../../../`.\n- **Root cause:** Misjudgment of directory nesting when creating files in `lib/presentation/screens/workspace/steps/`.\n- **Time lost:** 15 minutes.\n- **Prevention:** Use `flutter analyze` immediately after creating new files. Consider using package imports for deep paths.\n\n### Accidental Deletion of Material Imports\n- **What went wrong:** `Text`, `Widget`, and `Icon` became undefined.\n- **Root cause:** `replace_file_content` overwrote the import section without including `material.dart`.\n- **Time lost:** 5 minutes.\n- **Prevention:** Always view the existing imports before replacing the header of a file.\n\n### Dependency Injection Omission\n- **What went wrong:** `InvalidType` in `injection.config.dart`.\n- **Root cause:** Forgot to annotate `UploadImageForAiAnalysis` and `TriggerAiAnalysis` with `@lazySingleton`.\n- **Time lost:** 10 minutes.\n- **Prevention:** Annotate every new Usecase/Repository/Cubit immediately upon creation.\n",
+        "description": "Learnings and failures from the AI Frontend Integration task.",
+        "tags": [
+          "learning",
+          "flutter",
+          "ai-integration",
+          "debugging"
+        ],
+        "title": "Learning: AI Frontend Integration Debugging"
+      }
+    }
+  ]
+}

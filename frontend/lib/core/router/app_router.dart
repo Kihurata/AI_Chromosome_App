@@ -18,6 +18,12 @@ import '../../presentation/screens/clinician/examination_form_screen.dart';
 import '../../presentation/screens/clinician/blood_test_prescription_screen.dart';
 import '../../presentation/screens/workspace/workspace_screen.dart';
 import '../../presentation/screens/manager/manager_dashboard_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../logic/bloc/specialist/ai_analysis_cubit.dart';
+import '../../logic/bloc/workspace/workspace_cubit.dart';
+import '../../domain/usecases/specialist/update_chromosome_position.dart';
+import '../../domain/usecases/test_order/submit_analysis_result.dart';
+import '../di/injection.dart';
 
 // ── Route path constants ──────────────────────────────────────────────────────
 class AppRoutes {
@@ -175,9 +181,24 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '${AppRoutes.specialistAnalysis}/:orderId',
             name: 'specialist-analysis',
-            builder: (context, state) => WorkspaceScreen(
-              orderId: state.pathParameters['orderId'] ?? '',
-            ),
+            builder: (context, state) {
+              final orderId = state.pathParameters['orderId'] ?? '';
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(create: (_) => getIt<AiAnalysisCubit>()),
+                  BlocProvider(
+                    create: (_) => WorkspaceCubit(
+                      updatePositionUsecase: getIt<UpdateChromosomePosition>(),
+                      submitAnalysisUsecase: getIt<SubmitAnalysisResult>(),
+                      orderId: orderId,
+                    ),
+                  ),
+                ],
+                child: WorkspaceScreen(
+                  orderId: orderId,
+                ),
+              );
+            },
           ),
           GoRoute(
             path: AppRoutes.managerDashboard,

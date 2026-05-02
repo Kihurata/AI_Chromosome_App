@@ -81,23 +81,27 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
   @override
   Stream<Either<Failure, List<TestOrder>>> watchAssignedOrders(
     String specialistId,
-  ) {
-    return remoteDataSource.watchAssignedOrders(specialistId).map<
-        Either<Failure, List<TestOrder>>>((models) {
-      return Right(models.map(_modelToEntity).toList());
-    }).handleError((error) {
-      return Left(ServerFailure(error.toString()));
-    });
+  ) async* {
+    try {
+      yield* remoteDataSource.watchAssignedOrders(specialistId).map<
+          Either<Failure, List<TestOrder>>>((models) {
+        return Right(models.map(_modelToEntity).toList());
+      });
+    } catch (e) {
+      yield Left(ServerFailure(e.toString()));
+    }
   }
 
   @override
-  Stream<Either<Failure, List<TestOrder>>> watchAllOrders() {
-    return remoteDataSource.watchAllOrders().map<
-        Either<Failure, List<TestOrder>>>((models) {
-      return Right(models.map(_modelToEntity).toList());
-    }).handleError((error) {
-      return Left(ServerFailure(error.toString()));
-    });
+  Stream<Either<Failure, List<TestOrder>>> watchAllOrders() async* {
+    try {
+      yield* remoteDataSource.watchAllOrders().map<
+          Either<Failure, List<TestOrder>>>((models) {
+        return Right(models.map(_modelToEntity).toList());
+      });
+    } catch (e) {
+      yield Left(ServerFailure(e.toString()));
+    }
   }
 
   TestOrder _modelToEntity(TestOrderModel model) {
