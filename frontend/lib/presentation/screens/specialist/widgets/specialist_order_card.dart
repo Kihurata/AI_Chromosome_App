@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../domain/entities/test_order.dart';
 import '../../../../logic/bloc/specialist_dashboard/specialist_dashboard_cubit.dart';
+import 'package:go_router/go_router.dart';
 
 class SpecialistOrderCard extends StatelessWidget {
   final TestOrder order;
@@ -18,7 +19,7 @@ class SpecialistOrderCard extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -31,7 +32,7 @@ class SpecialistOrderCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: _getStatusColor(order.status).withOpacity(0.1),
+                color: _getStatusColor(order.status).withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(_getStatusIcon(order.status), color: _getStatusColor(order.status), size: 24),
@@ -77,7 +78,7 @@ class SpecialistOrderCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: _getStatusColor(status).withOpacity(0.1),
+        color: _getStatusColor(status).withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
@@ -106,7 +107,7 @@ class SpecialistOrderCard extends StatelessWidget {
     if (order.status == TestOrderStatus.analyzing) {
       return OutlinedButton.icon(
         onPressed: () {
-          // TODO: Navigate to Workspace
+          context.goNamed('specialist-analysis', pathParameters: {'orderId': order.id});
         },
         icon: const Icon(LucideIcons.externalLink, size: 16),
         label: const Text('Tiếp tục'),

@@ -1,0 +1,90 @@
+{
+  "taskId": "30n63q",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "30n63q",
+      "version": 1,
+      "timestamp": "2026-05-01T09:46:14.805334Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai endpoint POST /api/analyze. Quản lý trạng thái metaphase_images (PROCESSING -\u003e COMPLETED/FAILED) và thực hiện BulkWrite vào Firestore.",
+        "labels": [
+          "backend",
+          "api",
+          "orchestration"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "[Backend] Analyze Endpoint \u0026 State Management"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "30n63q",
+      "version": 2,
+      "timestamp": "2026-05-01T10:26:02.6243341Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Triển khai endpoint POST /api/analyze. Quản lý trạng thái metaphase_images (PROCESSING -\u003e COMPLETED/FAILED) và thực hiện BulkWrite vào Firestore.",
+        "labels": [
+          "backend",
+          "api",
+          "orchestration"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "[Backend] Analyze Endpoint \u0026 State Management"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "30n63q",
+      "version": 3,
+      "timestamp": "2026-05-01T10:27:49.3616536Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Triển khai endpoint POST /api/analyze. Quản lý trạng thái metaphase_images (PROCESSING -\u003e COMPLETED/FAILED) và thực hiện BulkWrite vào Firestore.",
+        "labels": [
+          "backend",
+          "api",
+          "orchestration"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "[Backend] Analyze Endpoint \u0026 State Management"
+      }
+    }
+  ]
+}

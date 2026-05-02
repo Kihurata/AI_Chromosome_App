@@ -105,7 +105,8 @@ class _SpecialistDashboardPageState extends ConsumerState<SpecialistDashboardPag
                   SpecialistOrderList(orders: state.filteredOrders),
                 ],
               );
-            },
+              },
+            ),
           ),
         ),
       ),

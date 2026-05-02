@@ -1,0 +1,36 @@
+{
+  "taskId": "mwbchl",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "mwbchl",
+      "version": 1,
+      "timestamp": "2026-05-01T10:23:39.9084802Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "in-progress"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Triển khai HTTP Client (httpx) để gọi AI Server. Xử lý timeout, headers (Ngrok bypass) và lấy URL động từ Firestore.",
+        "labels": [
+          "backend",
+          "api",
+          "httpx"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "[Backend] AI Server Client Proxy"
+      }
+    }
+  ]
+}

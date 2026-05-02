@@ -26,7 +26,6 @@
     "visibleColumns": [
       "todo",
       "in-progress",
-      "blocked",
       "done",
       "in-review"
     ],

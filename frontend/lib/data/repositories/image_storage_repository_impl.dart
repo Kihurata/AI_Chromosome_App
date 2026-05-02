@@ -2,12 +2,14 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../core/errors/failures.dart';
+import 'package:injectable/injectable.dart';
 import '../../domain/repositories/image_storage_repository.dart';
 
+@LazySingleton(as: ImageStorageRepository)
 class ImageStorageRepositoryImpl implements ImageStorageRepository {
   final FirebaseStorage firebaseStorage;
 
-  ImageStorageRepositoryImpl({required this.firebaseStorage});
+  ImageStorageRepositoryImpl(this.firebaseStorage);
 
   @override
   Future<Either<Failure, String>> uploadRawImage({

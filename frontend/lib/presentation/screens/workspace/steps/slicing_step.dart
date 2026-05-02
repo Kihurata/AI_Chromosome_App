@@ -8,7 +8,7 @@ class SlicingStep extends StatefulWidget {
 }
 
 class _SlicingStepState extends State<SlicingStep> {
-  List<Offset> _currentPolygon = [];
+  final List<Offset> _currentPolygon = [];
   final List<List<Offset>> _polygons = [];
 
   void _onPanUpdate(DragUpdateDetails details) {

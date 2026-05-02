@@ -1,0 +1,110 @@
+{
+  "taskId": "7u04ls",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "7u04ls",
+      "version": 1,
+      "timestamp": "2026-05-01T09:46:13.9562174Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai logic đọc `api_url` từ Firestore `system_configs/ai_server`. Đảm bảo Backend có thể lấy URL động để gọi AI Server.",
+        "labels": [
+          "backend",
+          "firestore",
+          "config"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "[Backend] AI Config \u0026 Firestore Fetcher"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "7u04ls",
+      "version": 2,
+      "timestamp": "2026-05-01T10:13:21.3799853Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Tạo file `backend/app/core/ai_config.py`.\n2. Triển khai hàm `get_ai_server_url()` sử dụng Firebase Admin SDK để đọc document `system_configs/ai_server`.\n3. Thêm log thông báo khi lấy URL thành công hoặc thất bại.\n4. Tạo script `backend/scripts/test_ai_config.py` để kiểm chứng logic."
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai logic đọc `api_url` từ Firestore `system_configs/ai_server`. Đảm bảo Backend có thể lấy URL động để gọi AI Server.",
+        "implementationPlan": "1. Tạo file `backend/app/core/ai_config.py`.\n2. Triển khai hàm `get_ai_server_url()` sử dụng Firebase Admin SDK để đọc document `system_configs/ai_server`.\n3. Thêm log thông báo khi lấy URL thành công hoặc thất bại.\n4. Tạo script `backend/scripts/test_ai_config.py` để kiểm chứng logic.",
+        "labels": [
+          "backend",
+          "firestore",
+          "config"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "[Backend] AI Config \u0026 Firestore Fetcher"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "7u04ls",
+      "version": 3,
+      "timestamp": "2026-05-01T10:14:33.4491765Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai logic đọc `api_url` từ Firestore `system_configs/ai_server`. Đảm bảo Backend có thể lấy URL động để gọi AI Server.",
+        "implementationPlan": "1. Tạo file `backend/app/core/ai_config.py`.\n2. Triển khai hàm `get_ai_server_url()` sử dụng Firebase Admin SDK để đọc document `system_configs/ai_server`.\n3. Thêm log thông báo khi lấy URL thành công hoặc thất bại.\n4. Tạo script `backend/scripts/test_ai_config.py` để kiểm chứng logic.",
+        "labels": [
+          "backend",
+          "firestore",
+          "config"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "[Backend] AI Config \u0026 Firestore Fetcher"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "7u04ls",
+      "version": 4,
+      "timestamp": "2026-05-01T10:17:12.7792185Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai logic đọc `api_url` từ Firestore `system_configs/ai_server`. Đảm bảo Backend có thể lấy URL động để gọi AI Server.",
+        "implementationPlan": "1. Tạo file `backend/app/core/ai_config.py`.\n2. Triển khai hàm `get_ai_server_url()` sử dụng Firebase Admin SDK để đọc document `system_configs/ai_server`.\n3. Thêm log thông báo khi lấy URL thành công hoặc thất bại.\n4. Tạo script `backend/scripts/test_ai_config.py` để kiểm chứng logic.",
+        "labels": [
+          "backend",
+          "firestore",
+          "config"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "[Backend] AI Config \u0026 Firestore Fetcher"
+      }
+    }
+  ]
+}

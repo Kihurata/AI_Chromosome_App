@@ -6,9 +6,10 @@ abstract class TestOrderRemoteDataSource {
   Future<void> createTestOrder(TestOrderModel testOrder);
   Future<List<TestOrderModel>> getTestOrdersByClinician(String clinicianId);
   Future<List<TestOrderModel>> getAllPendingOrders();
-  Future<void> updateOrderStatus(String orderId, String status);
+  Future<void> updateOrderStatus(String orderId, String status, {String? reason});
   Future<void> assignSpecialistToOrder(String orderId, String specialistId);
   Stream<List<TestOrderModel>> watchAssignedOrders(String specialistId);
+  Stream<List<TestOrderModel>> watchAllOrders();
 }
 
 @Injectable(as: TestOrderRemoteDataSource)
@@ -51,9 +52,10 @@ class FirebaseTestOrderRemoteDataSource implements TestOrderRemoteDataSource {
   }
 
   @override
-  Future<void> updateOrderStatus(String orderId, String status) async {
+  Future<void> updateOrderStatus(String orderId, String status, {String? reason}) async {
     await _firestore.collection('test_orders').doc(orderId).update({
       'status': status,
+      'rejection_reason': reason,
       'updated_at': FieldValue.serverTimestamp(),
     });
   }
@@ -77,6 +79,19 @@ class FirebaseTestOrderRemoteDataSource implements TestOrderRemoteDataSource {
     return _firestore
         .collection('test_orders')
         .where('specialist_id', isEqualTo: specialistRef)
+        .orderBy('created_at', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => TestOrderModel.fromFirestore(doc))
+          .toList();
+    });
+  }
+
+  @override
+  Stream<List<TestOrderModel>> watchAllOrders() {
+    return _firestore
+        .collection('test_orders')
         .orderBy('created_at', descending: true)
         .snapshots()
         .map((snapshot) {

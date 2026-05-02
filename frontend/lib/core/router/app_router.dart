@@ -17,6 +17,7 @@ import '../../presentation/screens/clinician/medical_record/medical_record_scree
 import '../../presentation/screens/clinician/examination_form_screen.dart';
 import '../../presentation/screens/clinician/blood_test_prescription_screen.dart';
 import '../../presentation/screens/workspace/workspace_screen.dart';
+import '../../presentation/screens/manager/manager_dashboard_page.dart';
 
 // ── Route path constants ──────────────────────────────────────────────────────
 class AppRoutes {
@@ -40,6 +41,7 @@ class AppRoutes {
   static const specialistAnalysis = '/specialist/analysis';
 
   // Manager
+  static const managerDashboard = '/manager/dashboard';
   static const managerReports = '/manager/reports';
   static const managerStaff = '/manager/staff';
 
@@ -178,9 +180,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ),
           ),
           GoRoute(
+            path: AppRoutes.managerDashboard,
+            name: 'manager-dashboard',
+            builder: (context, state) => const ManagerDashboardPage(),
+          ),
+          GoRoute(
             path: AppRoutes.managerReports,
             name: 'manager-reports',
-            builder: (context, state) => const DoctorDashboardPage(),
+            builder: (context, state) => const _PlaceholderPage(title: 'Báo cáo Lab'),
           ),
 
           // Profile (shared)

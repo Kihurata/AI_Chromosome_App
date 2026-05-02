@@ -21,9 +21,9 @@ class ManagerApprovalCubit extends Cubit<ManagerApprovalState> {
     );
   }
 
-  Future<void> reject(String orderId) async {
+  Future<void> reject(String orderId, {String reason = ''}) async {
     emit(ManagerApprovalLoading());
-    final result = await rejectKaryotypeResult(orderId);
+    final result = await rejectKaryotypeResult(orderId, reason);
     result.fold(
       (failure) => emit(ManagerApprovalError(failure.message)),
       (_) => emit(const ManagerApprovalSuccess('Kết quả karyotype đã bị từ chối')),

@@ -1,0 +1,86 @@
+{
+  "taskId": "ugibx7",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "ugibx7",
+      "version": 1,
+      "timestamp": "2026-05-02T06:53:29.3711522Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai nút 'Bắt đầu phân tích AI' tại Bước 1 (Screening) và gọi API Backend Orchestrator. Tuân thủ thiết kế D1 (Thủ công).",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui",
+          "logic"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "[UI/Logic] AI Analysis Trigger \u0026 API Integration"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "ugibx7",
+      "version": 2,
+      "timestamp": "2026-05-02T06:53:32.8549097Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai nút 'Bắt đầu phân tích AI' tại Bước 1 (Screening) và gọi API Backend Orchestrator. Tuân thủ thiết kế D1 (Thủ công).",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui",
+          "logic"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "[UI/Logic] AI Analysis Trigger \u0026 API Integration"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "ugibx7",
+      "version": 3,
+      "timestamp": "2026-05-02T06:57:21.9395683Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai nút 'Bắt đầu phân tích AI' tại Bước 1 (Screening) và gọi API Backend Orchestrator. Tuân thủ thiết kế D1 (Thủ công).",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui",
+          "logic"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "[UI/Logic] AI Analysis Trigger \u0026 API Integration"
+      }
+    }
+  ]
+}

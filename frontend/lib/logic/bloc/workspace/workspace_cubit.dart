@@ -1,18 +1,25 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/entities/chromosome.dart';
 import '../../../domain/usecases/specialist/update_chromosome_position.dart';
+import '../../../domain/usecases/test_order/submit_analysis_result.dart';
+
+enum WorkspaceStatus { initial, loading, success, error }
 
 class WorkspaceState {
   final List<Chromosome> chromosomes;
   final String? selectedId;
   final int currentStep;
   final int maxReachedStep;
+  final WorkspaceStatus status;
+  final String? errorMessage;
 
   WorkspaceState({
     required this.chromosomes,
     this.selectedId,
     this.currentStep = 1,
     this.maxReachedStep = 1,
+    this.status = WorkspaceStatus.initial,
+    this.errorMessage,
   });
 
   WorkspaceState copyWith({
@@ -20,22 +27,28 @@ class WorkspaceState {
     String? selectedId,
     int? currentStep,
     int? maxReachedStep,
+    WorkspaceStatus? status,
+    String? errorMessage,
   }) {
     return WorkspaceState(
       chromosomes: chromosomes ?? this.chromosomes,
       selectedId: selectedId ?? this.selectedId,
       currentStep: currentStep ?? this.currentStep,
       maxReachedStep: maxReachedStep ?? this.maxReachedStep,
+      status: status ?? this.status,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 }
 
 class WorkspaceCubit extends Cubit<WorkspaceState> {
   final UpdateChromosomePosition updatePositionUsecase;
+  final SubmitAnalysisResult submitAnalysisUsecase;
   final String orderId;
 
   WorkspaceCubit({
     required this.updatePositionUsecase,
+    required this.submitAnalysisUsecase,
     required this.orderId,
   }) : super(WorkspaceState(chromosomes: []));
 
@@ -66,6 +79,23 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
     }
   }
 
+  void assignChromosomeLabel(String id, String newLabel) {
+    Chromosome? updatedChromosome;
+    final updatedList = state.chromosomes.map((item) {
+      if (item.id == id) {
+        updatedChromosome = item.copyWith(label: newLabel);
+        return updatedChromosome!;
+      }
+      return item;
+    }).toList();
+
+    emit(state.copyWith(chromosomes: updatedList, selectedId: id));
+
+    if (updatedChromosome != null) {
+      updatePositionUsecase(orderId, updatedChromosome!);
+    }
+  }
+
   void selectItem(String? id) {
     emit(state.copyWith(selectedId: id));
   }
@@ -88,6 +118,15 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
     if (state.currentStep > 1) {
       emit(state.copyWith(currentStep: state.currentStep - 1));
     }
+  }
+
+  Future<void> submitAnalysis() async {
+    emit(state.copyWith(status: WorkspaceStatus.loading));
+    final result = await submitAnalysisUsecase(orderId);
+    result.fold(
+      (failure) => emit(state.copyWith(status: WorkspaceStatus.error, errorMessage: failure.message)),
+      (_) => emit(state.copyWith(status: WorkspaceStatus.success)),
+    );
   }
 }
 

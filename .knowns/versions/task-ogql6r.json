@@ -1,0 +1,89 @@
+{
+  "taskId": "ogql6r",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "ogql6r",
+      "version": 1,
+      "timestamp": "2026-05-02T06:53:30.433836Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai logic tự động chuyển sang Bước 3 khi AI hoàn tất (D4) và xử lý thông báo lỗi/fallback sang Bước 2 (D3).",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui",
+          "logic",
+          "navigation"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "[Logic] Auto-navigation \u0026 Error Handling Fallback"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "ogql6r",
+      "version": 2,
+      "timestamp": "2026-05-02T06:55:41.5665254Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai logic tự động chuyển sang Bước 3 khi AI hoàn tất (D4) và xử lý thông báo lỗi/fallback sang Bước 2 (D3).",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui",
+          "logic",
+          "navigation"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "[Logic] Auto-navigation \u0026 Error Handling Fallback"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "ogql6r",
+      "version": 3,
+      "timestamp": "2026-05-02T06:57:22.4318579Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai logic tự động chuyển sang Bước 3 khi AI hoàn tất (D4) và xử lý thông báo lỗi/fallback sang Bước 2 (D3).",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui",
+          "logic",
+          "navigation"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "[Logic] Auto-navigation \u0026 Error Handling Fallback"
+      }
+    }
+  ]
+}

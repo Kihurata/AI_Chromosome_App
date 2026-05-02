@@ -3,6 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../logic/bloc/workspace/workspace_cubit.dart';
 import 'steps/screening_step.dart';
 import 'steps/slicing_step.dart';
+import 'steps/karyogram_step.dart';
+import 'steps/qc_diagnostic_step.dart';
+import 'steps/report_step.dart';
+
+import '../../../logic/bloc/specialist/ai_analysis_cubit.dart';
+import '../../../logic/bloc/specialist/ai_analysis_state.dart';
+import 'steps/screening_step.dart';
 
 class WorkspaceScreen extends StatelessWidget {
   final String orderId;
@@ -11,13 +18,22 @@ class WorkspaceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // In a real implementation, we would provide the WorkspaceCubit here 
-    // or retrieve it from a global provider using the orderId.
-    // For now, we assume the Cubit is provided higher up or we inject it.
-    
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      body: Column(
+    return BlocListener<AiAnalysisCubit, AiAnalysisState>(
+      listener: (context, state) {
+        if (state is AiAnalysisCompleted) {
+          // D4: Auto-navigate to Step 3 (Karyotyping)
+          context.read<WorkspaceCubit>().goToStep(3);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('AI hoàn tất! Đang chuyển sang lập NST đồ...'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8F9FA),
+        body: Column(
         children: [
           // Stepper Header
           Container(
@@ -48,15 +64,15 @@ class WorkspaceScreen extends StatelessWidget {
               builder: (context, state) {
                 switch (state.currentStep) {
                   case 1:
-                    return const ScreeningStep();
+                    return ScreeningStep(orderId: orderId);
                   case 2:
                     return const SlicingStep();
                   case 3:
-                    return _buildPlaceholder('Bước 3: Lập NST đồ', context);
+                    return const KaryogramStep();
                   case 4:
-                    return _buildPlaceholder('Bước 4: Phê duyệt QC / Chẩn đoán', context);
+                    return const QcDiagnosticStep();
                   case 5:
-                    return _buildPlaceholder('Bước 5: Lập Báo cáo', context);
+                    return const ReportStep();
                   default:
                     return const Center(child: Text('Unknown Step'));
                 }
@@ -84,8 +100,9 @@ class WorkspaceScreen extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildStepIndicator(int step, String title, int currentStep, int maxReached, BuildContext context) {
     final bool isActive = step == currentStep;
@@ -104,7 +121,7 @@ class WorkspaceScreen extends StatelessWidget {
             width: 32,
             height: 32,
             decoration: BoxDecoration(
-              color: isActive ? color.withOpacity(0.1) : (isCompleted ? color : Colors.transparent),
+              color: isActive ? color.withValues(alpha: 0.1) : (isCompleted ? color : Colors.transparent),
               border: Border.all(color: color, width: 2),
               shape: BoxShape.circle,
             ),
@@ -138,17 +155,6 @@ class WorkspaceScreen extends StatelessWidget {
         height: 2,
         margin: const EdgeInsets.symmetric(horizontal: 16),
         color: isCompleted ? Colors.green : Colors.grey.shade300,
-      ),
-    );
-  }
-
-  Widget _buildPlaceholder(String text, BuildContext context) {
-    return Center(
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-          color: Colors.grey.shade600,
-        ),
       ),
     );
   }

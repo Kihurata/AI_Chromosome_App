@@ -2,6 +2,7 @@ import os
 import json
 import sys
 from pprint import pprint
+from datetime import datetime
 
 # Add parent dir to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -9,38 +10,61 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from app.services.data_mapper import map_labelme_to_chromosomes
 
 def test_mapper():
-    print("--- Testing Data Mapper ---")
+    print("--- [TEST] Data Mapper Verification ---")
     
-    # Load sample JSON
-    sample_path = "211025-003C_32_1_835_213_0.523.json"
-    if not os.path.exists(sample_path):
-        # Try finding it relative to project root if running from elsewhere
-        sample_path = os.path.join(os.path.dirname(__file__), "../../", sample_path)
-
-    with open(sample_path, 'r') as f:
-        ai_result = json.load(f)
+    # 1. Create Mock AI Result
+    mock_ai_result = {
+        "shapes": [
+            {
+                "label": "1",
+                "points": [
+                    [100.5, 200.2],
+                    [150.8, 200.2],
+                    [150.8, 300.7],
+                    [100.5, 300.7]
+                ]
+            }
+        ]
+    }
     
-    order_id = "test_order_123"
-    image_id = "test_image_456"
+    order_id = "order_999"
+    image_id = "img_888"
     
-    chromosomes = map_labelme_to_chromosomes(ai_result, order_id, image_id)
+    # 2. Map
+    chromosomes = map_labelme_to_chromosomes(mock_ai_result, order_id, image_id)
     
     print(f"Mapped {len(chromosomes)} chromosomes.")
+    assert len(chromosomes) == 1
     
-    if chromosomes:
-        print("\nExample Chromosome Document (First one):")
-        # Pretty print the first one, but truncate polygon for readability
-        example = chromosomes[0].copy()
-        example['polygon'] = f"[{len(example['polygon'])} points...]"
-        pprint(example)
-        
-        # Verify fields
-        assert example['orderId'] == order_id
-        assert example['imageId'] == image_id
-        assert 'coordinates' in example
-        assert 'bbox' in example
-        assert 'label' in example
-        print("\nSUCCESS: All expected fields are present.")
+    c = chromosomes[0]
+    
+    # 3. Verify BBox Math
+    # points: min_x=100.5, max_x=150.8, min_y=200.2, max_y=300.7
+    expected_bbox = [100.5, 200.2, 150.8, 300.7]
+    expected_w = round(150.8 - 100.5, 2)
+    expected_h = round(300.7 - 200.2, 2)
+    
+    print(f"Verifying coordinates: BBox={c['bbox']}, W={c['coordinates']['w']}, H={c['coordinates']['h']}")
+    
+    assert c['bbox'] == expected_bbox
+    assert c['coordinates']['x'] == 100.5
+    assert c['coordinates']['y'] == 200.2
+    assert c['coordinates']['w'] == expected_w
+    assert c['coordinates']['h'] == expected_h
+    
+    # Verify flattened polygon
+    assert len(c['polygon']) == 8 # 4 points * 2 coords
+    assert c['polygon'][0] == 100.5
+    assert c['polygon'][1] == 200.2
+    
+    # 4. Verify Metadata
+    assert c['orderId'] == order_id
+    assert c['imageId'] == image_id
+    assert c['label'] == "1"
+    assert c['status'] == "DETECTED"
+    assert isinstance(c['createdAt'], datetime)
+    
+    print("\n[SUCCESS] Mapper logic is precise and spec-compliant.")
 
 if __name__ == "__main__":
     test_mapper()

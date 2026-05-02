@@ -1,0 +1,340 @@
+{
+  "taskId": "5h0qu3",
+  "currentVersion": 7,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "5h0qu3",
+      "version": 1,
+      "timestamp": "2026-05-01T17:15:17.2501623Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement the logic to transform LabelMe JSON output into Firestore Chromosome documents and persist them using a single WriteBatch.",
+        "labels": [
+          "from-spec",
+          "backend",
+          "persistence"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "[Backend] AI Result Mapping \u0026 Bulk Persistence"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "5h0qu3",
+      "version": 2,
+      "timestamp": "2026-05-01T17:15:20.5210296Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Verify Bounding Box calculation from polygon points in DataMapper."
+            },
+            {
+              "completed": false,
+              "text": "Implement WriteBatch logic for atomic Chromosome insertion."
+            },
+            {
+              "completed": false,
+              "text": "Pass unit tests for mapping LabelMe JSON to Firestore models."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Verify Bounding Box calculation from polygon points in DataMapper."
+          },
+          {
+            "completed": false,
+            "text": "Implement WriteBatch logic for atomic Chromosome insertion."
+          },
+          {
+            "completed": false,
+            "text": "Pass unit tests for mapping LabelMe JSON to Firestore models."
+          }
+        ],
+        "description": "Implement the logic to transform LabelMe JSON output into Firestore Chromosome documents and persist them using a single WriteBatch.",
+        "labels": [
+          "from-spec",
+          "backend",
+          "persistence"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "[Backend] AI Result Mapping \u0026 Bulk Persistence"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "5h0qu3",
+      "version": 3,
+      "timestamp": "2026-05-01T17:16:34.0816045Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Verify Bounding Box calculation from polygon points in DataMapper."
+            },
+            {
+              "completed": false,
+              "text": "Implement WriteBatch logic for atomic Chromosome insertion."
+            },
+            {
+              "completed": false,
+              "text": "Pass unit tests for mapping LabelMe JSON to Firestore models."
+            }
+          ],
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Verify Bounding Box calculation from polygon points in DataMapper."
+            },
+            {
+              "completed": false,
+              "text": "Implement WriteBatch logic for atomic Chromosome insertion."
+            },
+            {
+              "completed": false,
+              "text": "Pass unit tests for mapping LabelMe JSON to Firestore models."
+            },
+            {
+              "completed": false,
+              "text": "Test AC"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Verify Bounding Box calculation from polygon points in DataMapper."
+          },
+          {
+            "completed": false,
+            "text": "Implement WriteBatch logic for atomic Chromosome insertion."
+          },
+          {
+            "completed": false,
+            "text": "Pass unit tests for mapping LabelMe JSON to Firestore models."
+          },
+          {
+            "completed": false,
+            "text": "Test AC"
+          }
+        ],
+        "description": "Implement the logic to transform LabelMe JSON output into Firestore Chromosome documents and persist them using a single WriteBatch.",
+        "labels": [
+          "from-spec",
+          "backend",
+          "persistence"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "[Backend] AI Result Mapping \u0026 Bulk Persistence"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "5h0qu3",
+      "version": 4,
+      "timestamp": "2026-05-01T17:23:32.4366175Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Verify Bounding Box calculation from polygon points in DataMapper."
+          },
+          {
+            "completed": false,
+            "text": "Implement WriteBatch logic for atomic Chromosome insertion."
+          },
+          {
+            "completed": false,
+            "text": "Pass unit tests for mapping LabelMe JSON to Firestore models."
+          },
+          {
+            "completed": false,
+            "text": "Test AC"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement the logic to transform LabelMe JSON output into Firestore Chromosome documents and persist them using a single WriteBatch.",
+        "labels": [
+          "from-spec",
+          "backend",
+          "persistence"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "[Backend] AI Result Mapping \u0026 Bulk Persistence"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "5h0qu3",
+      "version": 5,
+      "timestamp": "2026-05-01T17:23:59.8825037Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Refine DataMapper: Verify coordinate math and Firestore compatibility.\n2. Enhance Test Suite: Update test_mapper.py with detailed assertions and edge case handling.\n3. Verify Atomic Persistence: Create test_bulk_persistence.py to validate WriteBatch reliability and 500-op limit handling.\n4. Integration Check: Run mapper against real AI output samples."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Verify Bounding Box calculation from polygon points in DataMapper."
+          },
+          {
+            "completed": false,
+            "text": "Implement WriteBatch logic for atomic Chromosome insertion."
+          },
+          {
+            "completed": false,
+            "text": "Pass unit tests for mapping LabelMe JSON to Firestore models."
+          },
+          {
+            "completed": false,
+            "text": "Test AC"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement the logic to transform LabelMe JSON output into Firestore Chromosome documents and persist them using a single WriteBatch.",
+        "implementationPlan": "1. Refine DataMapper: Verify coordinate math and Firestore compatibility.\n2. Enhance Test Suite: Update test_mapper.py with detailed assertions and edge case handling.\n3. Verify Atomic Persistence: Create test_bulk_persistence.py to validate WriteBatch reliability and 500-op limit handling.\n4. Integration Check: Run mapper against real AI output samples.",
+        "labels": [
+          "from-spec",
+          "backend",
+          "persistence"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "[Backend] AI Result Mapping \u0026 Bulk Persistence"
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "5h0qu3",
+      "version": 6,
+      "timestamp": "2026-05-01T17:30:55.9322154Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Refined DataMapper with robust coordinate calculation and Firestore compatibility. Updated test_mapper.py with precision assertions. Created and verified test_bulk_persistence.py to ensure atomic WriteBatch consistency for bulk chromosome data. All tests passed."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Verify Bounding Box calculation from polygon points in DataMapper."
+          },
+          {
+            "completed": true,
+            "text": "Implement WriteBatch logic for atomic Chromosome insertion."
+          },
+          {
+            "completed": true,
+            "text": "Pass unit tests for mapping LabelMe JSON to Firestore models."
+          },
+          {
+            "completed": false,
+            "text": "Test AC"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement the logic to transform LabelMe JSON output into Firestore Chromosome documents and persist them using a single WriteBatch.",
+        "implementationNotes": "Refined DataMapper with robust coordinate calculation and Firestore compatibility. Updated test_mapper.py with precision assertions. Created and verified test_bulk_persistence.py to ensure atomic WriteBatch consistency for bulk chromosome data. All tests passed.",
+        "implementationPlan": "1. Refine DataMapper: Verify coordinate math and Firestore compatibility.\n2. Enhance Test Suite: Update test_mapper.py with detailed assertions and edge case handling.\n3. Verify Atomic Persistence: Create test_bulk_persistence.py to validate WriteBatch reliability and 500-op limit handling.\n4. Integration Check: Run mapper against real AI output samples.",
+        "labels": [
+          "from-spec",
+          "backend",
+          "persistence"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "[Backend] AI Result Mapping \u0026 Bulk Persistence"
+      }
+    },
+    {
+      "id": "v7",
+      "taskId": "5h0qu3",
+      "version": 7,
+      "timestamp": "2026-05-01T17:31:03.1994291Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Verify Bounding Box calculation from polygon points in DataMapper.",
+            "completed": true
+          },
+          {
+            "text": "Implement WriteBatch logic for atomic Chromosome insertion.",
+            "completed": true
+          },
+          {
+            "text": "Pass unit tests for mapping LabelMe JSON to Firestore models.",
+            "completed": true
+          },
+          {
+            "text": "Test AC",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement the logic to transform LabelMe JSON output into Firestore Chromosome documents and persist them using a single WriteBatch.",
+        "implementationNotes": "Refined DataMapper with robust coordinate calculation and Firestore compatibility. Updated test_mapper.py with precision assertions. Created and verified test_bulk_persistence.py to ensure atomic WriteBatch consistency for bulk chromosome data. All tests passed.",
+        "implementationPlan": "1. Refine DataMapper: Verify coordinate math and Firestore compatibility.\n2. Enhance Test Suite: Update test_mapper.py with detailed assertions and edge case handling.\n3. Verify Atomic Persistence: Create test_bulk_persistence.py to validate WriteBatch reliability and 500-op limit handling.\n4. Integration Check: Run mapper against real AI output samples.",
+        "labels": [
+          "from-spec",
+          "backend",
+          "persistence"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "[Backend] AI Result Mapping \u0026 Bulk Persistence"
+      }
+    }
+  ]
+}

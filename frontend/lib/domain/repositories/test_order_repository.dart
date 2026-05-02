@@ -10,8 +10,9 @@ abstract class TestOrderRepository {
   Future<Either<Failure, List<TestOrder>>> getAllPendingOrders();
   Future<Either<Failure, void>> updateOrderStatus(
     String orderId,
-    TestOrderStatus status,
-  );
+    TestOrderStatus status, {
+    String? reason,
+  });
   Future<Either<Failure, void>> assignSpecialistToOrder(
     String orderId,
     String specialistId,
@@ -19,4 +20,5 @@ abstract class TestOrderRepository {
   Stream<Either<Failure, List<TestOrder>>> watchAssignedOrders(
     String specialistId,
   );
+  Stream<Either<Failure, List<TestOrder>>> watchAllOrders();
 }

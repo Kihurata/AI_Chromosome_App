@@ -3,14 +3,14 @@ import 'package:dartz/dartz.dart';
 import '../../core/errors/failures.dart';
 import '../../domain/entities/chromosome.dart';
 import '../../domain/entities/metaphase_image.dart';
+import 'package:injectable/injectable.dart';
 import '../../domain/repositories/workspace_repository.dart';
-import '../models/chromosome_model.dart';
-import '../models/metaphase_image_model.dart';
 
+@LazySingleton(as: WorkspaceRepository)
 class WorkspaceRepositoryImpl implements WorkspaceRepository {
   final FirebaseFirestore firestore;
 
-  WorkspaceRepositoryImpl({required this.firestore});
+  WorkspaceRepositoryImpl(this.firestore);
 
   // We assume a single primary image per order for this implementation, 
   // identified by 'default_image'.

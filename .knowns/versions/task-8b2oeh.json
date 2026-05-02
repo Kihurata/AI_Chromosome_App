@@ -1,6 +1,6 @@
 {
   "taskId": "8b2oeh",
-  "currentVersion": 1,
+  "currentVersion": 3,
   "versions": [
     {
       "id": "v1",
@@ -29,6 +29,69 @@
         ],
         "priority": "high",
         "status": "todo",
+        "title": "Drag \u0026 Drop NST đồ (UI/Logic) - Bước 3"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "8b2oeh",
+      "version": 2,
+      "timestamp": "2026-04-29T18:08:41.7310134Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Create `KaryogramStep` widget for Step 3 using `Draggable` and `DragTarget` for chromosome matching.\n2. Structure the view with a pool of unassigned chromosomes and a Karyotype grid (22 pairs + XY/XX).\n3. Implement the drag and drop logic to update local state via `WorkspaceCubit` immediately (Optimistic UI) which triggers debounced auto-saves to Firestore.\n4. Add `KaryogramStep` to `WorkspaceScreen`."
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai giao diện Grid và Drag \u0026 Drop cho lưới NST chuẩn ở Bước 3. Áp dụng Optimistic UI và RxDart (Debounce 1.5s) để auto-save toạ độ từng NST lên Firestore sau khi thả chuột. Sử dụng cơ chế Image Caching (Image.network) của hệ điều hành.",
+        "implementationPlan": "1. Create `KaryogramStep` widget for Step 3 using `Draggable` and `DragTarget` for chromosome matching.\n2. Structure the view with a pool of unassigned chromosomes and a Karyotype grid (22 pairs + XY/XX).\n3. Implement the drag and drop logic to update local state via `WorkspaceCubit` immediately (Optimistic UI) which triggers debounced auto-saves to Firestore.\n4. Add `KaryogramStep` to `WorkspaceScreen`.",
+        "labels": [
+          "ui",
+          "logic",
+          "workspace",
+          "performance"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Drag \u0026 Drop NST đồ (UI/Logic) - Bước 3"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "8b2oeh",
+      "version": 3,
+      "timestamp": "2026-04-29T18:11:01.5079348Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented KaryogramStep using Draggable and DragTarget. Added assignChromosomeLabel to WorkspaceCubit for Optimistic UI drag-and-drop updates, which also syncs via usecase. Fixed compilation error from a previous session related to RejectKaryotypeResult taking a comment argument."
+        }
+      ],
+      "snapshot": {
+        "description": "Triển khai giao diện Grid và Drag \u0026 Drop cho lưới NST chuẩn ở Bước 3. Áp dụng Optimistic UI và RxDart (Debounce 1.5s) để auto-save toạ độ từng NST lên Firestore sau khi thả chuột. Sử dụng cơ chế Image Caching (Image.network) của hệ điều hành.",
+        "implementationNotes": "Implemented KaryogramStep using Draggable and DragTarget. Added assignChromosomeLabel to WorkspaceCubit for Optimistic UI drag-and-drop updates, which also syncs via usecase. Fixed compilation error from a previous session related to RejectKaryotypeResult taking a comment argument.",
+        "implementationPlan": "1. Create `KaryogramStep` widget for Step 3 using `Draggable` and `DragTarget` for chromosome matching.\n2. Structure the view with a pool of unassigned chromosomes and a Karyotype grid (22 pairs + XY/XX).\n3. Implement the drag and drop logic to update local state via `WorkspaceCubit` immediately (Optimistic UI) which triggers debounced auto-saves to Firestore.\n4. Add `KaryogramStep` to `WorkspaceScreen`.",
+        "labels": [
+          "ui",
+          "logic",
+          "workspace",
+          "performance"
+        ],
+        "priority": "high",
+        "status": "done",
         "title": "Drag \u0026 Drop NST đồ (UI/Logic) - Bước 3"
       }
     }
