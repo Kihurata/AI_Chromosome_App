@@ -3,13 +3,26 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // User profile: only the owner can read/write their own profile
+    // User profile: anyone authenticated can read basic info, only owner can write
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
     }
     
-    // Default: allow authenticated users to read/write all other documents
-    // (Note: In a real production app, you should refine this further per collection)
+    // Patients and Appointments: allow all authenticated medical staff
+    match /patients/{patientId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    match /appointments/{appointmentId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /test_orders/{orderId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Default catch-all
     match /{document=**} {
       allow read, write: if request.auth != null;
     }

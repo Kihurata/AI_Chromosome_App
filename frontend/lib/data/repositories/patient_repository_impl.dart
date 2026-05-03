@@ -28,8 +28,13 @@ class PatientRepositoryImpl implements PatientRepository {
   }
 
   @override
-  Future<Either<Failure, Patient>> getPatientById(String id) {
-    throw UnimplementedError();
+  Future<Either<Failure, Patient>> getPatientById(String id) async {
+    try {
+      final patient = await remoteDataSource.getPatientById(id);
+      return Right(patient);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    }
   }
 
   @override

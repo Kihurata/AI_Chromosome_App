@@ -1,14 +1,14 @@
 ---
 id: 49of6r
 title: Wire Logic for Clinician Forms
-status: in-progress
+status: done
 priority: high
 labels:
   - clinician
   - ui
   - integration
 createdAt: '2026-05-03T04:42:29.148Z'
-updatedAt: '2026-05-03T06:46:04.158Z'
+updatedAt: '2026-05-03T07:49:24.203Z'
 timeSpent: 0
 ---
 # Wire Logic for Clinician Forms
@@ -33,4 +33,10 @@ Chuyển đổi và gắn logic xử lý cho các màn hình forms của bác s�
 5. UI (Bảng danh sách): Cập nhật RecentPatientsTable thêm cột 'KQXN' để hiển thị độc lập TestOrderStatus (từ test_order_model), giữ cột 'Trạng thái' cho AppointmentStatus.
 6. UI (Forms): Refactor examination_form_screen & blood_test_prescription_screen. Cấu hình luồng: Lưu tự động phiếu khám khi ấn Tạo Phiếu Xét Nghiệm, và đổi trạng thái lịch hẹn khi Lưu/Hủy.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Implemented logic for ClinicianExaminationForm and ClinicianBloodTestPrescription. Integrated with ExaminationCubit and ClinicianOrderCubit. Real data binding with PatientCubit. Verified and committed.
+<!-- SECTION:NOTES:END -->
 

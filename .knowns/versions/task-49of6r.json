@@ -1,6 +1,6 @@
 {
   "taskId": "49of6r",
-  "currentVersion": 7,
+  "currentVersion": 8,
   "versions": [
     {
       "id": "v1",
@@ -178,6 +178,37 @@
         ],
         "priority": "high",
         "status": "in-progress",
+        "title": "Wire Logic for Clinician Forms"
+      }
+    },
+    {
+      "id": "v8",
+      "taskId": "49of6r",
+      "version": 8,
+      "timestamp": "2026-05-03T07:49:24.2445535Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented logic for ClinicianExaminationForm and ClinicianBloodTestPrescription. Integrated with ExaminationCubit and ClinicianOrderCubit. Real data binding with PatientCubit. Verified and committed."
+        }
+      ],
+      "snapshot": {
+        "description": "Chuyển đổi và gắn logic xử lý cho các màn hình forms của bác sĩ (ClinicianExaminationFormPage và ClinicianBloodTestPrescriptionPage). Lấy dữ liệu bệnh nhân thực tế và kết nối với ClinicianOrderCubit để lưu phiếu.",
+        "implementationNotes": "Implemented logic for ClinicianExaminationForm and ClinicianBloodTestPrescription. Integrated with ExaminationCubit and ClinicianOrderCubit. Real data binding with PatientCubit. Verified and committed.",
+        "implementationPlan": "1. Domain (Appointment): Định nghĩa enum AppointmentStatus với 4 trạng thái cốt lõi: scheduled, inProgress, completed, cancelled. Cập nhật Appointment entity.\n2. Domain (Examination): Tạo Examination entity \u0026 repository interface.\n3. Data Layer: Cập nhật AppointmentModel để serialize/deserialize enum. Tạo ExaminationModel \u0026 ExaminationRepositoryImpl.\n4. Logic Layer: Tạo CreateExamination usecase \u0026 ExaminationCubit. Cập nhật AppointmentCubit xử lý 4 trạng thái trên.\n5. UI (Bảng danh sách): Cập nhật RecentPatientsTable thêm cột 'KQXN' để hiển thị độc lập TestOrderStatus (từ test_order_model), giữ cột 'Trạng thái' cho AppointmentStatus.\n6. UI (Forms): Refactor examination_form_screen \u0026 blood_test_prescription_screen. Cấu hình luồng: Lưu tự động phiếu khám khi ấn Tạo Phiếu Xét Nghiệm, và đổi trạng thái lịch hẹn khi Lưu/Hủy.",
+        "labels": [
+          "clinician",
+          "ui",
+          "integration"
+        ],
+        "priority": "high",
+        "status": "done",
         "title": "Wire Logic for Clinician Forms"
       }
     }
