@@ -258,23 +258,16 @@ class _AppointmentRow extends StatelessWidget {
     );
   }
 
-  String _mapStatusText(String status) {
-    switch (status) {
-      case 'completed': return 'Hoàn tất';
-      case 'scheduled': return 'Đang chờ';
-      case 'in_progress': return 'Đang khám';
-      case 'cancelled': return 'Đã huỷ';
-      default: return 'Đang chờ';
-    }
+  String _mapStatusText(AppointmentStatus status) {
+    return status.displayName;
   }
 
-  BadgeType _mapStatusType(String status) {
+  BadgeType _mapStatusType(AppointmentStatus status) {
     switch (status) {
-      case 'completed': return BadgeType.success;
-      case 'scheduled': return BadgeType.warning;
-      case 'in_progress': return BadgeType.processing;
-      case 'cancelled': return BadgeType.danger;
-      default: return BadgeType.warning;
+      case AppointmentStatus.completed: return BadgeType.success;
+      case AppointmentStatus.inProgress: return BadgeType.processing;
+      case AppointmentStatus.cancelled: return BadgeType.danger;
+      case AppointmentStatus.scheduled: return BadgeType.warning;
     }
   }
 }

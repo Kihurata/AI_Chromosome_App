@@ -1,114 +1,120 @@
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:medcore_crm/core/theme/app_colors.dart';
+import 'package:medcore_crm/domain/entities/patient.dart';
+import 'package:intl/intl.dart';
 
 class PatientInfoTab extends StatelessWidget {
-  const PatientInfoTab({super.key});
+  final Patient patient;
+  const PatientInfoTab({super.key, required this.patient});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // Personal Information Section
+        _buildSectionHeader('Thông tin Cá nhân', LucideIcons.user),
+        const SizedBox(height: 24),
+        GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 3,
+          mainAxisSpacing: 32,
+          crossAxisSpacing: 32,
+          childAspectRatio: 3,
           children: [
-            const Text(
-              'Thông tin chung',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
-            ),
-            TextButton(
-              onPressed: () {},
-              child: const Text(
-                'Cập nhật thông tin',
-                style: TextStyle(color: AppColors.primaryBlue),
-              ),
-            )
+            _buildInfoItem('HỌ VÀ TÊN', patient.fullName),
+            _buildInfoItem('GIỚI TÍNH', patient.gender),
+            _buildInfoItem('NGÀY SINH', DateFormat('dd/MM/yyyy').format(patient.dob)),
+            _buildInfoItem('SỐ ĐIỆN THOẠI', patient.phone),
+            _buildInfoItem('CĂN CƯỚC CÔNG DÂN', patient.identityCard.isNotEmpty ? patient.identityCard : 'Chưa cập nhật'),
+            _buildInfoItem('MÃ BỆNH NHÂN', patient.patientCode ?? 'N/A'),
           ],
         ),
-        const Divider(height: 32, color: AppColors.border),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        
+        const SizedBox(height: 48),
+        
+        // Contact Information Section
+        _buildSectionHeader('Thông tin Liên lạc & Địa chỉ', LucideIcons.mapPin),
+        const SizedBox(height: 24),
+        GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 3,
+          mainAxisSpacing: 32,
+          crossAxisSpacing: 32,
+          childAspectRatio: 3,
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildInfoItem('HỌ VÀ TÊN', 'Johnathan Doe Richardson'),
-                  const SizedBox(height: 24),
-                  _buildInfoItem('SỐ ĐIỆN THOẠI', '+1 (555) 234-5678'),
-                  const SizedBox(height: 24),
-                  _buildInfoItem('TRẠNG THÁI VIP', 'Hoạt động (Ưu tiên 1)', iconColor: Colors.orange),
-                  const SizedBox(height: 24),
-                  _buildInfoItem('NGÀY KHÁM ĐẦU TIÊN', 'March 12, 2022'),
-                  const SizedBox(height: 24),
-                  _buildInfoItem('NGÀY KHÁM GẦN NHẤT', 'October 05, 2023'),
-                  const SizedBox(height: 24),
-                  _buildInfoItem(
-                    'LỊCH HẸN TIẾP THEO',
-                    'November 12, 2023 - 10:30 AM',
-                    textColor: AppColors.primaryBlue,
-                    isBold: true,
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildInfoItem('NGÀY SINH', '24 tháng 7, 1988 (35 tuổi)'),
-                  const SizedBox(height: 24),
-                  _buildInfoItem('GIỚI TÍNH', 'Nam'),
-                  const SizedBox(height: 24),
-                  _buildInfoItem('MÃ Y TẾ', 'ID-8824-7712-XXX'),
-                ],
-              ),
-            ),
+            _buildInfoItem('ĐỊA CHỈ', patient.address.isNotEmpty ? patient.address : 'Chưa cập nhật'),
+            _buildInfoItem('PHƯỜNG/XÃ', patient.ward.isNotEmpty ? patient.ward : 'Chưa cập nhật'),
+            _buildInfoItem('QUẬN/HUYỆN', patient.district.isNotEmpty ? patient.district : 'Chưa cập nhật'),
+            _buildInfoItem('TỈNH/THÀNH PHỐ', patient.province.isNotEmpty ? patient.province : 'Chưa cập nhật'),
           ],
-        )
+        ),
+        
+        const SizedBox(height: 48),
+        
+        // Emergency Contact Section
+        _buildSectionHeader('Liên hệ Khẩn cấp', LucideIcons.phoneCall),
+        const SizedBox(height: 24),
+        GridView.count(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 3,
+          mainAxisSpacing: 32,
+          crossAxisSpacing: 32,
+          childAspectRatio: 3,
+          children: [
+            _buildInfoItem('NGƯỜI LIÊN HỆ', patient.emergencyContactName.isNotEmpty ? patient.emergencyContactName : 'Chưa cập nhật'),
+            _buildInfoItem('SĐT KHẨN CẤP', patient.emergencyContactPhone.isNotEmpty ? patient.emergencyContactPhone : 'Chưa cập nhật'),
+          ],
+        ),
       ],
     );
   }
 
-  Widget _buildInfoItem(String label, String value,
-      {Color? iconColor, Color textColor = AppColors.textPrimary, bool isBold = false}) {
+  Widget _buildSectionHeader(String title, IconData icon) {
+    return Row(
+      children: [
+        Icon(icon, size: 20, color: AppColors.primaryBlue),
+        const SizedBox(width: 12),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        const SizedBox(width: 16),
+        const Expanded(child: Divider(color: AppColors.border)),
+      ],
+    );
+  }
+
+  Widget _buildInfoItem(String label, String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 12,
-            color: AppColors.textSecondary,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.bold,
+            color: AppColors.textSecondary.withValues(alpha: 0.5),
             letterSpacing: 0.5,
           ),
         ),
-        const SizedBox(height: 6),
-        Row(
-          children: [
-            if (iconColor != null) ...[
-              Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(color: iconColor, shape: BoxShape.circle),
-              ),
-              const SizedBox(width: 8),
-            ],
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 15,
-                color: textColor,
-                fontWeight: isBold ? FontWeight.bold : FontWeight.w500,
-              ),
-            ),
-          ],
-        )
+        const SizedBox(height: 8),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+        ),
       ],
     );
   }

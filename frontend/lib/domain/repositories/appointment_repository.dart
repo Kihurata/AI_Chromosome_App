@@ -7,5 +7,5 @@ abstract class AppointmentRepository {
   Stream<Either<Failure, List<Appointment>>> watchTodayAppointments();
   Future<Either<Failure, List<Appointment>>> getAppointmentsInRange(DateTime start, DateTime end);
   Future<Either<Failure, void>> createAppointment(Appointment appointment);
-  Future<Either<Failure, void>> updateAppointmentStatus(String appointmentId, String status);
+  Future<Either<Failure, void>> updateAppointmentStatus(String appointmentId, AppointmentStatus status);
 }

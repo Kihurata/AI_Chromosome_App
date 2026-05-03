@@ -4,6 +4,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../logic/bloc/appointment/appointment_cubit.dart';
 import '../../../logic/bloc/appointment/appointment_state.dart';
+import '../../../domain/entities/appointment.dart';
 import '../../widgets/receptionist/receptionist_sidebar.dart';
 import '../../widgets/receptionist/receptionist_header.dart';
 import '../../widgets/receptionist/today_appointments_table.dart';
@@ -107,8 +108,8 @@ class _DashboardStatsRow extends StatelessWidget {
         int total = 0, pending = 0, completed = 0;
         if (state is AppointmentLoaded) {
           total = state.appointments.length;
-          pending = state.appointments.where((a) => a.status == 'scheduled').length;
-          completed = state.appointments.where((a) => a.status == 'completed').length;
+          pending = state.appointments.where((a) => a.status == AppointmentStatus.scheduled).length;
+          completed = state.appointments.where((a) => a.status == AppointmentStatus.completed).length;
         }
 
         return Row(

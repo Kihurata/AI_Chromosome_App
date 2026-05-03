@@ -61,10 +61,11 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
   @override
   Future<Either<Failure, void>> updateAppointmentStatus(
     String appointmentId,
-    String status,
+    AppointmentStatus status,
   ) async {
     try {
-      await remoteDataSource.updateAppointmentStatus(appointmentId, status);
+      await remoteDataSource.updateAppointmentStatus(
+          appointmentId, status.toFirestoreString());
       return Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
@@ -73,15 +74,6 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
 
 
   Appointment _modelToEntity(AppointmentModel model) {
-    return Appointment(
-      id: model.id,
-      patientId: model.patientId.id,
-      patientName: model.patientName,
-      doctorId: model.doctorId.id,
-      doctorName: model.doctorName,
-      appointmentDate: model.appointmentDate,
-      status: model.status,
-      reason: model.reason,
-    );
+    return model.toEntity();
   }
 }

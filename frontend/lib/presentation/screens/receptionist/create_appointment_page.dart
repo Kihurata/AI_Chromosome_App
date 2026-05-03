@@ -362,7 +362,7 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
       doctorName: _selectedDoctorName ?? '',
       appointmentDate: appointmentDate,
       reason: _reasonController.text.trim(),
-      status: 'scheduled',
+      status: AppointmentStatus.scheduled,
     );
 
     if (mounted) {

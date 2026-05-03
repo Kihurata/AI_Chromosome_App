@@ -58,34 +58,21 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
     return colors[hash.abs() % colors.length];
   }
 
-  BadgeType _mapStatus(String status) {
+  BadgeType _mapStatus(AppointmentStatus status) {
     switch (status) {
-      case 'completed':
+      case AppointmentStatus.completed:
         return BadgeType.success;
-      case 'scheduled':
-        return BadgeType.warning;
-      case 'in_progress':
+      case AppointmentStatus.inProgress:
         return BadgeType.processing;
-      case 'urgent':
+      case AppointmentStatus.cancelled:
         return BadgeType.danger;
-      default:
+      case AppointmentStatus.scheduled:
         return BadgeType.warning;
     }
   }
 
-  String _mapStatusText(String status) {
-    switch (status) {
-      case 'completed':
-        return 'Hoàn tất';
-      case 'scheduled':
-        return 'Đang chờ';
-      case 'in_progress':
-        return 'Đang khám';
-      case 'urgent':
-        return 'Khẩn cấp';
-      default:
-        return 'Đang chờ';
-    }
+  String _mapStatusText(AppointmentStatus status) {
+    return status.displayName;
   }
 
   @override
@@ -198,7 +185,7 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
                     status: _mapStatus(appt.status),
                     statusText: _mapStatusText(appt.status),
                     isLast: index == appointments.length - 1,
-                    onAccept: () => context.read<AppointmentCubit>().updateStatus(appt.id, 'in_progress'),
+                    onAccept: () => context.read<AppointmentCubit>().startExamination(appt.id),
                     onView: () => context.push('/clinician/medical-record/${appt.patientId}'),
                   );
                 }),

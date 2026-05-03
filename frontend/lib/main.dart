@@ -13,6 +13,7 @@ import 'logic/bloc/layout/layout_cubit.dart';
 import 'logic/bloc/patient/patient_cubit.dart';
 import 'logic/bloc/appointment/appointment_cubit.dart';
 import 'logic/bloc/clinician/clinician_order_cubit.dart';
+import 'logic/bloc/clinician/examination_cubit.dart';
 import 'logic/bloc/manager/manager_dashboard_cubit.dart';
 import 'logic/bloc/manager/manager_approval_cubit.dart';
 import 'data/datasources/appointment_remote_datasource.dart';
@@ -32,6 +33,9 @@ import 'domain/usecases/clinician/get_clinicians.dart';
 import 'domain/usecases/sample/collect_physical_sample.dart';
 import 'domain/usecases/sample/transfer_sample_to_lab.dart';
 import 'domain/usecases/test_order/create_genetic_test_order.dart';
+import 'domain/usecases/test_order/watch_all_orders.dart';
+import 'data/repositories/examination_repository_impl.dart';
+import 'domain/usecases/clinician/create_examination.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,6 +88,18 @@ class MedCoreApp extends ConsumerWidget {
             createGeneticTestOrder: CreateGeneticTestOrder(orderRepo),
             collectPhysicalSample: CollectPhysicalSample(sampleRepo),
             transferSampleToLab: TransferSampleToLab(sampleRepo),
+            watchAllOrders: WatchAllOrders(orderRepo),
+          );
+        }),
+
+        // ── ExaminationCubit (Clinician) ──────────────────────────────────
+        BlocProvider<ExaminationCubit>(create: (_) {
+          final ds = FirebaseAppointmentRemoteDataSource();
+          final repo = AppointmentRepositoryImpl(remoteDataSource: ds);
+          final examRepo = ExaminationRepositoryImpl();
+          return ExaminationCubit(
+            createExamination: CreateExamination(examRepo),
+            updateAppointmentStatus: UpdateAppointmentStatus(repo),
           );
         }),
 

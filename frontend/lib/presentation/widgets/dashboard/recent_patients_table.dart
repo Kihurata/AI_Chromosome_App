@@ -1,10 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../domain/entities/appointment.dart';
+import '../../../domain/entities/test_order.dart';
+import '../../../logic/bloc/appointment/appointment_cubit.dart';
+import '../../../logic/bloc/appointment/appointment_state.dart';
+import '../../../logic/bloc/clinician/clinician_order_cubit.dart';
+import '../../../logic/bloc/clinician/clinician_order_state.dart';
 import '../shared/data_display/status_badge.dart';
 
-class RecentPatientsTable extends StatelessWidget {
+class RecentPatientsTable extends StatefulWidget {
   const RecentPatientsTable({super.key});
+
+  @override
+  State<RecentPatientsTable> createState() => _RecentPatientsTableState();
+}
+
+class _RecentPatientsTableState extends State<RecentPatientsTable> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AppointmentCubit>().listenToTodayAppointments();
+    context.read<ClinicianOrderCubit>().listenToAllOrders();
+  }
+
+  BadgeType _mapAppointmentStatus(AppointmentStatus status) {
+    switch (status) {
+      case AppointmentStatus.completed:
+        return BadgeType.success;
+      case AppointmentStatus.inProgress:
+        return BadgeType.processing;
+      case AppointmentStatus.cancelled:
+        return BadgeType.danger;
+      case AppointmentStatus.scheduled:
+        return BadgeType.warning;
+    }
+  }
+
+
+
+  String _getInitials(String name) {
+    if (name.isEmpty) return '??';
+    List<String> parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts.last[0]).toUpperCase();
+    }
+    return parts[0][0].toUpperCase();
+  }
+
+  Color _getAvatarColor(String name) {
+    final int hash = name.hashCode;
+    final List<Color> colors = [
+      Colors.blue[100]!,
+      Colors.purple[100]!,
+      Colors.green[100]!,
+      Colors.orange[100]!,
+      Colors.red[100]!,
+      Colors.teal[100]!,
+    ];
+    return colors[hash.abs() % colors.length];
+  }
+
+  Color _getAvatarTextColor(String name) {
+    final int hash = name.hashCode;
+    final List<Color> colors = [
+      Colors.blue[900]!,
+      Colors.purple[900]!,
+      Colors.green[900]!,
+      Colors.orange[900]!,
+      Colors.red[900]!,
+      Colors.teal[900]!,
+    ];
+    return colors[hash.abs() % colors.length];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +94,28 @@ class RecentPatientsTable extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Hoạt động bệnh nhân gần đây\nXem lại các cập nhật thời gian thực về quy trình y tế',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hoạt động bệnh nhân gần đây',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      'Cập nhật thời gian thực về quy trình khám bệnh',
+                      style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
+                    ),
+                  ],
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: const Text('Xem tất cả báo cáo', style: TextStyle(color: AppColors.primaryBlue)),
+                  child: const Text('Xem tất cả', style: TextStyle(color: AppColors.primaryBlue)),
                 )
               ],
             ),
           ),
-          
+
           // Table Column Headers
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -46,21 +127,61 @@ class RecentPatientsTable extends StatelessWidget {
             ),
             child: const Row(
               children: [
-                Expanded(flex: 3, child: Text('TÊN BỆNH NHÂN', style: _headerStyle)),
-                Expanded(flex: 3, child: Text('HÀNH ĐỘNG', style: _headerStyle)),
+                Expanded(flex: 3, child: Text('BỆNH NHÂN', style: _headerStyle)),
+                Expanded(flex: 3, child: Text('LÝ DO KHÁM', style: _headerStyle)),
                 Expanded(flex: 2, child: Text('TRẠNG THÁI', style: _headerStyle)),
+                Expanded(flex: 2, child: Text('KQXN', style: _headerStyle)),
                 Expanded(flex: 2, child: Text('THỜI GIAN', style: _headerStyle)),
                 Expanded(flex: 2, child: Text('THAO TÁC', style: _headerStyle, textAlign: TextAlign.center)),
               ],
             ),
           ),
-          
-          // Table Data Rows
-          _buildRow('Johnathan Doe', 'Xét nghiệm máu', BadgeType.processing, 'Đang xử lý', '10:30 AM', 'JD', Colors.blue[100]!, Colors.blue[900]!),
-          _buildRow('Jane Smith', 'Phân tích AI', BadgeType.success, 'Hoàn thành', '09:15 AM', 'JS', Colors.purple[100]!, Colors.purple[900]!),
-          _buildRow('Robert Brown', 'Xem lại kết quả khẩn cấp', BadgeType.danger, 'Khẩn cấp', '08:45 AM', 'RB', Colors.red[100]!, Colors.red[900]!),
-          _buildRow('Emily Davis', 'Chụp cộng hưởng từ (MRI)', BadgeType.processing, 'Đang xử lý', '08:00 AM', 'ED', Colors.yellow[100]!, Colors.yellow[900]!),
-          _buildRow('Michael Wilson', 'Phân tích X-Quang', BadgeType.success, 'Hoàn thành', 'Hôm qua', 'MW', Colors.grey[200]!, Colors.grey[800]!, isLast: true),
+
+          // Table Data Rows via BlocBuilder
+          BlocBuilder<AppointmentCubit, AppointmentState>(
+            builder: (context, state) {
+              if (state is AppointmentLoading || state is AppointmentInitial) {
+                return const Padding(
+                  padding: EdgeInsets.all(40.0),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              if (state is AppointmentError) {
+                return Padding(
+                  padding: const EdgeInsets.all(40.0),
+                  child: Center(child: Text('Lỗi: ${state.message}', style: const TextStyle(color: AppColors.dangerText))),
+                );
+              }
+
+              final appointments = state is AppointmentLoaded ? state.appointments : <Appointment>[];
+
+              if (appointments.isEmpty) {
+                return const Padding(
+                  padding: EdgeInsets.all(60.0),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Icon(LucideIcons.calendarX, size: 48, color: AppColors.textPlaceholder),
+                        SizedBox(height: 16),
+                        Text('Không có hoạt động nào hôm nay', style: TextStyle(color: AppColors.textSecondary)),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              return Column(
+                children: List.generate(appointments.length, (index) {
+                  final appt = appointments[index];
+                  return _buildRow(
+                    appt: appt,
+                    isLast: index == appointments.length - 1,
+                  );
+                }),
+              );
+            },
+          ),
 
           // Pagination Footer
           Container(
@@ -68,32 +189,30 @@ class RecentPatientsTable extends StatelessWidget {
             decoration: const BoxDecoration(
               border: Border(top: BorderSide(color: AppColors.border)),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Đang hiển thị 5 trên 128 cập nhật', style: TextStyle(color: AppColors.textSecondary, fontSize: 14)),
-                Row(
+            child: BlocBuilder<AppointmentCubit, AppointmentState>(
+              builder: (context, state) {
+                final count = state is AppointmentLoaded ? state.appointments.length : 0;
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    OutlinedButton(onPressed: (){}, style: OutlinedButton.styleFrom(side: const BorderSide(color: AppColors.border)), child: const Text('Trước', style: TextStyle(color: AppColors.textSecondary))),
-                    const SizedBox(width: 8),
-                    Container(
-                      width: 40, height: 40,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(color: AppColors.primaryBlue, borderRadius: BorderRadius.circular(8)),
-                      child: const Text('1', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      width: 40, height: 40,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(border: Border.all(color: AppColors.border), borderRadius: BorderRadius.circular(8)),
-                      child: const Text('2', style: TextStyle(color: AppColors.textSecondary)),
-                    ),
-                    const SizedBox(width: 8),
-                    OutlinedButton(onPressed: (){}, style: OutlinedButton.styleFrom(side: const BorderSide(color: AppColors.border)), child: const Text('Tiếp theo', style: TextStyle(color: AppColors.textSecondary))),
+                    Text('Hiển thị $count cập nhật hôm nay', style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+                    Row(
+                      children: [
+                        OutlinedButton(onPressed: null, style: OutlinedButton.styleFrom(side: const BorderSide(color: AppColors.border)), child: const Text('Trước', style: TextStyle(color: AppColors.textPlaceholder))),
+                        const SizedBox(width: 8),
+                        Container(
+                          width: 36, height: 36,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(color: AppColors.primaryBlue, borderRadius: BorderRadius.circular(8)),
+                          child: const Text('1', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
+                        ),
+                        const SizedBox(width: 8),
+                        OutlinedButton(onPressed: null, style: OutlinedButton.styleFrom(side: const BorderSide(color: AppColors.border)), child: const Text('Tiếp', style: TextStyle(color: AppColors.textPlaceholder))),
+                      ],
+                    )
                   ],
-                )
-              ],
+                );
+              },
             ),
           )
         ],
@@ -102,13 +221,13 @@ class RecentPatientsTable extends StatelessWidget {
   }
 
   static const TextStyle _headerStyle = TextStyle(
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: FontWeight.w600,
     color: AppColors.textSecondary,
     letterSpacing: 0.5,
   );
 
-  Widget _buildRow(String name, String action, BadgeType type, String statusText, String time, String initials, Color avatarBg, Color avatarText, {bool isLast = false}) {
+  Widget _buildRow({required Appointment appt, bool isLast = false}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       decoration: BoxDecoration(
@@ -116,69 +235,86 @@ class RecentPatientsTable extends StatelessWidget {
       ),
       child: Row(
         children: [
+          // Tên bệnh nhân
           Expanded(
             flex: 3,
             child: Row(
               children: [
                 CircleAvatar(
                   radius: 16,
-                  backgroundColor: avatarBg,
-                  child: Text(initials, style: TextStyle(color: avatarText, fontSize: 12, fontWeight: FontWeight.bold)),
+                  backgroundColor: _getAvatarColor(appt.patientName),
+                  child: Text(
+                    _getInitials(appt.patientName),
+                    style: TextStyle(color: _getAvatarTextColor(appt.patientName), fontSize: 11, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 const SizedBox(width: 12),
-                Text(name, style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
-                // Add tiny indicator if available
-                if (name == 'Johnathan Doe') ...[
-                   const SizedBox(width: 8),
-                   Container(
-                     padding: const EdgeInsets.all(4),
-                     decoration: const BoxDecoration(color: AppColors.primaryBlue, shape: BoxShape.circle),
-                     child: const Text('1', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
-                   )
-                ]
+                Expanded(
+                  child: Text(
+                    appt.patientName,
+                    style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary, fontSize: 14),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
               ],
             ),
           ),
+          // Lý do khám
           Expanded(
             flex: 3,
-            child: Row(
-              children: [
-                const Icon(LucideIcons.activity, size: 16, color: AppColors.textSecondary),
-                const SizedBox(width: 8),
-                Text(action, style: const TextStyle(color: AppColors.textSecondary)),
-              ],
+            child: Text(
+              appt.reason,
+              style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
+          // Cột Trạng thái (Appointment)
           Expanded(
             flex: 2,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: StatusBadge(text: statusText, type: type),
+              child: StatusBadge(
+                text: appt.status.displayName,
+                type: _mapAppointmentStatus(appt.status),
+              ),
             ),
           ),
+          // Cột KQXN (Test Order — chưa có dữ liệu thực thì ẩn)
           Expanded(
             flex: 2,
-            child: Text(time, style: const TextStyle(color: AppColors.textSecondary)),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: _KqxnBadge(appointmentId: appt.id),
+            ),
           ),
+          // Thời gian
+          Expanded(
+            flex: 2,
+            child: Text(
+              DateFormat('HH:mm').format(appt.appointmentDate),
+              style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
+            ),
+          ),
+          // Thao tác
           Expanded(
             flex: 2,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
-                  icon: const Icon(LucideIcons.stethoscope, size: 18, color: AppColors.primaryBlue),
-                  onPressed: () {},
-                  tooltip: 'Khám bệnh',
-                ),
-                IconButton(
-                  icon: const Icon(LucideIcons.edit2, size: 18, color: AppColors.textSecondary),
-                  onPressed: () {},
-                  tooltip: 'Chỉnh sửa',
-                ),
-                IconButton(
-                  icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.textSecondary),
-                  onPressed: () {},
+                  icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.primaryBlue),
+                  onPressed: () => context.push('/clinician/medical-record/${appt.id}'),
                   tooltip: 'Xem bệnh án',
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
+                const SizedBox(width: 8),
+                IconButton(
+                  icon: const Icon(LucideIcons.stethoscope, size: 18, color: AppColors.textSecondary),
+                  onPressed: () => context.push('/clinician/examination-form/${appt.id}'),
+                  tooltip: 'Bắt đầu khám',
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
                 ),
               ],
             ),
@@ -189,3 +325,51 @@ class RecentPatientsTable extends StatelessWidget {
   }
 }
 
+/// Widget hiển thị cột KQXN độc lập
+/// Không cần TestOrderCubit global — hiển thị placeholder cho đến khi
+/// một luồng riêng cung cấp dữ liệu thực tế
+class _KqxnBadge extends StatelessWidget {
+  final String appointmentId;
+  const _KqxnBadge({required this.appointmentId});
+
+  BadgeType _mapTestOrderStatus(TestOrderStatus status) {
+    switch (status) {
+      case TestOrderStatus.completed:
+        return BadgeType.success;
+      case TestOrderStatus.analyzing:
+      case TestOrderStatus.waitingApproval:
+        return BadgeType.processing;
+      case TestOrderStatus.rejected:
+        return BadgeType.danger;
+      case TestOrderStatus.pending:
+        return BadgeType.warning;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ClinicianOrderCubit, ClinicianOrderState>(
+      builder: (context, state) {
+        if (state is TestOrdersLoaded) {
+          final orders = state.testOrders.where((o) => o.appointmentId == appointmentId).toList();
+          if (orders.isEmpty) {
+            return const Text(
+              '—',
+              style: TextStyle(color: AppColors.textPlaceholder, fontSize: 13),
+            );
+          }
+          // Lấy order mới nhất
+          final latest = orders.first;
+          return StatusBadge(
+            text: latest.status.displayName,
+            type: _mapTestOrderStatus(latest.status),
+          );
+        }
+        return const Text(
+          '—',
+          style: TextStyle(color: AppColors.textPlaceholder, fontSize: 13),
+        );
+      },
+    );
+  }
+}

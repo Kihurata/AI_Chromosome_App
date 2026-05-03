@@ -68,4 +68,8 @@ class FirebaseAppointmentRemoteDataSource implements AppointmentRemoteDataSource
         .doc(appointmentId)
         .update({'status': status});
   }
+
+  Future<String?> getAppointmentIdByDocId(String docId) async {
+    return docId;
+  }
 }

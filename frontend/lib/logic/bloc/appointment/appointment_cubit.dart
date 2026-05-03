@@ -59,13 +59,22 @@ class AppointmentCubit extends Cubit<AppointmentState> {
     );
   }
 
-  Future<void> updateStatus(String appointmentId, String status) async {
+  Future<void> updateStatus(String appointmentId, AppointmentStatus status) async {
     final result = await updateAppointmentStatus(appointmentId, status);
     result.fold(
       (failure) => emit(AppointmentError(failure.message)),
       (_) => null, // Stream listener will auto-refresh the list
     );
   }
+
+  Future<void> startExamination(String appointmentId) =>
+      updateStatus(appointmentId, AppointmentStatus.inProgress);
+
+  Future<void> completeAppointment(String appointmentId) =>
+      updateStatus(appointmentId, AppointmentStatus.completed);
+
+  Future<void> cancelAppointment(String appointmentId) =>
+      updateStatus(appointmentId, AppointmentStatus.cancelled);
 
   Future<void> fetchClinicians() async {
     emit(AppointmentLoading());
