@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../widgets/shared/form/app_buttons.dart';
 import '../../widgets/shared/layouts/base_layout.dart';
 import '../../widgets/shared/containers/app_card.dart';
 
@@ -16,16 +17,11 @@ class TestResultDetailPage extends StatelessWidget {
       subtitle: 'Chi tiết kết quả xét nghiệm di truyền',
       showBackButton: true,
       headerActions: [
-        ElevatedButton.icon(
+        AppPrimaryButton(
           onPressed: () {},
-          icon: const Icon(LucideIcons.download, size: 18),
-          label: const Text('Tải báo cáo PDF'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryBlue,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
+          icon: LucideIcons.download,
+          text: 'Tải báo cáo PDF',
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         ),
       ],
       child: SingleChildScrollView(

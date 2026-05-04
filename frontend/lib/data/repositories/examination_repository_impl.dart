@@ -1,22 +1,26 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 import '../../core/errors/failures.dart';
+import '../../core/errors/exceptions.dart';
 import '../../domain/entities/examination.dart';
 import '../../domain/repositories/examination_repository.dart';
+import '../datasources/examination_remote_datasource.dart';
 import '../models/examination_model.dart';
 
+@LazySingleton(as: ExaminationRepository)
 class ExaminationRepositoryImpl implements ExaminationRepository {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final ExaminationRemoteDataSource remoteDataSource;
+
+  ExaminationRepositoryImpl(this.remoteDataSource);
 
   @override
   Future<Either<Failure, void>> createExamination(Examination examination) async {
     try {
       final model = ExaminationModel.fromEntity(examination);
-      await _firestore
-          .collection('examinations')
-          .doc(examination.id.isEmpty ? null : examination.id)
-          .set(model.toFirestore());
+      await remoteDataSource.createExamination(model);
       return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -26,14 +30,11 @@ class ExaminationRepositoryImpl implements ExaminationRepository {
   Future<Either<Failure, Examination?>> getExaminationByAppointmentId(
       String appointmentId) async {
     try {
-      final snapshot = await _firestore
-          .collection('examinations')
-          .where('appointment_id', isEqualTo: appointmentId)
-          .limit(1)
-          .get();
-
-      if (snapshot.docs.isEmpty) return const Right(null);
-      return Right(ExaminationModel.fromFirestore(snapshot.docs.first).toEntity());
+      final model = await remoteDataSource.getExaminationByAppointmentId(appointmentId);
+      if (model == null) return const Right(null);
+      return Right(model.toEntity());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

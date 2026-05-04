@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../core/theme/app_colors.dart';
+import '../shared/form/app_buttons.dart';
 
 class ReceptionistHeader extends StatelessWidget {
   final String title;
@@ -56,17 +57,11 @@ class ReceptionistHeader extends StatelessWidget {
 
           if (onAddPatient != null) ...[
             const SizedBox(width: 12),
-            ElevatedButton.icon(
+            AppPrimaryButton(
               onPressed: onAddPatient,
-              icon: const Icon(LucideIcons.userPlus, size: 16),
-              label: const Text('Thêm bệnh nhân', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryBlue,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
+              icon: LucideIcons.userPlus,
+              text: 'Thêm bệnh nhân',
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
             ),
           ],
 

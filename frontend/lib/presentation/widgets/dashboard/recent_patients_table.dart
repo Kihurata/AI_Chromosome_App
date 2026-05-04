@@ -11,6 +11,7 @@ import '../../../logic/bloc/appointment/appointment_state.dart';
 import '../../../logic/bloc/clinician/clinician_order_cubit.dart';
 import '../../../logic/bloc/clinician/clinician_order_state.dart';
 import '../shared/data_display/status_badge.dart';
+import '../shared/form/app_buttons.dart';
 
 class RecentPatientsTable extends StatefulWidget {
   const RecentPatientsTable({super.key});
@@ -198,7 +199,11 @@ class _RecentPatientsTableState extends State<RecentPatientsTable> {
                     Text('Hiển thị $count cập nhật hôm nay', style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                     Row(
                       children: [
-                        OutlinedButton(onPressed: null, style: OutlinedButton.styleFrom(side: const BorderSide(color: AppColors.border)), child: const Text('Trước', style: TextStyle(color: AppColors.textPlaceholder))),
+                        AppSecondaryButton(
+                          text: 'Trước',
+                          onPressed: null,
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
                         const SizedBox(width: 8),
                         Container(
                           width: 36, height: 36,
@@ -207,7 +212,11 @@ class _RecentPatientsTableState extends State<RecentPatientsTable> {
                           child: const Text('1', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13)),
                         ),
                         const SizedBox(width: 8),
-                        OutlinedButton(onPressed: null, style: OutlinedButton.styleFrom(side: const BorderSide(color: AppColors.border)), child: const Text('Tiếp', style: TextStyle(color: AppColors.textPlaceholder))),
+                        AppSecondaryButton(
+                          text: 'Tiếp',
+                          onPressed: null,
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
                       ],
                     )
                   ],
@@ -299,23 +308,27 @@ class _RecentPatientsTableState extends State<RecentPatientsTable> {
           Expanded(
             flex: 2,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (appt.status == AppointmentStatus.scheduled)
                 IconButton(
-                  icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.primaryBlue),
+                  icon: const Icon(LucideIcons.stethoscope, size: 18, color: AppColors.primaryBlue),
+                  onPressed: () {
+                    context.read<AppointmentCubit>().startExamination(appt.id);
+                    context.push('/clinician/medical-record/${appt.id}');
+                  },
+                  tooltip: 'Bắt đầu khám',
+                  padding: const EdgeInsets.all(8),
+                )
+              else
+                IconButton(
+                  icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.textSecondary),
                   onPressed: () => context.push('/clinician/medical-record/${appt.id}'),
                   tooltip: 'Xem bệnh án',
                   padding: const EdgeInsets.all(8),
                 ),
-                const SizedBox(width: 8),
-                IconButton(
-                  icon: const Icon(LucideIcons.stethoscope, size: 18, color: AppColors.textSecondary),
-                  onPressed: () => context.push('/clinician/examination-form/${appt.id}'),
-                  tooltip: 'Bắt đầu khám',
-                  padding: const EdgeInsets.all(8),
-                ),
-              ],
-            ),
+            ],
+          ),
           ),
         ],
       ),

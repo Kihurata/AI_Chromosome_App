@@ -90,6 +90,8 @@ class _ClinicianExaminationFormPageState
         conclusion: _conclusionCtrl.text,
         treatmentPlan: _treatmentCtrl.text,
         medicationNotes: _medicationNotesCtrl.text,
+        followUpDate: _followUpCtrl.text.isNotEmpty ? DateTime.tryParse(_followUpCtrl.text.split('/').reversed.join('-')) : null,
+        priorityFollowUp: _priorityFollowUp,
       );
       return cubit.state is ExaminationSaveSuccess;
     } else {
@@ -294,36 +296,6 @@ class _ClinicianExaminationFormPageState
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Đơn thuốc placeholder
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text('ĐƠN THUỐC',
-                                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-                              const SizedBox(height: 8),
-                              Container(
-                                height: 90,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFF8FAFC),
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: AppColors.border),
-                                ),
-                                child: const Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(LucideIcons.plusCircle, color: AppColors.textSecondary, size: 22),
-                                    SizedBox(height: 6),
-                                    Text('Click để thêm thuốc từ danh mục',
-                                        style: TextStyle(color: AppColors.textSecondary, fontSize: 13)),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 16),
                         // Hẹn tái khám
                         Expanded(
                           child: Row(
@@ -332,7 +304,7 @@ class _ClinicianExaminationFormPageState
                               Expanded(
                                 child: AppTextField(
                                   labelText: 'HẸN TÁI KHÁM',
-                                  hintText: 'dd/mm/yyyy',
+                                  hintText: 'yyyy-mm-dd',
                                   suffixIcon: const Icon(LucideIcons.calendar, size: 16),
                                   controller: _followUpCtrl,
                                 ),
@@ -365,6 +337,8 @@ class _ClinicianExaminationFormPageState
                             ],
                           ),
                         ),
+                        const SizedBox(width: 16),
+                        const Spacer(),
                       ],
                     ),
                     const SizedBox(height: 24),

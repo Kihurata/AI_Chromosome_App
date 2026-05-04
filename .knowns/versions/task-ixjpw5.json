@@ -1,6 +1,6 @@
 {
   "taskId": "ixjpw5",
-  "currentVersion": 3,
+  "currentVersion": 5,
   "versions": [
     {
       "id": "v1",
@@ -67,6 +67,48 @@
         "assignee": "@me",
         "description": "Refactor the entire presentation layer to enforce the 'Atomic Widgets' rule. Replace all direct usages of native Flutter widgets like TextField, TextFormField, ElevatedButton, and OutlinedButton with the project's shared atomic widgets: AppTextField, AppPrimaryButton, and AppSecondaryButton. This ensures visual consistency and adheres to the project's composition-based architecture.",
         "implementationPlan": "## Implementation Plan\n1. Audit current atomic widgets: Ensure AppTextField and AppButtons support all needed parameters (icons, validation, padding).\n2. Refactor Buttons: Replace ElevatedButton/OutlinedButton with AppPrimaryButton/AppSecondaryButton across all presentation/screens.\n3. Refactor Text Fields: Replace TextField/TextFormField with AppTextField, preserving controllers and validation logic.\n4. Verification: Run 'dart analyze' and perform visual checks on key screens to ensure no regressions.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor: Replace native flutter inputs/buttons with Atomic Widgets"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "ixjpw5",
+      "version": 4,
+      "timestamp": "2026-05-03T10:13:27.7144078Z",
+      "changes": [
+        {
+          "field": "assignee",
+          "oldValue": "@me",
+          "newValue": "--json"
+        }
+      ],
+      "snapshot": {
+        "assignee": "--json",
+        "description": "Refactor the entire presentation layer to enforce the 'Atomic Widgets' rule. Replace all direct usages of native Flutter widgets like TextField, TextFormField, ElevatedButton, and OutlinedButton with the project's shared atomic widgets: AppTextField, AppPrimaryButton, and AppSecondaryButton. This ensures visual consistency and adheres to the project's composition-based architecture.",
+        "implementationPlan": "## Implementation Plan\n1. Audit current atomic widgets: Ensure AppTextField and AppButtons support all needed parameters (icons, validation, padding).\n2. Refactor Buttons: Replace ElevatedButton/OutlinedButton with AppPrimaryButton/AppSecondaryButton across all presentation/screens.\n3. Refactor Text Fields: Replace TextField/TextFormField with AppTextField, preserving controllers and validation logic.\n4. Verification: Run 'dart analyze' and perform visual checks on key screens to ensure no regressions.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor: Replace native flutter inputs/buttons with Atomic Widgets"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "ixjpw5",
+      "version": 5,
+      "timestamp": "2026-05-03T10:13:36.4760952Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": "## Implementation Plan\n1. Audit current atomic widgets: Ensure AppTextField and AppButtons support all needed parameters (icons, validation, padding).\n2. Refactor Buttons: Replace ElevatedButton/OutlinedButton with AppPrimaryButton/AppSecondaryButton across all presentation/screens.\n3. Refactor Text Fields: Replace TextField/TextFormField with AppTextField, preserving controllers and validation logic.\n4. Verification: Run 'dart analyze' and perform visual checks on key screens to ensure no regressions.",
+          "newValue": "## Implementation Plan\n1. Refactor Clinician Dashboard Actions: Consolidate Eye/Stethoscope icons in RecentPatientsTable into a single dynamic button that updates appointment status (scheduled -\u003e inProgress) and navigates to Medical Record.\n2. Standardize Buttons: Replace ElevatedButton/OutlinedButton with AppPrimaryButton/AppSecondaryButton across clinician and receptionist modules.\n3. Standardize Text Fields: Replace TextField/TextFormField with AppTextField, ensuring controllers and validation are preserved.\n4. UI Verification: Perform visual checks on 'Bảng điều khiển bác sĩ' and 'Bệnh án điện tử' to ensure visual consistency and correct workflow behavior."
+        }
+      ],
+      "snapshot": {
+        "assignee": "--json",
+        "description": "Refactor the entire presentation layer to enforce the 'Atomic Widgets' rule. Replace all direct usages of native Flutter widgets like TextField, TextFormField, ElevatedButton, and OutlinedButton with the project's shared atomic widgets: AppTextField, AppPrimaryButton, and AppSecondaryButton. This ensures visual consistency and adheres to the project's composition-based architecture.",
+        "implementationPlan": "## Implementation Plan\n1. Refactor Clinician Dashboard Actions: Consolidate Eye/Stethoscope icons in RecentPatientsTable into a single dynamic button that updates appointment status (scheduled -\u003e inProgress) and navigates to Medical Record.\n2. Standardize Buttons: Replace ElevatedButton/OutlinedButton with AppPrimaryButton/AppSecondaryButton across clinician and receptionist modules.\n3. Standardize Text Fields: Replace TextField/TextFormField with AppTextField, ensuring controllers and validation are preserved.\n4. UI Verification: Perform visual checks on 'Bảng điều khiển bác sĩ' and 'Bệnh án điện tử' to ensure visual consistency and correct workflow behavior.",
         "priority": "high",
         "status": "in-progress",
         "title": "Refactor: Replace native flutter inputs/buttons with Atomic Widgets"

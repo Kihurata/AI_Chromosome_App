@@ -8,13 +8,6 @@
       "totalPausedMs": 0
     },
     {
-      "taskId": "ixjpw5",
-      "taskTitle": "Refactor: Replace native flutter inputs/buttons with Atomic Widgets",
-      "startedAt": "2026-05-02T08:43:44.152Z",
-      "pausedAt": null,
-      "totalPausedMs": 0
-    },
-    {
       "taskId": "rlwl5x",
       "taskTitle": "Implement FastAPI server in ai_server/ directory",
       "startedAt": "2026-05-02T07:14:58.449Z",

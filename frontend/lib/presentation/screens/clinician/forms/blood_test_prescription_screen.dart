@@ -7,12 +7,13 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../widgets/shared/layouts/main_form_layout.dart';
 import '../../../widgets/shared/form/app_text_field.dart';
 import '../../../widgets/shared/form/app_buttons.dart';
-import '../../../widgets/shared/form/app_dropdown.dart';
 import '../../../../logic/bloc/clinician/clinician_order_cubit.dart';
 import '../../../../logic/bloc/clinician/clinician_order_state.dart';
 import '../../../../logic/bloc/patient/patient_cubit.dart';
 import '../../../../logic/bloc/patient/patient_state.dart';
 import '../../../../domain/entities/test_order.dart';
+import '../../../../domain/entities/sample.dart';
+import '../../../../logic/bloc/auth/auth_cubit.dart';
 
 class ClinicianBloodTestPrescriptionPage extends StatefulWidget {
   final String id; // appointmentId
@@ -27,8 +28,6 @@ class _ClinicianBloodTestPrescriptionPageState
     extends State<ClinicianBloodTestPrescriptionPage> {
   final _clinicalNotesCtrl = TextEditingController();
   final _sampleTimeCtrl = TextEditingController();
-  String _selectedTestType = 'Xét nghiệm máu';
-  String _selectedSampleType = 'Máu';
 
   @override
   void dispose() {
@@ -39,9 +38,12 @@ class _ClinicianBloodTestPrescriptionPageState
 
   Future<void> _submitOrder(BuildContext context) async {
     final patientState = context.read<PatientCubit>().state;
+    final authState = context.read<AuthCubit>().state;
+    
     String patientId = '';
     String patientName = '';
     String patientCode = '';
+    String clinicianId = '';
 
     if (patientState is PatientLoaded && patientState.patients.isNotEmpty) {
       final p = patientState.patients.first;
@@ -50,8 +52,13 @@ class _ClinicianBloodTestPrescriptionPageState
       patientCode = p.patientCode ?? '';
     }
 
+    if (authState is Authenticated) {
+      clinicianId = authState.user.uid;
+    }
+
+    final orderId = const Uuid().v4();
     final testOrder = TestOrder(
-      id: const Uuid().v4(),
+      id: orderId,
       patientId: patientId,
       patientName: patientName,
       patientCode: patientCode,
@@ -59,7 +66,21 @@ class _ClinicianBloodTestPrescriptionPageState
       createdAt: DateTime.now(),
     );
 
-    await context.read<ClinicianOrderCubit>().submitTestOrder(testOrder);
+    final sample = Sample(
+      id: const Uuid().v4(),
+      testOrderId: orderId,
+      collectedBy: clinicianId,
+      collectedAt: _sampleTimeCtrl.text.isNotEmpty 
+          ? (DateTime.tryParse(_sampleTimeCtrl.text.replaceAll('/', '-')) ?? DateTime.now())
+          : DateTime.now(),
+      notes: _clinicalNotesCtrl.text,
+      status: SampleStatus.collected,
+    );
+
+    await context.read<ClinicianOrderCubit>().submitOrderWithSample(
+      order: testOrder,
+      sample: sample,
+    );
   }
 
   @override
@@ -125,17 +146,7 @@ class _ClinicianBloodTestPrescriptionPageState
                       ),
                     ),
                     const SizedBox(width: 16),
-                    Expanded(
-                      child: AppDropdown<String>(
-                        labelText: 'Loại xét nghiệm',
-                        hintText: 'Chọn loại xét nghiệm',
-                        value: _selectedTestType,
-                        items: const ['Xét nghiệm máu', 'Xét nghiệm nước tiểu', 'Di truyền học']
-                            .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                            .toList(),
-                        onChanged: (v) => setState(() => _selectedTestType = v ?? _selectedTestType),
-                      ),
-                    ),
+                    const Expanded(child: SizedBox()), // Placeholder for alignment
                   ],
                 ),
               ),
@@ -151,24 +162,15 @@ class _ClinicianBloodTestPrescriptionPageState
                     Row(
                       children: [
                         Expanded(
-                          child: AppDropdown<String>(
-                            labelText: 'Loại mẫu',
-                            value: _selectedSampleType,
-                            items: const ['Máu', 'Nước tiểu', 'Khác']
-                                .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                                .toList(),
-                            onChanged: (v) => setState(() => _selectedSampleType = v ?? _selectedSampleType),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
                           child: AppTextField(
                             labelText: 'Thời gian lấy mẫu',
-                            hintText: 'dd/mm/yyyy, HH:mm',
+                            hintText: 'yyyy-mm-dd HH:mm',
                             suffixIcon: const Icon(LucideIcons.calendar, size: 16),
                             controller: _sampleTimeCtrl,
                           ),
                         ),
+                        const SizedBox(width: 16),
+                        const Expanded(child: SizedBox()), // Placeholder for alignment
                       ],
                     ),
                     const SizedBox(height: 20),

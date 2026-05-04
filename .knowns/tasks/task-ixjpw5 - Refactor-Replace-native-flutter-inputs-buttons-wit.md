@@ -5,9 +5,9 @@ status: in-progress
 priority: high
 labels: []
 createdAt: '2026-05-02T08:43:35.770Z'
-updatedAt: '2026-05-02T08:43:55.666Z'
-timeSpent: 0
-assignee: '@me'
+updatedAt: '2026-05-03T10:52:05.651Z'
+timeSpent: 94101
+assignee: '--json'
 ---
 # Refactor: Replace native flutter inputs/buttons with Atomic Widgets
 
@@ -25,9 +25,9 @@ Refactor the entire presentation layer to enforce the 'Atomic Widgets' rule. Rep
 
 <!-- SECTION:PLAN:BEGIN -->
 ## Implementation Plan
-1. Audit current atomic widgets: Ensure AppTextField and AppButtons support all needed parameters (icons, validation, padding).
-2. Refactor Buttons: Replace ElevatedButton/OutlinedButton with AppPrimaryButton/AppSecondaryButton across all presentation/screens.
-3. Refactor Text Fields: Replace TextField/TextFormField with AppTextField, preserving controllers and validation logic.
-4. Verification: Run 'dart analyze' and perform visual checks on key screens to ensure no regressions.
+1. Refactor Clinician Dashboard Actions: Consolidate Eye/Stethoscope icons in RecentPatientsTable into a single dynamic button that updates appointment status (scheduled -> inProgress) and navigates to Medical Record.
+2. Standardize Buttons: Replace ElevatedButton/OutlinedButton with AppPrimaryButton/AppSecondaryButton across clinician and receptionist modules.
+3. Standardize Text Fields: Replace TextField/TextFormField with AppTextField, ensuring controllers and validation are preserved.
+4. UI Verification: Perform visual checks on 'Bảng điều khiển bác sĩ' and 'Bệnh án điện tử' to ensure visual consistency and correct workflow behavior.
 <!-- SECTION:PLAN:END -->
 

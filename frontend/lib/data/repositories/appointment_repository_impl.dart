@@ -5,10 +5,13 @@ import '../../domain/repositories/appointment_repository.dart';
 import '../datasources/appointment_remote_datasource.dart';
 import '../models/appointment_model.dart';
 
+import 'package:injectable/injectable.dart';
+
+@LazySingleton(as: AppointmentRepository)
 class AppointmentRepositoryImpl implements AppointmentRepository {
   final AppointmentRemoteDataSource remoteDataSource;
 
-  AppointmentRepositoryImpl({required this.remoteDataSource});
+  AppointmentRepositoryImpl(this.remoteDataSource);
 
   @override
   Future<Either<Failure, List<Appointment>>> getTodayAppointments() async {

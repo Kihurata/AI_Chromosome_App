@@ -7,6 +7,7 @@ import 'package:medcore_crm/core/theme/app_colors.dart';
 import 'package:medcore_crm/core/providers/auth_provider.dart';
 import 'package:medcore_crm/core/models/nav_item.dart';
 import 'package:medcore_crm/presentation/widgets/shared/layouts/medical_record_layout.dart';
+import 'package:medcore_crm/presentation/widgets/shared/form/app_buttons.dart';
 import 'package:medcore_crm/presentation/screens/patient_detail/medical_record/tabs/patient_info_tab.dart';
 import 'package:medcore_crm/presentation/screens/patient_detail/medical_record/tabs/history_tab.dart';
 import 'package:medcore_crm/presentation/screens/patient_detail/medical_record/tabs/test_results_tab.dart';
@@ -57,18 +58,12 @@ class _SharedMedicalRecordPageState extends ConsumerState<SharedMedicalRecordPag
 
           return MedicalRecordLayout(
             title: 'Bệnh án Điện tử',
-            headerAction: isClinician ? ElevatedButton.icon(
+            headerAction: isClinician ? AppPrimaryButton(
               onPressed: () {
                 context.push('/clinician/examination-form/${widget.id}');
               },
-              icon: const Icon(LucideIcons.plus, size: 18),
-              label: const Text('Lập Phiếu Khám bệnh'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryBlue,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              ),
+              icon: LucideIcons.plus,
+              text: 'Lập Phiếu Khám bệnh',
             ) : null,
             breadcrumbText: patient.fullName,
             onBreadcrumbTap: () => context.go('/clinician/appointments'),

@@ -29,6 +29,38 @@ class ClinicianOrderCubit extends Cubit<ClinicianOrderState> {
     );
   }
 
+  Future<void> submitOrderWithSample({
+    required TestOrder order,
+    required Sample sample,
+  }) async {
+    emit(ClinicianOrderLoading());
+    
+    // 1. Create Test Order
+    final orderResult = await createGeneticTestOrder(order);
+    
+    final success = await orderResult.fold(
+      (failure) async {
+        emit(ClinicianOrderError('Lỗi tạo phiếu: ${failure.message}'));
+        return false;
+      },
+      (_) async {
+        // 2. Create Physical Sample
+        final sampleResult = await collectPhysicalSample(sample);
+        return sampleResult.fold(
+          (failure) {
+            emit(ClinicianOrderError('Lỗi ghi nhận mẫu: ${failure.message}'));
+            return false;
+          },
+          (_) => true,
+        );
+      },
+    );
+
+    if (success) {
+      emit(const ClinicianOrderSuccess('Đã tạo phiếu xét nghiệm và ghi nhận mẫu bệnh phẩm'));
+    }
+  }
+
   Future<void> collectSample(Sample sample) async {
     emit(ClinicianOrderLoading());
     final result = await collectPhysicalSample(sample);

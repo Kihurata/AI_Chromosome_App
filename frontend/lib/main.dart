@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,8 +35,8 @@ import 'domain/usecases/sample/collect_physical_sample.dart';
 import 'domain/usecases/sample/transfer_sample_to_lab.dart';
 import 'domain/usecases/test_order/create_genetic_test_order.dart';
 import 'domain/usecases/test_order/watch_all_orders.dart';
-import 'data/repositories/examination_repository_impl.dart';
-import 'domain/usecases/clinician/create_examination.dart';
+// Examination imports removed as they are now handled by getIt
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,8 +65,8 @@ class MedCoreApp extends ConsumerWidget {
 
         // ── AppointmentCubit (Receptionist) ──────────────────────────────
         BlocProvider<AppointmentCubit>(create: (_) {
-          final ds = FirebaseAppointmentRemoteDataSource();
-          final repo = AppointmentRepositoryImpl(remoteDataSource: ds);
+          final ds = FirebaseAppointmentRemoteDataSource(FirebaseFirestore.instance);
+          final repo = AppointmentRepositoryImpl(ds);
           final clinicianDs = FirebaseClinicianRemoteDataSource();
           final clinicianRepo = ClinicianRepositoryImpl(remoteDataSource: clinicianDs);
           return AppointmentCubit(
@@ -93,15 +94,7 @@ class MedCoreApp extends ConsumerWidget {
         }),
 
         // ── ExaminationCubit (Clinician) ──────────────────────────────────
-        BlocProvider<ExaminationCubit>(create: (_) {
-          final ds = FirebaseAppointmentRemoteDataSource();
-          final repo = AppointmentRepositoryImpl(remoteDataSource: ds);
-          final examRepo = ExaminationRepositoryImpl();
-          return ExaminationCubit(
-            createExamination: CreateExamination(examRepo),
-            updateAppointmentStatus: UpdateAppointmentStatus(repo),
-          );
-        }),
+        BlocProvider<ExaminationCubit>(create: (_) => getIt<ExaminationCubit>()),
 
         // ── ManagerDashboardCubit (Manager) ──────────────────────────────
         BlocProvider<ManagerDashboardCubit>(create: (_) => getIt<ManagerDashboardCubit>()),

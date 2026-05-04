@@ -6,6 +6,9 @@ import '../../../domain/usecases/clinician/create_examination.dart';
 import '../../../domain/usecases/appointment/update_appointment_status.dart';
 import 'examination_state.dart';
 
+import 'package:injectable/injectable.dart';
+
+@injectable
 class ExaminationCubit extends Cubit<ExaminationState> {
   final CreateExamination createExamination;
   final UpdateAppointmentStatus updateAppointmentStatus;

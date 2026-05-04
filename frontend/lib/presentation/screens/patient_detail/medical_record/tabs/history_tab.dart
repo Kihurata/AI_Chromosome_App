@@ -246,10 +246,10 @@ class _HistoryTabState extends State<HistoryTab> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  _buildSectionLabel('TIỀN SỬ BỆNH'),
+                                  _buildSectionLabel('TIỀN SỬ & DỊ ỨNG'),
                                   const SizedBox(height: 8),
                                   Text(
-                                    exam.medicalHistory ?? 'Không có thông tin',
+                                    'Bệnh sử: ${exam.medicalHistory ?? "Không"}\nDị ứng: ${exam.allergies ?? "Không"}\nThuốc đang dùng: ${exam.currentMedications ?? "Không"}',
                                     style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
                                   ),
                                 ],
@@ -257,13 +257,66 @@ class _HistoryTabState extends State<HistoryTab> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 16),
-                        _buildSectionLabel('KẾT LUẬN & ĐIỀU TRỊ'),
-                        const SizedBox(height: 8),
-                        Text(
-                          exam.conclusion ?? 'Chưa có kết luận',
-                          style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
+                        const SizedBox(height: 24),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildSectionLabel('KẾT LUẬN'),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Chẩn đoán ICD: ${exam.icdCode ?? "N/A"}\nKết luận: ${exam.conclusion ?? "N/A"}',
+                                    style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 32),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildSectionLabel('HƯỚNG ĐIỀU TRỊ'),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Kế hoạch: ${exam.treatmentPlan ?? "N/A"}\nGhi chú thuốc: ${exam.medicationNotes ?? "N/A"}',
+                                    style: const TextStyle(color: AppColors.textPrimary, fontSize: 13),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
+                        if (exam.followUpDate != null) ...[
+                          const SizedBox(height: 24),
+                          _buildSectionLabel('HẸN TÁI KHÁM'),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Text(
+                                DateFormat('dd/MM/yyyy').format(exam.followUpDate!),
+                                style: const TextStyle(color: AppColors.primaryBlue, fontWeight: FontWeight.bold, fontSize: 13),
+                              ),
+                              if (exam.priorityFollowUp) ...[
+                                const SizedBox(width: 12),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red.withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Text(
+                                    'ƯU TIÊN',
+                                    style: TextStyle(color: Colors.red, fontSize: 10, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ],
                       ],
                     ],
                   ),
