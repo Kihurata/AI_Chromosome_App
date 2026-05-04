@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../logic/bloc/workspace/workspace_cubit.dart';
 import '../../../../logic/bloc/specialist/ai_analysis_cubit.dart';
 import '../../../../logic/bloc/specialist/ai_analysis_state.dart';
+import '../../../widgets/shared/form/app_buttons.dart';
+
 
 class ScreeningStep extends StatefulWidget {
   final String orderId;
@@ -128,13 +130,13 @@ class _ScreeningStepState extends State<ScreeningStep> {
                         onPressed: () => Navigator.pop(context),
                         child: const Text('Thử lại'),
                       ),
-                      ElevatedButton(
+                      AppPrimaryButton(
+                        text: 'Tự cắt thủ công',
                         onPressed: () {
                           Navigator.pop(context);
                           // D3: Fallback to Step 2 (Manual Slicing)
                           context.read<WorkspaceCubit>().goToStep(2);
                         },
-                        child: const Text('Tự cắt thủ công'),
                       ),
                     ],
                   ),
@@ -145,30 +147,16 @@ class _ScreeningStepState extends State<ScreeningStep> {
               final isAnalyzing = state is AiAnalysisWaitingForBackend || state is AiAnalysisUploading;
               
               return Center(
-                child: ElevatedButton.icon(
+                child: AppPrimaryButton(
+                  text: isAnalyzing ? 'Đang phân tích...' : 'Bắt đầu phân tích AI',
+                  icon: isAnalyzing ? null : Icons.auto_awesome,
+                  isLoading: isAnalyzing,
                   onPressed: isAnalyzing || _selectedIndices.isEmpty
-                      ? null 
+                      ? null
                       : () => context.read<AiAnalysisCubit>().triggerAnalysis(
-                            widget.orderId, 
+                            widget.orderId,
                             _selectedIndices.first.toString(),
                           ),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    backgroundColor: Theme.of(context).primaryColor,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                  ),
-                  icon: isAnalyzing 
-                      ? const SizedBox(
-                          width: 20, 
-                          height: 20, 
-                          child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                        )
-                      : const Icon(Icons.auto_awesome),
-                  label: Text(
-                    isAnalyzing ? 'Đang phân tích...' : 'Bắt đầu phân tích AI',
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
                 ),
               );
             },

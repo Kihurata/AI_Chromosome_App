@@ -12,6 +12,7 @@ import '../../widgets/shared/layouts/main_list_layout.dart';
 import 'widgets/specialist_bento_stats.dart';
 import 'widgets/specialist_filter_bar.dart';
 import 'widgets/specialist_order_list.dart';
+import '../../widgets/shared/form/app_buttons.dart';
 
 class SpecialistDashboardPage extends ConsumerStatefulWidget {
   const SpecialistDashboardPage({super.key});
@@ -91,13 +92,13 @@ class _SpecialistDashboardPageState
                           style: const TextStyle(color: Colors.red),
                         ),
                         const SizedBox(height: 16),
-                        ElevatedButton(
+                        AppPrimaryButton(
+                          text: 'Thử lại',
                           onPressed: () {
                             if (authState.user?.uid != null) {
                               _cubit.loadOrders(authState.user!.uid);
                             }
                           },
-                          child: const Text('Thử lại'),
                         ),
                       ],
                     ),

@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../data/models/patient_model.dart';
 import '../../widgets/shared/data_display/status_badge.dart';
+import '../../widgets/shared/form/app_buttons.dart';
+
 
 class ReceptionistPatientDetailView extends StatefulWidget {
   final PatientModel patient;
@@ -175,18 +177,11 @@ class _ReceptionistPatientDetailViewState
               ],
             ),
           ),
-          OutlinedButton.icon(
+          AppSecondaryButton(
             onPressed: () {},
-            icon: const Icon(LucideIcons.edit2, size: 14),
-            label: const Text('Chỉnh sửa'),
-            style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.textPrimary,
-              side: const BorderSide(color: AppColors.border),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            ),
+            icon: LucideIcons.edit2,
+            text: 'Chỉnh sửa',
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           ),
         ],
       ),

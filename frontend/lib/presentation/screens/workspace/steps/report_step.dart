@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../logic/bloc/workspace/workspace_cubit.dart';
+import '../../../widgets/shared/form/app_buttons.dart';
+
 
 class ReportStep extends StatelessWidget {
   const ReportStep({super.key});
@@ -79,26 +81,12 @@ class ReportStep extends StatelessWidget {
                   ),
                   
                   const SizedBox(height: 32),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: state.status == WorkspaceStatus.loading 
-                        ? null 
+                  AppPrimaryButton(
+                    text: 'Hoàn tất & Gửi Phê duyệt',
+                    isLoading: state.status == WorkspaceStatus.loading,
+                    onPressed: state.status == WorkspaceStatus.loading
+                        ? null
                         : () => context.read<WorkspaceCubit>().submitAnalysis(),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        foregroundColor: Colors.white,
-                        textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      child: state.status == WorkspaceStatus.loading
-                        ? const SizedBox(
-                            width: 24, 
-                            height: 24, 
-                            child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-                          )
-                        : const Text('Hoàn tất & Gửi Phê duyệt'),
-                    ),
                   ),
                 ],
               );

@@ -8,6 +8,8 @@ import '../../../domain/entities/appointment.dart';
 import '../../../logic/bloc/appointment/appointment_cubit.dart';
 import '../../../logic/bloc/appointment/appointment_state.dart';
 import '../shared/data_display/status_badge.dart';
+import '../shared/form/app_buttons.dart';
+
 
 class TodayAppointmentsTable extends StatefulWidget {
   const TodayAppointmentsTable({super.key});
@@ -321,14 +323,10 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
   }
 
   Widget _paginationBtn(String text, {bool enabled = true}) {
-    return OutlinedButton(
+    return AppSecondaryButton(
+      text: text,
       onPressed: enabled ? () {} : null,
-      style: OutlinedButton.styleFrom(
-        side: const BorderSide(color: AppColors.border),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-        minimumSize: const Size(0, 36),
-      ),
-      child: Text(text, style: TextStyle(color: enabled ? AppColors.textSecondary : AppColors.textPlaceholder, fontSize: 13)),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
     );
   }
 

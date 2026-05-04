@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../form/app_text_field.dart';
 
 class AppDataTable extends StatelessWidget {
   final String searchHint;
@@ -48,27 +49,11 @@ class AppDataTable extends StatelessWidget {
             children: [
               Expanded(
                 flex: 3,
-                child: SizedBox(
-                  height: 42,
-                  child: TextField(
-                    controller: searchController,
-                    onChanged: onSearchChanged,
-                    decoration: InputDecoration(
-                      hintText: searchHint,
-                      hintStyle: const TextStyle(fontSize: 13, color: AppColors.textPlaceholder),
-                      prefixIcon: const Padding(
-                        padding: EdgeInsets.only(left: 12, right: 8),
-                        child: Icon(LucideIcons.search, size: 16, color: AppColors.textPlaceholder),
-                      ),
-                      prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-                      filled: true,
-                      fillColor: AppColors.border.withAlpha(50),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 14),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
-                      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
-                      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.primaryBlue)),
-                    ),
-                  ),
+                child: AppTextField(
+                  controller: searchController,
+                  onChanged: onSearchChanged,
+                  hintText: searchHint,
+                  prefixIcon: LucideIcons.search,
                 ),
               ),
               const SizedBox(width: 12),

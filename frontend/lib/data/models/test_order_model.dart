@@ -24,6 +24,7 @@ class TestOrderModel {
 
   Map<String, dynamic> toFirestore() {
     return {
+      'id': id,
       'patient_id': patientId,
       'patient_name': patientName,
       'patient_code': patientCode,

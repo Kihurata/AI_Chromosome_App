@@ -11,7 +11,7 @@ class FirebaseSampleRemoteDataSource implements SampleRemoteDataSource {
 
   @override
   Future<void> createSample(SampleModel sample) async {
-    await _firestore.collection('samples').add(sample.toFirestore());
+    await _firestore.collection('samples').doc(sample.id).set(sample.toFirestore());
   }
 
   @override

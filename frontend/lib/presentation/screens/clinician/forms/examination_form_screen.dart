@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:intl/intl.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../widgets/shared/layouts/main_form_layout.dart';
 import '../../../widgets/shared/form/app_text_field.dart';
@@ -12,6 +13,7 @@ import '../../../../logic/bloc/clinician/examination_state.dart';
 import '../../../../logic/bloc/patient/patient_cubit.dart';
 import '../../../../logic/bloc/patient/patient_state.dart';
 import '../../../../logic/bloc/auth/auth_cubit.dart';
+import '../../../../core/router/app_router.dart';
 
 class ClinicianExaminationFormPage extends StatefulWidget {
   final String id; // appointmentId
@@ -36,8 +38,11 @@ class _ClinicianExaminationFormPageState
   final _treatmentCtrl = TextEditingController();
   final _medicationNotesCtrl = TextEditingController();
   final _followUpCtrl = TextEditingController();
+  final _followUpTimeCtrl = TextEditingController();
   bool _priorityFollowUp = false;
   String _symptomSeverity = '5';
+  DateTime? _selectedFollowUpDate;
+  TimeOfDay _selectedFollowUpTime = const TimeOfDay(hour: 8, minute: 0);
 
   @override
   void dispose() {
@@ -52,15 +57,19 @@ class _ClinicianExaminationFormPageState
     _treatmentCtrl.dispose();
     _medicationNotesCtrl.dispose();
     _followUpCtrl.dispose();
+    _followUpTimeCtrl.dispose();
     super.dispose();
   }
 
   String _getPatientId(BuildContext context) {
     final state = context.read<PatientCubit>().state;
-    if (state is PatientLoaded && state.patients.isNotEmpty) {
-      return state.patients.first.id ?? widget.id;
+    if (state is PatientDetailLoaded) {
+      return state.patient.id ?? '';
     }
-    return widget.id; // fallback to appointmentId
+    if (state is PatientLoaded && state.patients.isNotEmpty) {
+      return state.patients.first.id ?? '';
+    }
+    return '';
   }
 
   String _getDoctorId(BuildContext context) {
@@ -73,6 +82,13 @@ class _ClinicianExaminationFormPageState
     final cubit = context.read<ExaminationCubit>();
     final patientId = _getPatientId(context);
     final doctorId = _getDoctorId(context);
+
+    if (patientId.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Lỗi: Không tìm thấy thông tin bệnh nhân. Vui lòng quay lại.'), backgroundColor: Colors.orange),
+      );
+      return false;
+    }
 
     if (andComplete) {
       await cubit.completeExamination(
@@ -90,7 +106,15 @@ class _ClinicianExaminationFormPageState
         conclusion: _conclusionCtrl.text,
         treatmentPlan: _treatmentCtrl.text,
         medicationNotes: _medicationNotesCtrl.text,
-        followUpDate: _followUpCtrl.text.isNotEmpty ? DateTime.tryParse(_followUpCtrl.text.split('/').reversed.join('-')) : null,
+        followUpDate: _selectedFollowUpDate != null 
+            ? DateTime(
+                _selectedFollowUpDate!.year,
+                _selectedFollowUpDate!.month,
+                _selectedFollowUpDate!.day,
+                _selectedFollowUpTime.hour,
+                _selectedFollowUpTime.minute,
+              )
+            : null,
         priorityFollowUp: _priorityFollowUp,
       );
       return cubit.state is ExaminationSaveSuccess;
@@ -130,42 +154,6 @@ class _ClinicianExaminationFormPageState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── THÔNG TIN HÀNH CHÍNH ──────────────────────────────────────
-              _buildSection(
-                icon: LucideIcons.user,
-                title: 'THÔNG TIN HÀNH CHÍNH',
-                actionText: 'Chi tiết hồ sơ',
-                child: BlocBuilder<PatientCubit, PatientState>(
-                  builder: (context, state) {
-                    if (state is PatientLoaded && state.patients.isNotEmpty) {
-                      final p = state.patients.first;
-                      return Column(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(child: _readOnly('MÃ BỆNH NHÂN', p.patientCode ?? '—')),
-                              Expanded(child: _readOnly('HỌ VÀ TÊN', p.fullName, textColor: AppColors.primaryBlue)),
-                              Expanded(child: _readOnly('NGÀY SINH', '${p.dob.day}/${p.dob.month}/${p.dob.year}')),
-                              Expanded(child: _readOnly('GIỚI TÍNH', p.gender)),
-                            ],
-                          ),
-                          const SizedBox(height: 20),
-                          Row(
-                            children: [
-                              Expanded(flex: 2, child: _readOnly('ĐỊA CHỈ', p.address.isEmpty ? '—' : p.address)),
-                              Expanded(child: _readOnly('SỐ ĐIỆN THOẠI', p.phone)),
-                              Expanded(child: _readOnly('CCCD', p.identityCard.isEmpty ? '—' : p.identityCard)),
-                            ],
-                          ),
-                        ],
-                      );
-                    }
-                    return const Text('Đang tải thông tin bệnh nhân...', style: TextStyle(color: AppColors.textSecondary));
-                  },
-                ),
-              ),
-              const SizedBox(height: 24),
-
               // ── NỘI DUNG CHUYÊN MÔN ──────────────────────────────────────
               _buildSection(
                 icon: LucideIcons.stethoscope,
@@ -299,41 +287,35 @@ class _ClinicianExaminationFormPageState
                         // Hẹn tái khám
                         Expanded(
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Expanded(
-                                child: AppTextField(
-                                  labelText: 'HẸN TÁI KHÁM',
-                                  hintText: 'yyyy-mm-dd',
-                                  suffixIcon: const Icon(LucideIcons.calendar, size: 16),
-                                  controller: _followUpCtrl,
-                                ),
-                              ),
+                              Expanded(child: _buildFollowUpDateSelector()),
                               const SizedBox(width: 16),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 4),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () => setState(() => _priorityFollowUp = !_priorityFollowUp),
-                                      child: Container(
-                                        width: 18, height: 18,
-                                        decoration: BoxDecoration(
-                                          color: _priorityFollowUp ? AppColors.primaryBlue : Colors.transparent,
-                                          border: Border.all(color: _priorityFollowUp ? AppColors.primaryBlue : AppColors.border),
-                                          borderRadius: BorderRadius.circular(4),
-                                        ),
-                                        child: _priorityFollowUp
-                                            ? const Icon(Icons.check, size: 13, color: Colors.white)
-                                            : null,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 6),
-                                    const Text('Ưu tiên tái khám',
-                                        style: TextStyle(color: AppColors.textPrimary, fontSize: 13)),
-                                  ],
+                              Expanded(child: _buildFollowUpTimeSelector()),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () => setState(() => _priorityFollowUp = !_priorityFollowUp),
+                                child: Container(
+                                  width: 18, height: 18,
+                                  decoration: BoxDecoration(
+                                    color: _priorityFollowUp ? AppColors.primaryBlue : Colors.transparent,
+                                    border: Border.all(color: _priorityFollowUp ? AppColors.primaryBlue : AppColors.border),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: _priorityFollowUp
+                                      ? const Icon(Icons.check, size: 13, color: Colors.white)
+                                      : null,
                                 ),
                               ),
+                              const SizedBox(width: 6),
+                              const Text('Ưu tiên tái khám',
+                                  style: TextStyle(color: AppColors.textPrimary, fontSize: 13)),
                             ],
                           ),
                         ),
@@ -381,7 +363,7 @@ class _ClinicianExaminationFormPageState
                                 : () async {
                                     final saved = await _saveExamination(andComplete: false);
                                     if (saved && mounted) {
-                                      router.push('/clinician/blood-test-prescription/${widget.id}');
+                                      router.push('${AppRoutes.clinicianBloodTest}/${widget.id}');
                                     }
                                   },
                           ),
@@ -411,6 +393,48 @@ class _ClinicianExaminationFormPageState
     );
   }
 
+  Widget _buildFollowUpDateSelector() {
+    _followUpCtrl.text = _selectedFollowUpDate != null
+        ? DateFormat('dd/MM/yyyy').format(_selectedFollowUpDate!)
+        : '';
+    return AppTextField(
+      labelText: 'HẸN TÁI KHÁM',
+      hintText: 'dd/MM/yyyy',
+      controller: _followUpCtrl,
+      prefixIcon: LucideIcons.calendar,
+      readOnly: true,
+      onTap: () async {
+        final picked = await showDatePicker(
+          context: context,
+          initialDate: _selectedFollowUpDate ?? DateTime.now().add(const Duration(days: 7)),
+          firstDate: DateTime.now(),
+          lastDate: DateTime.now().add(const Duration(days: 365)),
+          locale: const Locale('vi', 'VN'),
+        );
+        if (picked != null) setState(() => _selectedFollowUpDate = picked);
+      },
+    );
+  }
+
+  Widget _buildFollowUpTimeSelector() {
+    _followUpTimeCtrl.text = _selectedFollowUpDate != null
+        ? '${_selectedFollowUpTime.hour.toString().padLeft(2, '0')}:${_selectedFollowUpTime.minute.toString().padLeft(2, '0')}'
+        : '';
+    return AppTextField(
+      labelText: 'GIỜ HẸN',
+      hintText: 'hh:mm',
+      controller: _followUpTimeCtrl,
+      prefixIcon: LucideIcons.clock,
+      readOnly: true,
+      onTap: () async {
+        if (_selectedFollowUpDate == null) return;
+        final t = await showTimePicker(
+            context: context, initialTime: _selectedFollowUpTime);
+        if (t != null) setState(() => _selectedFollowUpTime = t);
+      },
+    );
+  }
+
   Widget _buildSection({required IconData icon, required String title, String? actionText, required Widget child}) {
     return Container(
       padding: const EdgeInsets.all(24),
@@ -436,20 +460,6 @@ class _ClinicianExaminationFormPageState
           ),
           const SizedBox(height: 20),
           child,
-        ],
-      ),
-    );
-  }
-
-  Widget _readOnly(String label, String value, {Color textColor = AppColors.textPrimary}) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label, style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, fontWeight: FontWeight.bold, letterSpacing: 0.3)),
-          const SizedBox(height: 6),
-          Text(value, style: TextStyle(fontSize: 14, color: textColor, fontWeight: FontWeight.w600)),
         ],
       ),
     );

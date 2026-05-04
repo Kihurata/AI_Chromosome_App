@@ -8,6 +8,8 @@ import '../../../../logic/bloc/manager/manager_approval_state.dart';
 import '../../widgets/shared/layouts/base_layout.dart';
 import '../../widgets/shared/containers/app_card.dart';
 import '../../widgets/shared/form/app_text_field.dart';
+import '../../widgets/shared/form/app_buttons.dart';
+
 
 class LabResultReviewPage extends StatefulWidget {
   final String orderId;
@@ -246,31 +248,18 @@ class _LabResultReviewPageState extends State<LabResultReviewPage> {
           Row(
             children: [
               Expanded(
-                child: OutlinedButton.icon(
+                child: AppSecondaryButton(
                   onPressed: () => context.read<ManagerApprovalCubit>().reject(widget.orderId),
-                  icon: const Icon(LucideIcons.edit3, size: 18),
-                  label: const Text('Yêu cầu chỉnh sửa'),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.all(20),
-                    foregroundColor: const Color(0xFFEA580C),
-                    side: const BorderSide(color: Color(0xFFEA580C)),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  ),
+                  icon: LucideIcons.edit3,
+                  text: 'Yêu cầu chỉnh sửa',
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: ElevatedButton.icon(
+                child: AppPrimaryButton(
                   onPressed: () => context.read<ManagerApprovalCubit>().approve(widget.orderId),
-                  icon: const Icon(LucideIcons.checkCircle, size: 18),
-                  label: const Text('Phê duyệt & Ký số'),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(20),
-                    backgroundColor: AppColors.primaryBlue,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    elevation: 0,
-                  ),
+                  icon: LucideIcons.checkCircle,
+                  text: 'Phê duyệt & Ký số',
                 ),
               ),
             ],

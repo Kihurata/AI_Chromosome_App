@@ -13,6 +13,13 @@
       "startedAt": "2026-05-02T07:14:58.449Z",
       "pausedAt": null,
       "totalPausedMs": 0
+    },
+    {
+      "taskId": "8lvmij",
+      "taskTitle": "Refactor Clinician Examination Workflow",
+      "startedAt": "2026-05-04T11:59:36.289Z",
+      "pausedAt": null,
+      "totalPausedMs": 0
     }
   ]
 }

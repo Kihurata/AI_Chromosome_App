@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 import '../../../domain/entities/appointment.dart';
 import '../../../domain/entities/examination.dart';
 import '../../../domain/usecases/clinician/create_examination.dart';
 import '../../../domain/usecases/appointment/update_appointment_status.dart';
+import '../../../domain/usecases/clinician/get_examinations_by_patient.dart';
 import 'examination_state.dart';
 
 import 'package:injectable/injectable.dart';
@@ -12,10 +14,12 @@ import 'package:injectable/injectable.dart';
 class ExaminationCubit extends Cubit<ExaminationState> {
   final CreateExamination createExamination;
   final UpdateAppointmentStatus updateAppointmentStatus;
+  final GetExaminationsByPatient getExaminationsByPatient;
 
   ExaminationCubit({
     required this.createExamination,
     required this.updateAppointmentStatus,
+    required this.getExaminationsByPatient,
   }) : super(ExaminationInitial());
 
   /// Lưu phiếu khám bệnh (không thay đổi status)
@@ -155,6 +159,18 @@ class ExaminationCubit extends Cubit<ExaminationState> {
       currentMedications: currentMedications,
       preliminaryDiagnosis: preliminaryDiagnosis,
       icdCode: icdCode,
+    );
+  }
+
+  /// Tải danh sách lịch sử khám theo bệnh nhân
+  Future<void> loadExaminationsByPatient(String patientId) async {
+    final user = FirebaseAuth.instance.currentUser;
+    print('DEBUG: ExaminationCubit.loadExaminationsByPatient - patientId: $patientId, authUser: ${user?.uid}');
+    emit(ExaminationLoading());
+    final result = await getExaminationsByPatient(patientId);
+    result.fold(
+      (failure) => emit(ExaminationError(failure.message)),
+      (examinations) => emit(ExaminationLoaded(examinations)),
     );
   }
 }

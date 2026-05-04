@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../logic/bloc/workspace/workspace_cubit.dart';
 import '../../../../domain/entities/chromosome.dart';
+import '../../../widgets/shared/form/app_buttons.dart';
+
 
 class KaryogramStep extends StatelessWidget {
   const KaryogramStep({super.key});
@@ -44,7 +46,8 @@ class KaryogramStep extends StatelessWidget {
                         // Normally this comes from step 2 via FastAPI.
                         if (unassigned.isEmpty && state.chromosomes.isEmpty) {
                           return Center(
-                            child: ElevatedButton(
+                            child: AppPrimaryButton(
+                              text: 'Tạo dữ liệu mẫu',
                               onPressed: () {
                                 final dummies = List.generate(
                                   46,
@@ -61,7 +64,6 @@ class KaryogramStep extends StatelessWidget {
                                 );
                                 context.read<WorkspaceCubit>().syncFromStream(dummies);
                               },
-                              child: const Text('Tạo dữ liệu mẫu'),
                             ),
                           );
                         }

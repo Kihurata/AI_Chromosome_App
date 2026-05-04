@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../widgets/shared/form/app_buttons.dart';
+
 
 class SlicingStep extends StatefulWidget {
   const SlicingStep({super.key});
@@ -62,10 +64,10 @@ class _SlicingStepState extends State<SlicingStep> {
                   ),
                 ],
               ),
-              ElevatedButton.icon(
+              AppSecondaryButton(
+                text: 'Undo khoanh vùng',
+                icon: Icons.undo,
                 onPressed: _polygons.isNotEmpty ? _undo : null,
-                icon: const Icon(Icons.undo),
-                label: const Text('Undo khoanh vùng'),
               ),
             ],
           ),

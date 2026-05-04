@@ -20,6 +20,7 @@ class SampleModel {
 
   Map<String, dynamic> toFirestore() {
     return {
+      'id': id,
       'test_order_id': testOrderId,
       'collected_by': collectedBy,
       'collected_at': Timestamp.fromDate(collectedAt),

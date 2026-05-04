@@ -1,13 +1,13 @@
 ---
 id: ixjpw5
 title: 'Refactor: Replace native flutter inputs/buttons with Atomic Widgets'
-status: in-progress
+status: done
 priority: high
 labels: []
 createdAt: '2026-05-02T08:43:35.770Z'
-updatedAt: '2026-05-03T10:52:05.651Z'
-timeSpent: 94101
-assignee: '--json'
+updatedAt: '2026-05-04T10:26:40.651Z'
+timeSpent: 94305
+assignee: '@me'
 ---
 # Refactor: Replace native flutter inputs/buttons with Atomic Widgets
 
@@ -25,9 +25,21 @@ Refactor the entire presentation layer to enforce the 'Atomic Widgets' rule. Rep
 
 <!-- SECTION:PLAN:BEGIN -->
 ## Implementation Plan
-1. Refactor Clinician Dashboard Actions: Consolidate Eye/Stethoscope icons in RecentPatientsTable into a single dynamic button that updates appointment status (scheduled -> inProgress) and navigates to Medical Record.
-2. Standardize Buttons: Replace ElevatedButton/OutlinedButton with AppPrimaryButton/AppSecondaryButton across clinician and receptionist modules.
-3. Standardize Text Fields: Replace TextField/TextFormField with AppTextField, ensuring controllers and validation are preserved.
-4. UI Verification: Perform visual checks on 'Bảng điều khiển bác sĩ' and 'Bệnh án điện tử' to ensure visual consistency and correct workflow behavior.
+1. Standardize LabResultReviewPage: Replace native buttons with AppPrimaryButton and AppSecondaryButton.
+2. Refactor RecentPatientsTable: Consolidate action icons into a dynamic state-aware AppButton.
+3. Global UI Cleanup: Search and replace remaining native TextField/Buttons across lib/presentation/.
+4. Visual Verification: Ensure layout consistency and proper padding after widget replacement.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Hoàn tất chuẩn hóa toàn bộ layer Presentation sang Atomic Widgets:
+1. LabResultReviewPage: Thay thế native buttons.
+2. RecentPatientsTable: Hợp nhất icon thành State-aware AppButton.
+3. TodayAppointmentsTable & LabExaminationTable: Chuẩn hóa các nút hành động và phân trang.
+4. Workspace & Steps: Chuẩn hóa toàn bộ nút điều hướng và ô nhập liệu (ISCN, Remarks).
+5. AppDataTable: Tích hợp AppTextField vào thanh tìm kiếm.
+6. Specialist Dashboard & Patient Details: Thay thế các nút native còn sót lại.
+<!-- SECTION:NOTES:END -->
 

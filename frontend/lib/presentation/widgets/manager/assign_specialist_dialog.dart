@@ -4,6 +4,8 @@ import 'package:lucide_icons/lucide_icons.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../domain/entities/test_order.dart';
 import '../../../../logic/bloc/manager/manager_dashboard_cubit.dart';
+import '../../widgets/shared/form/app_buttons.dart';
+
 
 class AssignSpecialistDialog extends StatefulWidget {
   final TestOrder order;
@@ -107,7 +109,8 @@ class _AssignSpecialistDialogState extends State<AssignSpecialistDialog> {
                   child: const Text('Hủy', style: TextStyle(color: AppColors.textPrimary)),
                 ),
                 const SizedBox(width: 12),
-                ElevatedButton(
+                AppPrimaryButton(
+                  text: 'Xác nhận chỉ định',
                   onPressed: selectedSpecialistId == null
                       ? null
                       : () {
@@ -117,14 +120,6 @@ class _AssignSpecialistDialogState extends State<AssignSpecialistDialog> {
                               );
                           Navigator.pop(context);
                         },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                    backgroundColor: AppColors.primaryBlue,
-                    disabledBackgroundColor: AppColors.border,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    elevation: 0,
-                  ),
-                  child: const Text('Xác nhận chỉ định', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                 ),
               ],
             ),

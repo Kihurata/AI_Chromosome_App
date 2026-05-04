@@ -307,28 +307,22 @@ class _RecentPatientsTableState extends State<RecentPatientsTable> {
           // Thao tác
           Expanded(
             flex: 2,
-            child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (appt.status == AppointmentStatus.scheduled)
-                IconButton(
-                  icon: const Icon(LucideIcons.stethoscope, size: 18, color: AppColors.primaryBlue),
-                  onPressed: () {
-                    context.read<AppointmentCubit>().startExamination(appt.id);
-                    context.push('/clinician/medical-record/${appt.id}');
-                  },
-                  tooltip: 'Bắt đầu khám',
-                  padding: const EdgeInsets.all(8),
-                )
-              else
-                IconButton(
-                  icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.textSecondary),
-                  onPressed: () => context.push('/clinician/medical-record/${appt.id}'),
-                  tooltip: 'Xem bệnh án',
-                  padding: const EdgeInsets.all(8),
-                ),
-            ],
-          ),
+            child: appt.status == AppointmentStatus.scheduled
+                ? AppPrimaryButton(
+                    text: 'Khám bệnh',
+                    icon: LucideIcons.stethoscope,
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    onPressed: () {
+                      context.read<AppointmentCubit>().startExamination(appt.id);
+                      context.push('/clinician/medical-record/${appt.patientId}?appointmentId=${appt.id}');
+                    },
+                  )
+                : AppSecondaryButton(
+                    text: 'Chi tiết',
+                    icon: LucideIcons.eye,
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    onPressed: () => context.push('/clinician/medical-record/${appt.patientId}?appointmentId=${appt.id}'),
+                  ),
           ),
         ],
       ),

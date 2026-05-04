@@ -18,7 +18,7 @@ class FirebaseTestOrderRemoteDataSource implements TestOrderRemoteDataSource {
 
   @override
   Future<void> createTestOrder(TestOrderModel testOrder) async {
-    await _firestore.collection('test_orders').add(testOrder.toFirestore());
+    await _firestore.collection('test_orders').doc(testOrder.id).set(testOrder.toFirestore());
   }
 
   @override

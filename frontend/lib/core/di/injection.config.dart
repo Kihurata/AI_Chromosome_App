@@ -38,6 +38,8 @@ import '../../domain/repositories/workspace_repository.dart' as _i77;
 import '../../domain/usecases/appointment/update_appointment_status.dart'
     as _i379;
 import '../../domain/usecases/clinician/create_examination.dart' as _i70;
+import '../../domain/usecases/clinician/get_examinations_by_patient.dart'
+    as _i314;
 import '../../domain/usecases/patient/add_patient.dart' as _i819;
 import '../../domain/usecases/patient/check_duplicate_patient.dart' as _i188;
 import '../../domain/usecases/patient/get_patient_by_id.dart' as _i1004;
@@ -153,6 +155,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i70.CreateExamination>(
       () => _i70.CreateExamination(gh<_i193.ExaminationRepository>()),
     );
+    gh.factory<_i314.GetExaminationsByPatient>(
+      () => _i314.GetExaminationsByPatient(gh<_i193.ExaminationRepository>()),
+    );
     gh.factory<_i814.UpdateOrderStatus>(
       () => _i814.UpdateOrderStatus(gh<_i655.TestOrderRepository>()),
     );
@@ -189,12 +194,6 @@ extension GetItInjectableX on _i174.GetIt {
         checkDuplicatePatientUsecase: gh<_i188.CheckDuplicatePatient>(),
       ),
     );
-    gh.factory<_i41.ExaminationCubit>(
-      () => _i41.ExaminationCubit(
-        createExamination: gh<_i70.CreateExamination>(),
-        updateAppointmentStatus: gh<_i379.UpdateAppointmentStatus>(),
-      ),
-    );
     gh.factory<_i429.ManagerApprovalCubit>(
       () => _i429.ManagerApprovalCubit(
         approveKaryotypeResult: gh<_i63.ApproveKaryotypeResult>(),
@@ -221,6 +220,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i608.SpecialistDashboardCubit(
         watchOrdersUsecase: gh<_i907.WatchAssignedOrders>(),
         updateStatusUsecase: gh<_i814.UpdateOrderStatus>(),
+      ),
+    );
+    gh.factory<_i41.ExaminationCubit>(
+      () => _i41.ExaminationCubit(
+        createExamination: gh<_i70.CreateExamination>(),
+        updateAppointmentStatus: gh<_i379.UpdateAppointmentStatus>(),
+        getExaminationsByPatient: gh<_i314.GetExaminationsByPatient>(),
       ),
     );
     return this;

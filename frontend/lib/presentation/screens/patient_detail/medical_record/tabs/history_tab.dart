@@ -19,6 +19,12 @@ class _HistoryTabState extends State<HistoryTab> {
   final List<bool> _isExpanded = [];
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ExaminationCubit>().loadExaminationsByPatient(widget.patientId);
+    });
+  }
   Widget build(BuildContext context) {
     return BlocBuilder<ExaminationCubit, ExaminationState>(
       builder: (context, state) {

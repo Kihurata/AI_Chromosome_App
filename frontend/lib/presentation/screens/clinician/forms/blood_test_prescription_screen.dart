@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../widgets/shared/layouts/main_form_layout.dart';
@@ -14,6 +15,7 @@ import '../../../../logic/bloc/patient/patient_state.dart';
 import '../../../../domain/entities/test_order.dart';
 import '../../../../domain/entities/sample.dart';
 import '../../../../logic/bloc/auth/auth_cubit.dart';
+import '../../../../core/router/app_router.dart';
 
 class ClinicianBloodTestPrescriptionPage extends StatefulWidget {
   final String id; // appointmentId
@@ -26,12 +28,22 @@ class ClinicianBloodTestPrescriptionPage extends StatefulWidget {
 
 class _ClinicianBloodTestPrescriptionPageState
     extends State<ClinicianBloodTestPrescriptionPage> {
+  late DateTime _selectedDate;
+  TimeOfDay _selectedTime = TimeOfDay.now();
   final _clinicalNotesCtrl = TextEditingController();
+  final _sampleDateCtrl = TextEditingController();
   final _sampleTimeCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = DateTime.now();
+  }
 
   @override
   void dispose() {
     _clinicalNotesCtrl.dispose();
+    _sampleDateCtrl.dispose();
     _sampleTimeCtrl.dispose();
     super.dispose();
   }
@@ -45,11 +57,23 @@ class _ClinicianBloodTestPrescriptionPageState
     String patientCode = '';
     String clinicianId = '';
 
-    if (patientState is PatientLoaded && patientState.patients.isNotEmpty) {
+    if (patientState is PatientDetailLoaded) {
+      final p = patientState.patient;
+      patientId = p.id ?? '';
+      patientName = p.fullName;
+      patientCode = p.patientCode ?? '';
+    } else if (patientState is PatientLoaded && patientState.patients.isNotEmpty) {
       final p = patientState.patients.first;
       patientId = p.id ?? '';
       patientName = p.fullName;
       patientCode = p.patientCode ?? '';
+    }
+
+    if (patientId.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Chưa tải được thông tin bệnh nhân. Vui lòng thử lại.'), backgroundColor: Colors.orange),
+      );
+      return;
     }
 
     if (authState is Authenticated) {
@@ -66,13 +90,19 @@ class _ClinicianBloodTestPrescriptionPageState
       createdAt: DateTime.now(),
     );
 
+    final collectedAt = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+      _selectedTime.hour,
+      _selectedTime.minute,
+    );
+
     final sample = Sample(
       id: const Uuid().v4(),
       testOrderId: orderId,
       collectedBy: clinicianId,
-      collectedAt: _sampleTimeCtrl.text.isNotEmpty 
-          ? (DateTime.tryParse(_sampleTimeCtrl.text.replaceAll('/', '-')) ?? DateTime.now())
-          : DateTime.now(),
+      collectedAt: collectedAt,
       notes: _clinicalNotesCtrl.text,
       status: SampleStatus.collected,
     );
@@ -95,7 +125,7 @@ class _ClinicianBloodTestPrescriptionPageState
             ),
           );
           // Navigate back to dashboard after success
-          context.go('/clinician/dashboard');
+          context.go(AppRoutes.clinicianDashboard);
         } else if (state is ClinicianOrderError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -114,44 +144,6 @@ class _ClinicianBloodTestPrescriptionPageState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── THÔNG TIN CHỈ ĐỊNH ────────────────────────────────────────
-              _buildSection(
-                icon: LucideIcons.fileSearch,
-                title: 'THÔNG TIN CHỈ ĐỊNH',
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: BlocBuilder<PatientCubit, PatientState>(
-                        builder: (context, state) {
-                          final name = (state is PatientLoaded && state.patients.isNotEmpty)
-                              ? state.patients.first.fullName
-                              : '—';
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text('BỆNH NHÂN',
-                                  style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.textSecondary)),
-                              const SizedBox(height: 6),
-                              Text(name,
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.primaryBlue)),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    const Expanded(child: SizedBox()), // Placeholder for alignment
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-
               // ── THÔNG TIN MẪU BỆNH PHẨM ──────────────────────────────────
               _buildSection(
                 icon: LucideIcons.microscope,
@@ -161,16 +153,9 @@ class _ClinicianBloodTestPrescriptionPageState
                   children: [
                     Row(
                       children: [
-                        Expanded(
-                          child: AppTextField(
-                            labelText: 'Thời gian lấy mẫu',
-                            hintText: 'yyyy-mm-dd HH:mm',
-                            suffixIcon: const Icon(LucideIcons.calendar, size: 16),
-                            controller: _sampleTimeCtrl,
-                          ),
-                        ),
+                        Expanded(child: _buildDateSelector()),
                         const SizedBox(width: 16),
-                        const Expanded(child: SizedBox()), // Placeholder for alignment
+                        Expanded(child: _buildTimeSelector()),
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -216,6 +201,42 @@ class _ClinicianBloodTestPrescriptionPageState
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildDateSelector() {
+    _sampleDateCtrl.text = DateFormat('dd/MM/yyyy').format(_selectedDate);
+    return AppTextField(
+      labelText: 'Ngày lấy mẫu *',
+      hintText: 'dd/MM/yyyy',
+      controller: _sampleDateCtrl,
+      prefixIcon: LucideIcons.calendar,
+      readOnly: true,
+      onTap: () async {
+        final picked = await showDatePicker(
+          context: context,
+          initialDate: _selectedDate,
+          firstDate: DateTime.now().subtract(const Duration(days: 7)),
+          lastDate: DateTime.now().add(const Duration(days: 7)),
+          locale: const Locale('vi', 'VN'),
+        );
+        if (picked != null) setState(() => _selectedDate = picked);
+      },
+    );
+  }
+
+  Widget _buildTimeSelector() {
+    _sampleTimeCtrl.text = '${_selectedTime.hour.toString().padLeft(2, '0')}:${_selectedTime.minute.toString().padLeft(2, '0')}';
+    return AppTextField(
+      labelText: 'Giờ lấy mẫu *',
+      hintText: 'hh:mm',
+      controller: _sampleTimeCtrl,
+      prefixIcon: LucideIcons.clock,
+      readOnly: true,
+      onTap: () async {
+        final t = await showTimePicker(context: context, initialTime: _selectedTime);
+        if (t != null) setState(() => _selectedTime = t);
+      },
     );
   }
 

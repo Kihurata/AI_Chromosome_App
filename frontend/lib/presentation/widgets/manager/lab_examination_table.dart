@@ -5,6 +5,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../domain/entities/test_order.dart';
 import '../shared/data_display/app_data_table.dart';
 import '../shared/data_display/status_badge.dart';
+import '../shared/form/app_buttons.dart';
 import 'assign_specialist_dialog.dart';
 
 class LabExaminationTable extends StatelessWidget {
@@ -156,34 +157,16 @@ class _OrderRow extends StatelessWidget {
 
   Widget _buildActionButton(BuildContext context) {
     if (order.status == TestOrderStatus.pending) {
-      return SizedBox(
-        height: 36,
-        child: ElevatedButton(
-          onPressed: () => _showAssignDialog(context),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFE0E7FF),
-            foregroundColor: AppColors.primaryBlue,
-            elevation: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-          child: const Text('Chỉ định BS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-        ),
+      return AppPrimaryButton(
+        text: 'Chỉ định BS',
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        onPressed: () => _showAssignDialog(context),
       );
     } else if (order.status == TestOrderStatus.completed) {
-      return SizedBox(
-        height: 36,
-        child: ElevatedButton(
-          onPressed: () => context.push('/manager/review/${order.id}'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFFFEDD5),
-            foregroundColor: const Color(0xFFEA580C),
-            elevation: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-          child: const Text('Duyệt Kết quả', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-        ),
+      return AppPrimaryButton(
+        text: 'Duyệt Kết quả',
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        onPressed: () => context.push('/manager/review/${order.id}'),
       );
     }
     return const SizedBox.shrink();

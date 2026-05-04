@@ -16,8 +16,9 @@ import 'package:medcore_crm/logic/bloc/patient/patient_state.dart';
 import 'package:medcore_crm/domain/entities/patient.dart';
 
 class SharedMedicalRecordPage extends ConsumerStatefulWidget {
-  final String id;
-  const SharedMedicalRecordPage({super.key, required this.id});
+  final String id; // patientId
+  final String? appointmentId;
+  const SharedMedicalRecordPage({super.key, required this.id, this.appointmentId});
 
   @override
   ConsumerState<SharedMedicalRecordPage> createState() => _SharedMedicalRecordPageState();
@@ -60,9 +61,11 @@ class _SharedMedicalRecordPageState extends ConsumerState<SharedMedicalRecordPag
             title: 'Bệnh án Điện tử',
             headerAction: isClinician ? AppPrimaryButton(
               onPressed: () {
-                context.push('/clinician/examination-form/${widget.id}');
+                // Ưu tiên dùng appointmentId nếu có, nếu không thì dùng patientId (nhưng form cần appointmentId)
+                final idToPass = widget.appointmentId ?? widget.id;
+                context.push('/clinician/examination-form/$idToPass');
               },
-              icon: LucideIcons.plus,
+              icon: LucideIcons.stethoscope,
               text: 'Lập Phiếu Khám bệnh',
             ) : null,
             breadcrumbText: patient.fullName,

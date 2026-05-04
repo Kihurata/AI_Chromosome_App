@@ -158,6 +158,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             name: 'clinician-medical-record',
             builder: (context, state) => SharedMedicalRecordPage(
               id: state.pathParameters['id'] ?? '',
+              appointmentId: state.uri.queryParameters['appointmentId'],
             ),
           ),
           GoRoute(

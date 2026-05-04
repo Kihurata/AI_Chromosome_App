@@ -6,6 +6,7 @@ import 'steps/slicing_step.dart';
 import 'steps/karyogram_step.dart';
 import 'steps/qc_diagnostic_step.dart';
 import 'steps/report_step.dart';
+import '../../widgets/shared/form/app_buttons.dart';
 
 import '../../../logic/bloc/specialist/ai_analysis_cubit.dart';
 import '../../../logic/bloc/specialist/ai_analysis_state.dart';
@@ -85,13 +86,13 @@ class WorkspaceScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton(
+                  AppSecondaryButton(
+                    text: 'Quay lại',
                     onPressed: () => context.read<WorkspaceCubit>().previousStep(),
-                    child: const Text('Quay lại'),
                   ),
-                  ElevatedButton(
+                  AppPrimaryButton(
+                    text: 'Tiếp tục',
                     onPressed: () => context.read<WorkspaceCubit>().nextStep(),
-                    child: const Text('Tiếp tục'),
                   ),
                 ],
               ),

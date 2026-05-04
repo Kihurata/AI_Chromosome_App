@@ -39,4 +39,17 @@ class ExaminationRepositoryImpl implements ExaminationRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Examination>>> getExaminationsByPatientId(
+      String patientId) async {
+    try {
+      final models = await remoteDataSource.getExaminationsByPatientId(patientId);
+      return Right(models.map((m) => m.toEntity()).toList());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }
