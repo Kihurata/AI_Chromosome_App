@@ -1,0 +1,63 @@
+{
+  "taskId": "lingyg",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "lingyg",
+      "version": 1,
+      "timestamp": "2026-05-04T08:50:52.724416Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Logic layer to manage sample list, filtering by status, and state transitions.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Create SampleManagementCubit"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "lingyg",
+      "version": 2,
+      "timestamp": "2026-05-04T08:52:29.900712Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Create SampleManagementState with status, samples, and filter.\n2. Create SampleManagementCubit with methods to load samples, filter them, and update status.\n3. Register the Cubit in GetIt (injection.dart)."
+        }
+      ],
+      "snapshot": {
+        "description": "Logic layer to manage sample list, filtering by status, and state transitions.",
+        "implementationPlan": "1. Create SampleManagementState with status, samples, and filter.\n2. Create SampleManagementCubit with methods to load samples, filter them, and update status.\n3. Register the Cubit in GetIt (injection.dart).",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Create SampleManagementCubit"
+      }
+    }
+  ]
+}

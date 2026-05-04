@@ -15,6 +15,8 @@ import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:firebase_storage/firebase_storage.dart' as _i457;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import '../../data/datasources/sample_remote_datasource.dart' as _i444;
+import '../../data/repositories/sample_repository_impl.dart' as _i555;
 
 import '../../data/datasources/patient_remote_datasource.dart' as _i940;
 import '../../data/datasources/specialist_remote_datasource.dart' as _i215;
@@ -40,6 +42,9 @@ import '../../domain/usecases/specialist/update_order_status.dart' as _i814;
 import '../../domain/usecases/specialist/upload_image_for_ai_analysis.dart'
     as _i547;
 import '../../domain/usecases/specialist/watch_assigned_orders.dart' as _i907;
+import '../../domain/usecases/specialist/upload_multiple_images.dart' as _i111;
+import '../../logic/bloc/specialist/sample_management_cubit.dart' as _i222;
+import '../../domain/repositories/sample_repository.dart' as _i333;
 import '../../domain/usecases/test_order/approve_karyotype_result.dart' as _i63;
 import '../../domain/usecases/test_order/assign_order_to_specialist.dart'
     as _i320;
@@ -77,6 +82,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i221.TestOrderRemoteDataSource>(
       () => _i221.FirebaseTestOrderRemoteDataSource(),
     );
+    gh.lazySingleton<_i444.SampleRemoteDataSource>(
+      () => _i444.FirebaseSampleRemoteDataSource(),
+    );
     gh.lazySingleton<_i940.PatientRemoteDataSource>(
       () => _i940.PatientRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
     );
@@ -95,6 +103,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i713.TestOrderRepositoryImpl(
         remoteDataSource: gh<_i221.TestOrderRemoteDataSource>(),
       ),
+    );
+    gh.lazySingleton<_i333.SampleRepository>(
+      () => _i555.SampleRepositoryImpl(remoteDataSource: gh<_i444.SampleRemoteDataSource>()),
     );
     gh.factory<_i760.GetSpecialists>(
       () => _i760.GetSpecialists(gh<_i121.SpecialistRepository>()),
@@ -144,6 +155,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1057.TriggerAiAnalysis>(
       () => _i1057.TriggerAiAnalysis(gh<_i655.TestOrderRepository>()),
     );
+    gh.factory<_i111.UploadMultipleImages>(
+      () => _i111.UploadMultipleImages(
+        gh<_i970.ImageStorageRepository>(),
+        gh<_i77.WorkspaceRepository>(),
+      ),
+    );
+    gh.factory<_i222.SampleManagementCubit>(
+      () => _i222.SampleManagementCubit(
+        gh<_i333.SampleRepository>(),
+      ),
+    );
     gh.factory<_i965.PatientCubit>(
       () => _i965.PatientCubit(
         getPatientsUsecase: gh<_i266.GetPatients>(),
@@ -156,6 +178,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i65.AiAnalysisCubit>(
       () => _i65.AiAnalysisCubit(
         uploadUsecase: gh<_i547.UploadImageForAiAnalysis>(),
+        uploadMultipleUsecase: gh<_i111.UploadMultipleImages>(),
         triggerAiUsecase: gh<_i1057.TriggerAiAnalysis>(),
         workspaceRepository: gh<_i77.WorkspaceRepository>(),
       ),

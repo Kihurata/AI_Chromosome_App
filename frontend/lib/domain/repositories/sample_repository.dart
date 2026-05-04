@@ -8,4 +8,6 @@ abstract class SampleRepository {
     String sampleId,
     SampleStatus status,
   );
+  Stream<Either<Failure, List<Sample>>> watchSamples();
+  Stream<Either<Failure, List<Sample>>> watchSamplesByStatus(SampleStatus status);
 }

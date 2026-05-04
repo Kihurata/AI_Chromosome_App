@@ -21,6 +21,8 @@ import '../../presentation/screens/manager/manager_dashboard_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/bloc/specialist/ai_analysis_cubit.dart';
 import '../../logic/bloc/workspace/workspace_cubit.dart';
+import '../../logic/bloc/specialist/sample_management_cubit.dart';
+import '../../presentation/screens/specialist/sample_management_page.dart';
 import '../../domain/usecases/specialist/update_chromosome_position.dart';
 import '../../domain/usecases/test_order/submit_analysis_result.dart';
 import '../di/injection.dart';
@@ -45,6 +47,7 @@ class AppRoutes {
   // Specialist
   static const specialistDashboard = '/specialist/dashboard';
   static const specialistAnalysis = '/specialist/analysis';
+  static const specialistSamples = '/specialist/samples';
 
   // Manager
   static const managerDashboard = '/manager/dashboard';
@@ -179,6 +182,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const SpecialistDashboardPage(),
           ),
           GoRoute(
+            path: AppRoutes.specialistSamples,
+            name: 'specialist-samples',
+            builder: (context, state) => MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (_) => getIt<SampleManagementCubit>()),
+                BlocProvider(create: (_) => getIt<AiAnalysisCubit>()),
+              ],
+              child: const SampleManagementPage(),
+            ),
+          ),
+          GoRoute(
             path: '${AppRoutes.specialistAnalysis}/:orderId',
             name: 'specialist-analysis',
             builder: (context, state) {
@@ -236,8 +250,6 @@ class _AuthStateListenable extends ChangeNotifier {
     ref.listen(authNotifierProvider, (previous, current) => notifyListeners());
   }
 }
-
-
 
 /// Placeholder for pages not yet implemented
 class _PlaceholderPage extends StatelessWidget {
@@ -297,4 +309,3 @@ class _ForbiddenPage extends StatelessWidget {
     );
   }
 }
-

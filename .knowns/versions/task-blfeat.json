@@ -1,0 +1,63 @@
+{
+  "taskId": "blfeat",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "blfeat",
+      "version": 1,
+      "timestamp": "2026-05-04T08:50:52.737356Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Expand AiAnalysisCubit and create UploadMultipleImages usecase.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Implement Bulk Image Upload Logic"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "blfeat",
+      "version": 2,
+      "timestamp": "2026-05-04T08:53:17.988506Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Create UploadMultipleImages usecase that iterates through a list of files.\n2. Expand AiAnalysisCubit with uploadMultipleImages() method.\n3. Update WorkspaceRepository to include watchMetaphaseImages() (list version)."
+        }
+      ],
+      "snapshot": {
+        "description": "Expand AiAnalysisCubit and create UploadMultipleImages usecase.",
+        "implementationPlan": "1. Create UploadMultipleImages usecase that iterates through a list of files.\n2. Expand AiAnalysisCubit with uploadMultipleImages() method.\n3. Update WorkspaceRepository to include watchMetaphaseImages() (list version).",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement Bulk Image Upload Logic"
+      }
+    }
+  ]
+}

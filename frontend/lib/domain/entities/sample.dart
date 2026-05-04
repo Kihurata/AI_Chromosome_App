@@ -2,22 +2,18 @@ import 'package:equatable/equatable.dart';
 
 enum SampleStatus {
   collected,
-  inTransit,
-  receivedByLab,
-  processing,
-  completed,
+  culturing,
+  harvested,
   failed;
 
   static SampleStatus fromString(String value) {
     switch (value.toUpperCase()) {
-      case 'IN_TRANSIT':
-        return SampleStatus.inTransit;
-      case 'RECEIVED_BY_LAB':
-        return SampleStatus.receivedByLab;
-      case 'PROCESSING':
-        return SampleStatus.processing;
-      case 'COMPLETED':
-        return SampleStatus.completed;
+      case 'COLLECTED':
+        return SampleStatus.collected;
+      case 'CULTURING':
+        return SampleStatus.culturing;
+      case 'HARVESTED':
+        return SampleStatus.harvested;
       case 'FAILED':
         return SampleStatus.failed;
       default:
@@ -29,14 +25,10 @@ enum SampleStatus {
     switch (this) {
       case SampleStatus.collected:
         return 'COLLECTED';
-      case SampleStatus.inTransit:
-        return 'IN_TRANSIT';
-      case SampleStatus.receivedByLab:
-        return 'RECEIVED_BY_LAB';
-      case SampleStatus.processing:
-        return 'PROCESSING';
-      case SampleStatus.completed:
-        return 'COMPLETED';
+      case SampleStatus.culturing:
+        return 'CULTURING';
+      case SampleStatus.harvested:
+        return 'HARVESTED';
       case SampleStatus.failed:
         return 'FAILED';
     }
@@ -46,6 +38,9 @@ enum SampleStatus {
 class Sample extends Equatable {
   final String id;
   final String testOrderId;
+  final String patientName;
+  final String patientCode;
+  final String sampleType;
   final String collectedBy;
   final DateTime collectedAt;
   final SampleStatus status;
@@ -54,6 +49,9 @@ class Sample extends Equatable {
   const Sample({
     required this.id,
     required this.testOrderId,
+    required this.patientName,
+    required this.patientCode,
+    required this.sampleType,
     required this.collectedBy,
     required this.collectedAt,
     this.status = SampleStatus.collected,
@@ -64,6 +62,9 @@ class Sample extends Equatable {
   List<Object?> get props => [
         id,
         testOrderId,
+        patientName,
+        patientCode,
+        sampleType,
         collectedBy,
         collectedAt,
         status,

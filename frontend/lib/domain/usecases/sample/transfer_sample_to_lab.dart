@@ -9,6 +9,6 @@ class TransferSampleToLab {
   TransferSampleToLab(this.repository);
 
   Future<Either<Failure, void>> call(String sampleId) {
-    return repository.updateSampleStatus(sampleId, SampleStatus.inTransit);
+    return repository.updateSampleStatus(sampleId, SampleStatus.culturing);
   }
 }
