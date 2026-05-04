@@ -1,0 +1,49 @@
+{
+  "docPath": "learnings/learning-specialist-dashboard-and-firestore-indexing",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "learnings/learning-specialist-dashboard-and-firestore-indexing",
+      "version": 1,
+      "timestamp": "2026-05-02T08:55:09.3128738Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Learning: Specialist Dashboard and Firestore Indexing"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Learnings from fixing the Specialist Dashboard loading issues, DI conflicts, and Firestore index management."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "learning",
+            "specialist",
+            "dashboard",
+            "firestore",
+            "flutter",
+            "debugging"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Patterns\n\n### Reactive Streams with Error Handling\n- **What:** Implementing `async*` methods in Repositories that use `yield*` to wrap Firestore streams, wrapped in `try-catch` blocks to convert Firebase errors into functional `Failure` objects.\n- **When to use:** Whenever exposing a real-time data stream (Watch) to a Cubit/State Management layer.\n- **Source:** @task-ugibx7\n\n### Dev Seeding via Standalone Script\n- **What:** Using the Firebase Admin SDK in a Python script (`seed_mock_orders.py`) to inject test data directly into Firestore.\n- **When to use:** During development when the UI for data creation isn't ready or when \"bloating\" the production UI with dev-only buttons is undesirable.\n- **Source:** @task-ugibx7\n\n## Decisions\n\n### Managed Composite Indexes\n- **Chose:** Defining composite indexes in `firestore.indexes.json` and deploying via CLI.\n- **Over:** Manual creation in Firebase Console.\n- **Tag:** GOOD_CALL\n- **Outcome:** Ensures environment consistency and allows the AI agent to fix \"failed-precondition\" errors autonomously.\n- **Recommendation:** Always maintain the `.json` file for indexes.\n\n### Merging Duplicated Cubits\n- **Chose:** Consolidating `SpecialistDashboardCubit` from two different folders into a single canonical location.\n- **Over:** Keeping separate versions for \"specialist\" and \"specialist_dashboard\".\n- **Tag:** GOOD_CALL\n- **Outcome:** Resolved GetIt registration errors and improved code maintainability.\n\n## Failures\n\n### Duplicated Registration Path\n- **What went wrong:** Having the same Cubit class in two folders led to inconsistent imports. One was registered with `@injectable`, but the UI was importing the non-registered one.\n- **Root cause:** Fragmentation during feature development and lack of a single \"source of truth\" folder.\n- **Time lost:** 30 minutes.\n- **Prevention:** Use consistent folder structures and periodically run `build_runner` to catch DI gaps.\n\n### Silent Loading Hang\n- **What went wrong:** The UI stayed in a loading state indefinitely when a Firestore query failed.\n- **Root cause:** The Repository stream didn't catch errors, so the Cubit's `emit.forEach` never received a failure signal to transition out of the loading state.\n- **Time lost:** 45 minutes.\n- **Prevention:** Always wrap stream-based data fetching in try-catch and emit a failure state.\n",
+        "description": "Learnings from fixing the Specialist Dashboard loading issues, DI conflicts, and Firestore index management.",
+        "tags": [
+          "learning",
+          "specialist",
+          "dashboard",
+          "firestore",
+          "flutter",
+          "debugging"
+        ],
+        "title": "Learning: Specialist Dashboard and Firestore Indexing"
+      }
+    }
+  ]
+}
