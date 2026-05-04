@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../logic/bloc/auth/auth_cubit.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/services/notification_factory.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -26,10 +27,16 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is AuthError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: Colors.red),
+        if (state is AuthErrorWithType) {
+          NotificationFactory.show(
+            context,
+            type: state.type,
+            message: state.message,
+            onRetry: () => context.read<AuthCubit>().retryLogin(),
           );
+        } else if (state is AuthError) {
+          // Legacy fallback
+          NotificationFactory.showError(context, state.message);
         }
       },
       child: Scaffold(

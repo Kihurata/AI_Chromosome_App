@@ -5,10 +5,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'core/di/injection.dart';
 import 'core/router/app_router.dart';
 import 'core/providers/auth_provider.dart';
+import 'core/services/connectivity_service.dart';
 import 'logic/bloc/auth/auth_cubit.dart';
 import 'logic/bloc/layout/layout_cubit.dart';
 import 'logic/bloc/patient/patient_cubit.dart';
+import 'logic/bloc/connectivity/connectivity_cubit.dart';
 import 'core/firebase/firebase_options.dart';
+import 'presentation/widgets/shared/connectivity_banner.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,16 +35,29 @@ class MedCoreApp extends ConsumerWidget {
         BlocProvider<AuthCubit>(create: (_) => AuthCubit()),
         BlocProvider<LayoutCubit>(create: (_) => getIt<LayoutCubit>()),
         BlocProvider<PatientCubit>(create: (_) => getIt<PatientCubit>()),
+        BlocProvider<ConnectivityCubit>(
+          create: (_) => ConnectivityCubit(ConnectivityService()),
+        ),
       ],
       child: AuthBlocBridge(
         child: Consumer(
           builder: (context, ref, _) {
             final router = ref.watch(appRouterProvider);
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              title: 'MedCore CRM',
-              theme: ThemeData(useMaterial3: true, primarySwatch: Colors.blue),
-              routerConfig: router,
+            return Directionality(
+              textDirection: TextDirection.ltr,
+              child: Column(
+                children: [
+                  const ConnectivityBanner(),
+                  Expanded(
+                    child: MaterialApp.router(
+                      debugShowCheckedModeBanner: false,
+                      title: 'MedCore CRM',
+                      theme: ThemeData(useMaterial3: true, primarySwatch: Colors.blue),
+                      routerConfig: router,
+                    ),
+                  ),
+                ],
+              ),
             );
           },
         ),
@@ -49,3 +65,4 @@ class MedCoreApp extends ConsumerWidget {
     );
   }
 }
+

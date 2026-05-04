@@ -1,0 +1,96 @@
+{
+  "taskId": "n0vw4c",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "n0vw4c",
+      "version": 1,
+      "timestamp": "2026-05-04T08:27:31.501584Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Refactor login_page.dart BlocListener to use NotificationFactory. Update AuthCubit to detect network errors (SocketException) vs auth errors. Integrate ConnectivityBanner into main.dart app shell.",
+        "labels": [
+          "presentation",
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Integrate NotificationFactory into Login and refactor AuthCubit error handling"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "n0vw4c",
+      "version": 2,
+      "timestamp": "2026-05-04T08:30:58.533612Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Refactor AuthCubit: add network error detection (SocketException, etc.)\n2. Refactor login_page.dart: replace raw SnackBar with NotificationFactory calls\n3. Integrate ConnectivityCubit + ConnectivityBanner into main.dart\n4. Run flutter analyze on all changed files"
+        }
+      ],
+      "snapshot": {
+        "description": "Refactor login_page.dart BlocListener to use NotificationFactory. Update AuthCubit to detect network errors (SocketException) vs auth errors. Integrate ConnectivityBanner into main.dart app shell.",
+        "implementationPlan": "1. Refactor AuthCubit: add network error detection (SocketException, etc.)\n2. Refactor login_page.dart: replace raw SnackBar with NotificationFactory calls\n3. Integrate ConnectivityCubit + ConnectivityBanner into main.dart\n4. Run flutter analyze on all changed files",
+        "labels": [
+          "presentation",
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Integrate NotificationFactory into Login and refactor AuthCubit error handling"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "n0vw4c",
+      "version": 3,
+      "timestamp": "2026-05-04T08:33:01.28394Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Refactored AuthCubit with AuthErrorWithType state + NotificationType enum. Added network error detection (SocketException, timeout, host lookup). Refactored login_page.dart to use NotificationFactory. Integrated ConnectivityCubit + ConnectivityBanner into main.dart. Updated auth_provider.dart to handle AuthErrorWithType. All 8 files pass flutter analyze."
+        }
+      ],
+      "snapshot": {
+        "description": "Refactor login_page.dart BlocListener to use NotificationFactory. Update AuthCubit to detect network errors (SocketException) vs auth errors. Integrate ConnectivityBanner into main.dart app shell.",
+        "implementationNotes": "Refactored AuthCubit with AuthErrorWithType state + NotificationType enum. Added network error detection (SocketException, timeout, host lookup). Refactored login_page.dart to use NotificationFactory. Integrated ConnectivityCubit + ConnectivityBanner into main.dart. Updated auth_provider.dart to handle AuthErrorWithType. All 8 files pass flutter analyze.",
+        "implementationPlan": "1. Refactor AuthCubit: add network error detection (SocketException, etc.)\n2. Refactor login_page.dart: replace raw SnackBar with NotificationFactory calls\n3. Integrate ConnectivityCubit + ConnectivityBanner into main.dart\n4. Run flutter analyze on all changed files",
+        "labels": [
+          "presentation",
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "Integrate NotificationFactory into Login and refactor AuthCubit error handling"
+      }
+    }
+  ]
+}

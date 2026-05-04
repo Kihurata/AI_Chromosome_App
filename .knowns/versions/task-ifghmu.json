@@ -1,0 +1,96 @@
+{
+  "taskId": "ifghmu",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "ifghmu",
+      "version": 1,
+      "timestamp": "2026-05-04T08:27:25.192693Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Create ConnectivityService using connectivity_plus package to monitor network state in real-time, and ConnectivityCubit to expose the state to UI via BLoC pattern. Include ConnectivityBanner widget.",
+        "labels": [
+          "core",
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Implement ConnectivityService and ConnectivityCubit"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "ifghmu",
+      "version": 2,
+      "timestamp": "2026-05-04T08:29:37.709557Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Create ConnectivityService in core/services/connectivity_service.dart\n2. Create ConnectivityCubit + ConnectivityState in logic/bloc/connectivity/\n3. Create ConnectivityBanner widget in presentation/widgets/\n4. Run flutter analyze"
+        }
+      ],
+      "snapshot": {
+        "description": "Create ConnectivityService using connectivity_plus package to monitor network state in real-time, and ConnectivityCubit to expose the state to UI via BLoC pattern. Include ConnectivityBanner widget.",
+        "implementationPlan": "1. Create ConnectivityService in core/services/connectivity_service.dart\n2. Create ConnectivityCubit + ConnectivityState in logic/bloc/connectivity/\n3. Create ConnectivityBanner widget in presentation/widgets/\n4. Run flutter analyze",
+        "labels": [
+          "core",
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement ConnectivityService and ConnectivityCubit"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "ifghmu",
+      "version": 3,
+      "timestamp": "2026-05-04T08:30:48.177636Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Created ConnectivityService (connectivity_plus wrapper), ConnectivityCubit (stream listener with isClosed guard), and ConnectivityBanner widget (animated slide/fade). All pass dart analyze."
+        }
+      ],
+      "snapshot": {
+        "description": "Create ConnectivityService using connectivity_plus package to monitor network state in real-time, and ConnectivityCubit to expose the state to UI via BLoC pattern. Include ConnectivityBanner widget.",
+        "implementationNotes": "Created ConnectivityService (connectivity_plus wrapper), ConnectivityCubit (stream listener with isClosed guard), and ConnectivityBanner widget (animated slide/fade). All pass dart analyze.",
+        "implementationPlan": "1. Create ConnectivityService in core/services/connectivity_service.dart\n2. Create ConnectivityCubit + ConnectivityState in logic/bloc/connectivity/\n3. Create ConnectivityBanner widget in presentation/widgets/\n4. Run flutter analyze",
+        "labels": [
+          "core",
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "Implement ConnectivityService and ConnectivityCubit"
+      }
+    }
+  ]
+}
