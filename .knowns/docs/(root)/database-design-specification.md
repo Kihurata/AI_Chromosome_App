@@ -5,6 +5,7 @@ tags:
   - database
   - firestore
   - schema
+  - design
 ---
 
 # Database Design Specification
@@ -16,10 +17,10 @@ Tài liệu này chi tiết cấu trúc các collection và các mối quan hệ
 ### 1.1. test_orders
 Lưu trữ các yêu cầu xét nghiệm di truyền.
 - **Fields:**
-    - `id` (string): Document ID.
-    - `patient_id` (string): Path dẫn đến document của bệnh nhân (VD: "/patients/PAT_001"). **Đây là field chính để liên kết với Sample và Patient.**
-    - `patient_name` (string): Tên bệnh nhân (denormalized).
-    - `patient_code` (string): Mã số bệnh nhân (VD: "PAT_001").
+    - `id` (string): Document ID tự sinh của Firestore.
+    - `patient_id` (Reference): Tham chiếu đến document trong collection `patients`. **Không dùng để truy vấn Sample.**
+    - `patient_name` (string): Tên bệnh nhân (denormalized để giảm số read).
+    - `patient_code` (string): Mã số bệnh nhân (VD: "PAT_001", denormalized).
     - `status` (string): Trạng thái phiếu (PENDING, ANALYZING, WAITING_APPROVAL, COMPLETED, REJECTED).
     - `specialist_id` (string): UID của chuyên viên được giao.
     - `created_at` (timestamp): Thời gian tạo phiếu.
