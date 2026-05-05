@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../domain/entities/test_order.dart';
 import '../../../../logic/bloc/specialist/specialist_dashboard_cubit.dart';
-import 'package:go_router/go_router.dart';
+import '../../../../core/router/app_router.dart';
 
 class SpecialistOrderCard extends StatelessWidget {
   final TestOrder order;
@@ -12,69 +13,84 @@ class SpecialistOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
+    return InkWell(
+      onTap: () => context.push('${AppRoutes.specialistSamples}/${order.id}'),
+      hoverColor: Colors.blue.shade50.withValues(alpha: 0.5),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Row(
           children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: _getStatusColor(order.status).withValues(alpha: 0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(_getStatusIcon(order.status), color: _getStatusColor(order.status), size: 24),
-            ),
-            const SizedBox(width: 20),
+            // ── Bệnh nhân ──────────────────────────────────────────────
             Expanded(
+              flex: 3,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     order.patientName,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      color: Color(0xFF111827),
+                    ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 3),
                   Text(
-                    'Mã phiếu: ${order.patientCode}',
-                    style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                    order.patientCode,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey.shade500,
+                      fontSize: 12,
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(width: 20),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  _formatDate(order.createdAt),
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
-                ),
-                const SizedBox(height: 4),
-                _buildStatusBadge(context, order.status),
-              ],
+            // ── Xét nghiệm ─────────────────────────────────────────────
+            Expanded(
+              flex: 3,
+              child: Text(
+                _getTestTypeName(order.status),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 13, color: Color(0xFF374151)),
+              ),
             ),
-            const SizedBox(width: 40),
-            _buildActionButton(context),
+            // ── Ngày yêu cầu ───────────────────────────────────────────
+            Expanded(
+              flex: 2,
+              child: Text(
+                _formatDate(order.createdAt),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+              ),
+            ),
+            // ── Hành động ──────────────────────────────────────────────
+            Expanded(
+              flex: 3,
+              child: Center(
+                child: _buildActionCell(context),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildStatusBadge(BuildContext context, TestOrderStatus status) {
+  Widget _buildActionCell(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _buildStatusBadge(order.status),
+        const SizedBox(width: 12),
+        _buildActionButton(context),
+      ],
+    );
+  }
+
+  Widget _buildStatusBadge(TestOrderStatus status) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
@@ -83,7 +99,11 @@ class SpecialistOrderCard extends StatelessWidget {
       ),
       child: Text(
         status.displayName,
-        style: TextStyle(color: _getStatusColor(status), fontSize: 12, fontWeight: FontWeight.bold),
+        style: TextStyle(
+          color: _getStatusColor(status),
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -92,33 +112,36 @@ class SpecialistOrderCard extends StatelessWidget {
     if (order.status == TestOrderStatus.pending) {
       return ElevatedButton.icon(
         onPressed: () => _showStartAnalysisConfirm(context),
-        icon: const Icon(LucideIcons.play, size: 16),
-        label: const Text('Bắt đầu phân tích'),
+        icon: const Icon(LucideIcons.play, size: 14),
+        label: const Text('Bắt đầu'),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,
           foregroundColor: Colors.white,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
-    }
-    
-    if (order.status == TestOrderStatus.analyzing) {
-      return OutlinedButton.icon(
-        onPressed: () {
-          context.goNamed('specialist-analysis', pathParameters: {'orderId': order.id});
-        },
-        icon: const Icon(LucideIcons.externalLink, size: 16),
-        label: const Text('Tiếp tục'),
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+          textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
       );
     }
 
-    return const SizedBox(width: 140);
+    if (order.status == TestOrderStatus.analyzing) {
+      return OutlinedButton.icon(
+        onPressed: () {
+          context.goNamed('specialist-analysis',
+              pathParameters: {'orderId': order.id});
+        },
+        icon: const Icon(LucideIcons.externalLink, size: 14),
+        label: const Text('Tiếp tục'),
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+          textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      );
+    }
+
+    return const SizedBox(width: 80);
   }
 
   void _showStartAnalysisConfirm(BuildContext context) {
@@ -126,7 +149,8 @@ class SpecialistOrderCard extends StatelessWidget {
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: const Text('Xác nhận bắt đầu'),
-        content: Text('Bạn có chắc chắn muốn bắt đầu phân tích phiếu của bệnh nhân ${order.patientName}?'),
+        content: Text(
+            'Bạn có chắc chắn muốn bắt đầu phân tích phiếu của bệnh nhân ${order.patientName}?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
@@ -134,7 +158,9 @@ class SpecialistOrderCard extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              context.read<SpecialistDashboardCubit>().startOrderAnalysis(order.id);
+              context
+                  .read<SpecialistDashboardCubit>()
+                  .startOrderAnalysis(order.id);
               Navigator.pop(dialogContext);
             },
             child: const Text('Bắt đầu'),
@@ -144,27 +170,38 @@ class SpecialistOrderCard extends StatelessWidget {
     );
   }
 
-  Color _getStatusColor(TestOrderStatus status) {
+  // Placeholder: map status to a test type label (real data would come from order entity)
+  String _getTestTypeName(TestOrderStatus status) {
     switch (status) {
-      case TestOrderStatus.pending: return Colors.orange;
-      case TestOrderStatus.analyzing: return Colors.indigo;
-      case TestOrderStatus.completed: return Colors.green;
-      case TestOrderStatus.rejected: return Colors.red;
-      case TestOrderStatus.waitingApproval: return Colors.purple;
+      case TestOrderStatus.pending:
+        return 'Xét nghiệm karyotype';
+      case TestOrderStatus.analyzing:
+        return 'Phân tích NST';
+      case TestOrderStatus.completed:
+        return 'Karyotype truyền thống';
+      case TestOrderStatus.waitingApproval:
+        return 'Phân tích SNP';
+      case TestOrderStatus.rejected:
+        return 'Xét nghiệm gen BRCA';
     }
   }
 
-  IconData _getStatusIcon(TestOrderStatus status) {
+  Color _getStatusColor(TestOrderStatus status) {
     switch (status) {
-      case TestOrderStatus.pending: return LucideIcons.clock;
-      case TestOrderStatus.analyzing: return LucideIcons.activity;
-      case TestOrderStatus.completed: return LucideIcons.checkCircle;
-      case TestOrderStatus.rejected: return LucideIcons.xCircle;
-      case TestOrderStatus.waitingApproval: return LucideIcons.eye;
+      case TestOrderStatus.pending:
+        return Colors.orange;
+      case TestOrderStatus.analyzing:
+        return Colors.indigo;
+      case TestOrderStatus.completed:
+        return Colors.green;
+      case TestOrderStatus.rejected:
+        return Colors.red;
+      case TestOrderStatus.waitingApproval:
+        return Colors.purple;
     }
   }
 
   String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year}';
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
   }
 }

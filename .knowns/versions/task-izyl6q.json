@@ -1,6 +1,6 @@
 {
   "taskId": "izyl6q",
-  "currentVersion": 2,
+  "currentVersion": 3,
   "versions": [
     {
       "id": "v1",
@@ -56,6 +56,30 @@
         ],
         "priority": "medium",
         "status": "in-progress",
+        "title": "Integrate Sample Management into Side Rail"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "izyl6q",
+      "version": 3,
+      "timestamp": "2026-05-05T06:39:09.886619Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "completed"
+        }
+      ],
+      "snapshot": {
+        "description": "Add the 'Quản lý mẫu' tab to the AppSideRail.",
+        "implementationPlan": "1. Update AppSideRail widget to include the 'Quản lý mẫu' item.\n2. Update the router (GoRouter) to include the Sample Management route.\n3. Verify navigation between pages.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "completed",
         "title": "Integrate Sample Management into Side Rail"
       }
     }

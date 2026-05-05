@@ -1,13 +1,13 @@
 ---
 id: izyl6q
 title: Integrate Sample Management into Side Rail
-status: in-progress
+status: completed
 priority: medium
 labels:
   - from-spec
   - go-mode
 createdAt: '2026-05-04T08:50:52.757Z'
-updatedAt: '2026-05-04T08:54:43.914Z'
+updatedAt: '2026-05-05T06:39:09.884Z'
 timeSpent: 0
 spec: specs/sample-management-bulk-upload
 ---

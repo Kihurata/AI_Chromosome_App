@@ -1,0 +1,69 @@
+{
+  "docPath": "specs/ai-server-colab-integration",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "specs/ai-server-colab-integration",
+      "version": 1,
+      "timestamp": "2026-05-05T08:29:56.126493Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "AI Server Colab Integration"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Specification for setting up Colab AI Server with Ngrok"
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "spec",
+            "draft"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\nSpecification for integrating the existing Python AI segmentation pipeline (Colab) into the main application via a FastAPI server exposed through Ngrok.\n\n## Locked Decisions\n- **D1 (Authentication):** Use a simple API Key passed via `X-API-Key` header to secure the Colab Ngrok endpoint.\n- **D2 (Auto-sync):** AI Server will automatically update the Ngrok URL to Firestore (`system_configs/ai_server`) upon startup using the Firebase Admin SDK.\n- **D3 (Karyogram Output):** The AI Server will return the LabelMe JSON format **and** upload the generated Karyogram PNG to Firebase Storage, returning its URL for reference.\n\n## Requirements\n\n### Functional Requirements\n- **FR-1 (Ngrok Tunnel):** Implement `pyngrok` alongside `nest_asyncio` and `uvicorn` to expose the FastAPI app on Colab.\n- **FR-2 (Security):** FastAPI endpoint `/analyze` must validate the `X-API-Key` header. Reject unauthorized requests.\n- **FR-3 (Firestore Sync):** On startup, the script must authenticate via `firebase-admin` and update the `url` field in the `system_configs/ai_server` document.\n- **FR-4 (Zero-copy Download):** Endpoint must accept `{\"image_url\": \"...\", \"test_order_id\": \"...\"}` and download the image directly into memory for processing.\n- **FR-5 (Pipeline Execution):** Execute the existing 4-step pipeline (Background -\u003e Detect -\u003e StarDist -\u003e Classify).\n- **FR-6 (Upload Reference):** Generate the Denver standard Karyogram PNG, upload it to Firebase Storage (e.g., path: `ai_references/{test_order_id}.png`), and obtain its public URL.\n- **FR-7 (Standardized Output):** Format the coordinate results strictly into the LabelMe JSON format (`shapes` array with `label` and `points` as `[[x,y]]`).\n\n### Non-Functional Requirements\n- **NFR-1 (Timeout):** The processing pipeline may take 2-5 seconds per image. The endpoint must remain open and not timeout prematurely.\n- **NFR-2 (GPU Memory):** Models should remain loaded in memory globally (not reloaded per request) to ensure efficient inference on the T4 GPU.\n\n## Acceptance Criteria\n- [ ] **AC-1:** Starting the Colab cell automatically writes the active Ngrok URL to Firestore.\n- [ ] **AC-2:** Requests lacking the correct `X-API-Key` receive an HTTP 401/403 Unauthorized response.\n- [ ] **AC-3:** A valid POST request successfully triggers the pipeline and returns HTTP 200 with the correct LabelMe JSON structure.\n- [ ] **AC-4:** The API response includes `reference_karyogram_url` pointing to an accessible image on Firebase Storage.\n- [ ] **AC-5:** Chromosome polygons inside the JSON `shapes` array are formatted properly as lists of `[x, y]` coordinates.\n\n## Scenarios\n\n### Scenario 1: Happy Path Processing\n**Given** the Colab server is running and synced its URL to Firestore\n**When** the Backend Orchestrator sends a POST request with a valid image URL, test_order_id, and API Key\n**Then** the Colab server downloads the image, processes it, uploads the reference Karyogram to Storage, and returns the structured JSON output.\n\n### Scenario 2: Unauthorized Access Attempt\n**Given** the Colab server is exposed via public Ngrok URL\n**When** an external scanner or malicious user sends a request without the `X-API-Key` header\n**Then** the server immediately rejects the request with HTTP 403 Forbidden without processing any images.\n\n## Technical Notes\n- To prevent Ngrok's browser warning block, ensure the orchestrator backend continues to send the `\"ngrok-skip-browser-warning\": \"true\"` header.\n- Use `requests` or `aiohttp` to download the `image_url` directly into a numpy array / OpenCV format.",
+        "description": "Specification for setting up Colab AI Server with Ngrok",
+        "tags": [
+          "spec",
+          "draft"
+        ],
+        "title": "AI Server Colab Integration"
+      }
+    },
+    {
+      "id": "v2",
+      "docPath": "specs/ai-server-colab-integration",
+      "version": 2,
+      "timestamp": "2026-05-05T08:32:13.841292Z",
+      "changes": [
+        {
+          "field": "tags",
+          "oldValue": [
+            "spec",
+            "draft"
+          ],
+          "newValue": [
+            "spec",
+            "approved"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\nSpecification for integrating the existing Python AI segmentation pipeline (Colab) into the main application via a FastAPI server exposed through Ngrok.\n\n## Locked Decisions\n- **D1 (Authentication):** Use a simple API Key passed via `X-API-Key` header to secure the Colab Ngrok endpoint.\n- **D2 (Auto-sync):** AI Server will automatically update the Ngrok URL to Firestore (`system_configs/ai_server`) upon startup using the Firebase Admin SDK.\n- **D3 (Karyogram Output):** The AI Server will return the LabelMe JSON format **and** upload the generated Karyogram PNG to Firebase Storage, returning its URL for reference.\n\n## Requirements\n\n### Functional Requirements\n- **FR-1 (Ngrok Tunnel):** Implement `pyngrok` alongside `nest_asyncio` and `uvicorn` to expose the FastAPI app on Colab.\n- **FR-2 (Security):** FastAPI endpoint `/analyze` must validate the `X-API-Key` header. Reject unauthorized requests.\n- **FR-3 (Firestore Sync):** On startup, the script must authenticate via `firebase-admin` and update the `url` field in the `system_configs/ai_server` document.\n- **FR-4 (Zero-copy Download):** Endpoint must accept `{\"image_url\": \"...\", \"test_order_id\": \"...\"}` and download the image directly into memory for processing.\n- **FR-5 (Pipeline Execution):** Execute the existing 4-step pipeline (Background -\u003e Detect -\u003e StarDist -\u003e Classify).\n- **FR-6 (Upload Reference):** Generate the Denver standard Karyogram PNG, upload it to Firebase Storage (e.g., path: `ai_references/{test_order_id}.png`), and obtain its public URL.\n- **FR-7 (Standardized Output):** Format the coordinate results strictly into the LabelMe JSON format (`shapes` array with `label` and `points` as `[[x,y]]`).\n\n### Non-Functional Requirements\n- **NFR-1 (Timeout):** The processing pipeline may take 2-5 seconds per image. The endpoint must remain open and not timeout prematurely.\n- **NFR-2 (GPU Memory):** Models should remain loaded in memory globally (not reloaded per request) to ensure efficient inference on the T4 GPU.\n\n## Acceptance Criteria\n- [ ] **AC-1:** Starting the Colab cell automatically writes the active Ngrok URL to Firestore.\n- [ ] **AC-2:** Requests lacking the correct `X-API-Key` receive an HTTP 401/403 Unauthorized response.\n- [ ] **AC-3:** A valid POST request successfully triggers the pipeline and returns HTTP 200 with the correct LabelMe JSON structure.\n- [ ] **AC-4:** The API response includes `reference_karyogram_url` pointing to an accessible image on Firebase Storage.\n- [ ] **AC-5:** Chromosome polygons inside the JSON `shapes` array are formatted properly as lists of `[x, y]` coordinates.\n\n## Scenarios\n\n### Scenario 1: Happy Path Processing\n**Given** the Colab server is running and synced its URL to Firestore\n**When** the Backend Orchestrator sends a POST request with a valid image URL, test_order_id, and API Key\n**Then** the Colab server downloads the image, processes it, uploads the reference Karyogram to Storage, and returns the structured JSON output.\n\n### Scenario 2: Unauthorized Access Attempt\n**Given** the Colab server is exposed via public Ngrok URL\n**When** an external scanner or malicious user sends a request without the `X-API-Key` header\n**Then** the server immediately rejects the request with HTTP 403 Forbidden without processing any images.\n\n## Technical Notes\n- To prevent Ngrok's browser warning block, ensure the orchestrator backend continues to send the `\"ngrok-skip-browser-warning\": \"true\"` header.\n- Use `requests` or `aiohttp` to download the `image_url` directly into a numpy array / OpenCV format.",
+        "description": "Specification for setting up Colab AI Server with Ngrok",
+        "tags": [
+          "spec",
+          "approved"
+        ],
+        "title": "AI Server Colab Integration"
+      }
+    }
+  ]
+}

@@ -10,4 +10,6 @@ abstract class SampleRepository {
   );
   Stream<Either<Failure, List<Sample>>> watchSamples();
   Stream<Either<Failure, List<Sample>>> watchSamplesByStatus(SampleStatus status);
+  Future<Either<Failure, Sample>> getSampleById(String id);
+  Future<Either<Failure, void>> updateSampleNote(String id, String note);
 }

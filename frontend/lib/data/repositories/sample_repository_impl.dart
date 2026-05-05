@@ -60,4 +60,24 @@ class SampleRepositoryImpl implements SampleRepository {
       yield Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Sample>> getSampleById(String id) async {
+    try {
+      final sample = await remoteDataSource.getSampleById(id);
+      return Right(sample);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateSampleNote(String id, String note) async {
+    try {
+      await remoteDataSource.updateSampleNote(id, note);
+      return Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

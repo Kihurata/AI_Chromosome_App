@@ -1,13 +1,13 @@
 ---
 id: 0k0qu1
 title: Build SampleManagementPage UI
-status: in-progress
+status: completed
 priority: high
 labels:
   - from-spec
   - go-mode
 createdAt: '2026-05-04T08:50:52.747Z'
-updatedAt: '2026-05-04T08:54:06.494Z'
+updatedAt: '2026-05-05T06:39:09.924Z'
 timeSpent: 0
 spec: specs/sample-management-bulk-upload
 ---

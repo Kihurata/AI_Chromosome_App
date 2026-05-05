@@ -6,6 +6,8 @@ import '../../../../logic/bloc/specialist/sample_management_state.dart';
 import '../../../../core/theme/app_colors.dart';
 import 'widgets/sample_card.dart';
 import 'widgets/bulk_upload_dialog.dart';
+import 'package:go_router/go_router.dart';
+import '../../../../core/router/app_router.dart';
 
 class SampleManagementPage extends StatefulWidget {
   const SampleManagementPage({super.key});
@@ -134,14 +136,19 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
           separatorBuilder: (context, index) => const SizedBox(height: 16),
           itemBuilder: (context, index) {
             final sample = state.filteredSamples[index];
-            return SampleCard(
-              sample: sample,
-              onStatusUpdate: (status) {
-                context.read<SampleManagementCubit>().updateStatus(sample.id, status);
-                if (status == SampleStatus.harvested) {
-                  _showBulkUploadDialog(sample);
-                }
+            return InkWell(
+              onTap: () {
+                context.push('${AppRoutes.specialistSamples}/${sample.id}');
               },
+              child: SampleCard(
+                sample: sample,
+                onStatusUpdate: (status) {
+                  context.read<SampleManagementCubit>().updateStatus(sample.id, status);
+                  if (status == SampleStatus.harvested) {
+                    _showBulkUploadDialog(sample);
+                  }
+                },
+              ),
             );
           },
         );

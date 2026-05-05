@@ -15,22 +15,24 @@ import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:firebase_storage/firebase_storage.dart' as _i457;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
-import '../../data/datasources/sample_remote_datasource.dart' as _i444;
-import '../../data/repositories/sample_repository_impl.dart' as _i555;
 
 import '../../data/datasources/patient_remote_datasource.dart' as _i940;
+import '../../data/datasources/sample_remote_datasource.dart' as _i629;
 import '../../data/datasources/specialist_remote_datasource.dart' as _i215;
 import '../../data/datasources/test_order_remote_datasource.dart' as _i221;
 import '../../data/repositories/image_storage_repository_impl.dart' as _i644;
 import '../../data/repositories/patient_repository_impl.dart' as _i308;
+import '../../data/repositories/sample_repository_impl.dart' as _i731;
 import '../../data/repositories/specialist_repository_impl.dart' as _i343;
 import '../../data/repositories/test_order_repository_impl.dart' as _i713;
 import '../../data/repositories/workspace_repository_impl.dart' as _i964;
 import '../../domain/repositories/image_storage_repository.dart' as _i970;
 import '../../domain/repositories/patient_repository.dart' as _i467;
+import '../../domain/repositories/sample_repository.dart' as _i643;
 import '../../domain/repositories/specialist_repository.dart' as _i121;
 import '../../domain/repositories/test_order_repository.dart' as _i655;
 import '../../domain/repositories/workspace_repository.dart' as _i77;
+import '../../domain/usecases/get_sample_by_id_usecase.dart' as _i474;
 import '../../domain/usecases/patient/add_patient.dart' as _i819;
 import '../../domain/usecases/patient/check_duplicate_patient.dart' as _i188;
 import '../../domain/usecases/patient/get_patient_by_id.dart' as _i1004;
@@ -41,20 +43,21 @@ import '../../domain/usecases/specialist/trigger_ai_analysis.dart' as _i1057;
 import '../../domain/usecases/specialist/update_order_status.dart' as _i814;
 import '../../domain/usecases/specialist/upload_image_for_ai_analysis.dart'
     as _i547;
+import '../../domain/usecases/specialist/upload_multiple_images.dart' as _i256;
 import '../../domain/usecases/specialist/watch_assigned_orders.dart' as _i907;
-import '../../domain/usecases/specialist/upload_multiple_images.dart' as _i111;
-import '../../logic/bloc/specialist/sample_management_cubit.dart' as _i222;
-import '../../domain/repositories/sample_repository.dart' as _i333;
 import '../../domain/usecases/test_order/approve_karyotype_result.dart' as _i63;
 import '../../domain/usecases/test_order/assign_order_to_specialist.dart'
     as _i320;
 import '../../domain/usecases/test_order/reject_karyotype_result.dart' as _i749;
 import '../../domain/usecases/test_order/submit_analysis_result.dart' as _i906;
 import '../../domain/usecases/test_order/watch_all_orders.dart' as _i1069;
+import '../../domain/usecases/update_sample_note_usecase.dart' as _i589;
 import '../../logic/bloc/layout/layout_cubit.dart' as _i556;
 import '../../logic/bloc/manager/manager_dashboard_cubit.dart' as _i58;
 import '../../logic/bloc/patient/patient_cubit.dart' as _i965;
 import '../../logic/bloc/specialist/ai_analysis_cubit.dart' as _i65;
+import '../../logic/bloc/specialist/sample_detail_cubit.dart' as _i524;
+import '../../logic/bloc/specialist/sample_management_cubit.dart' as _i10;
 import '../../logic/bloc/specialist/specialist_dashboard_cubit.dart' as _i608;
 import '../network/dio_module.dart' as _i614;
 import '../network/firebase_module.dart' as _i383;
@@ -79,11 +82,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i970.ImageStorageRepository>(
       () => _i644.ImageStorageRepositoryImpl(gh<_i457.FirebaseStorage>()),
     );
+    gh.lazySingleton<_i629.SampleRemoteDataSource>(
+      () => _i629.FirebaseSampleRemoteDataSource(),
+    );
     gh.factory<_i221.TestOrderRemoteDataSource>(
       () => _i221.FirebaseTestOrderRemoteDataSource(),
     );
-    gh.lazySingleton<_i444.SampleRemoteDataSource>(
-      () => _i444.FirebaseSampleRemoteDataSource(),
+    gh.lazySingleton<_i643.SampleRepository>(
+      () => _i731.SampleRepositoryImpl(
+        remoteDataSource: gh<_i629.SampleRemoteDataSource>(),
+      ),
     );
     gh.lazySingleton<_i940.PatientRemoteDataSource>(
       () => _i940.PatientRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
@@ -91,8 +99,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i77.WorkspaceRepository>(
       () => _i964.WorkspaceRepositoryImpl(gh<_i974.FirebaseFirestore>()),
     );
+    gh.lazySingleton<_i10.SampleManagementCubit>(
+      () => _i10.SampleManagementCubit(gh<_i643.SampleRepository>()),
+    );
     gh.lazySingleton<_i467.PatientRepository>(
       () => _i308.PatientRepositoryImpl(gh<_i940.PatientRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i474.GetSampleByIdUsecase>(
+      () => _i474.GetSampleByIdUsecase(gh<_i643.SampleRepository>()),
+    );
+    gh.lazySingleton<_i589.UpdateSampleNoteUsecase>(
+      () => _i589.UpdateSampleNoteUsecase(gh<_i643.SampleRepository>()),
     );
     gh.factory<_i121.SpecialistRepository>(
       () => _i343.SpecialistRepositoryImpl(
@@ -103,9 +120,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i713.TestOrderRepositoryImpl(
         remoteDataSource: gh<_i221.TestOrderRemoteDataSource>(),
       ),
-    );
-    gh.lazySingleton<_i333.SampleRepository>(
-      () => _i555.SampleRepositoryImpl(remoteDataSource: gh<_i444.SampleRemoteDataSource>()),
     );
     gh.factory<_i760.GetSpecialists>(
       () => _i760.GetSpecialists(gh<_i121.SpecialistRepository>()),
@@ -129,6 +143,18 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i547.UploadImageForAiAnalysis(
         gh<_i970.ImageStorageRepository>(),
         gh<_i77.WorkspaceRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i256.UploadMultipleImages>(
+      () => _i256.UploadMultipleImages(
+        gh<_i970.ImageStorageRepository>(),
+        gh<_i77.WorkspaceRepository>(),
+      ),
+    );
+    gh.factory<_i524.SampleDetailCubit>(
+      () => _i524.SampleDetailCubit(
+        getSampleById: gh<_i474.GetSampleByIdUsecase>(),
+        updateSampleNote: gh<_i589.UpdateSampleNoteUsecase>(),
       ),
     );
     gh.factory<_i814.UpdateOrderStatus>(
@@ -155,17 +181,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1057.TriggerAiAnalysis>(
       () => _i1057.TriggerAiAnalysis(gh<_i655.TestOrderRepository>()),
     );
-    gh.factory<_i111.UploadMultipleImages>(
-      () => _i111.UploadMultipleImages(
-        gh<_i970.ImageStorageRepository>(),
-        gh<_i77.WorkspaceRepository>(),
-      ),
-    );
-    gh.factory<_i222.SampleManagementCubit>(
-      () => _i222.SampleManagementCubit(
-        gh<_i333.SampleRepository>(),
-      ),
-    );
     gh.factory<_i965.PatientCubit>(
       () => _i965.PatientCubit(
         getPatientsUsecase: gh<_i266.GetPatients>(),
@@ -173,14 +188,6 @@ extension GetItInjectableX on _i174.GetIt {
         updatePatientUsecase: gh<_i485.UpdatePatient>(),
         getPatientByIdUsecase: gh<_i1004.GetPatientById>(),
         checkDuplicatePatientUsecase: gh<_i188.CheckDuplicatePatient>(),
-      ),
-    );
-    gh.factory<_i65.AiAnalysisCubit>(
-      () => _i65.AiAnalysisCubit(
-        uploadUsecase: gh<_i547.UploadImageForAiAnalysis>(),
-        uploadMultipleUsecase: gh<_i111.UploadMultipleImages>(),
-        triggerAiUsecase: gh<_i1057.TriggerAiAnalysis>(),
-        workspaceRepository: gh<_i77.WorkspaceRepository>(),
       ),
     );
     gh.factory<_i58.ManagerDashboardCubit>(
@@ -196,6 +203,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i608.SpecialistDashboardCubit(
         watchOrdersUsecase: gh<_i907.WatchAssignedOrders>(),
         updateStatusUsecase: gh<_i814.UpdateOrderStatus>(),
+      ),
+    );
+    gh.factory<_i65.AiAnalysisCubit>(
+      () => _i65.AiAnalysisCubit(
+        uploadUsecase: gh<_i547.UploadImageForAiAnalysis>(),
+        uploadMultipleUsecase: gh<_i256.UploadMultipleImages>(),
+        triggerAiUsecase: gh<_i1057.TriggerAiAnalysis>(),
+        workspaceRepository: gh<_i77.WorkspaceRepository>(),
       ),
     );
     return this;

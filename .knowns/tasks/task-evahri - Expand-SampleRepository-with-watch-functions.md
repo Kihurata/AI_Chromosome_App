@@ -1,13 +1,13 @@
 ---
 id: evahri
 title: Expand SampleRepository with watch functions
-status: in-progress
+status: completed
 priority: high
 labels:
   - from-spec
   - go-mode
 createdAt: '2026-05-04T08:50:52.605Z'
-updatedAt: '2026-05-04T08:51:08.560Z'
+updatedAt: '2026-05-05T06:39:09.760Z'
 timeSpent: 0
 spec: specs/sample-management-bulk-upload
 ---

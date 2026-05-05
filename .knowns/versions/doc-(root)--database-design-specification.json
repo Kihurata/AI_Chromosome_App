@@ -1,0 +1,42 @@
+{
+  "docPath": "(root)/database-design-specification",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "(root)/database-design-specification",
+      "version": 1,
+      "timestamp": "2026-05-05T16:20:30.944749Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Database Design Specification"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Detailed Firestore schema, collection fields, and entity relationships to prevent data design confusion."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "database",
+            "firestore",
+            "schema"
+          ]
+        }
+      ],
+      "snapshot": {
+        "description": "Detailed Firestore schema, collection fields, and entity relationships to prevent data design confusion.",
+        "tags": [
+          "database",
+          "firestore",
+          "schema"
+        ],
+        "title": "Database Design Specification"
+      }
+    }
+  ]
+}

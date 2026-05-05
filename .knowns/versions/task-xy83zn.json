@@ -1,0 +1,143 @@
+{
+  "taskId": "xy83zn",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "xy83zn",
+      "version": 1,
+      "timestamp": "2026-05-05T15:54:25.298512Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Update GoRouter to add detail route inside MainShell/ShellRoute"
+          },
+          {
+            "completed": false,
+            "text": "Create SampleDetailScreen UI displaying Sample info"
+          },
+          {
+            "completed": false,
+            "text": "Add TextField for notes with manual Save button"
+          },
+          {
+            "completed": false,
+            "text": "Handle Cubit states (Loading, Error, Success)"
+          }
+        ],
+        "description": "Create UI for Sample Detail, integrate with MainShell layout and Cubit.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "UI: Implement Sample Detail Page and Routing"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "xy83zn",
+      "version": 2,
+      "timestamp": "2026-05-05T15:56:31.571005Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Update GoRouter to add detail route inside MainShell/ShellRoute"
+          },
+          {
+            "completed": false,
+            "text": "Create SampleDetailScreen UI displaying Sample info"
+          },
+          {
+            "completed": false,
+            "text": "Add TextField for notes with manual Save button"
+          },
+          {
+            "completed": false,
+            "text": "Handle Cubit states (Loading, Error, Success)"
+          }
+        ],
+        "description": "Create UI for Sample Detail, integrate with MainShell layout and Cubit.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "UI: Implement Sample Detail Page and Routing"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "xy83zn",
+      "version": 3,
+      "timestamp": "2026-05-05T15:57:13.708695Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented SampleDetailScreen UI and Router integration"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Update GoRouter to add detail route inside MainShell/ShellRoute",
+            "completed": true
+          },
+          {
+            "text": "Create SampleDetailScreen UI displaying Sample info",
+            "completed": true
+          },
+          {
+            "text": "Add TextField for notes with manual Save button",
+            "completed": true
+          },
+          {
+            "text": "Handle Cubit states (Loading, Error, Success)",
+            "completed": true
+          }
+        ],
+        "description": "Create UI for Sample Detail, integrate with MainShell layout and Cubit.",
+        "implementationNotes": "Implemented SampleDetailScreen UI and Router integration",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "UI: Implement Sample Detail Page and Routing"
+      }
+    }
+  ]
+}
