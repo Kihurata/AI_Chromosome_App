@@ -66,6 +66,13 @@ const List<NavItem> appNavItems = [
     allowedRoles: [AppRole.specialist],
     tooltip: 'Phân tích karyotype',
   ),
+  NavItem(
+    label: 'Quản lý mẫu',
+    icon: LucideIcons.package,
+    routePath: '/specialist/samples',
+    allowedRoles: [AppRole.specialist, AppRole.manager],
+    tooltip: 'Theo dõi và thu hoạch mẫu',
+  ),
 
   // ── MANAGER ───────────────────────────────────────────────────────────────
   NavItem(

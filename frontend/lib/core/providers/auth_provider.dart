@@ -57,6 +57,8 @@ class AuthNotifier extends Notifier<AuthSnapshot> {
       state = const AuthSnapshot.unauthenticated();
     } else if (blocState is AuthLoading || blocState is AuthInitial) {
       state = const AuthSnapshot.initial();
+    } else if (blocState is AuthErrorWithType) {
+      state = AuthSnapshot.error(blocState.message);
     } else if (blocState is AuthError) {
       state = AuthSnapshot.error(blocState.message);
     }

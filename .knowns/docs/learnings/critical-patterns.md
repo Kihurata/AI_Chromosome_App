@@ -2,7 +2,7 @@
 title: Critical Patterns
 description: Promoted learnings that save the most time. Read at session start via kn-init.
 createdAt: '2026-04-28T05:23:00.000Z'
-updatedAt: '2026-05-02T07:05:50.496Z'
+updatedAt: '2026-05-02T08:55:13.087Z'
 tags:
   - learning
   - critical
@@ -60,3 +60,13 @@ Legacy screens had `ClinicalRepository` injected as constructor params across 7 
 *   **Header Replacement Safety:** When editing imports, ensure `package:flutter/material.dart` is preserved to avoid "Undefined name 'Text'" etc.
 
 **Full entry:** @doc/learnings/learning-ai-frontend-integration-debugging
+
+
+## [2026-05-02] Prevent Silent Loading Hangs in Reactive Streams
+**Category:** failure
+**Source:** @task-ugibx7
+**Tags:** [flutter, firestore, reactive-ui]
+
+UI loading states can hang indefinitely if a Firestore stream fails (e.g., missing index) and the Repository doesn't explicitly catch and emit the error. Always wrap `yield*` in `try-catch` within `async*` repository methods to ensure errors reach the Cubit/State layer.
+
+**Full entry:** @doc/learnings/learning-specialist-dashboard-and-firestore-indexing

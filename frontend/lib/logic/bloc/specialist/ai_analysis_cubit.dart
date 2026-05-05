@@ -5,17 +5,20 @@ import '../../../domain/repositories/workspace_repository.dart';
 import 'package:injectable/injectable.dart';
 import '../../../domain/usecases/specialist/upload_image_for_ai_analysis.dart';
 import '../../../domain/usecases/specialist/trigger_ai_analysis.dart';
+import '../../../domain/usecases/specialist/upload_multiple_images.dart';
 import 'ai_analysis_state.dart';
 
 @injectable
 class AiAnalysisCubit extends Cubit<AiAnalysisState> {
   final UploadImageForAiAnalysis uploadUsecase;
+  final UploadMultipleImages uploadMultipleUsecase;
   final TriggerAiAnalysis triggerAiUsecase;
   final WorkspaceRepository workspaceRepository;
   String? _analyzingImageId;
 
   AiAnalysisCubit({
     required this.uploadUsecase,
+    required this.uploadMultipleUsecase,
     required this.triggerAiUsecase,
     required this.workspaceRepository,
   }) : super(AiAnalysisInitial());
@@ -31,6 +34,22 @@ class AiAnalysisCubit extends Cubit<AiAnalysisState> {
       (failure) => emit(AiAnalysisError(failure.message)),
       (_) {
         emit(AiAnalysisWaitingForBackend());
+        _listenToBackendProgress(orderId);
+      },
+    );
+  }
+
+  Future<void> uploadMultipleImages(List<File> imageFiles, String orderId) async {
+    emit(AiAnalysisUploading());
+
+    final uploadResult = await uploadMultipleUsecase(imageFiles, orderId);
+
+    uploadResult.fold(
+      (failure) => emit(AiAnalysisError(failure.message)),
+      (_) {
+        emit(AiAnalysisWaitingForBackend());
+        // Note: For multiple images, we might need a more complex listener
+        // for now, we follow the same pattern as single image.
         _listenToBackendProgress(orderId);
       },
     );

@@ -16,19 +16,19 @@ class WorkspaceRepositoryImpl implements WorkspaceRepository {
 
   // We assume a single primary image per order for this implementation, 
   // identified by 'default_image'.
-  DocumentReference _getImageDocRef(String orderId) {
+  DocumentReference _getImageDocRef(String orderId, String imageId) {
     return firestore
         .collection('test_orders')
         .doc(orderId)
         .collection('metaphase_images')
-        .doc('default_image');
+        .doc(imageId);
   }
 
   @override
   Future<Either<Failure, void>> saveMetaphaseImageRecord(MetaphaseImage image) async {
     try {
       final model = MetaphaseImageModel.fromEntity(image);
-      await _getImageDocRef(image.orderId).set(model.toFirestore());
+      await _getImageDocRef(image.orderId, image.id).set(model.toFirestore());
       return const Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
@@ -37,12 +37,18 @@ class WorkspaceRepositoryImpl implements WorkspaceRepository {
 
   @override
   Stream<Either<Failure, MetaphaseImage>> watchMetaphaseImageRecord(String orderId) {
-    return _getImageDocRef(orderId).snapshots().map((snapshot) {
-      if (!snapshot.exists) {
-        return const Left(ServerFailure('Image record not found'));
+    // Legacy support for single image watching - picks the first one or 'default_image'
+    return firestore
+        .collection('test_orders')
+        .doc(orderId)
+        .collection('metaphase_images')
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.docs.isEmpty) {
+        return const Left(ServerFailure('No image records found'));
       }
       try {
-        final model = MetaphaseImageModel.fromFirestore(snapshot);
+        final model = MetaphaseImageModel.fromFirestore(snapshot.docs.first);
         return Right(model);
       } catch (e) {
         return Left(ServerFailure(e.toString()));
@@ -51,8 +57,28 @@ class WorkspaceRepositoryImpl implements WorkspaceRepository {
   }
 
   @override
+  Stream<Either<Failure, List<MetaphaseImage>>> watchMetaphaseImages(String orderId) {
+    return firestore
+        .collection('test_orders')
+        .doc(orderId)
+        .collection('metaphase_images')
+        .orderBy('created_at', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      try {
+        final images = snapshot.docs
+            .map((doc) => MetaphaseImageModel.fromFirestore(doc))
+            .toList();
+        return Right(images);
+      } catch (e) {
+        return Left(ServerFailure(e.toString()));
+      }
+    });
+  }
+
+  @override
   Stream<Either<Failure, List<Chromosome>>> watchChromosomes(String orderId) {
-    return _getImageDocRef(orderId)
+    return _getImageDocRef(orderId, 'default_image')
         .collection('chromosomes')
         .snapshots()
         .map((snapshot) {
@@ -74,7 +100,10 @@ class WorkspaceRepositoryImpl implements WorkspaceRepository {
   ) async {
     try {
       final model = ChromosomeModel.fromEntity(chromosome);
-      await _getImageDocRef(orderId)
+      // Note: Chromosomes are currently linked to a specific image. 
+      // This assumes we are updating chromosomes for the 'default_image' or we need to pass imageId.
+      // For now, keeping it simple as the workspace logic currently only loads one image's chromosomes.
+      await _getImageDocRef(orderId, 'default_image')
           .collection('chromosomes')
           .doc(chromosome.id)
           .update(model.toFirestore());

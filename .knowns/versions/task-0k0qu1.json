@@ -1,0 +1,63 @@
+{
+  "taskId": "0k0qu1",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "0k0qu1",
+      "version": 1,
+      "timestamp": "2026-05-04T08:50:52.748218Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Create the UI for listing samples, filtering, and triggering status updates/uploads.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Build SampleManagementPage UI"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "0k0qu1",
+      "version": 2,
+      "timestamp": "2026-05-04T08:54:06.601309Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Create SampleManagementPage with Bento Box aesthetics.\n2. Implement Filter Bar for Status.\n3. Build Sample Card with navigation buttons and status update actions.\n4. Implement Bulk Upload Dialog using file_picker.\n5. Use BlocBuilder to connect UI with SampleManagementCubit and AiAnalysisCubit."
+        }
+      ],
+      "snapshot": {
+        "description": "Create the UI for listing samples, filtering, and triggering status updates/uploads.",
+        "implementationPlan": "1. Create SampleManagementPage with Bento Box aesthetics.\n2. Implement Filter Bar for Status.\n3. Build Sample Card with navigation buttons and status update actions.\n4. Implement Bulk Upload Dialog using file_picker.\n5. Use BlocBuilder to connect UI with SampleManagementCubit and AiAnalysisCubit.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Build SampleManagementPage UI"
+      }
+    }
+  ]
+}
