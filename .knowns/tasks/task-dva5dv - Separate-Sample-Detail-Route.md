@@ -5,7 +5,7 @@ status: done
 priority: medium
 labels: []
 createdAt: '2026-05-06T07:13:14.279Z'
-updatedAt: '2026-05-06T07:17:30.172Z'
+updatedAt: '2026-05-06T08:35:46.592Z'
 timeSpent: 0
 assignee: '@me'
 ---
@@ -39,5 +39,6 @@ This separation prevents parent screens from being disposed and solves lifecycle
 
 <!-- SECTION:NOTES:BEGIN -->
 Implemented route separation. Added specialistSampleDetail route in AppRoutes. Updated GoRouter to use it. Switched from context.go to context.pushNamed in SpecialistOrderCard and SampleCard. Added an AppBar to SampleDetailScreen for back navigation.
+📚 Extracted to @doc/learnings/learning-specialist-dashboard-and-firestore-indexing and promoted critical patterns to @doc/learnings/critical-patterns
 <!-- SECTION:NOTES:END -->
 

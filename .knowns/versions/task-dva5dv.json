@@ -1,6 +1,6 @@
 {
   "taskId": "dva5dv",
-  "currentVersion": 3,
+  "currentVersion": 4,
   "versions": [
     {
       "id": "v1",
@@ -78,6 +78,28 @@
         "assignee": "@me",
         "description": "Refactor SampleDetailScreen out of the nested /specialist/samples route so that it can be invoked safely from both the Specialist Dashboard and the Sample Management Page. This resolves lifecycle/routing state collisions.",
         "implementationNotes": "Implemented route separation. Added specialistSampleDetail route in AppRoutes. Updated GoRouter to use it. Switched from context.go to context.pushNamed in SpecialistOrderCard and SampleCard. Added an AppBar to SampleDetailScreen for back navigation.",
+        "implementationPlan": "## Implementation Plan\n1. **Update Route Constants**: Add `specialistSampleDetail = '/specialist/sample-detail'` to `AppRoutes`.\n2. **Update Router**: In `app_router.dart`, update the `specialist-sample-detail` route to use the new independent path.\n3. **Refactor Navigation**:\n   - In `specialist_order_card.dart` (Dashboard): Use `context.pushNamed('specialist-sample-detail', ...)` instead of `context.go()`.\n   - In `sample_card.dart` (Sample Management): Add a button/action to view sample details using `context.pushNamed()`.\n4. **Enhance Detail UI**: Add an `AppBar` with a back button to `SampleDetailScreen` so users can easily return to their previous context (Dashboard or Management) without using the sidebar.\n\nThis separation prevents parent screens from being disposed and solves lifecycle collisions, fully resolving the Cubit 'close' errors.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Separate Sample Detail Route"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "dva5dv",
+      "version": 4,
+      "timestamp": "2026-05-06T08:35:46.699627Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Implemented route separation. Added specialistSampleDetail route in AppRoutes. Updated GoRouter to use it. Switched from context.go to context.pushNamed in SpecialistOrderCard and SampleCard. Added an AppBar to SampleDetailScreen for back navigation.",
+          "newValue": "Implemented route separation. Added specialistSampleDetail route in AppRoutes. Updated GoRouter to use it. Switched from context.go to context.pushNamed in SpecialistOrderCard and SampleCard. Added an AppBar to SampleDetailScreen for back navigation.\n📚 Extracted to @doc/learnings/learning-specialist-dashboard-and-firestore-indexing and promoted critical patterns to @doc/learnings/critical-patterns"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Refactor SampleDetailScreen out of the nested /specialist/samples route so that it can be invoked safely from both the Specialist Dashboard and the Sample Management Page. This resolves lifecycle/routing state collisions.",
+        "implementationNotes": "Implemented route separation. Added specialistSampleDetail route in AppRoutes. Updated GoRouter to use it. Switched from context.go to context.pushNamed in SpecialistOrderCard and SampleCard. Added an AppBar to SampleDetailScreen for back navigation.\n📚 Extracted to @doc/learnings/learning-specialist-dashboard-and-firestore-indexing and promoted critical patterns to @doc/learnings/critical-patterns",
         "implementationPlan": "## Implementation Plan\n1. **Update Route Constants**: Add `specialistSampleDetail = '/specialist/sample-detail'` to `AppRoutes`.\n2. **Update Router**: In `app_router.dart`, update the `specialist-sample-detail` route to use the new independent path.\n3. **Refactor Navigation**:\n   - In `specialist_order_card.dart` (Dashboard): Use `context.pushNamed('specialist-sample-detail', ...)` instead of `context.go()`.\n   - In `sample_card.dart` (Sample Management): Add a button/action to view sample details using `context.pushNamed()`.\n4. **Enhance Detail UI**: Add an `AppBar` with a back button to `SampleDetailScreen` so users can easily return to their previous context (Dashboard or Management) without using the sidebar.\n\nThis separation prevents parent screens from being disposed and solves lifecycle collisions, fully resolving the Cubit 'close' errors.",
         "priority": "medium",
         "status": "done",
