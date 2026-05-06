@@ -229,6 +229,7 @@ class ManagerOrderCard extends StatelessWidget {
   Color _getStatusColor() {
     switch (order.status) {
       case TestOrderStatus.pending: return const Color(0xFF007BFF);
+      case TestOrderStatus.culturing: return const Color(0xFFF59E0B); // Amber
       case TestOrderStatus.analyzing: return const Color(0xFFFD7E14);
       case TestOrderStatus.waitingApproval: return const Color(0xFF6F42C1);
       case TestOrderStatus.completed: return const Color(0xFF28A745);
@@ -239,6 +240,7 @@ class ManagerOrderCard extends StatelessWidget {
   IconData _getStatusIcon() {
     switch (order.status) {
       case TestOrderStatus.pending: return LucideIcons.userPlus;
+      case TestOrderStatus.culturing: return LucideIcons.flaskConical;
       case TestOrderStatus.analyzing: return LucideIcons.activity;
       case TestOrderStatus.waitingApproval: return LucideIcons.clipboardCheck;
       case TestOrderStatus.completed: return LucideIcons.checkCircle2;

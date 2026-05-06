@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../domain/entities/test_order.dart';
-import '../../../../logic/bloc/specialist/specialist_dashboard_cubit.dart';
 import '../../../../core/router/app_router.dart';
 
 class SpecialistOrderCard extends StatelessWidget {
@@ -49,7 +46,7 @@ class SpecialistOrderCard extends StatelessWidget {
             ),
             // ── Xét nghiệm ─────────────────────────────────────────────
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Text(
                 _getTestTypeName(order.status),
                 textAlign: TextAlign.center,
@@ -63,6 +60,13 @@ class SpecialistOrderCard extends StatelessWidget {
                 _formatDate(order.createdAt),
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+              ),
+            ),
+            // ── Trạng thái ──────────────────────────────────────────────
+            Expanded(
+              flex: 2,
+              child: Center(
+                child: _buildStatusBadge(order.status),
               ),
             ),
             // ── Hành động ──────────────────────────────────────────────
@@ -79,15 +83,11 @@ class SpecialistOrderCard extends StatelessWidget {
   }
 
   Widget _buildActionCell(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _buildStatusBadge(order.status),
-        const SizedBox(width: 12),
-        _buildActionButton(context),
-      ],
-    );
+    // Chỉ hiện nút Phân tích AI nếu status là analyzing
+    if (order.status == TestOrderStatus.analyzing) {
+      return _buildActionButton(context);
+    }
+    return const SizedBox.shrink();
   }
 
   Widget _buildStatusBadge(TestOrderStatus status) {
@@ -109,63 +109,20 @@ class SpecialistOrderCard extends StatelessWidget {
   }
 
   Widget _buildActionButton(BuildContext context) {
-    if (order.status == TestOrderStatus.pending) {
-      return ElevatedButton.icon(
-        onPressed: () => _showStartAnalysisConfirm(context),
-        icon: const Icon(LucideIcons.play, size: 14),
-        label: const Text('Bắt đầu'),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-          textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
-    }
-
-    if (order.status == TestOrderStatus.analyzing) {
-      return OutlinedButton.icon(
-        onPressed: () {
-          context.goNamed('specialist-analysis',
-              pathParameters: {'orderId': order.id});
-        },
-        icon: const Icon(LucideIcons.externalLink, size: 14),
-        label: const Text('Tiếp tục'),
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-          textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      );
-    }
-
-    return const SizedBox(width: 80);
-  }
-
-  void _showStartAnalysisConfirm(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('Xác nhận bắt đầu'),
-        content: Text(
-            'Bạn có chắc chắn muốn bắt đầu phân tích phiếu của bệnh nhân ${order.patientName}?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('Hủy'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              context
-                  .read<SpecialistDashboardCubit>()
-                  .startOrderAnalysis(order.id);
-              Navigator.pop(dialogContext);
-            },
-            child: const Text('Bắt đầu'),
-          ),
-        ],
+    return ElevatedButton(
+      onPressed: () {
+        // AC-5: navigate thẳng vào Workspace
+        context.goNamed('specialist-analysis',
+            pathParameters: {'orderId': order.id});
+      },
+      child: const Text('Phân tích AI'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color(0xFF2563EB),
+        foregroundColor: Colors.white,
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+        textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }
@@ -174,6 +131,7 @@ class SpecialistOrderCard extends StatelessWidget {
   String _getTestTypeName(TestOrderStatus status) {
     switch (status) {
       case TestOrderStatus.pending:
+      case TestOrderStatus.culturing:
         return 'Xét nghiệm karyotype';
       case TestOrderStatus.analyzing:
         return 'Phân tích NST';
@@ -190,6 +148,9 @@ class SpecialistOrderCard extends StatelessWidget {
     switch (status) {
       case TestOrderStatus.pending:
         return Colors.orange;
+      case TestOrderStatus.culturing:
+        // AC-2: màu vàng nhạt/amber — dịu mắt, không cạnh tranh với CTA
+        return Colors.amber.shade700;
       case TestOrderStatus.analyzing:
         return Colors.indigo;
       case TestOrderStatus.completed:
@@ -197,7 +158,7 @@ class SpecialistOrderCard extends StatelessWidget {
       case TestOrderStatus.rejected:
         return Colors.red;
       case TestOrderStatus.waitingApproval:
-        return Colors.purple;
+        return const Color(0xFF7C3AED);
     }
   }
 

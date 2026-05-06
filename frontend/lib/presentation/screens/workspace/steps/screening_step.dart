@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../logic/bloc/workspace/workspace_cubit.dart';
-import '../../../../logic/bloc/specialist/ai_analysis_cubit.dart';
-import '../../../../logic/bloc/specialist/ai_analysis_state.dart';
 
 class ScreeningStep extends StatefulWidget {
   final String orderId;

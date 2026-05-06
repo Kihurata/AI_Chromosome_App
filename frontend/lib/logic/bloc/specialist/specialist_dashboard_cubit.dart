@@ -64,6 +64,7 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
     final filtered = _applyFilters(state.allOrders, state.searchKeyword, status);
     emit(state.copyWith(
       statusFilter: status,
+      clearStatusFilter: status == null,
       filteredOrders: filtered,
     ));
   }
@@ -80,7 +81,7 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
   }
 
   void clearNavigation() {
-    emit(state.copyWith(lastStartedOrderId: null));
+    emit(state.copyWith(clearLastStartedOrderId: true));
   }
 
   List<TestOrder> _applyFilters(
@@ -105,6 +106,7 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
     for (final order in orders) {
       switch (order.status) {
         case TestOrderStatus.pending:
+        case TestOrderStatus.culturing: // gộp nuôi cấy vào "Chờ xử lý"
           pending++;
           break;
         case TestOrderStatus.analyzing:

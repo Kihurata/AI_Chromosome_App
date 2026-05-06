@@ -72,7 +72,7 @@ class SpecialistOrderList extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex: 3,
+                    flex: 2,
                     child: Text(
                       'Xét nghiệm',
                       textAlign: TextAlign.center,
@@ -88,6 +88,19 @@ class SpecialistOrderList extends StatelessWidget {
                     flex: 2,
                     child: Text(
                       'Ngày yêu cầu',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                        color: Color(0xFF6B7280),
+                        letterSpacing: 0.3,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      'Trạng thái',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,

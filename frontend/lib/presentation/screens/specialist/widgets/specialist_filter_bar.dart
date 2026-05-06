@@ -31,6 +31,7 @@ class SpecialistFilterBar extends StatelessWidget {
               children: [
                 _buildFilterChip(context, 'Tất cả', null, state.statusFilter == null),
                 _buildFilterChip(context, 'Chờ xử lý', TestOrderStatus.pending, state.statusFilter == TestOrderStatus.pending),
+                _buildFilterChip(context, 'Đang nuôi cấy', TestOrderStatus.culturing, state.statusFilter == TestOrderStatus.culturing),
                 _buildFilterChip(context, 'Đang phân tích', TestOrderStatus.analyzing, state.statusFilter == TestOrderStatus.analyzing),
                 _buildFilterChip(context, 'Chờ duyệt', TestOrderStatus.waitingApproval, state.statusFilter == TestOrderStatus.waitingApproval),
                 _buildFilterChip(context, 'Hoàn thành', TestOrderStatus.completed, state.statusFilter == TestOrderStatus.completed),
