@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:injectable/injectable.dart';
 import '../models/appointment_model.dart';
 
 abstract class AppointmentRemoteDataSource {
@@ -9,8 +10,11 @@ abstract class AppointmentRemoteDataSource {
   Future<void> updateAppointmentStatus(String appointmentId, String status);
 }
 
+@LazySingleton(as: AppointmentRemoteDataSource)
 class FirebaseAppointmentRemoteDataSource implements AppointmentRemoteDataSource {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore;
+
+  FirebaseAppointmentRemoteDataSource(this._firestore);
 
   @override
   Future<void> createAppointment(AppointmentModel appointment) async {
@@ -67,5 +71,9 @@ class FirebaseAppointmentRemoteDataSource implements AppointmentRemoteDataSource
         .collection('appointments')
         .doc(appointmentId)
         .update({'status': status});
+  }
+
+  Future<String?> getAppointmentIdByDocId(String docId) async {
+    return docId;
   }
 }

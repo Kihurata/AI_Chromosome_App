@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -8,6 +9,7 @@ import '../../../domain/entities/appointment.dart';
 import '../../../logic/bloc/appointment/appointment_cubit.dart';
 import '../../../logic/bloc/appointment/appointment_state.dart';
 import '../../widgets/shared/data_display/status_badge.dart';
+import '../../widgets/shared/data_display/app_data_table.dart';
 import '../../widgets/shared/layouts/main_list_layout.dart';
 import '../../widgets/shared/form/app_buttons.dart';
 import 'create_appointment_page.dart';
@@ -149,107 +151,36 @@ class _AppointmentCalendarPageState extends State<AppointmentCalendarPage> {
             const SizedBox(height: 24),
 
             // ── Bottom: Selected Day Appointments ──
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppColors.border),
-                boxShadow: [
-                  BoxShadow(color: Colors.black.withAlpha(6), blurRadius: 8, offset: const Offset(0, 2)),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(color: AppColors.activeBackground, borderRadius: BorderRadius.circular(8)),
-                        child: Text(
-                          DateFormat('dd/MM').format(_selectedDay),
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          DateFormat('EEEE', 'vi').format(_selectedDay),
-                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  const Divider(color: AppColors.border, height: 1),
-                  const SizedBox(height: 12),
+            SizedBox(
+              height: 500, // Fixed height for the table container
+              child: BlocBuilder<AppointmentCubit, AppointmentState>(
+                builder: (context, state) {
+                  if (state is AppointmentLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-                  // Appointments list via BlocBuilder
-                  BlocBuilder<AppointmentCubit, AppointmentState>(
-                    builder: (context, state) {
-                      if (state is AppointmentLoading) {
-                        return const Padding(
-                          padding: EdgeInsets.all(30),
-                          child: Center(child: CircularProgressIndicator()),
-                        );
-                      }
+                  final appointments = state is RangeAppointmentsLoaded
+                      ? state.appointments
+                      : <Appointment>[];
 
-                      final appointments = state is RangeAppointmentsLoaded
-                          ? state.appointments
-                          : <Appointment>[];
-
-                      if (appointments.isEmpty) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 40),
-                          child: Center(
-                            child: Column(
-                              children: [
-                                Icon(LucideIcons.calendarX, size: 44, color: AppColors.textPlaceholder.withAlpha(120)),
-                                const SizedBox(height: 14),
-                                const Text('Không có lịch hẹn', style: TextStyle(color: AppColors.textSecondary, fontSize: 14)),
-                                const SizedBox(height: 4),
-                                Text(
-                                  DateFormat('dd/MM/yyyy').format(_selectedDay),
-                                  style: const TextStyle(color: AppColors.textPlaceholder, fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }
-
-                      return Column(
-                        children: [
-                          // Count
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                            decoration: BoxDecoration(color: AppColors.border.withAlpha(30), borderRadius: BorderRadius.circular(8)),
-                            child: Row(
-                              children: [
-                                const Icon(LucideIcons.clipboardList, size: 14, color: AppColors.textSecondary),
-                                const SizedBox(width: 6),
-                                Text(
-                                  '${appointments.length} lịch hẹn',
-                                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          // List
-                          ...appointments.map((appt) => _buildAppointmentCard(
-                                patientName: appt.patientName,
-                                doctorName: appt.doctorName,
-                                time: DateFormat('HH:mm').format(appt.appointmentDate),
-                                reason: appt.reason,
-                                status: appt.status,
-                              )),
-                        ],
-                      );
+                  return AppDataTable(
+                    searchHint: 'Tìm bệnh nhân...',
+                    countText: '${appointments.length} lịch hẹn',
+                    onSearchChanged: (v) {
+                      // Internal search could be implemented here if needed
                     },
-                  ),
-                ],
+                    headerRow: const _AppointmentTableHeader(),
+                    isLoading: state is AppointmentLoading,
+                    emptyState: _EmptyAppointments(selectedDay: _selectedDay),
+                    rows: appointments.map((appt) => _AppointmentRow(
+                      appointment: appt,
+                      onView: () {
+                        // Navigate to EMR
+                        context.push('/clinician/medical-record/${appt.patientId}');
+                      },
+                    )).toList(),
+                  );
+                },
               ),
             ),
           ],
@@ -257,79 +188,110 @@ class _AppointmentCalendarPageState extends State<AppointmentCalendarPage> {
       ),
     );
   }
+}
 
-  Widget _buildAppointmentCard({
-    required String patientName,
-    required String doctorName,
-    required String time,
-    required String reason,
-    required String status,
-  }) {
+class _AppointmentTableHeader extends StatelessWidget {
+  const _AppointmentTableHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    const style = TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.textSecondary);
+    return const Row(
+      children: [
+        Expanded(flex: 1, child: Text('GIỜ', style: style)),
+        Expanded(flex: 3, child: Text('BỆNH NHÂN', style: style)),
+        Expanded(flex: 3, child: Text('BÁC SĨ', style: style)),
+        Expanded(flex: 2, child: Text('TRẠNG THÁI', style: style)),
+        Expanded(flex: 1, child: Text('THAO TÁC', style: style, textAlign: TextAlign.center)),
+      ],
+    );
+  }
+}
+
+class _AppointmentRow extends StatelessWidget {
+  final Appointment appointment;
+  final VoidCallback onView;
+
+  const _AppointmentRow({required this.appointment, required this.onView});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.background,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.border),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(color: AppColors.primaryBlue.withAlpha(20), borderRadius: BorderRadius.circular(6)),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(LucideIcons.clock, size: 12, color: AppColors.primaryBlue),
-                    const SizedBox(width: 4),
-                    Text(time, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppColors.primaryBlue)),
-                  ],
-                ),
-              ),
-              const Spacer(),
-              StatusBadge(text: _mapStatusText(status), type: _mapStatusType(status)),
-            ],
+          Expanded(
+            flex: 1,
+            child: Text(
+              DateFormat('HH:mm').format(appointment.appointmentDate),
+              style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
+            ),
           ),
-          const SizedBox(height: 10),
-          Text(patientName, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
-          const SizedBox(height: 4),
-          Row(
-            children: [
-              const Icon(LucideIcons.stethoscope, size: 12, color: AppColors.textPlaceholder),
-              const SizedBox(width: 4),
-              Expanded(child: Text(doctorName, style: const TextStyle(fontSize: 12, color: AppColors.textSecondary))),
-            ],
+          Expanded(
+            flex: 3,
+            child: Text(appointment.patientName, style: const TextStyle(fontWeight: FontWeight.w600)),
           ),
-          if (reason.isNotEmpty) ...[
-            const SizedBox(height: 4),
-            Text(reason, style: const TextStyle(fontSize: 12, color: AppColors.textPlaceholder), maxLines: 1, overflow: TextOverflow.ellipsis),
-          ],
+          Expanded(
+            flex: 3,
+            child: Text(appointment.doctorName, style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+          ),
+          Expanded(
+            flex: 2,
+            child: StatusBadge(
+              text: _mapStatusText(appointment.status),
+              type: _mapStatusType(appointment.status),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: IconButton(
+              onPressed: onView,
+              icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.primaryBlue),
+              tooltip: 'Xem bệnh án',
+            ),
+          ),
         ],
       ),
     );
   }
 
-  String _mapStatusText(String status) {
-    switch (status) {
-      case 'completed': return 'Hoàn tất';
-      case 'scheduled': return 'Đang chờ';
-      case 'in_progress': return 'Đang khám';
-      case 'cancelled': return 'Đã huỷ';
-      default: return 'Đang chờ';
-    }
+  String _mapStatusText(AppointmentStatus status) {
+    return status.displayName;
   }
 
-  BadgeType _mapStatusType(String status) {
+  BadgeType _mapStatusType(AppointmentStatus status) {
     switch (status) {
-      case 'completed': return BadgeType.success;
-      case 'scheduled': return BadgeType.warning;
-      case 'in_progress': return BadgeType.processing;
-      case 'cancelled': return BadgeType.danger;
-      default: return BadgeType.warning;
+      case AppointmentStatus.completed: return BadgeType.success;
+      case AppointmentStatus.inProgress: return BadgeType.processing;
+      case AppointmentStatus.cancelled: return BadgeType.danger;
+      case AppointmentStatus.scheduled: return BadgeType.warning;
     }
+  }
+}
+
+class _EmptyAppointments extends StatelessWidget {
+  final DateTime selectedDay;
+  const _EmptyAppointments({required this.selectedDay});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 40),
+      child: Column(
+        children: [
+          Icon(LucideIcons.calendarX, size: 44, color: AppColors.textPlaceholder.withAlpha(120)),
+          const SizedBox(height: 14),
+          const Text('Không có lịch hẹn', style: TextStyle(color: AppColors.textSecondary, fontSize: 14)),
+          const SizedBox(height: 4),
+          Text(
+            DateFormat('dd/MM/yyyy').format(selectedDay),
+            style: const TextStyle(color: AppColors.textPlaceholder, fontSize: 12),
+          ),
+        ],
+      ),
+    );
   }
 }

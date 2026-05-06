@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import '../../../core/errors/failures.dart';
@@ -19,12 +19,12 @@ class UploadMultipleImages {
     void Function(int current, int total)? onProgress,
   }) async {
     try {
-      print('📦 [UseCase] Starting batch upload for ${imagesBytes.length} images');
+      debugPrint('📦 [UseCase] Starting batch upload for ${imagesBytes.length} images');
       for (var i = 0; i < imagesBytes.length; i++) {
         final bytes = imagesBytes[i];
         final fileName = '${DateTime.now().millisecondsSinceEpoch}_$i.jpg';
 
-        print('⏳ [UseCase] Uploading image ${i + 1}/${imagesBytes.length}...');
+        debugPrint('⏳ [UseCase] Uploading image ${i + 1}/${imagesBytes.length}...');
         final uploadResult = await storageRepository.uploadRawImage(
           bytes: bytes,
           orderId: orderId,
@@ -34,7 +34,7 @@ class UploadMultipleImages {
         final Either<Failure, void> saveResult = await uploadResult.fold(
           (failure) async => Left(failure),
           (downloadUrl) async {
-            print('💾 [UseCase] Saving metadata to Firestore for image ${i + 1}');
+            debugPrint('💾 [UseCase] Saving metadata to Firestore for image ${i + 1}');
             final imageRecord = MetaphaseImage(
               id: '${DateTime.now().millisecondsSinceEpoch}_$i',
               orderId: orderId,
@@ -49,7 +49,7 @@ class UploadMultipleImages {
         );
 
         if (saveResult.isLeft()) {
-          print('❌ [UseCase] Failed at image ${i + 1}');
+          debugPrint('❌ [UseCase] Failed at image ${i + 1}');
           return saveResult;
         }
 
@@ -57,10 +57,10 @@ class UploadMultipleImages {
           onProgress(i + 1, imagesBytes.length);
         }
       }
-      print('✨ [UseCase] All images uploaded successfully');
+      debugPrint('✨ [UseCase] All images uploaded successfully');
       return const Right(null);
     } catch (e) {
-      print('💥 [UseCase] Unexpected error: $e');
+      debugPrint('💥 [UseCase] Unexpected error: $e');
       return Left(ServerFailure(e.toString()));
     }
   }

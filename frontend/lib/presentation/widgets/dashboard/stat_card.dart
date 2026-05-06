@@ -86,12 +86,15 @@ class StatCard extends StatelessWidget {
                 color: isPositive ? AppColors.successText : AppColors.dangerText,
               ),
               const SizedBox(width: 4),
-              Text(
-                trend,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: isPositive ? AppColors.successText : AppColors.dangerText,
+              Expanded(
+                child: Text(
+                  trend,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: isPositive ? AppColors.successText : AppColors.dangerText,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

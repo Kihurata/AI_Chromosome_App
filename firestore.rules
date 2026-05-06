@@ -2,10 +2,33 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    
+    // User profile: anyone authenticated can read basic info, only owner can write
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Patients and Appointments: allow all authenticated medical staff
+    match /patients/{patientId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    match /appointments/{appointmentId} {
+      allow read, write: if request.auth != null;
+    }
 
-    // TEST MODE: Open for 30 days (Adjust expiration as needed)
+    match /test_orders/{orderId} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /examinations/{examinationId} {
+      allow get, list, create, update: if request.auth != null;
+    }
+    
+    // Default catch-all
     match /{document=**} {
-      allow read, write: if request.time < timestamp.date(2026, 4, 30);
+      allow read, write: if request.auth != null;
     }
   }
 }

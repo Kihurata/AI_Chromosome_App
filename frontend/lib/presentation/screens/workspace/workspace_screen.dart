@@ -6,6 +6,7 @@ import 'steps/slicing_step.dart';
 import 'steps/karyogram_step.dart';
 import 'steps/qc_diagnostic_step.dart';
 import 'steps/report_step.dart';
+import '../../widgets/shared/form/app_buttons.dart';
 
 import '../../../logic/bloc/specialist/ai_analysis_cubit.dart';
 import '../../../logic/bloc/specialist/ai_analysis_state.dart';
@@ -83,7 +84,7 @@ class WorkspaceScreen extends StatelessWidget {
               builder: (context, state) {
                 final isStep1 = state.currentStep == 1;
                 final hasSelection = state.selectedImageIds.isNotEmpty;
-                final canProceed = !isStep1 || hasSelection; // AC-4, AC-5
+                final canProceed = !isStep1 || hasSelection;
 
                 return Container(
                   color: Colors.white,
@@ -91,13 +92,13 @@ class WorkspaceScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ElevatedButton(
+                      AppSecondaryButton(
+                        text: 'Quay lại',
                         onPressed: state.currentStep > 1 ? () => context.read<WorkspaceCubit>().previousStep() : null,
-                        child: const Text('Quay lại'),
                       ),
-                      ElevatedButton(
-                        onPressed: canProceed ? () => context.read<WorkspaceCubit>().nextStep() : null, // AC-7
-                        child: const Text('Tiếp tục'),
+                      AppPrimaryButton(
+                        text: 'Tiếp tục',
+                        onPressed: canProceed ? () => context.read<WorkspaceCubit>().nextStep() : null,
                       ),
                     ],
                   ),

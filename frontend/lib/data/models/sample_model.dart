@@ -17,6 +17,7 @@ class SampleModel extends Sample {
   Map<String, dynamic> toFirestore() {
     final firestore = FirebaseFirestore.instance;
     return {
+      'id': id,
       'test_order_id': firestore.collection('test_orders').doc(testOrderId),
       'patient_name': patientName,
       'patient_code': patientCode,

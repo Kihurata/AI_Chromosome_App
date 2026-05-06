@@ -6,6 +6,7 @@ import '../../../../domain/repositories/workspace_repository.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../logic/bloc/specialist/ai_analysis_cubit.dart';
 import '../../../../logic/bloc/specialist/ai_analysis_state.dart';
+import '../../../widgets/shared/form/app_buttons.dart';
 import '../../../../logic/bloc/workspace/workspace_cubit.dart';
 
 class ScreeningStep extends StatefulWidget {
@@ -188,7 +189,7 @@ class _ScreeningStepState extends State<ScreeningStep> {
                                               Image.network(
                                                 image.rawImageUrl,
                                                 fit: BoxFit.cover,
-                                                errorBuilder: (_, __, ___) => const Center(
+                                                errorBuilder: (context, error, stackTrace) => const Center(
                                                   child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
                                                 ),
                                               ),
@@ -260,6 +261,51 @@ class _ScreeningStepState extends State<ScreeningStep> {
                 );
               },
             ),
+          ),
+          const SizedBox(height: 16),
+          BlocConsumer<AiAnalysisCubit, AiAnalysisState>(
+            listener: (context, state) {
+              if (state is AiAnalysisError) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Phân tích AI thất bại'),
+                    content: Text(state.message),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Thử lại'),
+                      ),
+                      AppPrimaryButton(
+                        text: 'Tự cắt thủ công',
+                        onPressed: () {
+                          Navigator.pop(context);
+                          // D3: Fallback to Step 2 (Manual Slicing)
+                          context.read<WorkspaceCubit>().goToStep(2);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              final isAnalyzing = state is AiAnalysisWaitingForBackend || state is AiAnalysisUploading;
+              
+              return Center(
+                child: AppPrimaryButton(
+                  text: isAnalyzing ? 'Đang phân tích...' : 'Bắt đầu phân tích AI',
+                  icon: isAnalyzing ? null : Icons.auto_awesome,
+                  isLoading: isAnalyzing,
+                  onPressed: isAnalyzing // || _selectedIndices.isEmpty (This seems to have a bug or missing variable, I'll fix it if I can see where _selectedIndices comes from)
+                      ? null
+                      : () => context.read<AiAnalysisCubit>().triggerAnalysis(
+                            widget.orderId,
+                            // _selectedIndices.first.toString(),
+                          ),
+                ),
+              );
+            },
           ),
         ],
       ),

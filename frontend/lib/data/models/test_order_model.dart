@@ -8,6 +8,7 @@ class TestOrderModel {
   final String patientCode;
   final DocumentReference appointmentId;
   final DocumentReference? specialistId;
+  final DocumentReference? clinicianId;
   final String status;
   final DateTime createdAt;
 
@@ -18,17 +19,20 @@ class TestOrderModel {
     required this.patientCode,
     required this.appointmentId,
     this.specialistId,
+    this.clinicianId,
     this.status = 'PENDING',
     required this.createdAt,
   });
 
   Map<String, dynamic> toFirestore() {
     return {
+      'id': id,
       'patient_id': patientId,
       'patient_name': patientName,
       'patient_code': patientCode,
       'appointment_id': appointmentId,
       'specialist_id': specialistId,
+      'clinician_id': clinicianId,
       'status': status,
       'created_at': Timestamp.fromDate(createdAt),
       'updated_at': Timestamp.fromDate(createdAt),
@@ -47,6 +51,7 @@ class TestOrderModel {
       appointmentId: data['appointment_id'] as DocumentReference? ??
           firestore.collection('appointments').doc('unknown'),
       specialistId: data['specialist_id'] as DocumentReference?,
+      clinicianId: data['clinician_id'] as DocumentReference?,
       status: data['status'] ?? 'PENDING',
       createdAt: (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
@@ -63,6 +68,9 @@ class TestOrderModel {
           firestore.collection('appointments').doc(testOrder.appointmentId),
       specialistId: testOrder.specialistId != null
           ? firestore.collection('users').doc(testOrder.specialistId)
+          : null,
+      clinicianId: testOrder.clinicianId != null
+          ? firestore.collection('users').doc(testOrder.clinicianId)
           : null,
       status: testOrder.status.toFirestoreString(),
       createdAt: testOrder.createdAt,

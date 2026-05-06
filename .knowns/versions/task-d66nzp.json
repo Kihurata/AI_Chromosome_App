@@ -1,0 +1,120 @@
+{
+  "taskId": "d66nzp",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "d66nzp",
+      "version": 1,
+      "timestamp": "2026-04-30T05:01:45.2390592Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "The app currently fails to login with 'Lỗi kết nối dữ liệu người dùng' because Firestore Security Rules expired on 2026-04-30. This task fixes the rules and improves error logging in AuthCubit.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Fix Login failure due to expired Firestore Rules"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "d66nzp",
+      "version": 2,
+      "timestamp": "2026-04-30T05:01:52.7049163Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Update firestore.rules to remove hardcoded expiration and enforce auth."
+            },
+            {
+              "completed": false,
+              "text": "Add error logging in AuthCubit to capture actual Firestore exceptions."
+            },
+            {
+              "completed": false,
+              "text": "Verify login success."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Update firestore.rules to remove hardcoded expiration and enforce auth."
+          },
+          {
+            "completed": false,
+            "text": "Add error logging in AuthCubit to capture actual Firestore exceptions."
+          },
+          {
+            "completed": false,
+            "text": "Verify login success."
+          }
+        ],
+        "description": "The app currently fails to login with 'Lỗi kết nối dữ liệu người dùng' because Firestore Security Rules expired on 2026-04-30. This task fixes the rules and improves error logging in AuthCubit.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Fix Login failure due to expired Firestore Rules"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "d66nzp",
+      "version": 3,
+      "timestamp": "2026-04-30T05:02:25.2150593Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Fixed firestore rules by removing hardcoded expiration and enforcing authentication. Added debug logging to AuthCubit."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Update firestore.rules to remove hardcoded expiration and enforce auth.",
+            "completed": true
+          },
+          {
+            "text": "Add error logging in AuthCubit to capture actual Firestore exceptions.",
+            "completed": true
+          },
+          {
+            "text": "Verify login success.",
+            "completed": true
+          }
+        ],
+        "description": "The app currently fails to login with 'Lỗi kết nối dữ liệu người dùng' because Firestore Security Rules expired on 2026-04-30. This task fixes the rules and improves error logging in AuthCubit.",
+        "implementationNotes": "Fixed firestore rules by removing hardcoded expiration and enforcing authentication. Added debug logging to AuthCubit.",
+        "priority": "high",
+        "status": "done",
+        "title": "Fix Login failure due to expired Firestore Rules"
+      }
+    }
+  ]
+}

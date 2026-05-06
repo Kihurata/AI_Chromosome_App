@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/models/patient_model.dart';
 import '../../../core/providers/auth_provider.dart';
 import '../../../core/models/nav_item.dart';
-import 'receptionist_patient_detail_view.dart';
-import 'doctor_patient_detail_view.dart';
+import './medical_record/shared_medical_record_page.dart';
 
 
 class PatientDetailScreen extends ConsumerWidget {
@@ -20,12 +19,9 @@ class PatientDetailScreen extends ConsumerWidget {
     switch (role) {
       case AppRole.clinician:
       case AppRole.specialist:
-        return DoctorPatientDetailView(patient: patient);
       case AppRole.receptionist:
-        return ReceptionistPatientDetailView(patient: patient);
       case AppRole.manager:
-        // Or create a manager view if needed, right now defaulting to Receptionist view
-        return ReceptionistPatientDetailView(patient: patient);
+        return SharedMedicalRecordPage(id: patient.id ?? '');
       default:
         // Unauthorized fallback
         return Scaffold(

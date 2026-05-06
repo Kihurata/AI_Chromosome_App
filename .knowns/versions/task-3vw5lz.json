@@ -1,0 +1,166 @@
+{
+  "taskId": "3vw5lz",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "3vw5lz",
+      "version": 1,
+      "timestamp": "2026-05-01T06:20:59.1591478Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "- Add 'Lập Phiếu Khám bệnh' button to Bệnh án Điện tử screens, routing to examination_form_screen.dart.\n- Implement 'Lịch sử Khám bệnh' UI (waiting for design).\n- Implement 'Kết quả Xét nghiệm' UI (waiting for design).",
+        "priority": "high",
+        "status": "todo",
+        "title": "Implement Clinician EMR Updates"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "3vw5lz",
+      "version": 2,
+      "timestamp": "2026-05-01T06:34:23.7877106Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Partially implemented: Added 'Lập Phiếu Khám bệnh' button and 'Lịch sử Khám bệnh' UI. 'Kết quả Xét nghiệm' UI is pending user design."
+        }
+      ],
+      "snapshot": {
+        "description": "- Add 'Lập Phiếu Khám bệnh' button to Bệnh án Điện tử screens, routing to examination_form_screen.dart.\n- Implement 'Lịch sử Khám bệnh' UI (waiting for design).\n- Implement 'Kết quả Xét nghiệm' UI (waiting for design).",
+        "implementationNotes": "Partially implemented: Added 'Lập Phiếu Khám bệnh' button and 'Lịch sử Khám bệnh' UI. 'Kết quả Xét nghiệm' UI is pending user design.",
+        "priority": "high",
+        "status": "done",
+        "title": "Implement Clinician EMR Updates"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "3vw5lz",
+      "version": 3,
+      "timestamp": "2026-05-01T10:05:47.8823673Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "done",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Partially implemented: Added 'Lập Phiếu Khám bệnh' button and 'Lịch sử Khám bệnh' UI. 'Kết quả Xét nghiệm' UI is pending user design.",
+          "newValue": "Partially implemented: Added 'Lập Phiếu Khám bệnh' button and 'Lịch sử Khám bệnh' UI. 'Kết quả Xét nghiệm' UI is pending user design.\nReopening to implement 'Kết quả Xét nghiệm' UI based on provided designs."
+        }
+      ],
+      "snapshot": {
+        "description": "- Add 'Lập Phiếu Khám bệnh' button to Bệnh án Điện tử screens, routing to examination_form_screen.dart.\n- Implement 'Lịch sử Khám bệnh' UI (waiting for design).\n- Implement 'Kết quả Xét nghiệm' UI (waiting for design).",
+        "implementationNotes": "Partially implemented: Added 'Lập Phiếu Khám bệnh' button and 'Lịch sử Khám bệnh' UI. 'Kết quả Xét nghiệm' UI is pending user design.\nReopening to implement 'Kết quả Xét nghiệm' UI based on provided designs.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement Clinician EMR Updates"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "3vw5lz",
+      "version": 4,
+      "timestamp": "2026-05-01T10:08:07.4232209Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": true,
+              "text": "TestResultsTab displays list of results with consistent table styling."
+            },
+            {
+              "completed": false,
+              "text": "TestResultDetailPage displays detailed karyotype information including images and conclusion."
+            },
+            {
+              "completed": false,
+              "text": "Navigation from tab to detail page works correctly via Eye icon."
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Partially implemented: Added 'Lập Phiếu Khám bệnh' button and 'Lịch sử Khám bệnh' UI. 'Kết quả Xét nghiệm' UI is pending user design.\nReopening to implement 'Kết quả Xét nghiệm' UI based on provided designs.",
+          "newValue": "Partially implemented: Added 'Lập Phiếu Khám bệnh' button and 'Lịch sử Khám bệnh' UI. 'Kết quả Xét nghiệm' UI is pending user design.\nReopening to implement 'Kết quả Xét nghiệm' UI based on provided designs.\nImplemented 'Kết quả Xét nghiệm' UI (List \u0026 Detail) based on user designs. Integrated into EMR flow."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "TestResultsTab displays list of results with consistent table styling."
+          },
+          {
+            "completed": false,
+            "text": "TestResultDetailPage displays detailed karyotype information including images and conclusion."
+          },
+          {
+            "completed": false,
+            "text": "Navigation from tab to detail page works correctly via Eye icon."
+          }
+        ],
+        "description": "- Add 'Lập Phiếu Khám bệnh' button to Bệnh án Điện tử screens, routing to examination_form_screen.dart.\n- Implement 'Lịch sử Khám bệnh' UI (waiting for design).\n- Implement 'Kết quả Xét nghiệm' UI (waiting for design).",
+        "implementationNotes": "Partially implemented: Added 'Lập Phiếu Khám bệnh' button and 'Lịch sử Khám bệnh' UI. 'Kết quả Xét nghiệm' UI is pending user design.\nReopening to implement 'Kết quả Xét nghiệm' UI based on provided designs.\nImplemented 'Kết quả Xét nghiệm' UI (List \u0026 Detail) based on user designs. Integrated into EMR flow.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement Clinician EMR Updates"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "3vw5lz",
+      "version": 5,
+      "timestamp": "2026-05-01T10:08:25.0750613Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "TestResultsTab displays list of results with consistent table styling.",
+            "completed": true
+          },
+          {
+            "text": "TestResultDetailPage displays detailed karyotype information including images and conclusion.",
+            "completed": true
+          },
+          {
+            "text": "Navigation from tab to detail page works correctly via Eye icon.",
+            "completed": true
+          }
+        ],
+        "description": "- Add 'Lập Phiếu Khám bệnh' button to Bệnh án Điện tử screens, routing to examination_form_screen.dart.\n- Implement 'Lịch sử Khám bệnh' UI (waiting for design).\n- Implement 'Kết quả Xét nghiệm' UI (waiting for design).",
+        "implementationNotes": "Partially implemented: Added 'Lập Phiếu Khám bệnh' button and 'Lịch sử Khám bệnh' UI. 'Kết quả Xét nghiệm' UI is pending user design.\nReopening to implement 'Kết quả Xét nghiệm' UI based on provided designs.\nImplemented 'Kết quả Xét nghiệm' UI (List \u0026 Detail) based on user designs. Integrated into EMR flow.",
+        "priority": "high",
+        "status": "done",
+        "title": "Implement Clinician EMR Updates"
+      }
+    }
+  ]
+}

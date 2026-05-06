@@ -1,8 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import '../../../domain/usecases/test_order/approve_karyotype_result.dart';
 import '../../../domain/usecases/test_order/reject_karyotype_result.dart';
 import 'manager_approval_state.dart';
 
+@injectable
 class ManagerApprovalCubit extends Cubit<ManagerApprovalState> {
   final ApproveKaryotypeResult approveKaryotypeResult;
   final RejectKaryotypeResult rejectKaryotypeResult;

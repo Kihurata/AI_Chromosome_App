@@ -71,6 +71,7 @@ class TestOrder extends Equatable {
   final String patientCode;
   final String appointmentId;
   final String? specialistId;
+  final String? clinicianId;
   final TestOrderStatus status;
   final DateTime createdAt;
 
@@ -81,6 +82,7 @@ class TestOrder extends Equatable {
     required this.patientCode,
     required this.appointmentId,
     this.specialistId,
+    this.clinicianId,
     this.status = TestOrderStatus.pending,
     required this.createdAt,
   });
@@ -93,6 +95,7 @@ class TestOrder extends Equatable {
         patientCode,
         appointmentId,
         specialistId,
+        clinicianId,
         status,
         createdAt,
       ];

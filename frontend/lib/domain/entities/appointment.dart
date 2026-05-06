@@ -1,5 +1,51 @@
 import 'package:equatable/equatable.dart';
 
+enum AppointmentStatus {
+  scheduled,
+  inProgress,
+  completed,
+  cancelled;
+
+  static AppointmentStatus fromString(String value) {
+    switch (value.toUpperCase()) {
+      case 'IN_PROGRESS':
+        return AppointmentStatus.inProgress;
+      case 'COMPLETED':
+        return AppointmentStatus.completed;
+      case 'CANCELLED':
+        return AppointmentStatus.cancelled;
+      default:
+        return AppointmentStatus.scheduled;
+    }
+  }
+
+  String toFirestoreString() {
+    switch (this) {
+      case AppointmentStatus.scheduled:
+        return 'SCHEDULED';
+      case AppointmentStatus.inProgress:
+        return 'IN_PROGRESS';
+      case AppointmentStatus.completed:
+        return 'COMPLETED';
+      case AppointmentStatus.cancelled:
+        return 'CANCELLED';
+    }
+  }
+
+  String get displayName {
+    switch (this) {
+      case AppointmentStatus.scheduled:
+        return 'Chờ khám';
+      case AppointmentStatus.inProgress:
+        return 'Đang khám';
+      case AppointmentStatus.completed:
+        return 'Hoàn tất';
+      case AppointmentStatus.cancelled:
+        return 'Đã hủy';
+    }
+  }
+}
+
 class Appointment extends Equatable {
   final String id;
   final String patientId;
@@ -7,7 +53,7 @@ class Appointment extends Equatable {
   final String doctorId;
   final String doctorName;
   final DateTime appointmentDate;
-  final String status;
+  final AppointmentStatus status;
   final String reason;
 
   const Appointment({
@@ -17,7 +63,7 @@ class Appointment extends Equatable {
     required this.doctorId,
     required this.doctorName,
     required this.appointmentDate,
-    required this.status,
+    this.status = AppointmentStatus.scheduled,
     required this.reason,
   });
 

@@ -1,0 +1,55 @@
+{
+  "taskId": "w1tidc",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "w1tidc",
+      "version": 1,
+      "timestamp": "2026-05-02T09:57:52.9159481Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Switch /manager/dashboard to LabManagerDashboardPage in app_router.dart and delete the legacy manager_dashboard_page.dart.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Manager Dashboard: Finalize Router \u0026 Cleanup"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "w1tidc",
+      "version": 2,
+      "timestamp": "2026-05-02T09:58:47.2511205Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Switched /manager/dashboard to LabManagerDashboardPage and deleted legacy manager_dashboard_page.dart and manager_order_card.dart. Verified with dart analyze."
+        }
+      ],
+      "snapshot": {
+        "description": "Switch /manager/dashboard to LabManagerDashboardPage in app_router.dart and delete the legacy manager_dashboard_page.dart.",
+        "implementationNotes": "Switched /manager/dashboard to LabManagerDashboardPage and deleted legacy manager_dashboard_page.dart and manager_order_card.dart. Verified with dart analyze.",
+        "priority": "high",
+        "status": "done",
+        "title": "Manager Dashboard: Finalize Router \u0026 Cleanup"
+      }
+    }
+  ]
+}

@@ -6,6 +6,8 @@ import '../../../../core/models/nav_item.dart';
 import '../../../../core/providers/auth_provider.dart';
 import '../../../../core/providers/nav_provider.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../logic/bloc/auth/auth_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Breakpoint: screens wider than this use NavigationRail
 const double _kRailBreakpoint = 800.0;
@@ -81,6 +83,11 @@ class _AppNavigationWrapperState extends ConsumerState<AppNavigationWrapper>
     return LayoutBuilder(
       builder: (context, constraints) {
         final isWide = constraints.maxWidth >= _kRailBreakpoint;
+        
+        if (navItems.isEmpty) {
+          return Scaffold(backgroundColor: AppColors.background, body: widget.child);
+        }
+
         final selectedIdx = _selectedIndex(navItems);
 
         if (isWide) {
@@ -159,48 +166,59 @@ class _WideLayout extends ConsumerWidget {
 
                 // Nav items
                 Expanded(
-                  child: NavigationRail(
-                    extended: isExtended,
-                    selectedIndex: selectedIndex,
-                    onDestinationSelected: onItemSelected,
-                    backgroundColor: Colors.transparent,
-                    minWidth: 72,
-                    minExtendedWidth: 230,
-                    useIndicator: true,
-                    indicatorColor: AppColors.activeBackground,
-                    selectedIconTheme: const IconThemeData(
-                      color: AppColors.primaryBlue,
-                      size: 20,
-                    ),
-                    unselectedIconTheme: IconThemeData(
-                      color: AppColors.textSecondary,
-                      size: 20,
-                    ),
-                    selectedLabelTextStyle: const TextStyle(
-                      color: AppColors.primaryBlue,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    unselectedLabelTextStyle: TextStyle(
-                      color: AppColors.textSecondary,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    destinations: navItems
-                        .map(
-                          (item) => NavigationRailDestination(
-                            icon: Tooltip(
-                              message: isExtended ? '' : (item.tooltip ?? item.label),
-                              child: Icon(item.icon),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SingleChildScrollView(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                          child: IntrinsicHeight(
+                            child: NavigationRail(
+                              extended: isExtended,
+                              selectedIndex: selectedIndex,
+                              onDestinationSelected: onItemSelected,
+                              backgroundColor: Colors.transparent,
+                              minWidth: 72,
+                              minExtendedWidth: 230,
+                              useIndicator: true,
+                              indicatorColor: AppColors.activeBackground,
+                              selectedIconTheme: const IconThemeData(
+                                color: AppColors.primaryBlue,
+                                size: 20,
+                              ),
+                              unselectedIconTheme: const IconThemeData(
+                                color: AppColors.textSecondary,
+                                size: 20,
+                              ),
+                              selectedLabelTextStyle: const TextStyle(
+                                color: AppColors.primaryBlue,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              unselectedLabelTextStyle: const TextStyle(
+                                color: AppColors.textSecondary,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              destinations: navItems
+                                  .map(
+                                    (item) => NavigationRailDestination(
+                                      icon: Tooltip(
+                                        message: isExtended ? '' : (item.tooltip ?? item.label),
+                                        child: Icon(item.icon),
+                                      ),
+                                      selectedIcon: Tooltip(
+                                        message: isExtended ? '' : (item.tooltip ?? item.label),
+                                        child: Icon(item.activeIcon ?? item.icon),
+                                      ),
+                                      label: Text(item.label),
+                                    ),
+                                  )
+                                  .toList(),
                             ),
-                            selectedIcon: Tooltip(
-                              message: isExtended ? '' : (item.tooltip ?? item.label),
-                              child: Icon(item.activeIcon ?? item.icon),
-                            ),
-                            label: Text(item.label),
                           ),
-                        )
-                        .toList(),
+                        ),
+                      );
+                    },
                   ),
                 ),
 
@@ -351,76 +369,88 @@ class _RailHeader extends StatelessWidget {
         isExtended ? 12 : 12,
         16,
       ),
-      child: Row(
-        children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [AppColors.primaryBlue, Color(0xFF4A9DFF)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: const NeverScrollableScrollPhysics(),
+        child: SizedBox(
+          width: isExtended ? 198 : 48, 
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: isExtended ? MainAxisAlignment.start : MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: isExtended ? null : onToggle,
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  width: 36,
+                  height: 36,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [AppColors.primaryBlue, Color(0xFF4A9DFF)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primaryBlue.withAlpha(60),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: const Icon(LucideIcons.activity, color: Colors.white, size: 18),
+                ),
               ),
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primaryBlue.withAlpha(60),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
+              if (isExtended) ...[
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Text(
+                        'MedCore',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textPrimary,
+                          letterSpacing: -0.3,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        'Hospital CRM',
+                        style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
+                      ),
+                    ],
+                  ),
+                ),
+                Material(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8),
+                    onTap: onToggle,
+                    child: Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: AppColors.border.withAlpha(50),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(
+                        LucideIcons.panelLeftClose,
+                        size: 14,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ),
                 ),
               ],
-            ),
-            child: const Icon(LucideIcons.activity, color: Colors.white, size: 18),
+            ],
           ),
-          if (isExtended) ...[
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    'MedCore',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                      letterSpacing: -0.3,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    'Hospital CRM',
-                    style: TextStyle(fontSize: 11, color: AppColors.textSecondary),
-                  ),
-                ],
-              ),
-            ),
-          ],
-          Material(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(8),
-              onTap: onToggle,
-              child: Container(
-                width: 28,
-                height: 28,
-                decoration: BoxDecoration(
-                  color: AppColors.border.withAlpha(50),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(
-                  isExtended
-                      ? LucideIcons.panelLeftClose
-                      : LucideIcons.panelLeftOpen,
-                  size: 14,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -463,56 +493,64 @@ class _ProfileTile extends ConsumerWidget {
           color: AppColors.activeBackground,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 14,
-              backgroundColor: AppColors.primaryBlue,
-              child: Text(
-                auth.userInitial,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 11,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const NeverScrollableScrollPhysics(),
+          child: SizedBox(
+            width: isExpanded ? 182 : 28, 
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 14,
+                  backgroundColor: AppColors.primaryBlue,
+                  child: Text(
+                    auth.userInitial,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 11,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    auth.displayName,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
-                    ),
-                    overflow: TextOverflow.ellipsis,
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        auth.displayName,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        auth.role?.displayName ?? '',
+                        style: const TextStyle(
+                          fontSize: 10,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    auth.role?.displayName ?? '',
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: AppColors.textSecondary,
-                    ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    context.read<AuthCubit>().logout();
+                  },
+                  child: const Icon(
+                    LucideIcons.logOut,
+                    size: 15,
+                    color: AppColors.textSecondary,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            GestureDetector(
-              onTap: () {
-                // Logout handled via auth cubit
-                context.go('/login');
-              },
-              child: const Icon(
-                LucideIcons.logOut,
-                size: 15,
-                color: AppColors.textSecondary,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

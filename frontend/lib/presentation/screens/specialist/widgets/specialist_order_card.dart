@@ -1,23 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../domain/entities/test_order.dart';
+import '../../../../logic/bloc/specialist/specialist_dashboard_cubit.dart';
+import 'package:medcore_crm/presentation/widgets/shared/form/app_buttons.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class SpecialistOrderCard extends StatelessWidget {
   final TestOrder order;
+  final bool isFocused;
 
-  const SpecialistOrderCard({super.key, required this.order});
+  const SpecialistOrderCard({
+    super.key, 
+    required this.order,
+    this.isFocused = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => context.pushNamed(
-        'specialist-sample-detail',
-        pathParameters: {'id': order.id},
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isFocused ? AppColors.primaryBlue : Colors.grey.shade200,
+          width: isFocused ? 2 : 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: isFocused 
+              ? AppColors.primaryBlue.withValues(alpha: 0.1) 
+              : Colors.black.withValues(alpha: 0.02),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      hoverColor: Colors.blue.shade50.withValues(alpha: 0.5),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Row(
+      child: InkWell(
+        onTap: () => context.pushNamed(
+          'specialist-sample-detail',
+          pathParameters: {'id': order.id},
+        ),
+        hoverColor: Colors.blue.shade50.withValues(alpha: 0.5),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Row(
           children: [
             // ── Bệnh nhân ──────────────────────────────────────────────
             Expanded(
@@ -71,15 +100,16 @@ class SpecialistOrderCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildActionCell(BuildContext context) {
     // Hiện nút Phân Tích nếu đơn chưa hoàn thành/từ chối
     if (order.status != TestOrderStatus.completed && order.status != TestOrderStatus.rejected) {
       return _buildActionButton(context);
     }
-    return const SizedBox.shrink();
+    return const SizedBox.shrink(); // This is fine as it's not the interactive part
   }
 
   Widget _buildStatusBadge(TestOrderStatus status) {
@@ -101,22 +131,50 @@ class SpecialistOrderCard extends StatelessWidget {
   }
 
   Widget _buildActionButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        // AC-5: navigate thẳng vào Workspace
-        context.goNamed(
-          'specialist-analysis',
-          pathParameters: {'orderId': order.id},
-        );
-      },
-      child: const Text('Phân Tích'),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF2563EB),
-        foregroundColor: Colors.white,
-        elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-        textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+    if (order.status == TestOrderStatus.pending) {
+      return AppPrimaryButton(
+        text: 'Bắt đầu phân tích',
+        icon: LucideIcons.play,
+        onPressed: () => _showStartAnalysisConfirm(context),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      );
+    }
+    
+    if (order.status == TestOrderStatus.analyzing) {
+      return AppSecondaryButton(
+        text: 'Tiếp tục',
+        icon: LucideIcons.externalLink,
+        onPressed: () {
+          context.goNamed('specialist-analysis', pathParameters: {'orderId': order.id});
+        },
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      );
+    }
+
+    return const SizedBox(width: 140, height: 40);
+  }
+
+  void _showStartAnalysisConfirm(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Xác nhận bắt đầu'),
+        content: Text('Bạn có chắc chắn muốn bắt đầu phân tích phiếu của bệnh nhân ${order.patientName}?'),
+        actions: [
+          AppSecondaryButton(
+            text: 'Hủy',
+            onPressed: () => Navigator.pop(dialogContext),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          ),
+          AppPrimaryButton(
+            text: 'Bắt đầu',
+            onPressed: () {
+              context.read<SpecialistDashboardCubit>().startOrderAnalysis(order.id);
+              Navigator.pop(dialogContext);
+            },
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          ),
+        ],
       ),
     );
   }

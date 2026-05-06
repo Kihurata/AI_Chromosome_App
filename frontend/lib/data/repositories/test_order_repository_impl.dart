@@ -112,6 +112,7 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
       patientCode: model.patientCode,
       appointmentId: model.appointmentId.id,
       specialistId: model.specialistId?.id,
+      clinicianId: model.clinicianId?.id,
       status: TestOrderStatus.fromString(model.status),
       createdAt: model.createdAt,
     );

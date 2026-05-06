@@ -1,0 +1,74 @@
+{
+  "taskId": "xmm706",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "xmm706",
+      "version": 1,
+      "timestamp": "2026-05-01T06:20:52.0503201Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "- Wrap screens in MainListLayout/MainFormLayout.\n- Standardize DataTable styling.\n- Add 'Thao tác' column.\n- Update Receptionist Patient List (Eye/Pen icons, remove row click).\n- Update Receptionist Appointment List (Convert to table, Eye icon).\n- Update Clinician Appointment List (Stethoscope/Pen/Eye icons).",
+        "priority": "high",
+        "status": "todo",
+        "title": "Refactor Presentation \\u0026 Standardize Tables"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "xmm706",
+      "version": 2,
+      "timestamp": "2026-05-01T06:28:21.1226892Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "description": "- Wrap screens in MainListLayout/MainFormLayout.\n- Standardize DataTable styling.\n- Add 'Thao tác' column.\n- Update Receptionist Patient List (Eye/Pen icons, remove row click).\n- Update Receptionist Appointment List (Convert to table, Eye icon).\n- Update Clinician Appointment List (Stethoscope/Pen/Eye icons).",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Presentation \\u0026 Standardize Tables"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "xmm706",
+      "version": 3,
+      "timestamp": "2026-05-01T06:34:10.2844116Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented UI standardization for tables across Receptionist and Clinician roles. Created detailed HistoryTab for EMR based on user image. Updated EMR page with 'Lập Phiếu Khám bệnh' button."
+        }
+      ],
+      "snapshot": {
+        "description": "- Wrap screens in MainListLayout/MainFormLayout.\n- Standardize DataTable styling.\n- Add 'Thao tác' column.\n- Update Receptionist Patient List (Eye/Pen icons, remove row click).\n- Update Receptionist Appointment List (Convert to table, Eye icon).\n- Update Clinician Appointment List (Stethoscope/Pen/Eye icons).",
+        "implementationNotes": "Implemented UI standardization for tables across Receptionist and Clinician roles. Created detailed HistoryTab for EMR based on user image. Updated EMR page with 'Lập Phiếu Khám bệnh' button.",
+        "priority": "high",
+        "status": "done",
+        "title": "Refactor Presentation \\u0026 Standardize Tables"
+      }
+    }
+  ]
+}

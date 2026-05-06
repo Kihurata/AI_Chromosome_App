@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../logic/bloc/auth/auth_cubit.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../widgets/shared/form/app_text_field.dart';
+import '../../widgets/shared/form/app_buttons.dart';
 import '../../../core/services/notification_factory.dart';
 
 class LoginPage extends StatefulWidget {
@@ -80,45 +82,35 @@ class _LoginPageState extends State<LoginPage> {
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                     const SizedBox(height: 48),
-                    TextFormField(
+                    AppTextField(
                       controller: _emailController,
-                      decoration: const InputDecoration(
-                        hintText: "Email Bác sĩ/Nhân viên",
-                        prefixIcon: Icon(Icons.email_outlined, size: 20),
-                      ),
+                      hintText: "Email Bác sĩ/Nhân viên",
+                      prefixIcon: Icons.email_outlined,
                       validator: (value) => value == null || value.isEmpty ? "Vui lòng nhập Email" : null,
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
+                    AppTextField(
                       controller: _passwordController,
                       obscureText: true,
-                      decoration: const InputDecoration(
-                        hintText: "Mật khẩu",
-                        prefixIcon: Icon(Icons.lock_outline, size: 20),
-                      ),
+                      hintText: "Mật khẩu",
+                      prefixIcon: Icons.lock_outline,
                       validator: (value) => value == null || value.isEmpty ? "Vui lòng nhập mật khẩu" : null,
                     ),
                     const SizedBox(height: 32),
                     BlocBuilder<AuthCubit, AuthState>(
                       builder: (context, state) {
-                        return ElevatedButton(
-                          onPressed: state is AuthLoading
-                              ? null
-                              : () {
-                                  if (_formKey.currentState!.validate()) {
-                                    context.read<AuthCubit>().login(
-                                          _emailController.text.trim(),
-                                          _passwordController.text.trim(),
-                                        );
-                                  }
-                                },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryBlue,
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                          ),
-                          child: state is AuthLoading
-                              ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                              : const Text("ĐĂNG NHẬP", style: TextStyle(fontWeight: FontWeight.bold)),
+                        return AppPrimaryButton(
+                          text: "ĐĂNG NHẬP",
+                          isLoading: state is AuthLoading,
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              context.read<AuthCubit>().login(
+                                    _emailController.text.trim(),
+                                    _passwordController.text.trim(),
+                                  );
+                            }
+                          },
+                          width: double.infinity,
                         );
                       },
                     ),

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:file_picker/file_picker.dart';
@@ -17,17 +16,18 @@ class BulkUploadDialog extends StatefulWidget {
 }
 
 class _BulkUploadDialogState extends State<BulkUploadDialog> {
-  List<File> _selectedFiles = [];
+  List<PlatformFile> _selectedFiles = [];
 
   Future<void> _pickFiles() async {
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       type: FileType.image,
+      withData: true, // Required for Web to get bytes
     );
 
     if (result != null) {
       setState(() {
-        _selectedFiles = result.paths.map((path) => File(path!)).toList();
+        _selectedFiles = result.files;
       });
     }
   }
@@ -139,7 +139,7 @@ class _BulkUploadDialogState extends State<BulkUploadDialog> {
             dense: true,
             leading: const Icon(Icons.image_outlined, size: 20),
             title: Text(
-              _selectedFiles[index].path.split('/').last,
+              _selectedFiles[index].name,
               style: const TextStyle(fontSize: 12),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -168,7 +168,7 @@ class _BulkUploadDialogState extends State<BulkUploadDialog> {
               ? null
               : () {
                   context.read<AiAnalysisCubit>().uploadMultipleImages(
-                        _selectedFiles,
+                        _selectedFiles.map((f) => f.bytes!).toList(),
                         widget.sample.testOrderId,
                       );
                 },
