@@ -59,6 +59,17 @@ class SampleManagementCubit extends Cubit<SampleManagementState> {
     );
   }
 
+  Future<void> updateNote(String sampleId, String note) async {
+    final result = await _repository.updateSampleNote(sampleId, note);
+    result.fold(
+      (failure) => emit(state.copyWith(
+        status: SampleManagementStatus.error,
+        errorMessage: failure.message,
+      )),
+      (_) => null,
+    );
+  }
+
   @override
   Future<void> close() {
     _samplesSubscription?.cancel();
