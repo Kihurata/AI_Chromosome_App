@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../domain/entities/sample.dart';
 import '../../../../core/theme/app_colors.dart';
+import 'package:go_router/go_router.dart';
 
 class SampleCard extends StatelessWidget {
   final Sample sample;
@@ -60,7 +61,7 @@ class SampleCard extends StatelessWidget {
         Row(
           children: [
             Text(
-              sample.id.substring(0, 8).toUpperCase(),
+              sample.id.length > 8 ? sample.id.substring(0, 8).toUpperCase() : sample.id.toUpperCase(),
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(width: 8),
@@ -88,10 +89,7 @@ class SampleCard extends StatelessWidget {
           icon: Icon(Icons.info_outline, color: AppColors.primaryBlue),
           tooltip: 'Xem Test Order',
           onPressed: () {
-            // Logic điều hướng đến Test Order
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Chuyển hướng đến chi tiết Test Order...')),
-            );
+            context.pushNamed('specialist-sample-detail', pathParameters: {'id': sample.testOrderId});
           },
         ),
         const SizedBox(width: 8),

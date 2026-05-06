@@ -14,7 +14,7 @@ class SpecialistOrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.push('${AppRoutes.specialistSamples}/${order.id}'),
+      onTap: () => context.pushNamed('specialist-sample-detail', pathParameters: {'id': order.id}),
       hoverColor: Colors.blue.shade50.withValues(alpha: 0.5),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),

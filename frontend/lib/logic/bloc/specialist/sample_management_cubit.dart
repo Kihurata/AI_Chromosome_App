@@ -5,7 +5,7 @@ import '../../../../domain/entities/sample.dart';
 import '../../../../domain/repositories/sample_repository.dart';
 import 'sample_management_state.dart';
 
-@lazySingleton
+@injectable
 class SampleManagementCubit extends Cubit<SampleManagementState> {
   final SampleRepository _repository;
   StreamSubscription? _samplesSubscription;

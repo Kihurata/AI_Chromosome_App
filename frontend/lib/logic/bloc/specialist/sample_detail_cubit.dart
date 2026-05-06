@@ -17,6 +17,8 @@ class SampleDetailCubit extends Cubit<SampleDetailState> {
   Future<void> loadSample(String id) async {
     emit(SampleDetailLoading());
     final result = await getSampleById(id);
+    if (isClosed) return;
+    
     result.fold(
       (failure) => emit(SampleDetailError(failure.message)),
       (sample) => emit(SampleDetailSuccess(sample)),
@@ -28,11 +30,12 @@ class SampleDetailCubit extends Cubit<SampleDetailState> {
     if (currentState is SampleDetailSuccess) {
       emit(SampleDetailLoading());
       final result = await updateSampleNote(id, note);
+      if (isClosed) return;
       
       result.fold(
         (failure) {
           emit(SampleDetailError(failure.message));
-          emit(currentState); // Revert
+          if (!isClosed) emit(currentState); // Revert
         },
         (_) async {
           await loadSample(id);
