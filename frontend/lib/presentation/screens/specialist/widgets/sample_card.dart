@@ -1,157 +1,247 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../../domain/entities/sample.dart';
-import '../../../../core/theme/app_colors.dart';
 import 'package:go_router/go_router.dart';
+import 'failure_reason_dialog.dart';
+import 'bulk_upload_dialog.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../logic/bloc/specialist/ai_analysis_cubit.dart';
+import '../../../../core/di/injection.dart';
 
 class SampleCard extends StatelessWidget {
   final Sample sample;
   final Function(SampleStatus) onStatusUpdate;
+  /// Called when the specialist marks the sample as failed.
+  /// Provides the human-readable failure reason to be saved as a note.
+  final Function(String reason)? onFailure;
 
   const SampleCard({
     super.key,
     required this.sample,
     required this.onStatusUpdate,
+    this.onFailure,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          _buildLeading(),
-          const SizedBox(width: 20),
-          Expanded(child: _buildInfo()),
-          const SizedBox(width: 20),
-          _buildActions(context),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLeading() {
-    return Container(
-      width: 60,
-      height: 60,
-      decoration: BoxDecoration(
-        color: _getStatusColor().withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Icon(_getStatusIcon(), color: _getStatusColor(), size: 30),
-    );
-  }
-
-  Widget _buildInfo() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+    return InkWell(
+      onTap: () {
+        context.pushNamed('specialist-sample-detail',
+            pathParameters: {'id': sample.testOrderId});
+      },
+      hoverColor: Colors.blue.shade50.withValues(alpha: 0.5),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        child: Row(
           children: [
-            Text(
-              sample.id.length > 8
-                  ? sample.id.substring(0, 8).toUpperCase()
-                  : sample.id.toUpperCase(),
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            // ── Mã mẫu & Loại mẫu ───────────────────────────────────────
+            Expanded(
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    sample.id.length > 8
+                        ? sample.id.substring(0, 8).toUpperCase()
+                        : sample.id.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    sample.sampleType,
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(color: Colors.grey.shade500, fontSize: 12),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(width: 8),
-            _StatusBadge(status: sample.status),
+            // ── Bệnh nhân ──────────────────────────────────────────────
+            Expanded(
+              flex: 2,
+              child: Text(
+                sample.patientName,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: Color(0xFF111827)),
+              ),
+            ),
+            // ── Ngày thu nhận ──────────────────────────────────────────
+            Expanded(
+              flex: 2,
+              child: Text(
+                DateFormat('dd/MM/yyyy').format(sample.collectedAt),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+              ),
+            ),
+            // ── Trạng thái ──────────────────────────────────────────────
+            Expanded(
+              flex: 2,
+              child: Center(child: _StatusBadge(status: sample.status)),
+            ),
+            // ── Hành động ──────────────────────────────────────────────
+            Expanded(
+              flex: 3,
+              child: Center(child: _buildActionCell(context)),
+            ),
           ],
         ),
-        const SizedBox(height: 8),
-        Text(
-          'Bệnh nhân: ${sample.patientName}',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            color: AppColors.textPrimary,
+      ),
+    );
+  }
+
+  /// Builds dynamic, state-aware action buttons.
+  /// Uses GestureDetector to absorb tap events and prevent row navigation.
+  Widget _buildActionCell(BuildContext context) {
+    switch (sample.status) {
+      case SampleStatus.collected:
+        return _AbsorbingWidget(
+          child: ElevatedButton.icon(
+            onPressed: () => _confirmStartCulturing(context),
+            icon: const Icon(Icons.science_outlined, size: 16),
+            label: const Text('Bắt đầu nuôi cấy',
+                style: TextStyle(fontSize: 12)),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF2563EB),
+              foregroundColor: Colors.white,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              elevation: 0,
+            ),
           ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          'Loại mẫu: ${sample.sampleType} | Thu nhận: ${DateFormat('dd/MM/yyyy').format(sample.collectedAt)}',
-          style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
-        ),
-      ],
-    );
-  }
+        );
 
-  Widget _buildActions(BuildContext context) {
-    return Row(
-      children: [
-        IconButton(
-          icon: Icon(Icons.info_outline, color: AppColors.primaryBlue),
-          tooltip: 'Xem Test Order',
-          onPressed: () {
-            context.pushNamed(
-              'specialist-sample-detail',
-              pathParameters: {'id': sample.testOrderId},
-            );
-          },
-        ),
-        const SizedBox(width: 8),
-        _buildPopupMenu(),
-      ],
-    );
-  }
-
-  Widget _buildPopupMenu() {
-    return PopupMenuButton<SampleStatus>(
-      icon: Icon(Icons.more_vert, color: AppColors.textSecondary),
-      onSelected: onStatusUpdate,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      itemBuilder: (context) => [
-        const PopupMenuItem(
-          value: SampleStatus.culturing,
-          child: Text('Bắt đầu nuôi cấy'),
-        ),
-        const PopupMenuItem(
-          value: SampleStatus.harvested,
-          child: Text('Thu hoạch thành công'),
-        ),
-        const PopupMenuItem(
-          value: SampleStatus.failed,
-          child: Text('Đánh dấu thất bại'),
-        ),
-      ],
-    );
-  }
-
-  Color _getStatusColor() {
-    switch (sample.status) {
-      case SampleStatus.collected:
-        return Colors.blue;
       case SampleStatus.culturing:
-        return Colors.orange;
+        return _AbsorbingWidget(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () => _openBulkUpload(context),
+                icon: const Icon(Icons.cloud_upload_outlined, size: 16),
+                label:
+                    const Text('Thu hoạch', style: TextStyle(fontSize: 12)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green.shade600,
+                  foregroundColor: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  elevation: 0,
+                ),
+              ),
+              const SizedBox(width: 6),
+              OutlinedButton.icon(
+                onPressed: () => _confirmFailure(context),
+                icon: Icon(Icons.close_rounded,
+                    size: 15, color: Colors.red.shade600),
+                label: Text('Thất bại',
+                    style: TextStyle(
+                        fontSize: 12, color: Colors.red.shade600)),
+                style: OutlinedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  side: BorderSide(color: Colors.red.shade300),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+              ),
+            ],
+          ),
+        );
+
       case SampleStatus.harvested:
-        return Colors.green;
       case SampleStatus.failed:
-        return Colors.red;
+        return const SizedBox.shrink();
     }
   }
 
-  IconData _getStatusIcon() {
-    switch (sample.status) {
-      case SampleStatus.collected:
-        return Icons.biotech_outlined;
-      case SampleStatus.culturing:
-        return Icons.hourglass_empty;
-      case SampleStatus.harvested:
-        return Icons.check_circle_outline;
-      case SampleStatus.failed:
-        return Icons.error_outline;
+  Future<void> _confirmStartCulturing(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Row(
+          children: [
+            Icon(Icons.science_outlined, color: Color(0xFF2563EB)),
+            SizedBox(width: 10),
+            Text('Bắt đầu nuôi cấy',
+                style:
+                    TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+          ],
+        ),
+        content: const Text(
+          'Bạn có chắc chắn muốn bắt đầu nuôi cấy mẫu này?\nTrạng thái mẫu sẽ chuyển sang "Đang nuôi cấy".',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text('Huỷ',
+                style: TextStyle(color: Colors.grey.shade600)),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF2563EB),
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('Xác nhận'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      onStatusUpdate(SampleStatus.culturing);
     }
+  }
+
+  Future<void> _confirmFailure(BuildContext context) async {
+    final reason = await showDialog<FailureReason>(
+      context: context,
+      builder: (ctx) => const FailureReasonDialog(),
+    );
+
+    if (reason != null) {
+      onStatusUpdate(SampleStatus.failed);
+      onFailure?.call(reason.label);
+    }
+  }
+
+  void _openBulkUpload(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => BlocProvider(
+        create: (_) => getIt<AiAnalysisCubit>(),
+        child: BulkUploadDialog(sample: sample),
+      ),
+    );
+  }
+}
+
+/// Absorbs tap events so action buttons don't trigger the parent InkWell.
+class _AbsorbingWidget extends StatelessWidget {
+  final Widget child;
+  const _AbsorbingWidget({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {}, // absorb
+      behavior: HitTestBehavior.opaque,
+      child: child,
+    );
   }
 }
 
