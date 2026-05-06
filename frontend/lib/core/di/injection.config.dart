@@ -99,7 +99,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i77.WorkspaceRepository>(
       () => _i964.WorkspaceRepositoryImpl(gh<_i974.FirebaseFirestore>()),
     );
-    gh.lazySingleton<_i10.SampleManagementCubit>(
+    gh.factory<_i10.SampleManagementCubit>(
       () => _i10.SampleManagementCubit(gh<_i643.SampleRepository>()),
     );
     gh.lazySingleton<_i467.PatientRepository>(

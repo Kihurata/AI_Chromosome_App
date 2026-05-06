@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../logic/bloc/specialist/sample_detail_cubit.dart';
 import '../../../../logic/bloc/specialist/sample_detail_state.dart';
 import '../../../../core/di/injection.dart';
+import 'package:intl/intl.dart';
 
 class SampleDetailScreen extends StatefulWidget {
   final String sampleId;
@@ -36,6 +37,12 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
     return BlocProvider.value(
       value: _cubit,
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Chi tiết Phiếu xét nghiệm'),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 1,
+        ),
         backgroundColor: const Color(0xFFF8F9FA),
         body: BlocConsumer<SampleDetailCubit, SampleDetailState>(
           listener: (context, state) {
@@ -68,16 +75,11 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
             }
             if (state is SampleDetailSuccess) {
               final sample = state.sample;
-              return Padding(
+              return SingleChildScrollView(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Chi tiết Phiếu xét nghiệm',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    const SizedBox(height: 24),
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
@@ -96,7 +98,7 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
                           const SizedBox(height: 8),
                           Text('Loại mẫu: ${sample.sampleType}'),
                           const SizedBox(height: 8),
-                          Text('Thời gian lấy: ${sample.collectedAt.toString().substring(0, 16)}'),
+                          Text('Thời gian lấy: ${DateFormat('dd/MM/yyyy HH:mm').format(sample.collectedAt)}'),
                           const SizedBox(height: 8),
                           Text('Trạng thái: ${sample.status.name.toUpperCase()}'),
                         ],

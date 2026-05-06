@@ -138,7 +138,7 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
             final sample = state.filteredSamples[index];
             return InkWell(
               onTap: () {
-                context.push('${AppRoutes.specialistSamples}/${sample.id}');
+                context.pushNamed('specialist-sample-detail', pathParameters: {'id': sample.testOrderId});
               },
               child: SampleCard(
                 sample: sample,

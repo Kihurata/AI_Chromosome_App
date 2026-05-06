@@ -49,6 +49,7 @@ class AppRoutes {
   static const specialistDashboard = '/specialist/dashboard';
   static const specialistAnalysis = '/specialist/analysis';
   static const specialistSamples = '/specialist/samples';
+  static const specialistSampleDetail = '/specialist/sample-detail';
 
   // Manager
   static const managerDashboard = '/manager/dashboard';
@@ -194,7 +195,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ),
           ),
           GoRoute(
-            path: '${AppRoutes.specialistSamples}/:id',
+            path: '${AppRoutes.specialistSampleDetail}/:id',
             name: 'specialist-sample-detail',
             builder: (context, state) => SampleDetailScreen(
               sampleId: state.pathParameters['id'] ?? '',
