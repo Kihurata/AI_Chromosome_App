@@ -30,7 +30,6 @@ class ExaminationRemoteDataSourceImpl implements ExaminationRemoteDataSource {
   @override
   Future<ExaminationModel?> getExaminationByAppointmentId(String appointmentId) async {
     try {
-      print('DEBUG: Querying examination for appointmentId: $appointmentId');
       final snapshot = await firestore
           .collection('examinations')
           .where('appointment_id', isEqualTo: appointmentId)
@@ -38,13 +37,10 @@ class ExaminationRemoteDataSourceImpl implements ExaminationRemoteDataSource {
           .get();
 
       if (snapshot.docs.isEmpty) {
-        print('DEBUG: No examination found for appointmentId: $appointmentId');
         return null;
       }
-      print('DEBUG: Found examination for appointmentId: $appointmentId');
       return ExaminationModel.fromFirestore(snapshot.docs.first);
     } catch (e) {
-      print('DEBUG: Error in getExaminationByAppointmentId: $e');
       throw ServerException(message: "Lỗi khi truy vấn kết quả khám: ${e.toString()}");
     }
   }
@@ -52,16 +48,13 @@ class ExaminationRemoteDataSourceImpl implements ExaminationRemoteDataSource {
   @override
   Future<List<ExaminationModel>> getExaminationsByPatientId(String patientId) async {
     try {
-      print('DEBUG: Querying examinations for patientId: $patientId');
       final snapshot = await firestore
           .collection('examinations')
           .where('patient_id', isEqualTo: patientId)
           .get();
 
-      print('DEBUG: Found ${snapshot.docs.length} examinations');
       return snapshot.docs.map((doc) => ExaminationModel.fromFirestore(doc)).toList();
     } catch (e) {
-      print('DEBUG: Error in getExaminationsByPatientId: $e');
       throw ServerException(message: "Lỗi khi truy vấn lịch sử khám: ${e.toString()}");
     }
   }

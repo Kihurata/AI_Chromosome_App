@@ -10,13 +10,16 @@ class SpecialistBentoStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final crossAxisCount = width > 1200 ? 4 : 2;
+    
     return GridView.count(
-      crossAxisCount: MediaQuery.of(context).size.width > 1200 ? 4 : 2,
+      crossAxisCount: crossAxisCount,
       crossAxisSpacing: 20,
       mainAxisSpacing: 20,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      childAspectRatio: 1.5,
+      childAspectRatio: width > 600 ? 1.5 : 1.2,
       children: [
         StatsCard(
           title: 'Tổng số phiếu',

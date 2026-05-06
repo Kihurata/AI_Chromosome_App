@@ -87,6 +87,7 @@ class _ClinicianBloodTestPrescriptionPageState
       patientName: patientName,
       patientCode: patientCode,
       appointmentId: widget.id,
+      clinicianId: clinicianId,
       createdAt: DateTime.now(),
     );
 
@@ -101,6 +102,9 @@ class _ClinicianBloodTestPrescriptionPageState
     final sample = Sample(
       id: const Uuid().v4(),
       testOrderId: orderId,
+      patientName: patientName,
+      patientCode: patientCode,
+      sampleType: 'Máu',
       collectedBy: clinicianId,
       collectedAt: collectedAt,
       notes: _clinicalNotesCtrl.text,

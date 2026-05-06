@@ -1,0 +1,344 @@
+{
+  "taskId": "4gd94n",
+  "currentVersion": 8,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "4gd94n",
+      "version": 1,
+      "timestamp": "2026-05-05T07:54:17.6148507Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Mở rộng FirestoreListener.py để bắt các trạng thái mới và cập nhật NotificationService.py để gửi Push FCM + lưu vào Firestore notifications.",
+        "priority": "high",
+        "status": "todo",
+        "title": "[Backend] Expand Notification Logic"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "4gd94n",
+      "version": 2,
+      "timestamp": "2026-05-05T07:55:38.8899035Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Implement notify_new_order_pending, notify_analysis_ready, notify_result_approved, notify_result_rejected in NotificationService.py."
+            },
+            {
+              "completed": false,
+              "text": "Cập nhật FirestoreListener.py để trigger các hàm thông báo khi trạng thái TestOrder thay đổi."
+            },
+            {
+              "completed": false,
+              "text": "Đảm bảo mỗi thông báo đều được lưu vào collection notifications trong Firestore."
+            },
+            {
+              "completed": false,
+              "text": "Ghi log thay đổi vào audit_logs cho mỗi thông báo gửi đi."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Implement notify_new_order_pending, notify_analysis_ready, notify_result_approved, notify_result_rejected in NotificationService.py."
+          },
+          {
+            "completed": false,
+            "text": "Cập nhật FirestoreListener.py để trigger các hàm thông báo khi trạng thái TestOrder thay đổi."
+          },
+          {
+            "completed": false,
+            "text": "Đảm bảo mỗi thông báo đều được lưu vào collection notifications trong Firestore."
+          },
+          {
+            "completed": false,
+            "text": "Ghi log thay đổi vào audit_logs cho mỗi thông báo gửi đi."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Mở rộng FirestoreListener.py để bắt các trạng thái mới và cập nhật NotificationService.py để gửi Push FCM + lưu vào Firestore notifications.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "[Backend] Expand Notification Logic"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "4gd94n",
+      "version": 3,
+      "timestamp": "2026-05-05T07:56:10.7087461Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Modify backend/app/services/notification_service.py: Implement specific notification methods and update send_to_user to save docs to Firestore notifications collection.\n2. Modify backend/app/services/firestore_listener.py: Expand on_snapshot logic to detect TestOrder status transitions (WAITING_APPROVAL, COMPLETED, REJECTED).\n3. Update AuditService logic to ensure notification events are logged.\n4. Create backend/scripts/test_notification_flow.py to verify all triggers and persistence."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Implement notify_new_order_pending, notify_analysis_ready, notify_result_approved, notify_result_rejected in NotificationService.py."
+          },
+          {
+            "completed": false,
+            "text": "Cập nhật FirestoreListener.py để trigger các hàm thông báo khi trạng thái TestOrder thay đổi."
+          },
+          {
+            "completed": false,
+            "text": "Đảm bảo mỗi thông báo đều được lưu vào collection notifications trong Firestore."
+          },
+          {
+            "completed": false,
+            "text": "Ghi log thay đổi vào audit_logs cho mỗi thông báo gửi đi."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Mở rộng FirestoreListener.py để bắt các trạng thái mới và cập nhật NotificationService.py để gửi Push FCM + lưu vào Firestore notifications.",
+        "implementationPlan": "1. Modify backend/app/services/notification_service.py: Implement specific notification methods and update send_to_user to save docs to Firestore notifications collection.\n2. Modify backend/app/services/firestore_listener.py: Expand on_snapshot logic to detect TestOrder status transitions (WAITING_APPROVAL, COMPLETED, REJECTED).\n3. Update AuditService logic to ensure notification events are logged.\n4. Create backend/scripts/test_notification_flow.py to verify all triggers and persistence.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Backend: Expand Notification Logic"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "4gd94n",
+      "version": 4,
+      "timestamp": "2026-05-05T07:58:46.6670897Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Implement notify_new_order_pending, notify_analysis_ready, notify_result_approved, notify_result_rejected in NotificationService.py."
+          },
+          {
+            "completed": true,
+            "text": "Cập nhật FirestoreListener.py để trigger các hàm thông báo khi trạng thái TestOrder thay đổi."
+          },
+          {
+            "completed": true,
+            "text": "Đảm bảo mỗi thông báo đều được lưu vào collection notifications trong Firestore."
+          },
+          {
+            "completed": true,
+            "text": "Ghi log thay đổi vào audit_logs cho mỗi thông báo gửi đi."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Mở rộng FirestoreListener.py để bắt các trạng thái mới và cập nhật NotificationService.py để gửi Push FCM + lưu vào Firestore notifications.",
+        "implementationNotes": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence.",
+        "implementationPlan": "1. Modify backend/app/services/notification_service.py: Implement specific notification methods and update send_to_user to save docs to Firestore notifications collection.\n2. Modify backend/app/services/firestore_listener.py: Expand on_snapshot logic to detect TestOrder status transitions (WAITING_APPROVAL, COMPLETED, REJECTED).\n3. Update AuditService logic to ensure notification events are logged.\n4. Create backend/scripts/test_notification_flow.py to verify all triggers and persistence.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Backend: Expand Notification Logic"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "4gd94n",
+      "version": 5,
+      "timestamp": "2026-05-05T07:58:57.6301577Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Implement notify_new_order_pending, notify_analysis_ready, notify_result_approved, notify_result_rejected in NotificationService.py."
+          },
+          {
+            "completed": true,
+            "text": "Cập nhật FirestoreListener.py để trigger các hàm thông báo khi trạng thái TestOrder thay đổi."
+          },
+          {
+            "completed": true,
+            "text": "Đảm bảo mỗi thông báo đều được lưu vào collection notifications trong Firestore."
+          },
+          {
+            "completed": true,
+            "text": "Ghi log thay đổi vào audit_logs cho mỗi thông báo gửi đi."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Mở rộng FirestoreListener.py để bắt các trạng thái mới và cập nhật NotificationService.py để gửi Push FCM + lưu vào Firestore notifications.",
+        "implementationNotes": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence.",
+        "implementationPlan": "1. Modify backend/app/services/notification_service.py: Implement specific notification methods and update send_to_user to save docs to Firestore notifications collection.\n2. Modify backend/app/services/firestore_listener.py: Expand on_snapshot logic to detect TestOrder status transitions (WAITING_APPROVAL, COMPLETED, REJECTED).\n3. Update AuditService logic to ensure notification events are logged.\n4. Create backend/scripts/test_notification_flow.py to verify all triggers and persistence.",
+        "priority": "high",
+        "status": "done",
+        "title": "Backend: Expand Notification Logic"
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "4gd94n",
+      "version": 6,
+      "timestamp": "2026-05-05T08:11:52.7975702Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "done",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence.",
+          "newValue": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence.\nThay đổi yêu cầu: Chuyển sang hệ thống thông báo tạm thời (UI-only). Cần loại bỏ logic lưu Firestore."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Implement notify_new_order_pending, notify_analysis_ready, notify_result_approved, notify_result_rejected in NotificationService.py."
+          },
+          {
+            "completed": true,
+            "text": "Cập nhật FirestoreListener.py để trigger các hàm thông báo khi trạng thái TestOrder thay đổi."
+          },
+          {
+            "completed": true,
+            "text": "Đảm bảo mỗi thông báo đều được lưu vào collection notifications trong Firestore."
+          },
+          {
+            "completed": true,
+            "text": "Ghi log thay đổi vào audit_logs cho mỗi thông báo gửi đi."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Mở rộng FirestoreListener.py để bắt các trạng thái mới và cập nhật NotificationService.py để gửi Push FCM + lưu vào Firestore notifications.",
+        "implementationNotes": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence.\nThay đổi yêu cầu: Chuyển sang hệ thống thông báo tạm thời (UI-only). Cần loại bỏ logic lưu Firestore.",
+        "implementationPlan": "1. Modify backend/app/services/notification_service.py: Implement specific notification methods and update send_to_user to save docs to Firestore notifications collection.\n2. Modify backend/app/services/firestore_listener.py: Expand on_snapshot logic to detect TestOrder status transitions (WAITING_APPROVAL, COMPLETED, REJECTED).\n3. Update AuditService logic to ensure notification events are logged.\n4. Create backend/scripts/test_notification_flow.py to verify all triggers and persistence.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Backend: Expand Notification Logic"
+      }
+    },
+    {
+      "id": "v7",
+      "taskId": "4gd94n",
+      "version": 7,
+      "timestamp": "2026-05-05T08:13:15.7356005Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence.\nThay đổi yêu cầu: Chuyển sang hệ thống thông báo tạm thời (UI-only). Cần loại bỏ logic lưu Firestore.",
+          "newValue": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence.\nThay đổi yêu cầu: Chuyển sang hệ thống thông báo tạm thời (UI-only). Cần loại bỏ logic lưu Firestore.\nĐã điều chỉnh logic sang chỉ gửi Push FCM (không lưu Firestore) theo yêu cầu mới. AC lưu Firestore đã được bỏ qua/xóa bỏ trong thiết kế mới."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Implement notify_new_order_pending, notify_analysis_ready, notify_result_approved, notify_result_rejected in NotificationService.py."
+          },
+          {
+            "completed": true,
+            "text": "Cập nhật FirestoreListener.py để trigger các hàm thông báo khi trạng thái TestOrder thay đổi."
+          },
+          {
+            "completed": true,
+            "text": "Đảm bảo mỗi thông báo đều được lưu vào collection notifications trong Firestore."
+          },
+          {
+            "completed": true,
+            "text": "Ghi log thay đổi vào audit_logs cho mỗi thông báo gửi đi."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Mở rộng FirestoreListener.py để bắt các trạng thái mới và cập nhật NotificationService.py để gửi Push FCM + lưu vào Firestore notifications.",
+        "implementationNotes": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence.\nThay đổi yêu cầu: Chuyển sang hệ thống thông báo tạm thời (UI-only). Cần loại bỏ logic lưu Firestore.\nĐã điều chỉnh logic sang chỉ gửi Push FCM (không lưu Firestore) theo yêu cầu mới. AC lưu Firestore đã được bỏ qua/xóa bỏ trong thiết kế mới.",
+        "implementationPlan": "1. Modify backend/app/services/notification_service.py: Implement specific notification methods and update send_to_user to save docs to Firestore notifications collection.\n2. Modify backend/app/services/firestore_listener.py: Expand on_snapshot logic to detect TestOrder status transitions (WAITING_APPROVAL, COMPLETED, REJECTED).\n3. Update AuditService logic to ensure notification events are logged.\n4. Create backend/scripts/test_notification_flow.py to verify all triggers and persistence.",
+        "priority": "high",
+        "status": "done",
+        "title": "Backend: Expand Notification Logic"
+      }
+    },
+    {
+      "id": "v8",
+      "taskId": "4gd94n",
+      "version": 8,
+      "timestamp": "2026-05-05T13:20:18.890769Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence.\nThay đổi yêu cầu: Chuyển sang hệ thống thông báo tạm thời (UI-only). Cần loại bỏ logic lưu Firestore.\nĐã điều chỉnh logic sang chỉ gửi Push FCM (không lưu Firestore) theo yêu cầu mới. AC lưu Firestore đã được bỏ qua/xóa bỏ trong thiết kế mới.",
+          "newValue": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence.\nThay đổi yêu cầu: Chuyển sang hệ thống thông báo tạm thời (UI-only). Cần loại bỏ logic lưu Firestore.\nĐã điều chỉnh logic sang chỉ gửi Push FCM (không lưu Firestore) theo yêu cầu mới. AC lưu Firestore đã được bỏ qua/xóa bỏ trong thiết kế mới.\nĐã hoàn thành mở rộng NotificationService và FirestoreListener cho Backend. Hệ thống đã sẵn sàng bắn Push FCM cho các trạng thái: PENDING, WAITING_APPROVAL, COMPLETED, REJECTED mà không cần lưu DB."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Implement notify_new_order_pending, notify_analysis_ready, notify_result_approved, notify_result_rejected in NotificationService.py.",
+            "completed": true
+          },
+          {
+            "text": "Cập nhật FirestoreListener.py để trigger các hàm thông báo khi trạng thái TestOrder thay đổi.",
+            "completed": true
+          },
+          {
+            "text": "Đảm bảo mỗi thông báo đều được lưu vào collection notifications trong Firestore.",
+            "completed": true
+          },
+          {
+            "text": "Ghi log thay đổi vào audit_logs cho mỗi thông báo gửi đi.",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Mở rộng FirestoreListener.py để bắt các trạng thái mới và cập nhật NotificationService.py để gửi Push FCM + lưu vào Firestore notifications.",
+        "implementationNotes": "Đã triển khai NotificationService mở rộng và FirestoreListener trigger. Hệ thống hỗ trợ cả Push FCM và In-App notification persistence.\nThay đổi yêu cầu: Chuyển sang hệ thống thông báo tạm thời (UI-only). Cần loại bỏ logic lưu Firestore.\nĐã điều chỉnh logic sang chỉ gửi Push FCM (không lưu Firestore) theo yêu cầu mới. AC lưu Firestore đã được bỏ qua/xóa bỏ trong thiết kế mới.\nĐã hoàn thành mở rộng NotificationService và FirestoreListener cho Backend. Hệ thống đã sẵn sàng bắn Push FCM cho các trạng thái: PENDING, WAITING_APPROVAL, COMPLETED, REJECTED mà không cần lưu DB.",
+        "implementationPlan": "1. Modify backend/app/services/notification_service.py: Implement specific notification methods and update send_to_user to save docs to Firestore notifications collection.\n2. Modify backend/app/services/firestore_listener.py: Expand on_snapshot logic to detect TestOrder status transitions (WAITING_APPROVAL, COMPLETED, REJECTED).\n3. Update AuditService logic to ensure notification events are logged.\n4. Create backend/scripts/test_notification_flow.py to verify all triggers and persistence.",
+        "priority": "high",
+        "status": "done",
+        "title": "Backend: Expand Notification Logic"
+      }
+    }
+  ]
+}

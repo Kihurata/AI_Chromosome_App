@@ -7,10 +7,18 @@ import '../../../../logic/bloc/manager/manager_dashboard_cubit.dart';
 import '../../widgets/shared/form/app_buttons.dart';
 
 
+import '../../../../domain/entities/specialist.dart';
+
+
 class AssignSpecialistDialog extends StatefulWidget {
   final TestOrder order;
+  final List<Specialist> specialists;
 
-  const AssignSpecialistDialog({super.key, required this.order});
+  const AssignSpecialistDialog({
+    super.key,
+    required this.order,
+    required this.specialists,
+  });
 
   @override
   State<AssignSpecialistDialog> createState() => _AssignSpecialistDialogState();
@@ -18,31 +26,6 @@ class AssignSpecialistDialog extends StatefulWidget {
 
 class _AssignSpecialistDialogState extends State<AssignSpecialistDialog> {
   String? selectedSpecialistId;
-
-  // Mock specialist data
-  final List<Map<String, dynamic>> specialists = [
-    {
-      'id': 'spec_01',
-      'name': 'CV. Trần Văn An',
-      'specialty': 'Di truyền phân tử',
-      'workload': 3,
-      'status': 'warning',
-    },
-    {
-      'id': 'spec_02',
-      'name': 'CV. Lê Thị Thu',
-      'specialty': 'Phân tích Karyotype',
-      'workload': 1,
-      'status': 'success',
-    },
-    {
-      'id': 'spec_03',
-      'name': 'CV. Phạm Hoàng Dũng',
-      'specialty': 'Tế bào học',
-      'workload': 5,
-      'status': 'danger',
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +74,7 @@ class _AssignSpecialistDialogState extends State<AssignSpecialistDialog> {
             const SizedBox(height: 16),
 
             // Specialist List
-            ...specialists.map((spec) => _buildSpecialistItem(spec)),
+            ...widget.specialists.map((spec) => _buildSpecialistItem(spec)),
 
             const SizedBox(height: 32),
 
@@ -129,10 +112,10 @@ class _AssignSpecialistDialogState extends State<AssignSpecialistDialog> {
     );
   }
 
-  Widget _buildSpecialistItem(Map<String, dynamic> spec) {
-    bool isSelected = selectedSpecialistId == spec['id'];
+  Widget _buildSpecialistItem(Specialist spec) {
+    bool isSelected = selectedSpecialistId == spec.id;
     return GestureDetector(
-      onTap: () => setState(() => selectedSpecialistId = spec['id']),
+      onTap: () => setState(() => selectedSpecialistId = spec.id),
       child: Container(
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
@@ -146,28 +129,36 @@ class _AssignSpecialistDialogState extends State<AssignSpecialistDialog> {
         ),
         child: Row(
           children: [
-            CircleAvatar(
-              backgroundColor: const Color(0xFFF3F4F6),
-              child: const Icon(LucideIcons.user, color: AppColors.textSecondary),
+            const CircleAvatar(
+              backgroundColor: Color(0xFFF3F4F6),
+              child: Icon(LucideIcons.user, color: AppColors.textSecondary),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(spec['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                  Text(spec['specialty'], style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+                  Text(spec.fullName, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const Text('Chuyên viên Di truyền', style: TextStyle(fontSize: 12, color: AppColors.textSecondary)),
                 ],
               ),
             ),
-            _buildWorkloadBadge(spec['workload'], spec['status']),
+            _buildWorkloadBadge(spec.activeWorkload),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildWorkloadBadge(int count, String status) {
+  Widget _buildWorkloadBadge(int count) {
+    String status;
+    if (count <= 1) {
+      status = 'success';
+    } else if (count <= 4) {
+      status = 'warning';
+    } else {
+      status = 'danger';
+    }
     Color bgColor;
     Color textColor;
     switch (status) {

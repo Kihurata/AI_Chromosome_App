@@ -1,0 +1,55 @@
+{
+  "taskId": "9ci8p9",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "9ci8p9",
+      "version": 1,
+      "timestamp": "2026-05-05T05:34:43.5548373Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "in-progress"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "1. Bỏ features Tổng quan và Phòng Lab AI trong menu Clinician.\n2. Sửa 'Danh sách LK' thành 'Lịch Khám'.\n\nFile cần sửa: frontend/lib/core/config/app_nav_items.dart",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Update Clinician Sidebar Menu Items"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "9ci8p9",
+      "version": 2,
+      "timestamp": "2026-05-05T05:35:09.697479Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Removed 'Tổng quan' and 'Phòng Lab AI' for clinician, renamed 'Danh sách LK' to 'Lịch Khám' in app_nav_items.dart."
+        }
+      ],
+      "snapshot": {
+        "description": "1. Bỏ features Tổng quan và Phòng Lab AI trong menu Clinician.\n2. Sửa 'Danh sách LK' thành 'Lịch Khám'.\n\nFile cần sửa: frontend/lib/core/config/app_nav_items.dart",
+        "implementationNotes": "Done: Removed 'Tổng quan' and 'Phòng Lab AI' for clinician, renamed 'Danh sách LK' to 'Lịch Khám' in app_nav_items.dart.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Update Clinician Sidebar Menu Items"
+      }
+    }
+  ]
+}

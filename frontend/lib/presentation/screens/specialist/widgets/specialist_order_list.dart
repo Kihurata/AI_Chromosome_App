@@ -5,8 +5,9 @@ import 'specialist_order_card.dart';
 
 class SpecialistOrderList extends StatelessWidget {
   final List<TestOrder> orders;
+  final String? focusedOrderId;
 
-  const SpecialistOrderList({super.key, required this.orders});
+  const SpecialistOrderList({super.key, required this.orders, this.focusedOrderId});
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +136,11 @@ class SpecialistOrderList extends StatelessWidget {
             separatorBuilder: (context, index) =>
                 Divider(height: 1, color: Colors.grey.shade100),
             itemBuilder: (context, index) {
-              return SpecialistOrderCard(order: orders[index]);
+              final order = orders[index];
+              return SpecialistOrderCard(
+                order: order,
+                isFocused: order.id == focusedOrderId,
+              );
             },
           ),
         ],

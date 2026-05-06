@@ -45,6 +45,7 @@ class ManagerDashboardLoaded extends ManagerDashboardState {
   final ManagerStats stats;
   final String searchQuery;
   final TestOrderStatus? statusFilter;
+  final String? focusedOrderId;
 
   const ManagerDashboardLoaded({
     required this.allOrders,
@@ -53,6 +54,7 @@ class ManagerDashboardLoaded extends ManagerDashboardState {
     required this.stats,
     this.searchQuery = '',
     this.statusFilter,
+    this.focusedOrderId,
   });
 
   ManagerDashboardLoaded copyWith({
@@ -62,6 +64,7 @@ class ManagerDashboardLoaded extends ManagerDashboardState {
     ManagerStats? stats,
     String? searchQuery,
     TestOrderStatus? statusFilter,
+    String? focusedOrderId,
   }) {
     return ManagerDashboardLoaded(
       allOrders: allOrders ?? this.allOrders,
@@ -70,6 +73,7 @@ class ManagerDashboardLoaded extends ManagerDashboardState {
       stats: stats ?? this.stats,
       searchQuery: searchQuery ?? this.searchQuery,
       statusFilter: statusFilter ?? this.statusFilter,
+      focusedOrderId: focusedOrderId ?? this.focusedOrderId,
     );
   }
 
@@ -81,6 +85,7 @@ class ManagerDashboardLoaded extends ManagerDashboardState {
         stats,
         searchQuery,
         statusFilter,
+        focusedOrderId,
       ];
 }
 

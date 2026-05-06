@@ -1,0 +1,134 @@
+{
+  "taskId": "rsnr4n",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "rsnr4n",
+      "version": 1,
+      "timestamp": "2026-05-06T07:21:08.9035962Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "in-progress"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Connect AssignSpecialistDialog to real specialist data from ManagerDashboardCubit/State. Replace mock data in the dialog with actual data from Firestore.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Wire up AssignSpecialistDialog with real Firebase data"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "rsnr4n",
+      "version": 2,
+      "timestamp": "2026-05-06T07:21:18.9074054Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "AssignSpecialistDialog accepts a list of Specialist entities."
+            },
+            {
+              "completed": false,
+              "text": "Mock data is removed from AssignSpecialistDialog."
+            },
+            {
+              "completed": false,
+              "text": "LabExaminationTable passes real specialists from ManagerDashboardState to the dialog."
+            },
+            {
+              "completed": false,
+              "text": "UI displays real names and active workload from the Specialist entity."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Update `AssignSpecialistDialog` to accept `List\u003cSpecialist\u003e specialists` in its constructor and remove mock data.\n2. Update `AssignSpecialistDialog` UI to map `Specialist` properties (fullName, activeWorkload) to the list items.\n3. Update `LabExaminationTable` to receive the specialist list as a parameter and pass it to `AssignSpecialistDialog`.\n4. Verify that the \"Chỉ định BS\" button in `LabManagerDashboardPage` now triggers the dialog with real data."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "AssignSpecialistDialog accepts a list of Specialist entities."
+          },
+          {
+            "completed": false,
+            "text": "Mock data is removed from AssignSpecialistDialog."
+          },
+          {
+            "completed": false,
+            "text": "LabExaminationTable passes real specialists from ManagerDashboardState to the dialog."
+          },
+          {
+            "completed": false,
+            "text": "UI displays real names and active workload from the Specialist entity."
+          }
+        ],
+        "description": "Connect AssignSpecialistDialog to real specialist data from ManagerDashboardCubit/State. Replace mock data in the dialog with actual data from Firestore.",
+        "implementationPlan": "1. Update `AssignSpecialistDialog` to accept `List\u003cSpecialist\u003e specialists` in its constructor and remove mock data.\n2. Update `AssignSpecialistDialog` UI to map `Specialist` properties (fullName, activeWorkload) to the list items.\n3. Update `LabExaminationTable` to receive the specialist list as a parameter and pass it to `AssignSpecialistDialog`.\n4. Verify that the \"Chỉ định BS\" button in `LabManagerDashboardPage` now triggers the dialog with real data.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Wire up AssignSpecialistDialog with real Firebase data"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "rsnr4n",
+      "version": 3,
+      "timestamp": "2026-05-06T07:22:23.7906274Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Kết nối thành công AssignSpecialistDialog với dữ liệu thật từ ManagerDashboardCubit. Đã xóa mock data và cập nhật UI để hiển thị tên và workload thật từ Firestore."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "AssignSpecialistDialog accepts a list of Specialist entities.",
+            "completed": true
+          },
+          {
+            "text": "Mock data is removed from AssignSpecialistDialog.",
+            "completed": true
+          },
+          {
+            "text": "LabExaminationTable passes real specialists from ManagerDashboardState to the dialog.",
+            "completed": true
+          },
+          {
+            "text": "UI displays real names and active workload from the Specialist entity.",
+            "completed": true
+          }
+        ],
+        "description": "Connect AssignSpecialistDialog to real specialist data from ManagerDashboardCubit/State. Replace mock data in the dialog with actual data from Firestore.",
+        "implementationNotes": "Kết nối thành công AssignSpecialistDialog với dữ liệu thật từ ManagerDashboardCubit. Đã xóa mock data và cập nhật UI để hiển thị tên và workload thật từ Firestore.",
+        "implementationPlan": "1. Update `AssignSpecialistDialog` to accept `List\u003cSpecialist\u003e specialists` in its constructor and remove mock data.\n2. Update `AssignSpecialistDialog` UI to map `Specialist` properties (fullName, activeWorkload) to the list items.\n3. Update `LabExaminationTable` to receive the specialist list as a parameter and pass it to `AssignSpecialistDialog`.\n4. Verify that the \"Chỉ định BS\" button in `LabManagerDashboardPage` now triggers the dialog with real data.",
+        "priority": "high",
+        "status": "done",
+        "title": "Wire up AssignSpecialistDialog with real Firebase data"
+      }
+    }
+  ]
+}

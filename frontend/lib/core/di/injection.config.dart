@@ -19,12 +19,14 @@ import 'package:injectable/injectable.dart' as _i526;
 import '../../data/datasources/appointment_remote_datasource.dart' as _i294;
 import '../../data/datasources/examination_remote_datasource.dart' as _i851;
 import '../../data/datasources/patient_remote_datasource.dart' as _i940;
+import '../../data/datasources/sample_remote_datasource.dart' as _i629;
 import '../../data/datasources/specialist_remote_datasource.dart' as _i215;
 import '../../data/datasources/test_order_remote_datasource.dart' as _i221;
 import '../../data/repositories/appointment_repository_impl.dart' as _i310;
 import '../../data/repositories/examination_repository_impl.dart' as _i996;
 import '../../data/repositories/image_storage_repository_impl.dart' as _i644;
 import '../../data/repositories/patient_repository_impl.dart' as _i308;
+import '../../data/repositories/sample_repository_impl.dart' as _i731;
 import '../../data/repositories/specialist_repository_impl.dart' as _i343;
 import '../../data/repositories/test_order_repository_impl.dart' as _i713;
 import '../../data/repositories/workspace_repository_impl.dart' as _i964;
@@ -32,6 +34,7 @@ import '../../domain/repositories/appointment_repository.dart' as _i53;
 import '../../domain/repositories/examination_repository.dart' as _i193;
 import '../../domain/repositories/image_storage_repository.dart' as _i970;
 import '../../domain/repositories/patient_repository.dart' as _i467;
+import '../../domain/repositories/sample_repository.dart' as _i643;
 import '../../domain/repositories/specialist_repository.dart' as _i121;
 import '../../domain/repositories/test_order_repository.dart' as _i655;
 import '../../domain/repositories/workspace_repository.dart' as _i77;
@@ -40,6 +43,7 @@ import '../../domain/usecases/appointment/update_appointment_status.dart'
 import '../../domain/usecases/clinician/create_examination.dart' as _i70;
 import '../../domain/usecases/clinician/get_examinations_by_patient.dart'
     as _i314;
+import '../../domain/usecases/get_sample_by_id_usecase.dart' as _i474;
 import '../../domain/usecases/patient/add_patient.dart' as _i819;
 import '../../domain/usecases/patient/check_duplicate_patient.dart' as _i188;
 import '../../domain/usecases/patient/get_patient_by_id.dart' as _i1004;
@@ -47,9 +51,12 @@ import '../../domain/usecases/patient/get_patients.dart' as _i266;
 import '../../domain/usecases/patient/update_patient.dart' as _i485;
 import '../../domain/usecases/specialist/get_specialists.dart' as _i760;
 import '../../domain/usecases/specialist/trigger_ai_analysis.dart' as _i1057;
+import '../../domain/usecases/specialist/update_chromosome_position.dart'
+    as _i1003;
 import '../../domain/usecases/specialist/update_order_status.dart' as _i814;
 import '../../domain/usecases/specialist/upload_image_for_ai_analysis.dart'
     as _i547;
+import '../../domain/usecases/specialist/upload_multiple_images.dart' as _i256;
 import '../../domain/usecases/specialist/watch_assigned_orders.dart' as _i907;
 import '../../domain/usecases/test_order/approve_karyotype_result.dart' as _i63;
 import '../../domain/usecases/test_order/assign_order_to_specialist.dart'
@@ -57,12 +64,15 @@ import '../../domain/usecases/test_order/assign_order_to_specialist.dart'
 import '../../domain/usecases/test_order/reject_karyotype_result.dart' as _i749;
 import '../../domain/usecases/test_order/submit_analysis_result.dart' as _i906;
 import '../../domain/usecases/test_order/watch_all_orders.dart' as _i1069;
+import '../../domain/usecases/update_sample_note_usecase.dart' as _i589;
 import '../../logic/bloc/clinician/examination_cubit.dart' as _i41;
 import '../../logic/bloc/layout/layout_cubit.dart' as _i556;
 import '../../logic/bloc/manager/manager_approval_cubit.dart' as _i429;
 import '../../logic/bloc/manager/manager_dashboard_cubit.dart' as _i58;
 import '../../logic/bloc/patient/patient_cubit.dart' as _i965;
 import '../../logic/bloc/specialist/ai_analysis_cubit.dart' as _i65;
+import '../../logic/bloc/specialist/sample_detail_cubit.dart' as _i524;
+import '../../logic/bloc/specialist/sample_management_cubit.dart' as _i10;
 import '../../logic/bloc/specialist/specialist_dashboard_cubit.dart' as _i608;
 import '../network/dio_module.dart' as _i614;
 import '../network/firebase_module.dart' as _i383;
@@ -87,8 +97,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i970.ImageStorageRepository>(
       () => _i644.ImageStorageRepositoryImpl(gh<_i457.FirebaseStorage>()),
     );
+    gh.lazySingleton<_i629.SampleRemoteDataSource>(
+      () => _i629.FirebaseSampleRemoteDataSource(),
+    );
     gh.factory<_i221.TestOrderRemoteDataSource>(
       () => _i221.FirebaseTestOrderRemoteDataSource(),
+    );
+    gh.lazySingleton<_i643.SampleRepository>(
+      () => _i731.SampleRepositoryImpl(
+        remoteDataSource: gh<_i629.SampleRemoteDataSource>(),
+      ),
     );
     gh.lazySingleton<_i940.PatientRemoteDataSource>(
       () => _i940.PatientRemoteDataSourceImpl(gh<_i974.FirebaseFirestore>()),
@@ -101,8 +119,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i77.WorkspaceRepository>(
       () => _i964.WorkspaceRepositoryImpl(gh<_i974.FirebaseFirestore>()),
     );
+    gh.factory<_i10.SampleManagementCubit>(
+      () => _i10.SampleManagementCubit(gh<_i643.SampleRepository>()),
+    );
     gh.lazySingleton<_i467.PatientRepository>(
       () => _i308.PatientRepositoryImpl(gh<_i940.PatientRemoteDataSource>()),
+    );
+    gh.factory<_i1003.UpdateChromosomePosition>(
+      () => _i1003.UpdateChromosomePosition(gh<_i77.WorkspaceRepository>()),
+    );
+    gh.lazySingleton<_i474.GetSampleByIdUsecase>(
+      () => _i474.GetSampleByIdUsecase(gh<_i643.SampleRepository>()),
+    );
+    gh.lazySingleton<_i589.UpdateSampleNoteUsecase>(
+      () => _i589.UpdateSampleNoteUsecase(gh<_i643.SampleRepository>()),
     );
     gh.lazySingleton<_i851.ExaminationRemoteDataSource>(
       () =>
@@ -145,6 +175,18 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i547.UploadImageForAiAnalysis(
         gh<_i970.ImageStorageRepository>(),
         gh<_i77.WorkspaceRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i256.UploadMultipleImages>(
+      () => _i256.UploadMultipleImages(
+        gh<_i970.ImageStorageRepository>(),
+        gh<_i77.WorkspaceRepository>(),
+      ),
+    );
+    gh.factory<_i524.SampleDetailCubit>(
+      () => _i524.SampleDetailCubit(
+        getSampleById: gh<_i474.GetSampleByIdUsecase>(),
+        updateSampleNote: gh<_i589.UpdateSampleNoteUsecase>(),
       ),
     );
     gh.lazySingleton<_i193.ExaminationRepository>(
@@ -200,13 +242,6 @@ extension GetItInjectableX on _i174.GetIt {
         rejectKaryotypeResult: gh<_i749.RejectKaryotypeResult>(),
       ),
     );
-    gh.factory<_i65.AiAnalysisCubit>(
-      () => _i65.AiAnalysisCubit(
-        uploadUsecase: gh<_i547.UploadImageForAiAnalysis>(),
-        triggerAiUsecase: gh<_i1057.TriggerAiAnalysis>(),
-        workspaceRepository: gh<_i77.WorkspaceRepository>(),
-      ),
-    );
     gh.factory<_i58.ManagerDashboardCubit>(
       () => _i58.ManagerDashboardCubit(
         gh<_i1069.WatchAllOrders>(),
@@ -227,6 +262,14 @@ extension GetItInjectableX on _i174.GetIt {
         createExamination: gh<_i70.CreateExamination>(),
         updateAppointmentStatus: gh<_i379.UpdateAppointmentStatus>(),
         getExaminationsByPatient: gh<_i314.GetExaminationsByPatient>(),
+      ),
+    );
+    gh.factory<_i65.AiAnalysisCubit>(
+      () => _i65.AiAnalysisCubit(
+        uploadUsecase: gh<_i547.UploadImageForAiAnalysis>(),
+        uploadMultipleUsecase: gh<_i256.UploadMultipleImages>(),
+        triggerAiUsecase: gh<_i1057.TriggerAiAnalysis>(),
+        workspaceRepository: gh<_i77.WorkspaceRepository>(),
       ),
     );
     return this;

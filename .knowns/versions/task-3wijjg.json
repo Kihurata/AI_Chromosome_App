@@ -1,0 +1,81 @@
+{
+  "taskId": "3wijjg",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "3wijjg",
+      "version": 1,
+      "timestamp": "2026-05-05T07:54:25.4191617Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Xử lý logic khi người dùng tương tác với thông báo (Đánh dấu đã đọc và Điều hướng).",
+        "priority": "medium",
+        "status": "todo",
+        "title": "[Frontend] Notification Interaction \u0026 Navigation"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "3wijjg",
+      "version": 2,
+      "timestamp": "2026-05-05T18:46:22.7269134Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Xử lý logic khi người dùng tương tác với thông báo (Đánh dấu đã đọc và Điều hướng).",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Frontend: Notification Interaction \u0026 Navigation"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "3wijjg",
+      "version": 3,
+      "timestamp": "2026-05-05T18:52:01.0247134Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Đã hoàn tất tính năng tương tác và điều hướng. Thông báo hiện có nút 'Xem ngay' cho phép người dùng nhảy trực tiếp tới trang chi tiết liên quan. Đã xử lý ánh xạ route cho tất cả các vai trò (Clinician, Specialist, Manager)."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Xử lý logic khi người dùng tương tác với thông báo (Đánh dấu đã đọc và Điều hướng).",
+        "implementationNotes": "Đã hoàn tất tính năng tương tác và điều hướng. Thông báo hiện có nút 'Xem ngay' cho phép người dùng nhảy trực tiếp tới trang chi tiết liên quan. Đã xử lý ánh xạ route cho tất cả các vai trò (Clinician, Specialist, Manager).",
+        "priority": "medium",
+        "status": "done",
+        "title": "Frontend: Notification Interaction \u0026 Navigation"
+      }
+    }
+  ]
+}

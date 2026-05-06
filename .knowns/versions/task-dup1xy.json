@@ -1,0 +1,464 @@
+{
+  "taskId": "dup1xy",
+  "currentVersion": 9,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "dup1xy",
+      "version": 1,
+      "timestamp": "2026-05-05T07:54:21.7205231Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Xây dựng phần giao diện chuông thông báo và Cubit để lắng nghe thông báo thời gian thực từ Firestore.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "[Frontend] Notification UI \u0026 Real-time Stream"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "dup1xy",
+      "version": 2,
+      "timestamp": "2026-05-05T08:01:35.4422086Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Xây dựng phần giao diện chuông thông báo và Cubit để lắng nghe thông báo thời gian thực từ Firestore.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Frontend: Notification UI \u0026 Real-time Stream"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "dup1xy",
+      "version": 3,
+      "timestamp": "2026-05-05T08:01:39.4107557Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Tạo NotificationModel và mapping từ Firestore (fromFirestore)."
+            },
+            {
+              "completed": false,
+              "text": "Triển khai NotificationRepository với hàm watchNotifications(String uid) trả về Stream."
+            },
+            {
+              "completed": false,
+              "text": "Triển khai NotificationCubit sử dụng emit.forEach để cập nhật danh sách thông báo và số lượng chưa đọc (unread count)."
+            },
+            {
+              "completed": false,
+              "text": "Cập nhật AppHeader để hiển thị icon chuông với Badge đỏ khi có thông báo mới."
+            },
+            {
+              "completed": false,
+              "text": "Xây dựng NotificationList popup đơn giản để xem danh sách thông báo gần đây."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo NotificationModel và mapping từ Firestore (fromFirestore)."
+          },
+          {
+            "completed": false,
+            "text": "Triển khai NotificationRepository với hàm watchNotifications(String uid) trả về Stream."
+          },
+          {
+            "completed": false,
+            "text": "Triển khai NotificationCubit sử dụng emit.forEach để cập nhật danh sách thông báo và số lượng chưa đọc (unread count)."
+          },
+          {
+            "completed": false,
+            "text": "Cập nhật AppHeader để hiển thị icon chuông với Badge đỏ khi có thông báo mới."
+          },
+          {
+            "completed": false,
+            "text": "Xây dựng NotificationList popup đơn giản để xem danh sách thông báo gần đây."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Xây dựng phần giao diện chuông thông báo và Cubit để lắng nghe thông báo thời gian thực từ Firestore.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Frontend: Notification UI \u0026 Real-time Stream"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "dup1xy",
+      "version": 4,
+      "timestamp": "2026-05-05T08:02:40.6784322Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Domain: Create Notification entity (id, recipientId, title, body, type, relatedId, isRead, createdAt) and repository interface.\n2. Data: Create NotificationModel with fromFirestore mapping. Implement NotificationRemoteDataSource (using query where recipient_id == current_uid) and NotificationRepositoryImpl.\n3. Logic: Create NotificationCubit with watchNotifications() using emit.forEach on the repository stream.\n4. Presentation: Refactor AppHeader to show a dynamic badge count from NotificationCubit. Build a simple NotificationItem widget for the dropdown (Task 3wijjg will handle navigation).\n5. Validation: Run flutter analyze to ensure no type mismatches or missing dependencies."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo NotificationModel và mapping từ Firestore (fromFirestore)."
+          },
+          {
+            "completed": false,
+            "text": "Triển khai NotificationRepository với hàm watchNotifications(String uid) trả về Stream."
+          },
+          {
+            "completed": false,
+            "text": "Triển khai NotificationCubit sử dụng emit.forEach để cập nhật danh sách thông báo và số lượng chưa đọc (unread count)."
+          },
+          {
+            "completed": false,
+            "text": "Cập nhật AppHeader để hiển thị icon chuông với Badge đỏ khi có thông báo mới."
+          },
+          {
+            "completed": false,
+            "text": "Xây dựng NotificationList popup đơn giản để xem danh sách thông báo gần đây."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Xây dựng phần giao diện chuông thông báo và Cubit để lắng nghe thông báo thời gian thực từ Firestore.",
+        "implementationPlan": "1. Domain: Create Notification entity (id, recipientId, title, body, type, relatedId, isRead, createdAt) and repository interface.\n2. Data: Create NotificationModel with fromFirestore mapping. Implement NotificationRemoteDataSource (using query where recipient_id == current_uid) and NotificationRepositoryImpl.\n3. Logic: Create NotificationCubit with watchNotifications() using emit.forEach on the repository stream.\n4. Presentation: Refactor AppHeader to show a dynamic badge count from NotificationCubit. Build a simple NotificationItem widget for the dropdown (Task 3wijjg will handle navigation).\n5. Validation: Run flutter analyze to ensure no type mismatches or missing dependencies.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Frontend: Notification UI \u0026 Real-time Stream"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "dup1xy",
+      "version": 5,
+      "timestamp": "2026-05-05T08:12:52.1588903Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Tạo NotificationModel và mapping từ Firestore (fromFirestore)."
+            },
+            {
+              "completed": false,
+              "text": "Triển khai NotificationRepository với hàm watchNotifications(String uid) trả về Stream."
+            },
+            {
+              "completed": false,
+              "text": "Triển khai NotificationCubit sử dụng emit.forEach để cập nhật danh sách thông báo và số lượng chưa đọc (unread count)."
+            },
+            {
+              "completed": false,
+              "text": "Cập nhật AppHeader để hiển thị icon chuông với Badge đỏ khi có thông báo mới."
+            },
+            {
+              "completed": false,
+              "text": "Xây dựng NotificationList popup đơn giản để xem danh sách thông báo gần đây."
+            }
+          ],
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Tạo NotificationModel và mapping từ Firestore (fromFirestore)."
+            },
+            {
+              "completed": false,
+              "text": "Triển khai NotificationRepository với hàm watchNotifications(String uid) trả về Stream."
+            },
+            {
+              "completed": false,
+              "text": "Triển khai NotificationCubit sử dụng emit.forEach để cập nhật danh sách thông báo và số lượng chưa đọc (unread count)."
+            },
+            {
+              "completed": false,
+              "text": "Cập nhật AppHeader để hiển thị icon chuông với Badge đỏ khi có thông báo mới."
+            },
+            {
+              "completed": false,
+              "text": "Xây dựng NotificationList popup đơn giản để xem danh sách thông báo gần đây."
+            },
+            {
+              "completed": false,
+              "text": "Triển khai Firebase Messaging listener trong Foreground."
+            },
+            {
+              "completed": false,
+              "text": "Khi nhận tin nhắn, gọi NotificationFactory.show() để hiển thị Snackbar hoặc Dialog."
+            },
+            {
+              "completed": false,
+              "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo NotificationModel và mapping từ Firestore (fromFirestore)."
+          },
+          {
+            "completed": false,
+            "text": "Triển khai NotificationRepository với hàm watchNotifications(String uid) trả về Stream."
+          },
+          {
+            "completed": false,
+            "text": "Triển khai NotificationCubit sử dụng emit.forEach để cập nhật danh sách thông báo và số lượng chưa đọc (unread count)."
+          },
+          {
+            "completed": false,
+            "text": "Cập nhật AppHeader để hiển thị icon chuông với Badge đỏ khi có thông báo mới."
+          },
+          {
+            "completed": false,
+            "text": "Xây dựng NotificationList popup đơn giản để xem danh sách thông báo gần đây."
+          },
+          {
+            "completed": false,
+            "text": "Triển khai Firebase Messaging listener trong Foreground."
+          },
+          {
+            "completed": false,
+            "text": "Khi nhận tin nhắn, gọi NotificationFactory.show() để hiển thị Snackbar hoặc Dialog."
+          },
+          {
+            "completed": false,
+            "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Xây dựng phần giao diện chuông thông báo và Cubit để lắng nghe thông báo thời gian thực từ Firestore.",
+        "implementationPlan": "1. Domain: Create Notification entity (id, recipientId, title, body, type, relatedId, isRead, createdAt) and repository interface.\n2. Data: Create NotificationModel with fromFirestore mapping. Implement NotificationRemoteDataSource (using query where recipient_id == current_uid) and NotificationRepositoryImpl.\n3. Logic: Create NotificationCubit with watchNotifications() using emit.forEach on the repository stream.\n4. Presentation: Refactor AppHeader to show a dynamic badge count from NotificationCubit. Build a simple NotificationItem widget for the dropdown (Task 3wijjg will handle navigation).\n5. Validation: Run flutter analyze to ensure no type mismatches or missing dependencies.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Frontend: Notification UI \u0026 Real-time Stream"
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "dup1xy",
+      "version": 6,
+      "timestamp": "2026-05-05T08:12:58.0195719Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": false,
+              "text": "Triển khai Firebase Messaging listener trong Foreground."
+            },
+            {
+              "completed": false,
+              "text": "Khi nhận tin nhắn, gọi NotificationFactory.show() để hiển thị Snackbar hoặc Dialog."
+            },
+            {
+              "completed": false,
+              "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+            },
+            {
+              "completed": false,
+              "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+            },
+            {
+              "completed": false,
+              "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+            },
+            {
+              "completed": false,
+              "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+            },
+            {
+              "completed": false,
+              "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+            },
+            {
+              "completed": false,
+              "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+            }
+          ],
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Triển khai Firebase Messaging listener trong Foreground."
+            },
+            {
+              "completed": false,
+              "text": "Khi nhận tin nhắn, gọi NotificationFactory.show() để hiển thị Snackbar hoặc Dialog."
+            },
+            {
+              "completed": false,
+              "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": "1. Domain: Create Notification entity (id, recipientId, title, body, type, relatedId, isRead, createdAt) and repository interface.\n2. Data: Create NotificationModel with fromFirestore mapping. Implement NotificationRemoteDataSource (using query where recipient_id == current_uid) and NotificationRepositoryImpl.\n3. Logic: Create NotificationCubit with watchNotifications() using emit.forEach on the repository stream.\n4. Presentation: Refactor AppHeader to show a dynamic badge count from NotificationCubit. Build a simple NotificationItem widget for the dropdown (Task 3wijjg will handle navigation).\n5. Validation: Run flutter analyze to ensure no type mismatches or missing dependencies.",
+          "newValue": "1. Frontend: Implement Firebase Messaging foreground listener (using FirebaseMessaging.onMessage).\n2. Logic: Create a simple NotificationCubit or use the existing listener to catch RemoteMessage.\n3. UI: Invoke NotificationFactory.show() when a message arrives. Map 'type' from FCM data payload to NotificationType (success, error, etc.).\n4. AppHeader: Keep the static bell or implement a session-based counter if needed.\n5. Testing: Trigger a status change from the backend and verify the Snackbar appears in the Flutter app."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Triển khai Firebase Messaging listener trong Foreground."
+          },
+          {
+            "completed": false,
+            "text": "Khi nhận tin nhắn, gọi NotificationFactory.show() để hiển thị Snackbar hoặc Dialog."
+          },
+          {
+            "completed": false,
+            "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Xây dựng phần giao diện chuông thông báo và Cubit để lắng nghe thông báo thời gian thực từ Firestore.",
+        "implementationPlan": "1. Frontend: Implement Firebase Messaging foreground listener (using FirebaseMessaging.onMessage).\n2. Logic: Create a simple NotificationCubit or use the existing listener to catch RemoteMessage.\n3. UI: Invoke NotificationFactory.show() when a message arrives. Map 'type' from FCM data payload to NotificationType (success, error, etc.).\n4. AppHeader: Keep the static bell or implement a session-based counter if needed.\n5. Testing: Trigger a status change from the backend and verify the Snackbar appears in the Flutter app.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Frontend: Notification UI \u0026 Real-time Stream"
+      }
+    },
+    {
+      "id": "v7",
+      "taskId": "dup1xy",
+      "version": 7,
+      "timestamp": "2026-05-05T08:20:52.0894196Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Đã triển khai hệ thống thông báo UI-only. Tận dụng NotificationFactory để hiển thị Snackbar/Dialog khi nhận tín hiệu FCM. Mapping thành công các loại sự kiện từ Backend sang UI types."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Triển khai Firebase Messaging listener trong Foreground."
+          },
+          {
+            "completed": false,
+            "text": "Khi nhận tin nhắn, gọi NotificationFactory.show() để hiển thị Snackbar hoặc Dialog."
+          },
+          {
+            "completed": false,
+            "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Xây dựng phần giao diện chuông thông báo và Cubit để lắng nghe thông báo thời gian thực từ Firestore.",
+        "implementationNotes": "Đã triển khai hệ thống thông báo UI-only. Tận dụng NotificationFactory để hiển thị Snackbar/Dialog khi nhận tín hiệu FCM. Mapping thành công các loại sự kiện từ Backend sang UI types.",
+        "implementationPlan": "1. Frontend: Implement Firebase Messaging foreground listener (using FirebaseMessaging.onMessage).\n2. Logic: Create a simple NotificationCubit or use the existing listener to catch RemoteMessage.\n3. UI: Invoke NotificationFactory.show() when a message arrives. Map 'type' from FCM data payload to NotificationType (success, error, etc.).\n4. AppHeader: Keep the static bell or implement a session-based counter if needed.\n5. Testing: Trigger a status change from the backend and verify the Snackbar appears in the Flutter app.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Frontend: Notification UI \u0026 Real-time Stream"
+      }
+    },
+    {
+      "id": "v8",
+      "taskId": "dup1xy",
+      "version": 8,
+      "timestamp": "2026-05-05T08:21:02.0744504Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Triển khai Firebase Messaging listener trong Foreground."
+          },
+          {
+            "completed": true,
+            "text": "Khi nhận tin nhắn, gọi NotificationFactory.show() để hiển thị Snackbar hoặc Dialog."
+          },
+          {
+            "completed": true,
+            "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Xây dựng phần giao diện chuông thông báo và Cubit để lắng nghe thông báo thời gian thực từ Firestore.",
+        "implementationNotes": "Đã triển khai hệ thống thông báo UI-only. Tận dụng NotificationFactory để hiển thị Snackbar/Dialog khi nhận tín hiệu FCM. Mapping thành công các loại sự kiện từ Backend sang UI types.",
+        "implementationPlan": "1. Frontend: Implement Firebase Messaging foreground listener (using FirebaseMessaging.onMessage).\n2. Logic: Create a simple NotificationCubit or use the existing listener to catch RemoteMessage.\n3. UI: Invoke NotificationFactory.show() when a message arrives. Map 'type' from FCM data payload to NotificationType (success, error, etc.).\n4. AppHeader: Keep the static bell or implement a session-based counter if needed.\n5. Testing: Trigger a status change from the backend and verify the Snackbar appears in the Flutter app.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Frontend: Notification UI \u0026 Real-time Stream"
+      }
+    },
+    {
+      "id": "v9",
+      "taskId": "dup1xy",
+      "version": 9,
+      "timestamp": "2026-05-05T13:23:19.4933114Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Đã triển khai hệ thống thông báo UI-only. Tận dụng NotificationFactory để hiển thị Snackbar/Dialog khi nhận tín hiệu FCM. Mapping thành công các loại sự kiện từ Backend sang UI types.",
+          "newValue": "Đã triển khai hệ thống thông báo UI-only. Tận dụng NotificationFactory để hiển thị Snackbar/Dialog khi nhận tín hiệu FCM. Mapping thành công các loại sự kiện từ Backend sang UI types.\nĐã hoàn tất tích hợp Firebase Messaging Foreground Listener và kết nối với NotificationFactory. Hệ thống thông báo UI-only hiện đã hoạt động đồng bộ với Backend."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Triển khai Firebase Messaging listener trong Foreground.",
+            "completed": true
+          },
+          {
+            "text": "Khi nhận tin nhắn, gọi NotificationFactory.show() để hiển thị Snackbar hoặc Dialog.",
+            "completed": true
+          },
+          {
+            "text": "Mapping dữ liệu từ 'data' payload của FCM sang NotificationType tương ứng.",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Xây dựng phần giao diện chuông thông báo và Cubit để lắng nghe thông báo thời gian thực từ Firestore.",
+        "implementationNotes": "Đã triển khai hệ thống thông báo UI-only. Tận dụng NotificationFactory để hiển thị Snackbar/Dialog khi nhận tín hiệu FCM. Mapping thành công các loại sự kiện từ Backend sang UI types.\nĐã hoàn tất tích hợp Firebase Messaging Foreground Listener và kết nối với NotificationFactory. Hệ thống thông báo UI-only hiện đã hoạt động đồng bộ với Backend.",
+        "implementationPlan": "1. Frontend: Implement Firebase Messaging foreground listener (using FirebaseMessaging.onMessage).\n2. Logic: Create a simple NotificationCubit or use the existing listener to catch RemoteMessage.\n3. UI: Invoke NotificationFactory.show() when a message arrives. Map 'type' from FCM data payload to NotificationType (success, error, etc.).\n4. AppHeader: Keep the static bell or implement a session-based counter if needed.\n5. Testing: Trigger a status change from the backend and verify the Snackbar appears in the Flutter app.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Frontend: Notification UI \u0026 Real-time Stream"
+      }
+    }
+  ]
+}

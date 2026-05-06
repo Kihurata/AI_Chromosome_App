@@ -189,15 +189,12 @@ class AppSideRail extends ConsumerWidget {
                     size: 20,
                   ),
                 ),
-                // Label — fade out khi thu gọn, vẫn trong cây nhưng không nhận pointer
-                Expanded(
-                  child: AnimatedOpacity(
-                    opacity: isCollapsed ? 0.0 : 1.0,
-                    duration: isCollapsed
-                        ? const Duration(milliseconds: 80)
-                        : const Duration(milliseconds: 200),
-                    child: IgnorePointer(
-                      ignoring: isCollapsed,
+                // Label — hiển thị khi KHÔNG thu gọn
+                if (!isCollapsed)
+                  Expanded(
+                    child: AnimatedOpacity(
+                      opacity: isCollapsed ? 0.0 : 1.0,
+                      duration: const Duration(milliseconds: 200),
                       child: Text(
                         item.label,
                         style: TextStyle(
@@ -210,7 +207,6 @@ class AppSideRail extends ConsumerWidget {
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           ),

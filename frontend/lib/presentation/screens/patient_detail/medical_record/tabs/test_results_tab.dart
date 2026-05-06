@@ -166,6 +166,8 @@ class _OrderRow extends StatelessWidget {
     switch (status) {
       case TestOrderStatus.pending:
         return 'CHỜ XỬ LÝ';
+      case TestOrderStatus.culturing:
+        return 'ĐANG NUÔI CẤY';
       case TestOrderStatus.analyzing:
         return 'ĐANG PHÂN TÍCH';
       case TestOrderStatus.waitingApproval:
@@ -181,6 +183,8 @@ class _OrderRow extends StatelessWidget {
     switch (status) {
       case TestOrderStatus.pending:
         return BadgeType.warning;
+      case TestOrderStatus.culturing:
+        return BadgeType.processing;
       case TestOrderStatus.analyzing:
         return BadgeType.processing;
       case TestOrderStatus.waitingApproval:

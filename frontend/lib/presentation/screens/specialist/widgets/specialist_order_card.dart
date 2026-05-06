@@ -5,23 +5,48 @@ import 'package:go_router/go_router.dart';
 import '../../../../domain/entities/test_order.dart';
 import '../../../../logic/bloc/specialist/specialist_dashboard_cubit.dart';
 import 'package:medcore_crm/presentation/widgets/shared/form/app_buttons.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class SpecialistOrderCard extends StatelessWidget {
   final TestOrder order;
+  final bool isFocused;
 
-  const SpecialistOrderCard({super.key, required this.order});
+  const SpecialistOrderCard({
+    super.key, 
+    required this.order,
+    this.isFocused = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => context.pushNamed(
-        'specialist-sample-detail',
-        pathParameters: {'id': order.id},
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: isFocused ? AppColors.primaryBlue : Colors.grey.shade200,
+          width: isFocused ? 2 : 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: isFocused 
+              ? AppColors.primaryBlue.withValues(alpha: 0.1) 
+              : Colors.black.withValues(alpha: 0.02),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      hoverColor: Colors.blue.shade50.withValues(alpha: 0.5),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Row(
+      child: InkWell(
+        onTap: () => context.pushNamed(
+          'specialist-sample-detail',
+          pathParameters: {'id': order.id},
+        ),
+        hoverColor: Colors.blue.shade50.withValues(alpha: 0.5),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Row(
           children: [
             // ── Bệnh nhân ──────────────────────────────────────────────
             Expanded(
@@ -75,15 +100,16 @@ class SpecialistOrderCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildActionCell(BuildContext context) {
     // Hiện nút Phân Tích nếu đơn chưa hoàn thành/từ chối
     if (order.status != TestOrderStatus.completed && order.status != TestOrderStatus.rejected) {
       return _buildActionButton(context);
     }
-    return const SizedBox.shrink();
+    return const SizedBox.shrink(); // This is fine as it's not the interactive part
   }
 
   Widget _buildStatusBadge(TestOrderStatus status) {
@@ -125,7 +151,7 @@ class SpecialistOrderCard extends StatelessWidget {
       );
     }
 
-    return const SizedBox(width: 140);
+    return const SizedBox(width: 140, height: 40);
   }
 
   void _showStartAnalysisConfirm(BuildContext context) {

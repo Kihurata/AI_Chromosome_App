@@ -341,6 +341,7 @@ class _KqxnBadge extends StatelessWidget {
     switch (status) {
       case TestOrderStatus.completed:
         return BadgeType.success;
+      case TestOrderStatus.culturing:
       case TestOrderStatus.analyzing:
       case TestOrderStatus.waitingApproval:
         return BadgeType.processing;

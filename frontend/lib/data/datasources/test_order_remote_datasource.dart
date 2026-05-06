@@ -68,7 +68,7 @@ class FirebaseTestOrderRemoteDataSource implements TestOrderRemoteDataSource {
     final specialistRef = _firestore.collection('users').doc(specialistId);
     await _firestore.collection('test_orders').doc(orderId).update({
       'specialist_id': specialistRef,
-      'status': 'IN_PROGRESS',
+      'status': 'ANALYZING',
       'updated_at': FieldValue.serverTimestamp(),
     });
   }

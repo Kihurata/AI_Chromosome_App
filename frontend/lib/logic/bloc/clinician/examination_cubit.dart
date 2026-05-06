@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 import '../../../domain/entities/appointment.dart';
@@ -164,8 +163,6 @@ class ExaminationCubit extends Cubit<ExaminationState> {
 
   /// Tải danh sách lịch sử khám theo bệnh nhân
   Future<void> loadExaminationsByPatient(String patientId) async {
-    final user = FirebaseAuth.instance.currentUser;
-    print('DEBUG: ExaminationCubit.loadExaminationsByPatient - patientId: $patientId, authUser: ${user?.uid}');
     emit(ExaminationLoading());
     final result = await getExaminationsByPatient(patientId);
     result.fold(

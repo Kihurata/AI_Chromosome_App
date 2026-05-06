@@ -189,7 +189,7 @@ class _ScreeningStepState extends State<ScreeningStep> {
                                               Image.network(
                                                 image.rawImageUrl,
                                                 fit: BoxFit.cover,
-                                                errorBuilder: (_, __, ___) => const Center(
+                                                errorBuilder: (context, error, stackTrace) => const Center(
                                                   child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
                                                 ),
                                               ),

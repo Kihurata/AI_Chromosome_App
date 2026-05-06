@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -19,6 +20,8 @@ import 'logic/bloc/clinician/examination_cubit.dart';
 import 'logic/bloc/manager/manager_dashboard_cubit.dart';
 import 'logic/bloc/manager/manager_approval_cubit.dart';
 import 'logic/bloc/connectivity/connectivity_cubit.dart';
+import 'logic/bloc/notification/notification_cubit.dart';
+import 'core/services/notification_factory.dart';
 import 'data/datasources/appointment_remote_datasource.dart';
 import 'data/datasources/clinician_remote_datasource.dart';
 import 'data/datasources/sample_remote_datasource.dart';
@@ -107,6 +110,9 @@ class MedCoreApp extends ConsumerWidget {
         BlocProvider<ConnectivityCubit>(
           create: (_) => ConnectivityCubit(ConnectivityService()),
         ),
+        BlocProvider<NotificationCubit>(
+          create: (_) => NotificationCubit()..initialize(),
+        ),
       ],
       child: AuthBlocBridge(
         child: Consumer(
@@ -118,24 +124,34 @@ class MedCoreApp extends ConsumerWidget {
                 children: [
                   const ConnectivityBanner(),
                   Expanded(
-                    child: MaterialApp.router(
-                      debugShowCheckedModeBanner: false,
-                      title: 'MedCore CRM',
-                      theme: ThemeData(
-                        useMaterial3: true,
-                        primarySwatch: Colors.blue,
+                      child: MaterialApp.router(
+                        debugShowCheckedModeBanner: false,
+                        title: 'MedCore CRM',
+                        theme: ThemeData(
+                          useMaterial3: true,
+                          primarySwatch: Colors.blue,
+                        ),
+                        localizationsDelegates: const [
+                          GlobalMaterialLocalizations.delegate,
+                          GlobalWidgetsLocalizations.delegate,
+                          GlobalCupertinoLocalizations.delegate,
+                        ],
+                        supportedLocales: const [
+                          Locale('vi', 'VN'),
+                          Locale('en', 'US'),
+                        ],
+                        routerConfig: router,
+                        builder: (context, child) {
+                          return BlocListener<NotificationCubit, NotificationState>(
+                            listener: (context, state) {
+                              if (state is NotificationReceived) {
+                                _handleIncomingNotification(context, state, router);
+                              }
+                            },
+                            child: child!,
+                          );
+                        },
                       ),
-                      localizationsDelegates: const [
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                        GlobalCupertinoLocalizations.delegate,
-                      ],
-                      supportedLocales: const [
-                        Locale('vi', 'VN'),
-                        Locale('en', 'US'),
-                      ],
-                      routerConfig: router,
-                    ),
                   ),
                 ],
               ),
@@ -145,5 +161,65 @@ class MedCoreApp extends ConsumerWidget {
       ),
     );
   }
-}
 
+  void _handleIncomingNotification(BuildContext context, NotificationReceived state, GoRouter router) {
+    NotificationType uiType;
+    String? targetRoute;
+    final orderId = state.relatedId;
+    
+    // Mapping Backend types to UI types and determining navigation routes
+    switch (state.type) {
+      case 'ORDER_COMPLETED':
+        uiType = NotificationType.success;
+        if (orderId != null) targetRoute = '/clinician/test-result/$orderId';
+        break;
+      case 'ORDER_REJECTED':
+        uiType = NotificationType.error;
+        if (orderId != null) targetRoute = '/specialist/analysis/$orderId';
+        break;
+      case 'ORDER_PENDING':
+      case 'ANALYSIS_READY':
+        uiType = NotificationType.warning;
+        if (state.type == 'ANALYSIS_READY' && orderId != null) {
+          targetRoute = '/manager/review/$orderId';
+        } else {
+          targetRoute = AppRoutes.managerDashboard;
+        }
+        break;
+      case 'ORDER_ASSIGNED':
+        uiType = NotificationType.info;
+        if (orderId != null) targetRoute = '/specialist/analysis/$orderId';
+        break;
+      default:
+        uiType = NotificationType.info;
+    }
+
+    NotificationFactory.show(
+      context,
+      type: uiType,
+      title: state.title,
+      message: state.body,
+      actionLabel: targetRoute != null ? 'Xem ngay' : null,
+      onAction: targetRoute != null ? () {
+        // Close snackbar/banner
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        
+        // If it's a dashboard focus case
+        if (orderId != null && (state.type == 'ORDER_PENDING' || state.type == 'ANALYSIS_READY' || state.type == 'ORDER_ASSIGNED' || state.type == 'ORDER_COMPLETED' || state.type == 'ORDER_REJECTED')) {
+          context.read<NotificationCubit>().onActionPressed(orderId, state.type);
+          
+          // Determine where to go
+          if (state.type == 'ORDER_PENDING' || state.type == 'ANALYSIS_READY') {
+            router.go(AppRoutes.managerDashboard);
+          } else if (state.type == 'ORDER_ASSIGNED' || state.type == 'ORDER_REJECTED') {
+            router.go(AppRoutes.specialistDashboard);
+          } else {
+            router.push(targetRoute!);
+          }
+        } else {
+          router.push(targetRoute!);
+        }
+      } : null,
+    );
+  }
+}

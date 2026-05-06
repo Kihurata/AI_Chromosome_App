@@ -13,6 +13,7 @@ class SpecialistDashboardState extends Equatable {
   final TestOrderStatus? statusFilter;
   final String? errorMessage;
   final String? lastStartedOrderId;
+  final String? focusedOrderId;
 
   const SpecialistDashboardState({
     this.status = SpecialistDashboardStatus.initial,
@@ -23,6 +24,7 @@ class SpecialistDashboardState extends Equatable {
     this.statusFilter,
     this.errorMessage,
     this.lastStartedOrderId,
+    this.focusedOrderId,
   });
 
   SpecialistDashboardState copyWith({
@@ -36,6 +38,7 @@ class SpecialistDashboardState extends Equatable {
     String? errorMessage,
     String? lastStartedOrderId,
     bool clearLastStartedOrderId = false,
+    String? focusedOrderId,
   }) {
     return SpecialistDashboardState(
       status: status ?? this.status,
@@ -46,6 +49,7 @@ class SpecialistDashboardState extends Equatable {
       statusFilter: clearStatusFilter ? null : (statusFilter ?? this.statusFilter),
       errorMessage: errorMessage ?? this.errorMessage,
       lastStartedOrderId: clearLastStartedOrderId ? null : (lastStartedOrderId ?? this.lastStartedOrderId),
+      focusedOrderId: focusedOrderId ?? this.focusedOrderId,
     );
   }
 
@@ -59,5 +63,6 @@ class SpecialistDashboardState extends Equatable {
         statusFilter,
         errorMessage,
         lastStartedOrderId,
+        focusedOrderId,
       ];
 }

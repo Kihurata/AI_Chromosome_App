@@ -57,7 +57,27 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
     emit(state.copyWith(
       searchKeyword: keyword,
       filteredOrders: filtered,
+      focusedOrderId: null, // Clear focus on manual search
     ));
+  }
+
+  void focusOrder(String orderId) {
+    // Auto search by order ID
+    final filtered = _applyFilters(state.allOrders, orderId, null);
+    
+    emit(state.copyWith(
+      searchKeyword: orderId,
+      statusFilter: null, // Clear status filter to ensure the order is visible
+      filteredOrders: filtered,
+      focusedOrderId: orderId,
+    ));
+
+    // Clear focus highlight after 5 seconds but keep the search result
+    Future.delayed(const Duration(seconds: 5), () {
+      if (!isClosed && state.focusedOrderId == orderId) {
+        emit(state.copyWith(focusedOrderId: null));
+      }
+    });
   }
 
   void setStatusFilter(TestOrderStatus? status) {
@@ -66,6 +86,7 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
       statusFilter: status,
       clearStatusFilter: status == null,
       filteredOrders: filtered,
+      focusedOrderId: null, // Clear focus on manual filter
     ));
   }
 
@@ -90,8 +111,10 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
     TestOrderStatus? status,
   ) {
     return orders.where((order) {
-      final matchesSearch = order.patientName.toLowerCase().contains(keyword.toLowerCase()) ||
-          order.patientCode.toLowerCase().contains(keyword.toLowerCase());
+      final matchesSearch = keyword.isEmpty || 
+          order.patientName.toLowerCase().contains(keyword.toLowerCase()) ||
+          order.patientCode.toLowerCase().contains(keyword.toLowerCase()) ||
+          order.id.toLowerCase().contains(keyword.toLowerCase()); // Added ID search
       final matchesStatus = status == null || order.status == status;
       return matchesSearch && matchesStatus;
     }).toList();

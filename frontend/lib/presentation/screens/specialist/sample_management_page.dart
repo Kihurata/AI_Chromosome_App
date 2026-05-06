@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../domain/entities/sample.dart';
 import '../../../../logic/bloc/specialist/sample_management_cubit.dart';
 import '../../../../logic/bloc/specialist/sample_management_state.dart';

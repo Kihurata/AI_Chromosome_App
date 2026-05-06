@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../core/errors/failures.dart';
@@ -18,7 +18,7 @@ class ImageStorageRepositoryImpl implements ImageStorageRepository {
     required String fileName,
   }) async {
     try {
-      print('🚀 [Storage] Starting upload: $fileName (Size: ${bytes.length} bytes)');
+      debugPrint('🚀 [Storage] Starting upload: $fileName (Size: ${bytes.length} bytes)');
       final ref = firebaseStorage.ref().child('test_orders/$orderId/raw/$fileName');
       
       final uploadTask = await ref.putData(
@@ -26,14 +26,14 @@ class ImageStorageRepositoryImpl implements ImageStorageRepository {
         SettableMetadata(contentType: 'image/jpeg'),
       );
       
-      print('✅ [Storage] Upload success: $fileName');
+      debugPrint('✅ [Storage] Upload success: $fileName');
       final downloadUrl = await uploadTask.ref.getDownloadURL();
       return Right(downloadUrl);
     } on FirebaseException catch (e) {
-      print('❌ [Storage] Firebase Error: [${e.code}] ${e.message}');
+      debugPrint('❌ [Storage] Firebase Error: [${e.code}] ${e.message}');
       return Left(ServerFailure(e.message ?? e.code));
     } catch (e) {
-      print('❌ [Storage] Unknown Error: $e');
+      debugPrint('❌ [Storage] Unknown Error: $e');
       return Left(ServerFailure(e.toString()));
     }
   }

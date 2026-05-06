@@ -6,16 +6,21 @@ import '../../../../domain/entities/test_order.dart';
 import '../shared/data_display/app_data_table.dart';
 import '../shared/data_display/status_badge.dart';
 import '../shared/form/app_buttons.dart';
+import '../../../../domain/entities/specialist.dart';
 import 'assign_specialist_dialog.dart';
 
 class LabExaminationTable extends StatelessWidget {
   final bool isLoading;
   final List<TestOrder> orders;
+  final List<Specialist> specialists;
+  final String? focusedOrderId;
 
   const LabExaminationTable({
     super.key,
     required this.isLoading,
     required this.orders,
+    required this.specialists,
+    this.focusedOrderId,
   });
 
   @override
@@ -27,7 +32,11 @@ class LabExaminationTable extends StatelessWidget {
         countText: '${orders.length} xét nghiệm',
         headerRow: const _HeaderRow(),
         isLoading: isLoading,
-        rows: orders.map((order) => _OrderRow(order: order)).toList(),
+        rows: orders.map((order) => _OrderRow(
+          order: order, 
+          specialists: specialists,
+          isFocused: order.id == focusedOrderId,
+        )).toList(),
         emptyState: const Center(
           child: Text('Không có ca xét nghiệm nào'),
         ),
@@ -62,15 +71,23 @@ class _HeaderRow extends StatelessWidget {
 
 class _OrderRow extends StatelessWidget {
   final TestOrder order;
+  final List<Specialist> specialists;
+  final bool isFocused;
 
-  const _OrderRow({required this.order});
+  const _OrderRow({
+    required this.order, 
+    required this.specialists,
+    this.isFocused = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.border)),
+      decoration: BoxDecoration(
+        color: isFocused ? Colors.blue.withValues(alpha: 0.1) : Colors.transparent,
+        border: const Border(bottom: BorderSide(color: AppColors.border)),
       ),
       child: Row(
         children: [
@@ -162,9 +179,15 @@ class _OrderRow extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         onPressed: () => _showAssignDialog(context),
       );
-    } else if (order.status == TestOrderStatus.completed) {
+    } else if (order.status == TestOrderStatus.waitingApproval) {
       return AppPrimaryButton(
         text: 'Duyệt Kết quả',
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        onPressed: () => context.push('/manager/review/${order.id}'),
+      );
+    } else if (order.status == TestOrderStatus.completed) {
+       return AppSecondaryButton(
+        text: 'Xem kết quả',
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         onPressed: () => context.push('/manager/review/${order.id}'),
       );
@@ -175,7 +198,7 @@ class _OrderRow extends StatelessWidget {
   void _showAssignDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AssignSpecialistDialog(order: order),
+      builder: (context) => AssignSpecialistDialog(order: order, specialists: specialists),
     );
   }
 
@@ -183,6 +206,8 @@ class _OrderRow extends StatelessWidget {
     switch (status) {
       case TestOrderStatus.pending:
         return 'CHỜ CHỈ ĐỊNH';
+      case TestOrderStatus.culturing:
+        return 'Đang nuôi cấy';
       case TestOrderStatus.analyzing:
         return 'Đang phân tích';
       case TestOrderStatus.waitingApproval:
@@ -198,6 +223,8 @@ class _OrderRow extends StatelessWidget {
     switch (status) {
       case TestOrderStatus.pending:
         return BadgeType.warning;
+      case TestOrderStatus.culturing:
+        return BadgeType.processing;
       case TestOrderStatus.analyzing:
         return BadgeType.processing;
       case TestOrderStatus.waitingApproval:

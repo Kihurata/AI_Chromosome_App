@@ -25,6 +25,7 @@ class _HistoryTabState extends State<HistoryTab> {
       context.read<ExaminationCubit>().loadExaminationsByPatient(widget.patientId);
     });
   }
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<ExaminationCubit, ExaminationState>(
       builder: (context, state) {

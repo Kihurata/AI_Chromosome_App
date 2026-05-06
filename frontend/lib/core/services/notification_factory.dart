@@ -54,6 +54,8 @@ class NotificationFactory {
     required String message,
     String? title,
     VoidCallback? onRetry,
+    String? actionLabel,
+    VoidCallback? onAction,
     Duration duration = const Duration(seconds: 4),
   }) {
     switch (type) {
@@ -66,6 +68,8 @@ class NotificationFactory {
           textColor: AppColors.successText,
           iconColor: AppColors.successText,
           duration: duration,
+          actionLabel: actionLabel,
+          onAction: onAction,
         );
         break;
 
@@ -78,6 +82,8 @@ class NotificationFactory {
           textColor: AppColors.processingText,
           iconColor: AppColors.processingText,
           duration: duration,
+          actionLabel: actionLabel,
+          onAction: onAction,
         );
         break;
 
@@ -90,6 +96,8 @@ class NotificationFactory {
           textColor: AppColors.warningText,
           iconColor: AppColors.warningText,
           duration: duration,
+          actionLabel: actionLabel,
+          onAction: onAction,
         );
         break;
 
@@ -102,6 +110,8 @@ class NotificationFactory {
           textColor: AppColors.dangerText,
           iconColor: AppColors.dangerText,
           duration: duration,
+          actionLabel: actionLabel,
+          onAction: onAction,
         );
         break;
 
@@ -114,6 +124,8 @@ class NotificationFactory {
           textColor: AppColors.dangerText,
           iconColor: AppColors.dangerText,
           duration: duration,
+          actionLabel: actionLabel,
+          onAction: onAction,
         );
         break;
 
@@ -173,6 +185,8 @@ class NotificationFactory {
     required Color textColor,
     required Color iconColor,
     required Duration duration,
+    String? actionLabel,
+    VoidCallback? onAction,
   }) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
@@ -201,10 +215,17 @@ class NotificationFactory {
             side: BorderSide(color: textColor.withAlpha(40)),
           ),
           margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          padding: const EdgeInsets.only(left: 16, top: 4, bottom: 4, right: 8),
           duration: duration,
           dismissDirection: DismissDirection.horizontal,
           elevation: 4,
+          action: (actionLabel != null && onAction != null)
+              ? SnackBarAction(
+                  label: actionLabel,
+                  textColor: textColor,
+                  onPressed: onAction,
+                )
+              : null,
         ),
       );
   }
