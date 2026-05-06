@@ -1,6 +1,6 @@
 {
   "taskId": "jjckim",
-  "currentVersion": 3,
+  "currentVersion": 4,
   "versions": [
     {
       "id": "v1",
@@ -93,6 +93,40 @@
       "snapshot": {
         "acceptanceCriteria": [
           {
+            "completed": true,
+            "text": "Notification snackbars appear correctly on the screen."
+          },
+          {
+            "completed": true,
+            "text": "Backend correctly triggers analysis and notifications for IN_PROGRESS status."
+          },
+          {
+            "completed": true,
+            "text": "Specialist receives assignment notifications (when using real IDs)."
+          }
+        ],
+        "description": "Debug and fix notification/sound issues for role-based actions.\n1. Move BlocListener inside MaterialApp to fix context issues.\n2. Align status strings between Frontend (IN_PROGRESS) and Backend (ANALYZING).\n3. Handle shared FCM token behavior in documentation/notes.",
+        "implementationNotes": "🐛 Debug: \n1. Tín hiệu chuông (sound) mà Clinician nghe thấy thực chất là do trình duyệt chia sẻ FCM token giữa các tab. Khi thông báo gửi tới Manager, cả tab Clinician cũng nhận được.\n2. Thông báo không hiện (UI) là do BlocListener nằm ngoài MaterialApp, dẫn đến context không có ScaffoldMessenger.\n3. Việc Manager chỉ định Specialist không có chuông là do trước đó dùng Mock ID (spec_01) không có trong DB nên Backend không tìm thấy token. Ngoài ra, Backend đang bỏ qua trạng thái IN_PROGRESS.",
+        "priority": "high",
+        "status": "done",
+        "title": "Fix Notification and Sound Issues"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "jjckim",
+      "version": 4,
+      "timestamp": "2026-05-06T16:08:35.9975753Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "🐛 Debug: \n1. Tín hiệu chuông (sound) mà Clinician nghe thấy thực chất là do trình duyệt chia sẻ FCM token giữa các tab. Khi thông báo gửi tới Manager, cả tab Clinician cũng nhận được.\n2. Thông báo không hiện (UI) là do BlocListener nằm ngoài MaterialApp, dẫn đến context không có ScaffoldMessenger.\n3. Việc Manager chỉ định Specialist không có chuông là do trước đó dùng Mock ID (spec_01) không có trong DB nên Backend không tìm thấy token. Ngoài ra, Backend đang bỏ qua trạng thái IN_PROGRESS.",
+          "newValue": "🐛 Debug: \n1. Tín hiệu chuông (sound) mà Clinician nghe thấy thực chất là do trình duyệt chia sẻ FCM token giữa các tab. Khi thông báo gửi tới Manager, cả tab Clinician cũng nhận được.\n2. Thông báo không hiện (UI) là do BlocListener nằm ngoài MaterialApp, dẫn đến context không có ScaffoldMessenger.\n3. Việc Manager chỉ định Specialist không có chuông là do trước đó dùng Mock ID (spec_01) không có trong DB nên Backend không tìm thấy token. Ngoài ra, Backend đang bỏ qua trạng thái IN_PROGRESS.\n📚 Extracted to @doc/learnings/learning-notification-and-dashboard-integration"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
             "text": "Notification snackbars appear correctly on the screen.",
             "completed": true
           },
@@ -106,7 +140,7 @@
           }
         ],
         "description": "Debug and fix notification/sound issues for role-based actions.\n1. Move BlocListener inside MaterialApp to fix context issues.\n2. Align status strings between Frontend (IN_PROGRESS) and Backend (ANALYZING).\n3. Handle shared FCM token behavior in documentation/notes.",
-        "implementationNotes": "🐛 Debug: \n1. Tín hiệu chuông (sound) mà Clinician nghe thấy thực chất là do trình duyệt chia sẻ FCM token giữa các tab. Khi thông báo gửi tới Manager, cả tab Clinician cũng nhận được.\n2. Thông báo không hiện (UI) là do BlocListener nằm ngoài MaterialApp, dẫn đến context không có ScaffoldMessenger.\n3. Việc Manager chỉ định Specialist không có chuông là do trước đó dùng Mock ID (spec_01) không có trong DB nên Backend không tìm thấy token. Ngoài ra, Backend đang bỏ qua trạng thái IN_PROGRESS.",
+        "implementationNotes": "🐛 Debug: \n1. Tín hiệu chuông (sound) mà Clinician nghe thấy thực chất là do trình duyệt chia sẻ FCM token giữa các tab. Khi thông báo gửi tới Manager, cả tab Clinician cũng nhận được.\n2. Thông báo không hiện (UI) là do BlocListener nằm ngoài MaterialApp, dẫn đến context không có ScaffoldMessenger.\n3. Việc Manager chỉ định Specialist không có chuông là do trước đó dùng Mock ID (spec_01) không có trong DB nên Backend không tìm thấy token. Ngoài ra, Backend đang bỏ qua trạng thái IN_PROGRESS.\n📚 Extracted to @doc/learnings/learning-notification-and-dashboard-integration",
         "priority": "high",
         "status": "done",
         "title": "Fix Notification and Sound Issues"

@@ -2,7 +2,7 @@
 title: Critical Patterns
 description: Promoted learnings that save the most time. Read at session start via kn-init.
 createdAt: '2026-04-28T05:23:00.000Z'
-updatedAt: '2026-05-02T08:55:13.087Z'
+updatedAt: '2026-05-06T16:08:31.518Z'
 tags:
   - learning
   - critical
@@ -100,3 +100,14 @@ Failing to do this results in `Bad state: Cannot emit new states after calling c
 Dashboard cards or list items that might be squashed on small screens or resized windows should be wrapped in a `SingleChildScrollView` (or use flexible widgets) to prevent `RenderFlex` overflow crashes.
 
 **Full entry:** @doc/learnings/learning-specialist-dashboard-and-firestore-indexing
+
+
+## [2026-05-06] UI: Robust Dashboard Card Layout
+**Category:** pattern / failure
+**Source:** @task-jjckim
+**Tags:** [ui, flutter, layout, overflow]
+
+Standard `Column` with `MainAxisAlignment.spaceBetween` inside a GridView will crash with `RenderFlex overflow` if squashed. The correct robust pattern is:
+Wrap in `LayoutBuilder` -> `SingleChildScrollView` -> `ConstrainedBox(minHeight: constraints.maxHeight)` -> `IntrinsicHeight`. This preserves the space-between look when possible but allows scrolling when needed.
+
+**Full entry:** @doc/learnings/learning-notification-and-dashboard-integration

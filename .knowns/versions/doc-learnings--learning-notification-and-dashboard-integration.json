@@ -1,0 +1,45 @@
+{
+  "docPath": "learnings/learning-notification-and-dashboard-integration",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "learnings/learning-notification-and-dashboard-integration",
+      "version": 1,
+      "timestamp": "2026-05-06T16:08:21.5846758Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Learning: Notification and Dashboard Integration"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Learnings from Notification System integration and Specialist Dashboard stabilization."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "learning",
+            "notification",
+            "layout",
+            "flutter"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Patterns\n\n### Notification Sound Mapping\n- **What:** Reusable logic in `NotificationCubit` to map string-based notification types from Firebase (e.g., `ORDER_COMPLETED`, `ANALYSIS_READY`) to local audio assets.\n- **When to use:** In any feature requiring real-time audible alerts based on push notification events.\n- **Source:** @task-jjckim\n\n### Robust Dashboard Card Layout\n- **What:** Using `LayoutBuilder` + `SingleChildScrollView` + `ConstrainedBox` + `IntrinsicHeight` for dashboard cards. This ensures `MainAxisAlignment.spaceBetween` works on large screens while allowing scrolling on small/squashed screens.\n- **When to use:** For small informative cards (like `StatsCard`) in a GridView or flexible row.\n- **Source:** @task-jjckim\n\n## Decisions\n\n### Notification Navigation Tradeoff\n- **Chose:** To use `router.go` to Dashboards followed by `cubit.focusOrder` instead of direct `router.push` to specific Workspace/Review pages.\n- **Over:** Direct navigation to sub-routes.\n- **Tag:** TRADEOFF\n- **Outcome:** Maintains the \"Dashboard as Home\" context where specialists see their full list, but focuses the relevant item. Avoided complex route history management during a major merge.\n- **Recommendation:** Use direct push only for deep-link scenarios where the dashboard state isn't required.\n\n### Flutter Color API Migration\n- **Chose:** `color.withValues(alpha: 0.1)`\n- **Over:** `color.withOpacity(0.1)`\n- **Tag:** GOOD_CALL\n- **Outcome:** Resolved Flutter 3.10+ deprecation warnings and improved color precision.\n- **Recommendation:** Standardize on `withValues` for all new UI components.\n\n## Failures\n\n### Layout Protection Regression\n- **What went wrong:** `StatsCard` protection (SingleChildScrollView) was removed during a merge from `main`, leading to overflow crashes on resized browser windows.\n- **Root cause:** Lack of a shared \"BaseStatCard\" widget; protection was applied ad-hoc to an individual component.\n- **Time lost:** 30 minutes of debugging and refactoring.\n- **Prevention:** Extract shared layout patterns into base widgets in `lib/presentation/widgets/shared/` instead of duplicating logic.\n",
+        "description": "Learnings from Notification System integration and Specialist Dashboard stabilization.",
+        "tags": [
+          "learning",
+          "notification",
+          "layout",
+          "flutter"
+        ],
+        "title": "Learning: Notification and Dashboard Integration"
+      }
+    }
+  ]
+}
