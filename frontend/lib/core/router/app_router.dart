@@ -25,6 +25,7 @@ import '../../logic/bloc/specialist/ai_analysis_cubit.dart';
 import '../../logic/bloc/workspace/workspace_cubit.dart';
 import '../../logic/bloc/specialist/sample_management_cubit.dart';
 import '../../presentation/screens/specialist/sample_management_page.dart';
+import '../../presentation/screens/specialist/sample_detail_screen.dart';
 import '../../domain/usecases/specialist/update_chromosome_position.dart';
 import '../../domain/usecases/test_order/submit_analysis_result.dart';
 
@@ -49,6 +50,7 @@ class AppRoutes {
   static const specialistDashboard = '/specialist/dashboard';
   static const specialistAnalysis = '/specialist/analysis';
   static const specialistSamples = '/specialist/samples';
+  static const specialistSampleDetail = '/specialist/sample-detail';
 
   // Manager
   static const managerDashboard = '/manager/dashboard';
@@ -204,6 +206,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 BlocProvider(create: (_) => getIt<AiAnalysisCubit>()),
               ],
               child: const SampleManagementPage(),
+            ),
+          ),
+          GoRoute(
+            path: '${AppRoutes.specialistSampleDetail}/:id',
+            name: 'specialist-sample-detail',
+            builder: (context, state) => SampleDetailScreen(
+              sampleId: state.pathParameters['id'] ?? '',
             ),
           ),
           GoRoute(

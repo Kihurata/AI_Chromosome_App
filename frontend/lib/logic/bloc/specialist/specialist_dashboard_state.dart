@@ -32,8 +32,10 @@ class SpecialistDashboardState extends Equatable {
     SpecialistStats? stats,
     String? searchKeyword,
     TestOrderStatus? statusFilter,
+    bool clearStatusFilter = false, // Thêm flag để xóa filter
     String? errorMessage,
     String? lastStartedOrderId,
+    bool clearLastStartedOrderId = false,
   }) {
     return SpecialistDashboardState(
       status: status ?? this.status,
@@ -41,9 +43,9 @@ class SpecialistDashboardState extends Equatable {
       filteredOrders: filteredOrders ?? this.filteredOrders,
       stats: stats ?? this.stats,
       searchKeyword: searchKeyword ?? this.searchKeyword,
-      statusFilter: statusFilter ?? this.statusFilter,
+      statusFilter: clearStatusFilter ? null : (statusFilter ?? this.statusFilter),
       errorMessage: errorMessage ?? this.errorMessage,
-      lastStartedOrderId: lastStartedOrderId ?? this.lastStartedOrderId,
+      lastStartedOrderId: clearLastStartedOrderId ? null : (lastStartedOrderId ?? this.lastStartedOrderId),
     );
   }
 

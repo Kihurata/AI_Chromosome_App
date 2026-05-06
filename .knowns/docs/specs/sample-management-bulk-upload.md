@@ -2,7 +2,7 @@
 title: 'Sample Management & Bulk Upload'
 description: Specification for Sample Management UI and Bulk Image Upload functionality
 createdAt: '2026-05-04T08:42:00.967Z'
-updatedAt: '2026-05-04T08:46:03.903Z'
+updatedAt: '2026-05-06T08:41:40.803Z'
 tags:
   - spec
   - approved
@@ -18,16 +18,14 @@ Tính năng này cung cấp giao diện quản lý các mẫu bệnh phẩm (Sam
 
 ## Requirements
 
+## Requirements
+
 ### Functional Requirements
 - **FR-1 (Sample List):** Hiển thị danh sách tất cả các mẫu trong hệ thống với thông tin: Mã mẫu, Loại mẫu, Trạng thái, Bệnh nhân, Ngày thu nhận.
 - **FR-2 (Status Update):** Cho phép Specialist chuyển trạng thái mẫu từ COLLECTED -> CULTURING -> HARVESTED (hoặc FAILED).
 - **FR-3 (Bulk Upload Dialog):** Khi mẫu chuyển sang HARVESTED, hiển thị dialog cho phép chọn nhiều tệp ảnh (JPG/PNG). 
 - **FR-4 (Progress Tracking):** Hiển thị tiến trình upload cho từng ảnh trong danh sách hàng loạt.
-- **FR-5 (Navigation):** Nút "Xem chi tiết Order" trên mỗi dòng mẫu sẽ điều hướng người dùng đến trang Dashboard hoặc Workspace của Order đó.
-
-### Non-Functional Requirements
-- **NFR-1 (Concurrency):** Hỗ trợ upload đồng thời ít nhất 10 ảnh mà không gây lag UI.
-- **NFR-2 (Real-time):** Trạng thái mẫu và danh sách ảnh phải được cập nhật tức thời qua Firestore.
+- **FR-5 (Navigation):** Click vào dòng mẫu hoặc nút "Thông tin" sẽ điều hướng người dùng đến trang **Chi tiết Phiếu xét nghiệm** (SampleDetailScreen) sử dụng `pushNamed`.
 
 ## Acceptance Criteria
 - [ ] **AC-1:** Click vào tab "Quản lý mẫu" hiển thị đúng danh sách mẫu của Specialist hiện tại hoặc toàn bộ mẫu (nếu là Manager).

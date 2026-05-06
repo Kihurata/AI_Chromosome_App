@@ -1,0 +1,131 @@
+{
+  "taskId": "2qkqz2",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "2qkqz2",
+      "version": 1,
+      "timestamp": "2026-05-05T16:08:27.086546Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Add sticky header row to SpecialistOrderList"
+          },
+          {
+            "completed": false,
+            "text": "Refactor SpecialistOrderCard to table-row layout, all cells centered"
+          },
+          {
+            "completed": false,
+            "text": "Preserve click-to-detail and action button behavior"
+          }
+        ],
+        "description": "Refactor SpecialistOrderList and SpecialistOrderCard to show a table with header row (Bệnh nhân, Xét nghiệm, Ngày yêu cầu, Hành động) with center-aligned content.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "UI: Specialist Dashboard Table with Column Headers"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "2qkqz2",
+      "version": 2,
+      "timestamp": "2026-05-05T16:08:30.253978Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Add sticky header row to SpecialistOrderList"
+          },
+          {
+            "completed": false,
+            "text": "Refactor SpecialistOrderCard to table-row layout, all cells centered"
+          },
+          {
+            "completed": false,
+            "text": "Preserve click-to-detail and action button behavior"
+          }
+        ],
+        "description": "Refactor SpecialistOrderList and SpecialistOrderCard to show a table with header row (Bệnh nhân, Xét nghiệm, Ngày yêu cầu, Hành động) with center-aligned content.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "UI: Specialist Dashboard Table with Column Headers"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "2qkqz2",
+      "version": 3,
+      "timestamp": "2026-05-05T16:09:30.773659Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Refactored order list to table with header row and centered cells. Preserved click-to-detail and action buttons."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Add sticky header row to SpecialistOrderList",
+            "completed": true
+          },
+          {
+            "text": "Refactor SpecialistOrderCard to table-row layout, all cells centered",
+            "completed": true
+          },
+          {
+            "text": "Preserve click-to-detail and action button behavior",
+            "completed": true
+          }
+        ],
+        "description": "Refactor SpecialistOrderList and SpecialistOrderCard to show a table with header row (Bệnh nhân, Xét nghiệm, Ngày yêu cầu, Hành động) with center-aligned content.",
+        "implementationNotes": "Refactored order list to table with header row and centered cells. Preserved click-to-detail and action buttons.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "ui"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "UI: Specialist Dashboard Table with Column Headers"
+      }
+    }
+  ]
+}

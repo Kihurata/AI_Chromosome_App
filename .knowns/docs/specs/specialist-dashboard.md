@@ -2,7 +2,7 @@
 title: Specialist Dashboard
 description: Specification for Lab Specialist Dashboard functionality.
 createdAt: '2026-04-29T09:01:49.805Z'
-updatedAt: '2026-04-29T09:14:43.404Z'
+updatedAt: '2026-05-06T08:41:34.726Z'
 tags:
   - spec
   - approved
@@ -21,17 +21,20 @@ Thiết kế và triển khai màn hình Dashboard dành cho vai trò **Lab Spec
 
 ## Requirements
 
+## Requirements
+
 ### Functional Requirements
 - **FR-1:** Hiển thị Bento Box với 4 chỉ số thống kê thời gian thực.
 - **FR-2:** Hiển thị danh sách các phiếu xét nghiệm (TestOrder) được phân công cho Specialist hiện tại.
 - **FR-3:** Tìm kiếm phiếu theo `patientName` hoặc `patientCode` (Local search trên danh sách đã fetch).
 - **FR-4:** Lọc danh sách theo `status`.
 - **FR-5:** Cập nhật trạng thái phiếu sang `ANALYZING` khi người dùng xác nhận bắt đầu.
-- **FR-6:** Điều hướng người dùng tới màn hình **Workspace** khi chọn một phiếu.
+- **FR-6 (Navigation):** Click vào thân card phiếu sẽ dẫn đến màn hình **Chi tiết Phiếu xét nghiệm** (SampleDetailScreen). Click vào nút "Bắt đầu" hoặc "Tiếp tục" sẽ dẫn đến màn hình **Workspace** (Phân tích).
 
 ### Non-Functional Requirements
-- **NFR-1 (UX):** Các chỉ số thống kê phải cập nhật mượt mà khi có thay đổi từ Firestore (Backend xử lý xong AI hoặc Manager phân công mới).
+- **NFR-1 (UX):** Các chỉ số thống kê phải cập nhật mượt mà khi có thay đổi từ Firestore.
 - **NFR-2 (Clean Architecture):** Tuân thủ tuyệt đối việc tách biệt Logic (Cubit) và Presentation (UI).
+- **NFR-3 (Safety):** Sử dụng `pushNamed` cho điều hướng chi tiết để bảo toàn trạng thái stream của Dashboard khi quay lại.
 
 ## Acceptance Criteria
 - [ ] **AC-1:** Dashboard hiển thị đúng số lượng phiếu theo từng trạng thái trong Bento Box.

@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/entities/metaphase_image.dart';
 import '../../../domain/repositories/workspace_repository.dart';
@@ -25,10 +25,10 @@ class AiAnalysisCubit extends Cubit<AiAnalysisState> {
 
   String? get analyzingImageId => _analyzingImageId;
 
-  Future<void> startAnalysis(File imageFile, String orderId) async {
+  Future<void> startAnalysis(Uint8List bytes, String orderId) async {
     emit(AiAnalysisUploading());
 
-    final uploadResult = await uploadUsecase(imageFile, orderId);
+    final uploadResult = await uploadUsecase(bytes, orderId);
 
     uploadResult.fold(
       (failure) => emit(AiAnalysisError(failure.message)),
@@ -39,18 +39,21 @@ class AiAnalysisCubit extends Cubit<AiAnalysisState> {
     );
   }
 
-  Future<void> uploadMultipleImages(List<File> imageFiles, String orderId) async {
-    emit(AiAnalysisUploading());
+  Future<void> uploadMultipleImages(List<Uint8List> imagesBytes, String orderId) async {
+    emit(AiAnalysisUploadingProgress(0, imagesBytes.length));
 
-    final uploadResult = await uploadMultipleUsecase(imageFiles, orderId);
+    final uploadResult = await uploadMultipleUsecase(
+      imagesBytes, 
+      orderId,
+      onProgress: (current, total) {
+        emit(AiAnalysisUploadingProgress(current, total));
+      },
+    );
 
     uploadResult.fold(
       (failure) => emit(AiAnalysisError(failure.message)),
       (_) {
-        emit(AiAnalysisWaitingForBackend());
-        // Note: For multiple images, we might need a more complex listener
-        // for now, we follow the same pattern as single image.
-        _listenToBackendProgress(orderId);
+        emit(AiAnalysisUploadCompleted());
       },
     );
   }

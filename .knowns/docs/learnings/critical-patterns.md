@@ -70,3 +70,33 @@ Legacy screens had `ClinicalRepository` injected as constructor params across 7 
 UI loading states can hang indefinitely if a Firestore stream fails (e.g., missing index) and the Repository doesn't explicitly catch and emit the error. Always wrap `yield*` in `try-catch` within `async*` repository methods to ensure errors reach the Cubit/State layer.
 
 **Full entry:** @doc/learnings/learning-specialist-dashboard-and-firestore-indexing
+
+
+## [2026-05-06] Cubit Safety: `isClosed` check before `emit`
+**Category:** failure → pattern
+**Source:** @task-dva5dv
+**Tags:** [cubit, lifecycle, async, flutter]
+
+In Cubit methods containing `await`, always verify the Cubit is still active before emitting:
+
+```dart
+Future<void> loadData() async {
+  final data = await repository.getData();
+  if (isClosed) return; // Critical check
+  emit(DataLoaded(data));
+}
+```
+Failing to do this results in `Bad state: Cannot emit new states after calling close` crashes if the user navigates away before the async task finishes.
+
+**Full entry:** @doc/learnings/learning-specialist-dashboard-and-firestore-indexing
+
+---
+
+## [2026-05-06] UI: Defensive Overflow Protection
+**Category:** failure → pattern
+**Source:** @task-dva5dv
+**Tags:** [ui, flutter, layout, overflow]
+
+Dashboard cards or list items that might be squashed on small screens or resized windows should be wrapped in a `SingleChildScrollView` (or use flexible widgets) to prevent `RenderFlex` overflow crashes.
+
+**Full entry:** @doc/learnings/learning-specialist-dashboard-and-firestore-indexing

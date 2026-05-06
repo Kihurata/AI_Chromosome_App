@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 enum TestOrderStatus {
   pending,
+  culturing,
   analyzing,
   waitingApproval,
   completed,
@@ -9,6 +10,8 @@ enum TestOrderStatus {
 
   static TestOrderStatus fromString(String value) {
     switch (value.toUpperCase()) {
+      case 'CULTURING':
+        return TestOrderStatus.culturing;
       case 'ANALYZING':
         return TestOrderStatus.analyzing;
       case 'WAITING_APPROVAL':
@@ -30,6 +33,8 @@ enum TestOrderStatus {
     switch (this) {
       case TestOrderStatus.pending:
         return 'PENDING';
+      case TestOrderStatus.culturing:
+        return 'CULTURING';
       case TestOrderStatus.analyzing:
         return 'ANALYZING';
       case TestOrderStatus.waitingApproval:
@@ -45,6 +50,8 @@ enum TestOrderStatus {
     switch (this) {
       case TestOrderStatus.pending:
         return 'Chờ xử lý';
+      case TestOrderStatus.culturing:
+        return 'Đang nuôi cấy';
       case TestOrderStatus.analyzing:
         return 'Đang phân tích';
       case TestOrderStatus.waitingApproval:

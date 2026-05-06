@@ -5,7 +5,7 @@ import '../../../../domain/entities/sample.dart';
 import '../../../../domain/repositories/sample_repository.dart';
 import 'sample_management_state.dart';
 
-@lazySingleton
+@injectable
 class SampleManagementCubit extends Cubit<SampleManagementState> {
   final SampleRepository _repository;
   StreamSubscription? _samplesSubscription;
@@ -56,6 +56,17 @@ class SampleManagementCubit extends Cubit<SampleManagementState> {
         errorMessage: failure.message,
       )),
       (_) => null, // Real-time stream will update the UI
+    );
+  }
+
+  Future<void> updateNote(String sampleId, String note) async {
+    final result = await _repository.updateSampleNote(sampleId, note);
+    result.fold(
+      (failure) => emit(state.copyWith(
+        status: SampleManagementStatus.error,
+        errorMessage: failure.message,
+      )),
+      (_) => null,
     );
   }
 

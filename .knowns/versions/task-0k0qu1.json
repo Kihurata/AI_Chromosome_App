@@ -1,6 +1,6 @@
 {
   "taskId": "0k0qu1",
-  "currentVersion": 2,
+  "currentVersion": 3,
   "versions": [
     {
       "id": "v1",
@@ -56,6 +56,30 @@
         ],
         "priority": "high",
         "status": "in-progress",
+        "title": "Build SampleManagementPage UI"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "0k0qu1",
+      "version": 3,
+      "timestamp": "2026-05-05T06:39:09.92552Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "completed"
+        }
+      ],
+      "snapshot": {
+        "description": "Create the UI for listing samples, filtering, and triggering status updates/uploads.",
+        "implementationPlan": "1. Create SampleManagementPage with Bento Box aesthetics.\n2. Implement Filter Bar for Status.\n3. Build Sample Card with navigation buttons and status update actions.\n4. Implement Bulk Upload Dialog using file_picker.\n5. Use BlocBuilder to connect UI with SampleManagementCubit and AiAnalysisCubit.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "completed",
         "title": "Build SampleManagementPage UI"
       }
     }

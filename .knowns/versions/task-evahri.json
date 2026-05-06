@@ -1,6 +1,6 @@
 {
   "taskId": "evahri",
-  "currentVersion": 3,
+  "currentVersion": 4,
   "versions": [
     {
       "id": "v1",
@@ -74,6 +74,30 @@
         ],
         "priority": "high",
         "status": "in-progress",
+        "title": "Expand SampleRepository with watch functions"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "evahri",
+      "version": 4,
+      "timestamp": "2026-05-05T06:39:09.868009Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "completed"
+        }
+      ],
+      "snapshot": {
+        "description": "Add watchSamples and updateSampleStatus to SampleRepository and implement in Data layer.",
+        "implementationPlan": "1. Add watchSamples() and watchSamplesByStatus() to SampleRepository interface.\n2. Update SampleRemoteDataSource to include Firestore stream for samples.\n3. Implement the new functions in SampleRepositoryImpl.\n4. Update SampleModel to handle Firestore mapping if needed.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "completed",
         "title": "Expand SampleRepository with watch functions"
       }
     }

@@ -1,13 +1,13 @@
 ---
 id: lingyg
 title: Create SampleManagementCubit
-status: in-progress
+status: completed
 priority: high
 labels:
   - from-spec
   - go-mode
 createdAt: '2026-05-04T08:50:52.722Z'
-updatedAt: '2026-05-04T08:52:29.796Z'
+updatedAt: '2026-05-05T06:39:09.911Z'
 timeSpent: 0
 spec: specs/sample-management-bulk-upload
 ---

@@ -38,15 +38,18 @@ class TestOrderModel {
 
   factory TestOrderModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
+    final firestore = FirebaseFirestore.instance;
     return TestOrderModel(
       id: doc.id,
-      patientId: data['patient_id'] as DocumentReference,
+      patientId: data['patient_id'] as DocumentReference? ??
+          firestore.collection('patients').doc('unknown'),
       patientName: data['patient_name'] ?? '',
       patientCode: data['patient_code'] ?? '',
-      appointmentId: data['appointment_id'] as DocumentReference,
+      appointmentId: data['appointment_id'] as DocumentReference? ??
+          firestore.collection('appointments').doc('unknown'),
       specialistId: data['specialist_id'] as DocumentReference?,
       status: data['status'] ?? 'PENDING',
-      createdAt: (data['created_at'] as Timestamp).toDate(),
+      createdAt: (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 
