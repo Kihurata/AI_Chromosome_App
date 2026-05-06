@@ -5,9 +5,7 @@ import '../../../../logic/bloc/specialist/sample_management_cubit.dart';
 import '../../../../logic/bloc/specialist/sample_management_state.dart';
 import '../../../../core/theme/app_colors.dart';
 import 'widgets/sample_card.dart';
-import 'widgets/bulk_upload_dialog.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/router/app_router.dart';
 
 class SampleManagementPage extends StatefulWidget {
   const SampleManagementPage({super.key});
@@ -50,16 +48,16 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
         Text(
           'Quản lý Mẫu Bệnh phẩm',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
         ),
         const SizedBox(height: 8),
         Text(
           'Theo dõi tiến độ nuôi cấy và tải ảnh metaphase hàng loạt.',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: AppColors.textSecondary,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge?.copyWith(color: AppColors.textSecondary),
         ),
       ],
     );
@@ -75,31 +73,40 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
               _FilterChip(
                 label: 'Tất cả',
                 isSelected: state.filterStatus == null,
-                onSelected: () => context.read<SampleManagementCubit>().setFilter(null),
+                onSelected: () =>
+                    context.read<SampleManagementCubit>().setFilter(null),
               ),
               const SizedBox(width: 12),
               _FilterChip(
                 label: 'Mới thu nhận',
                 isSelected: state.filterStatus == SampleStatus.collected,
-                onSelected: () => context.read<SampleManagementCubit>().setFilter(SampleStatus.collected),
+                onSelected: () => context
+                    .read<SampleManagementCubit>()
+                    .setFilter(SampleStatus.collected),
               ),
               const SizedBox(width: 12),
               _FilterChip(
                 label: 'Đang nuôi cấy',
                 isSelected: state.filterStatus == SampleStatus.culturing,
-                onSelected: () => context.read<SampleManagementCubit>().setFilter(SampleStatus.culturing),
+                onSelected: () => context
+                    .read<SampleManagementCubit>()
+                    .setFilter(SampleStatus.culturing),
               ),
               const SizedBox(width: 12),
               _FilterChip(
                 label: 'Đã thu hoạch',
                 isSelected: state.filterStatus == SampleStatus.harvested,
-                onSelected: () => context.read<SampleManagementCubit>().setFilter(SampleStatus.harvested),
+                onSelected: () => context
+                    .read<SampleManagementCubit>()
+                    .setFilter(SampleStatus.harvested),
               ),
               const SizedBox(width: 12),
               _FilterChip(
                 label: 'Thất bại',
                 isSelected: state.filterStatus == SampleStatus.failed,
-                onSelected: () => context.read<SampleManagementCubit>().setFilter(SampleStatus.failed),
+                onSelected: () => context
+                    .read<SampleManagementCubit>()
+                    .setFilter(SampleStatus.failed),
               ),
             ],
           ),
@@ -120,7 +127,11 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.inventory_2_outlined, size: 64, color: Colors.grey.shade300),
+                Icon(
+                  Icons.inventory_2_outlined,
+                  size: 64,
+                  color: Colors.grey.shade300,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   'Không tìm thấy mẫu nào',
@@ -138,14 +149,20 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
             final sample = state.filteredSamples[index];
             return InkWell(
               onTap: () {
-                context.pushNamed('specialist-sample-detail', pathParameters: {'id': sample.testOrderId});
+                context.pushNamed(
+                  'specialist-sample-detail',
+                  pathParameters: {'id': sample.testOrderId},
+                );
               },
               child: SampleCard(
                 sample: sample,
                 onStatusUpdate: (status) {
-                  context.read<SampleManagementCubit>().updateStatus(sample.id, status);
+                  context.read<SampleManagementCubit>().updateStatus(
+                    sample.id,
+                    status,
+                  );
                   if (status == SampleStatus.harvested) {
-                    _showBulkUploadDialog(sample);
+                    // Update status only, upload is now in workspace
                   }
                 },
               ),
@@ -156,13 +173,6 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
     );
   }
 
-  void _showBulkUploadDialog(Sample sample) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => BulkUploadDialog(sample: sample),
-    );
-  }
 }
 
 class _FilterChip extends StatelessWidget {
@@ -191,7 +201,13 @@ class _FilterChip extends StatelessWidget {
             color: isSelected ? AppColors.primaryBlue : Colors.grey.shade300,
           ),
           boxShadow: isSelected
-              ? [BoxShadow(color: AppColors.primaryBlue.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))]
+              ? [
+                  BoxShadow(
+                    color: AppColors.primaryBlue.withValues(alpha: 0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
               : [],
         ),
         child: Text(

@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 import '../../../core/errors/failures.dart';
 import 'package:injectable/injectable.dart';
@@ -13,10 +13,10 @@ class UploadImageForAiAnalysis {
 
   UploadImageForAiAnalysis(this.storageRepository, this.workspaceRepository);
 
-  Future<Either<Failure, void>> call(File imageFile, String orderId) async {
+  Future<Either<Failure, void>> call(Uint8List bytes, String orderId) async {
     final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
     final uploadResult = await storageRepository.uploadRawImage(
-      imageFile: imageFile,
+      bytes: bytes,
       orderId: orderId,
       fileName: fileName,
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../domain/entities/test_order.dart';
-import '../../../../core/router/app_router.dart';
 
 class SpecialistOrderCard extends StatelessWidget {
   final TestOrder order;
@@ -11,7 +10,10 @@ class SpecialistOrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pushNamed('specialist-sample-detail', pathParameters: {'id': order.id}),
+      onTap: () => context.pushNamed(
+        'specialist-sample-detail',
+        pathParameters: {'id': order.id},
+      ),
       hoverColor: Colors.blue.shade50.withValues(alpha: 0.5),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -36,10 +38,7 @@ class SpecialistOrderCard extends StatelessWidget {
                   Text(
                     order.patientCode,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.grey.shade500,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
                   ),
                 ],
               ),
@@ -65,17 +64,10 @@ class SpecialistOrderCard extends StatelessWidget {
             // ── Trạng thái ──────────────────────────────────────────────
             Expanded(
               flex: 2,
-              child: Center(
-                child: _buildStatusBadge(order.status),
-              ),
+              child: Center(child: _buildStatusBadge(order.status)),
             ),
             // ── Hành động ──────────────────────────────────────────────
-            Expanded(
-              flex: 3,
-              child: Center(
-                child: _buildActionCell(context),
-              ),
-            ),
+            Expanded(flex: 3, child: Center(child: _buildActionCell(context))),
           ],
         ),
       ),
@@ -83,8 +75,8 @@ class SpecialistOrderCard extends StatelessWidget {
   }
 
   Widget _buildActionCell(BuildContext context) {
-    // Chỉ hiện nút Phân tích AI nếu status là analyzing
-    if (order.status == TestOrderStatus.analyzing) {
+    // Hiện nút Phân Tích nếu đơn chưa hoàn thành/từ chối
+    if (order.status != TestOrderStatus.completed && order.status != TestOrderStatus.rejected) {
       return _buildActionButton(context);
     }
     return const SizedBox.shrink();
@@ -112,10 +104,12 @@ class SpecialistOrderCard extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         // AC-5: navigate thẳng vào Workspace
-        context.goNamed('specialist-analysis',
-            pathParameters: {'orderId': order.id});
+        context.goNamed(
+          'specialist-analysis',
+          pathParameters: {'orderId': order.id},
+        );
       },
-      child: const Text('Phân tích AI'),
+      child: const Text('Phân Tích'),
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFF2563EB),
         foregroundColor: Colors.white,

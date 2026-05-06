@@ -3,6 +3,9 @@ import '../../../core/errors/failures.dart';
 import '../../entities/chromosome.dart';
 import '../../repositories/workspace_repository.dart';
 
+import 'package:injectable/injectable.dart';
+
+@injectable
 class UpdateChromosomePosition {
   final WorkspaceRepository repository;
 

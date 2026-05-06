@@ -40,6 +40,8 @@ import '../../domain/usecases/patient/get_patients.dart' as _i266;
 import '../../domain/usecases/patient/update_patient.dart' as _i485;
 import '../../domain/usecases/specialist/get_specialists.dart' as _i760;
 import '../../domain/usecases/specialist/trigger_ai_analysis.dart' as _i1057;
+import '../../domain/usecases/specialist/update_chromosome_position.dart'
+    as _i1003;
 import '../../domain/usecases/specialist/update_order_status.dart' as _i814;
 import '../../domain/usecases/specialist/upload_image_for_ai_analysis.dart'
     as _i547;
@@ -104,6 +106,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i467.PatientRepository>(
       () => _i308.PatientRepositoryImpl(gh<_i940.PatientRemoteDataSource>()),
+    );
+    gh.factory<_i1003.UpdateChromosomePosition>(
+      () => _i1003.UpdateChromosomePosition(gh<_i77.WorkspaceRepository>()),
     );
     gh.lazySingleton<_i474.GetSampleByIdUsecase>(
       () => _i474.GetSampleByIdUsecase(gh<_i643.SampleRepository>()),
