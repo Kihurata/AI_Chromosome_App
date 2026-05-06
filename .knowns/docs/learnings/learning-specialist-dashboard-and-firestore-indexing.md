@@ -52,3 +52,20 @@ tags:
 - **Root cause:** The Repository stream didn't catch errors, so the Cubit's `emit.forEach` never received a failure signal to transition out of the loading state.
 - **Time lost:** 45 minutes.
 - **Prevention:** Always wrap stream-based data fetching in try-catch and emit a failure state.
+
+## [2026-05-06] Navigation & Lifecycle Stability
+**Source:** @task-dva5dv
+**Tags:** [navigation, lifecycle, cubit, routing]
+
+### Patterns
+- **Isolated Detail Routing:** Decouple detail screens from nested list routes. Move them to independent paths (e.g., `/specialist/sample-detail/:id`) to prevent parent list disposal during navigation.
+- **Safe Async Emitting:** Always add `if (isClosed) return;` before `emit()` in Cubit methods that use `await`. This prevents crashes when async tasks finish after the user has navigated away.
+- **Defensive Layout:** Use `SingleChildScrollView` inside cards or dashboard items to prevent `RenderFlex` overflow crashes when layout constraints are tight (e.g., small screens or resized browser windows).
+
+### Decisions
+- **Factory over Singleton for Page Cubits:** Chose `@injectable` (Factory) over `@lazySingleton` for Cubits tied to specific screens. This ensures a clean state on every navigation and avoids "closed cubit" errors when returning to a page. (**GOOD_CALL**)
+- **pushNamed for Detail Overlay:** Chose `context.pushNamed` over `context.go` for detail views. This keeps the parent stack alive and allows a simpler back-navigation experience without re-fetching the entire list state. (**TRADEOFF**)
+
+### Failures
+- **Unverified DI Generation:** Changed annotations but didn't verify if `build_runner` updated `injection.config.dart`. Resulted in the app still using stale singleton behavior. (**BAD_CALL**)
+- **Redundant Navigation Wrappers:** Refactored a widget's navigation but forgot that its parent (`ListView` item) also had an `InkWell` wrapper with a hardcoded route. Always search for route strings throughout the project when refactoring paths.
