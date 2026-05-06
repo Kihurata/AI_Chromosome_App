@@ -60,7 +60,7 @@ class SampleCard extends StatelessWidget {
         Row(
           children: [
             Text(
-              sample.id.substring(0, 8).toUpperCase(),
+              (sample.id.length > 8 ? sample.id.substring(0, 8) : sample.id).toUpperCase(),
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(width: 8),

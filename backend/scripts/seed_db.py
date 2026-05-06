@@ -52,8 +52,26 @@ def seed():
     })
     
     # 3. Patients
-    p1 = {'id': 'PAT_001', 'full_name': 'Patient Alpha', 'patient_code': 'BN001', 'gender': 'Nam', 'dob': '1990-01-01'}
-    p2 = {'id': 'PAT_002', 'full_name': 'Patient Beta', 'patient_code': 'BN002', 'gender': 'Nữ', 'dob': '1995-05-15'}
+    p1 = {
+        'id': 'PAT_001', 
+        'full_name': 'Patient Alpha', 
+        'patient_code': 'BN001', 
+        'gender': 'Nam', 
+        'dob': datetime(1990, 1, 1),
+        'phone': '0901234567',
+        'identity_card': '123456789',
+        'status': 'active'
+    }
+    p2 = {
+        'id': 'PAT_002', 
+        'full_name': 'Patient Beta', 
+        'patient_code': 'BN002', 
+        'gender': 'Nữ', 
+        'dob': datetime(1995, 5, 15),
+        'phone': '0907654321',
+        'identity_card': '987654321',
+        'status': 'active'
+    }
     batch.set(db.collection('patients').document(p1['id']), p1)
     batch.set(db.collection('patients').document(p2['id']), p2)
     
@@ -78,8 +96,8 @@ def seed():
         'patient_name': 'Patient Alpha',
         'patient_code': 'BN001',
         'appointment_id': db.document('appointments/APP_001'),
-        'specialist_id': db.document('doctors/DOC_001'),
-        'status': 'CULTURING', # Updated to culturing
+        'specialist_id': db.document('users/SuyvcITqmXd0pXYMbhR9a6l1cR52'),
+        'status': 'ANALYZING', 
         'iscn_formula': '46,XY',
         'diagnosis_conclusion': 'Chưa có kết quả',
         'created_at': datetime.now(),
@@ -92,10 +110,13 @@ def seed():
         'id': 'SMP_001',
         'test_order_id': db.document('test_orders/ORDER_001'),
         'patient_id': db.document('patients/PAT_001'),
+        'patient_name': 'Patient Alpha',
+        'patient_code': 'BN001',
         'is_current': True,
         'sample_type': 'PERIPHERAL_BLOOD',
         'status': 'CULTURING',
-        'collection_time': datetime.now(),
+        'collected_by': db.document('users/SuyvcITqmXd0pXYMbhR9a6l1cR52'),
+        'collected_at': datetime.now(),
         'created_at': datetime.now(),
         'updated_at': datetime.now()
     })

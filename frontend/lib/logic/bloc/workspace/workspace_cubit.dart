@@ -8,6 +8,7 @@ enum WorkspaceStatus { initial, loading, success, error }
 class WorkspaceState {
   final List<Chromosome> chromosomes;
   final String? selectedId;
+  final List<String> selectedImageIds;
   final int currentStep;
   final int maxReachedStep;
   final WorkspaceStatus status;
@@ -16,6 +17,7 @@ class WorkspaceState {
   WorkspaceState({
     required this.chromosomes,
     this.selectedId,
+    this.selectedImageIds = const [],
     this.currentStep = 1,
     this.maxReachedStep = 1,
     this.status = WorkspaceStatus.initial,
@@ -25,6 +27,7 @@ class WorkspaceState {
   WorkspaceState copyWith({
     List<Chromosome>? chromosomes,
     String? selectedId,
+    List<String>? selectedImageIds,
     int? currentStep,
     int? maxReachedStep,
     WorkspaceStatus? status,
@@ -33,6 +36,7 @@ class WorkspaceState {
     return WorkspaceState(
       chromosomes: chromosomes ?? this.chromosomes,
       selectedId: selectedId ?? this.selectedId,
+      selectedImageIds: selectedImageIds ?? this.selectedImageIds,
       currentStep: currentStep ?? this.currentStep,
       maxReachedStep: maxReachedStep ?? this.maxReachedStep,
       status: status ?? this.status,
@@ -98,6 +102,18 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
 
   void selectItem(String? id) {
     emit(state.copyWith(selectedId: id));
+  }
+
+  void toggleImageSelection(String imageId) {
+    final currentSelected = List<String>.from(state.selectedImageIds);
+    if (currentSelected.contains(imageId)) {
+      currentSelected.remove(imageId);
+    } else {
+      if (currentSelected.length < 3) {
+        currentSelected.add(imageId);
+      }
+    }
+    emit(state.copyWith(selectedImageIds: currentSelected));
   }
 
   void goToStep(int step) {

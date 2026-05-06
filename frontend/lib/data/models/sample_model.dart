@@ -33,12 +33,18 @@ class SampleModel extends Sample {
     final data = doc.data() as Map<String, dynamic>;
     return SampleModel(
       id: doc.id,
-      testOrderId: (data['test_order_id'] as DocumentReference).id,
+      testOrderId: data['test_order_id'] != null
+          ? (data['test_order_id'] as DocumentReference).id
+          : '',
       patientName: data['patient_name'] ?? '',
       patientCode: data['patient_code'] ?? '',
       sampleType: data['sample_type'] ?? '',
-      collectedBy: (data['collected_by'] as DocumentReference).id,
-      collectedAt: (data['collected_at'] as Timestamp).toDate(),
+      collectedBy: data['collected_by'] != null
+          ? (data['collected_by'] as DocumentReference).id
+          : 'SYSTEM',
+      collectedAt: data['collected_at'] != null
+          ? (data['collected_at'] as Timestamp).toDate()
+          : (data['collection_time'] as Timestamp?)?.toDate() ?? DateTime.now(),
       status: SampleStatus.fromString(data['status'] ?? 'COLLECTED'),
       notes: data['notes'] as String?,
     );

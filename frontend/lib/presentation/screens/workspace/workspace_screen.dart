@@ -79,22 +79,30 @@ class WorkspaceScreen extends StatelessWidget {
             ),
             
             // Navigation Controls
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => context.read<WorkspaceCubit>().previousStep(),
-                    child: const Text('Quay lại'),
+            BlocBuilder<WorkspaceCubit, WorkspaceState>(
+              builder: (context, state) {
+                final isStep1 = state.currentStep == 1;
+                final hasSelection = state.selectedImageIds.isNotEmpty;
+                final canProceed = !isStep1 || hasSelection; // AC-4, AC-5
+
+                return Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(
+                        onPressed: state.currentStep > 1 ? () => context.read<WorkspaceCubit>().previousStep() : null,
+                        child: const Text('Quay lại'),
+                      ),
+                      ElevatedButton(
+                        onPressed: canProceed ? () => context.read<WorkspaceCubit>().nextStep() : null, // AC-7
+                        child: const Text('Tiếp tục'),
+                      ),
+                    ],
                   ),
-                  ElevatedButton(
-                    onPressed: () => context.read<WorkspaceCubit>().nextStep(),
-                    child: const Text('Tiếp tục'),
-                  ),
-                ],
-              ),
+                );
+              },
             )
           ],
         ),

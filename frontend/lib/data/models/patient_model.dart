@@ -45,7 +45,7 @@ class PatientModel extends Patient {
       patientCode: data['patient_code'] ?? '',
       fullName: data['full_name'] ?? '',
       identityCard: data['identity_card'] ?? '',
-      dob: (data['dob'] as Timestamp).toDate(),
+      dob: data['dob'] != null ? (data['dob'] as Timestamp).toDate() : DateTime(1900),
       gender: data['gender'] ?? '',
       phone: data['phone'] ?? '',
       province: data['province'] ?? '',
