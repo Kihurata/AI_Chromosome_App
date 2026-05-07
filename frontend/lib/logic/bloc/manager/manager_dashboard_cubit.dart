@@ -130,21 +130,51 @@ class ManagerDashboardCubit extends Cubit<ManagerDashboardState> {
     if (state is! ManagerDashboardLoaded) return;
     final currentState = state as ManagerDashboardLoaded;
     final filtered = _applyFilters(currentState.allOrders, query, currentState.statusFilter);
-    emit(currentState.copyWith(searchQuery: query, filteredOrders: filtered));
+    emit(currentState.copyWith(
+      searchQuery: query, 
+      filteredOrders: filtered,
+      focusedOrderId: null, // Clear focus when user types manually
+    ));
+  }
+
+  void focusOrder(String orderId) {
+    if (state is! ManagerDashboardLoaded) return;
+    final currentState = state as ManagerDashboardLoaded;
+    
+    // Auto search by order ID
+    final filtered = _applyFilters(currentState.allOrders, orderId, null);
+    
+    emit(currentState.copyWith(
+      searchQuery: orderId,
+      statusFilter: null, // Clear status filter to ensure the order is visible
+      filteredOrders: filtered,
+      focusedOrderId: orderId,
+    ));
+
+    // Clear focus highlight after 5 seconds but keep the search result
+    Future.delayed(const Duration(seconds: 5), () {
+      if (state is ManagerDashboardLoaded) {
+        final nowState = state as ManagerDashboardLoaded;
+        if (nowState.focusedOrderId == orderId) {
+          emit(nowState.copyWith(focusedOrderId: null));
+        }
+      }
+    });
   }
 
   void setStatusFilter(TestOrderStatus? status) {
     if (state is! ManagerDashboardLoaded) return;
     final currentState = state as ManagerDashboardLoaded;
     final filtered = _applyFilters(currentState.allOrders, currentState.searchQuery, status);
-    emit(currentState.copyWith(statusFilter: status, filteredOrders: filtered));
+    emit(currentState.copyWith(statusFilter: status, filteredOrders: filtered, focusedOrderId: null));
   }
 
   List<TestOrder> _applyFilters(List<TestOrder> orders, String query, TestOrderStatus? status) {
     return orders.where((order) {
       final matchesQuery = query.isEmpty || 
           order.patientName.toLowerCase().contains(query.toLowerCase()) ||
-          order.patientCode.toLowerCase().contains(query.toLowerCase());
+          order.patientCode.toLowerCase().contains(query.toLowerCase()) ||
+          order.id.toLowerCase().contains(query.toLowerCase()); // Added ID search
       final matchesStatus = status == null || order.status == status;
       return matchesQuery && matchesStatus;
     }).toList();

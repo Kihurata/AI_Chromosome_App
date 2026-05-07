@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../widgets/shared/form/app_text_field.dart';
+
 
 class QcDiagnosticStep extends StatefulWidget {
   const QcDiagnosticStep({super.key});
@@ -48,12 +50,9 @@ class _QcDiagnosticStepState extends State<QcDiagnosticStep> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
-                  TextField(
+                  AppTextField(
                     controller: _iscnController,
-                    decoration: const InputDecoration(
-                      hintText: 'Ví dụ: 46,XX hoặc 47,XY,+21',
-                      border: OutlineInputBorder(),
-                    ),
+                    hintText: 'Ví dụ: 46,XX hoặc 47,XY,+21',
                   ),
                   const SizedBox(height: 24),
                   const Text(
@@ -61,13 +60,10 @@ class _QcDiagnosticStepState extends State<QcDiagnosticStep> {
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
-                  TextField(
+                  AppTextField(
                     controller: _remarksController,
                     maxLines: 5,
-                    decoration: const InputDecoration(
-                      hintText: 'Nhập ghi chú chẩn đoán, các bất thường nếu có...',
-                      border: OutlineInputBorder(),
-                    ),
+                    hintText: 'Nhập ghi chú chẩn đoán, các bất thường nếu có...',
                   ),
                 ],
               ),

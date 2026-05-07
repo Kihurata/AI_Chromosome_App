@@ -6,8 +6,12 @@ class MetaphaseImageModel extends MetaphaseImage {
     required super.id,
     required super.orderId,
     required super.rawImageUrl,
+    super.aiImageUrl,
     super.status,
     super.processingTimeMs,
+    super.aiCount,
+    super.aiScore,
+    super.aiConfidence,
     required super.createdAt,
   });
 
@@ -17,8 +21,12 @@ class MetaphaseImageModel extends MetaphaseImage {
       id: doc.id,
       orderId: data['order_id'] ?? '',
       rawImageUrl: data['raw_image_url'] ?? '',
+      aiImageUrl: data['ai_image_url'],
       status: AiProcessingStatus.fromString(data['status'] ?? 'UPLOADED'),
       processingTimeMs: data['processing_time_ms'],
+      aiCount: data['ai_count'],
+      aiScore: data['ai_score'],
+      aiConfidence: (data['ai_confidence'] as num?)?.toDouble(),
       createdAt: (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
@@ -28,8 +36,12 @@ class MetaphaseImageModel extends MetaphaseImage {
       id: entity.id,
       orderId: entity.orderId,
       rawImageUrl: entity.rawImageUrl,
+      aiImageUrl: entity.aiImageUrl,
       status: entity.status,
       processingTimeMs: entity.processingTimeMs,
+      aiCount: entity.aiCount,
+      aiScore: entity.aiScore,
+      aiConfidence: entity.aiConfidence,
       createdAt: entity.createdAt,
     );
   }
@@ -38,8 +50,12 @@ class MetaphaseImageModel extends MetaphaseImage {
     return {
       'order_id': orderId,
       'raw_image_url': rawImageUrl,
+      'ai_image_url': aiImageUrl,
       'status': status.toFirestoreString(),
       'processing_time_ms': processingTimeMs,
+      'ai_count': aiCount,
+      'ai_score': aiScore,
+      'ai_confidence': aiConfidence,
       'created_at': Timestamp.fromDate(createdAt),
     };
   }

@@ -1,0 +1,205 @@
+{
+  "taskId": "n9vf3w",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "n9vf3w",
+      "version": 1,
+      "timestamp": "2026-05-05T07:41:37.0494497Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Tạo tài liệu đặc tả kỹ thuật cho việc mở rộng hệ thống thông báo cho các vai trò: Manager, Clinician, Specialist. Bao gồm ma trận thông báo và cấu trúc dữ liệu Firestore.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Spec: Notification System Expansion"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "n9vf3w",
+      "version": 2,
+      "timestamp": "2026-05-05T07:41:41.864438Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Tạo file specs/notification-system-expansion.md."
+            },
+            {
+              "completed": false,
+              "text": "Xác định ma trận thông báo cho ít nhất 5 sự kiện quan trọng."
+            },
+            {
+              "completed": false,
+              "text": "Mô tả cấu trúc dữ liệu cho collection notifications và audit_logs."
+            },
+            {
+              "completed": false,
+              "text": "Xác định payload FCM cho từng loại thông báo."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo file specs/notification-system-expansion.md."
+          },
+          {
+            "completed": false,
+            "text": "Xác định ma trận thông báo cho ít nhất 5 sự kiện quan trọng."
+          },
+          {
+            "completed": false,
+            "text": "Mô tả cấu trúc dữ liệu cho collection notifications và audit_logs."
+          },
+          {
+            "completed": false,
+            "text": "Xác định payload FCM cho từng loại thông báo."
+          }
+        ],
+        "description": "Tạo tài liệu đặc tả kỹ thuật cho việc mở rộng hệ thống thông báo cho các vai trò: Manager, Clinician, Specialist. Bao gồm ma trận thông báo và cấu trúc dữ liệu Firestore.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Spec: Notification System Expansion"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "n9vf3w",
+      "version": 3,
+      "timestamp": "2026-05-05T07:50:48.9452009Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo file specs/notification-system-expansion.md."
+          },
+          {
+            "completed": false,
+            "text": "Xác định ma trận thông báo cho ít nhất 5 sự kiện quan trọng."
+          },
+          {
+            "completed": false,
+            "text": "Mô tả cấu trúc dữ liệu cho collection notifications và audit_logs."
+          },
+          {
+            "completed": false,
+            "text": "Xác định payload FCM cho từng loại thông báo."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Tạo tài liệu đặc tả kỹ thuật cho việc mở rộng hệ thống thông báo cho các vai trò: Manager, Clinician, Specialist. Bao gồm ma trận thông báo và cấu trúc dữ liệu Firestore.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Spec: Notification System Expansion"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "n9vf3w",
+      "version": 4,
+      "timestamp": "2026-05-05T07:51:06.0339986Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Spec document created at specs/notification-system-expansion. All matrix and data structures defined."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Tạo file specs/notification-system-expansion.md."
+          },
+          {
+            "completed": true,
+            "text": "Xác định ma trận thông báo cho ít nhất 5 sự kiện quan trọng."
+          },
+          {
+            "completed": true,
+            "text": "Mô tả cấu trúc dữ liệu cho collection notifications và audit_logs."
+          },
+          {
+            "completed": true,
+            "text": "Xác định payload FCM cho từng loại thông báo."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Tạo tài liệu đặc tả kỹ thuật cho việc mở rộng hệ thống thông báo cho các vai trò: Manager, Clinician, Specialist. Bao gồm ma trận thông báo và cấu trúc dữ liệu Firestore.",
+        "implementationNotes": "Spec document created at specs/notification-system-expansion. All matrix and data structures defined.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Spec: Notification System Expansion"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "n9vf3w",
+      "version": 5,
+      "timestamp": "2026-05-05T07:51:17.6965505Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Tạo file specs/notification-system-expansion.md.",
+            "completed": true
+          },
+          {
+            "text": "Xác định ma trận thông báo cho ít nhất 5 sự kiện quan trọng.",
+            "completed": true
+          },
+          {
+            "text": "Mô tả cấu trúc dữ liệu cho collection notifications và audit_logs.",
+            "completed": true
+          },
+          {
+            "text": "Xác định payload FCM cho từng loại thông báo.",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Tạo tài liệu đặc tả kỹ thuật cho việc mở rộng hệ thống thông báo cho các vai trò: Manager, Clinician, Specialist. Bao gồm ma trận thông báo và cấu trúc dữ liệu Firestore.",
+        "implementationNotes": "Spec document created at specs/notification-system-expansion. All matrix and data structures defined.",
+        "priority": "high",
+        "status": "done",
+        "title": "Spec: Notification System Expansion"
+      }
+    }
+  ]
+}

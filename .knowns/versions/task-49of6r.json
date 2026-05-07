@@ -1,0 +1,216 @@
+{
+  "taskId": "49of6r",
+  "currentVersion": 8,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "49of6r",
+      "version": 1,
+      "timestamp": "2026-05-03T04:42:29.1509611Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Chuyển đổi và gắn logic xử lý cho các màn hình forms của bác sĩ (ClinicianExaminationFormPage và ClinicianBloodTestPrescriptionPage). Lấy dữ liệu bệnh nhân thực tế và kết nối với ClinicianOrderCubit để lưu phiếu.",
+        "labels": [
+          "clinician",
+          "ui",
+          "integration"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Wire Logic for Clinician Forms"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "49of6r",
+      "version": 2,
+      "timestamp": "2026-05-03T04:43:14.3422392Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Refactor `examination_form_screen.dart` to a `StatefulWidget`, adding `TextEditingController`s for all input fields.\n2. Integrate `PatientCubit` in `examination_form_screen.dart` to fetch and display real patient data using `widget.id` (`patientId`).\n3. Connect `ClinicianOrderCubit` to the 'Lập Phiếu CĐXN' and 'Lưu thông tin' actions, preparing data payload. (For now, since there is no `ExaminationRepository`, we will mock the save examination action or just proceed to `blood_test_prescription_screen.dart`).\n4. Refactor `blood_test_prescription_screen.dart` to a `StatefulWidget`, connecting the `patientId` to the form.\n5. Use `ClinicianOrderCubit.submitTestOrder` to create a `TestOrder` when clicking 'Lưu' in `blood_test_prescription_screen.dart`.\n6. Add proper loading states and error handling via `BlocListener`."
+        }
+      ],
+      "snapshot": {
+        "description": "Chuyển đổi và gắn logic xử lý cho các màn hình forms của bác sĩ (ClinicianExaminationFormPage và ClinicianBloodTestPrescriptionPage). Lấy dữ liệu bệnh nhân thực tế và kết nối với ClinicianOrderCubit để lưu phiếu.",
+        "implementationPlan": "1. Refactor `examination_form_screen.dart` to a `StatefulWidget`, adding `TextEditingController`s for all input fields.\n2. Integrate `PatientCubit` in `examination_form_screen.dart` to fetch and display real patient data using `widget.id` (`patientId`).\n3. Connect `ClinicianOrderCubit` to the 'Lập Phiếu CĐXN' and 'Lưu thông tin' actions, preparing data payload. (For now, since there is no `ExaminationRepository`, we will mock the save examination action or just proceed to `blood_test_prescription_screen.dart`).\n4. Refactor `blood_test_prescription_screen.dart` to a `StatefulWidget`, connecting the `patientId` to the form.\n5. Use `ClinicianOrderCubit.submitTestOrder` to create a `TestOrder` when clicking 'Lưu' in `blood_test_prescription_screen.dart`.\n6. Add proper loading states and error handling via `BlocListener`.",
+        "labels": [
+          "clinician",
+          "ui",
+          "integration"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Wire Logic for Clinician Forms"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "49of6r",
+      "version": 3,
+      "timestamp": "2026-05-03T05:38:33.4313716Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": "1. Refactor `examination_form_screen.dart` to a `StatefulWidget`, adding `TextEditingController`s for all input fields.\n2. Integrate `PatientCubit` in `examination_form_screen.dart` to fetch and display real patient data using `widget.id` (`patientId`).\n3. Connect `ClinicianOrderCubit` to the 'Lập Phiếu CĐXN' and 'Lưu thông tin' actions, preparing data payload. (For now, since there is no `ExaminationRepository`, we will mock the save examination action or just proceed to `blood_test_prescription_screen.dart`).\n4. Refactor `blood_test_prescription_screen.dart` to a `StatefulWidget`, connecting the `patientId` to the form.\n5. Use `ClinicianOrderCubit.submitTestOrder` to create a `TestOrder` when clicking 'Lưu' in `blood_test_prescription_screen.dart`.\n6. Add proper loading states and error handling via `BlocListener`.",
+          "newValue": "1. Domain Layer: Create Examination entity \u0026 repository interface. 2. Data Layer: Create ExaminationModel \u0026 ExaminationRepositoryImpl. 3. Logic Layer: Create CreateExamination usecase \u0026 ExaminationCubit. 4. UI: Refactor examination_form_screen \u0026 blood_test_prescription_screen to StatefulWidget, bind Cubits and add controllers."
+        }
+      ],
+      "snapshot": {
+        "description": "Chuyển đổi và gắn logic xử lý cho các màn hình forms của bác sĩ (ClinicianExaminationFormPage và ClinicianBloodTestPrescriptionPage). Lấy dữ liệu bệnh nhân thực tế và kết nối với ClinicianOrderCubit để lưu phiếu.",
+        "implementationPlan": "1. Domain Layer: Create Examination entity \u0026 repository interface. 2. Data Layer: Create ExaminationModel \u0026 ExaminationRepositoryImpl. 3. Logic Layer: Create CreateExamination usecase \u0026 ExaminationCubit. 4. UI: Refactor examination_form_screen \u0026 blood_test_prescription_screen to StatefulWidget, bind Cubits and add controllers.",
+        "labels": [
+          "clinician",
+          "ui",
+          "integration"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Wire Logic for Clinician Forms"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "49of6r",
+      "version": 4,
+      "timestamp": "2026-05-03T06:07:20.6985005Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": "1. Domain Layer: Create Examination entity \u0026 repository interface. 2. Data Layer: Create ExaminationModel \u0026 ExaminationRepositoryImpl. 3. Logic Layer: Create CreateExamination usecase \u0026 ExaminationCubit. 4. UI: Refactor examination_form_screen \u0026 blood_test_prescription_screen to StatefulWidget, bind Cubits and add controllers.",
+          "newValue": "1. Domain (Appointment): Tạo enum AppointmentStatus (scheduled, inProgress, completed, cancelled, và các trạng thái map từ TestOrder như testing/waitingForLab). Cập nhật Appointment entity.\n2. Domain (Examination): Tạo Examination entity \u0026 repository interface.\n3. Data Layer: Cập nhật AppointmentModel để dùng enum. Tạo ExaminationModel \u0026 ExaminationRepositoryImpl.\n4. Logic Layer: Tạo CreateExamination usecase \u0026 ExaminationCubit. Cập nhật AppointmentCubit xử lý chuyển đổi trạng thái.\n5. UI: Cập nhật các bảng/dashboard dùng enum mới và hiển thị tiến trình xét nghiệm. Refactor examination_form_screen \u0026 blood_test_prescription_screen để gọi API đổi trạng thái khi bấm Khám/Lưu/Hủy và gọi API lưu form khám."
+        }
+      ],
+      "snapshot": {
+        "description": "Chuyển đổi và gắn logic xử lý cho các màn hình forms của bác sĩ (ClinicianExaminationFormPage và ClinicianBloodTestPrescriptionPage). Lấy dữ liệu bệnh nhân thực tế và kết nối với ClinicianOrderCubit để lưu phiếu.",
+        "implementationPlan": "1. Domain (Appointment): Tạo enum AppointmentStatus (scheduled, inProgress, completed, cancelled, và các trạng thái map từ TestOrder như testing/waitingForLab). Cập nhật Appointment entity.\n2. Domain (Examination): Tạo Examination entity \u0026 repository interface.\n3. Data Layer: Cập nhật AppointmentModel để dùng enum. Tạo ExaminationModel \u0026 ExaminationRepositoryImpl.\n4. Logic Layer: Tạo CreateExamination usecase \u0026 ExaminationCubit. Cập nhật AppointmentCubit xử lý chuyển đổi trạng thái.\n5. UI: Cập nhật các bảng/dashboard dùng enum mới và hiển thị tiến trình xét nghiệm. Refactor examination_form_screen \u0026 blood_test_prescription_screen để gọi API đổi trạng thái khi bấm Khám/Lưu/Hủy và gọi API lưu form khám.",
+        "labels": [
+          "clinician",
+          "ui",
+          "integration"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Wire Logic for Clinician Forms"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "49of6r",
+      "version": 5,
+      "timestamp": "2026-05-03T06:22:32.4250442Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": "1. Domain (Appointment): Tạo enum AppointmentStatus (scheduled, inProgress, completed, cancelled, và các trạng thái map từ TestOrder như testing/waitingForLab). Cập nhật Appointment entity.\n2. Domain (Examination): Tạo Examination entity \u0026 repository interface.\n3. Data Layer: Cập nhật AppointmentModel để dùng enum. Tạo ExaminationModel \u0026 ExaminationRepositoryImpl.\n4. Logic Layer: Tạo CreateExamination usecase \u0026 ExaminationCubit. Cập nhật AppointmentCubit xử lý chuyển đổi trạng thái.\n5. UI: Cập nhật các bảng/dashboard dùng enum mới và hiển thị tiến trình xét nghiệm. Refactor examination_form_screen \u0026 blood_test_prescription_screen để gọi API đổi trạng thái khi bấm Khám/Lưu/Hủy và gọi API lưu form khám.",
+          "newValue": "1. Domain (Appointment): Tạo enum AppointmentStatus chỉ gồm 4 trạng thái cốt lõi: scheduled, inProgress, completed, cancelled. Cập nhật Appointment entity.\n2. Domain (Examination): Tạo Examination entity \u0026 repository interface.\n3. Data Layer: Cập nhật AppointmentModel để dùng enum. Tạo ExaminationModel \u0026 ExaminationRepositoryImpl.\n4. Logic Layer: Tạo CreateExamination usecase \u0026 ExaminationCubit. Cập nhật AppointmentCubit xử lý chuyển đổi trạng thái (chỉ 4 trạng thái cơ bản).\n5. UI: Cập nhật các bảng/dashboard dùng enum mới. Để hiển thị tiến trình xét nghiệm, giao diện sẽ trực tiếp query/lắng nghe TestOrder (thông qua TestOrderCubit) thay vì gộp chung vào AppointmentStatus. Refactor examination_form_screen \u0026 blood_test_prescription_screen để gọi API lưu/đổi trạng thái."
+        }
+      ],
+      "snapshot": {
+        "description": "Chuyển đổi và gắn logic xử lý cho các màn hình forms của bác sĩ (ClinicianExaminationFormPage và ClinicianBloodTestPrescriptionPage). Lấy dữ liệu bệnh nhân thực tế và kết nối với ClinicianOrderCubit để lưu phiếu.",
+        "implementationPlan": "1. Domain (Appointment): Tạo enum AppointmentStatus chỉ gồm 4 trạng thái cốt lõi: scheduled, inProgress, completed, cancelled. Cập nhật Appointment entity.\n2. Domain (Examination): Tạo Examination entity \u0026 repository interface.\n3. Data Layer: Cập nhật AppointmentModel để dùng enum. Tạo ExaminationModel \u0026 ExaminationRepositoryImpl.\n4. Logic Layer: Tạo CreateExamination usecase \u0026 ExaminationCubit. Cập nhật AppointmentCubit xử lý chuyển đổi trạng thái (chỉ 4 trạng thái cơ bản).\n5. UI: Cập nhật các bảng/dashboard dùng enum mới. Để hiển thị tiến trình xét nghiệm, giao diện sẽ trực tiếp query/lắng nghe TestOrder (thông qua TestOrderCubit) thay vì gộp chung vào AppointmentStatus. Refactor examination_form_screen \u0026 blood_test_prescription_screen để gọi API lưu/đổi trạng thái.",
+        "labels": [
+          "clinician",
+          "ui",
+          "integration"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Wire Logic for Clinician Forms"
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "49of6r",
+      "version": 6,
+      "timestamp": "2026-05-03T06:35:21.6725529Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": "1. Domain (Appointment): Tạo enum AppointmentStatus chỉ gồm 4 trạng thái cốt lõi: scheduled, inProgress, completed, cancelled. Cập nhật Appointment entity.\n2. Domain (Examination): Tạo Examination entity \u0026 repository interface.\n3. Data Layer: Cập nhật AppointmentModel để dùng enum. Tạo ExaminationModel \u0026 ExaminationRepositoryImpl.\n4. Logic Layer: Tạo CreateExamination usecase \u0026 ExaminationCubit. Cập nhật AppointmentCubit xử lý chuyển đổi trạng thái (chỉ 4 trạng thái cơ bản).\n5. UI: Cập nhật các bảng/dashboard dùng enum mới. Để hiển thị tiến trình xét nghiệm, giao diện sẽ trực tiếp query/lắng nghe TestOrder (thông qua TestOrderCubit) thay vì gộp chung vào AppointmentStatus. Refactor examination_form_screen \u0026 blood_test_prescription_screen để gọi API lưu/đổi trạng thái.",
+          "newValue": "1. Domain (Appointment): Định nghĩa enum AppointmentStatus với 4 trạng thái cốt lõi: scheduled, inProgress, completed, cancelled. Cập nhật Appointment entity.\n2. Domain (Examination): Tạo Examination entity \u0026 repository interface.\n3. Data Layer: Cập nhật AppointmentModel để serialize/deserialize enum. Tạo ExaminationModel \u0026 ExaminationRepositoryImpl.\n4. Logic Layer: Tạo CreateExamination usecase \u0026 ExaminationCubit. Cập nhật AppointmentCubit xử lý 4 trạng thái trên.\n5. UI (Bảng danh sách): Cập nhật RecentPatientsTable thêm cột 'KQXN' để hiển thị độc lập TestOrderStatus (từ test_order_model), giữ cột 'Trạng thái' cho AppointmentStatus.\n6. UI (Forms): Refactor examination_form_screen \u0026 blood_test_prescription_screen. Cấu hình luồng: Lưu tự động phiếu khám khi ấn Tạo Phiếu Xét Nghiệm, và đổi trạng thái lịch hẹn khi Lưu/Hủy."
+        }
+      ],
+      "snapshot": {
+        "description": "Chuyển đổi và gắn logic xử lý cho các màn hình forms của bác sĩ (ClinicianExaminationFormPage và ClinicianBloodTestPrescriptionPage). Lấy dữ liệu bệnh nhân thực tế và kết nối với ClinicianOrderCubit để lưu phiếu.",
+        "implementationPlan": "1. Domain (Appointment): Định nghĩa enum AppointmentStatus với 4 trạng thái cốt lõi: scheduled, inProgress, completed, cancelled. Cập nhật Appointment entity.\n2. Domain (Examination): Tạo Examination entity \u0026 repository interface.\n3. Data Layer: Cập nhật AppointmentModel để serialize/deserialize enum. Tạo ExaminationModel \u0026 ExaminationRepositoryImpl.\n4. Logic Layer: Tạo CreateExamination usecase \u0026 ExaminationCubit. Cập nhật AppointmentCubit xử lý 4 trạng thái trên.\n5. UI (Bảng danh sách): Cập nhật RecentPatientsTable thêm cột 'KQXN' để hiển thị độc lập TestOrderStatus (từ test_order_model), giữ cột 'Trạng thái' cho AppointmentStatus.\n6. UI (Forms): Refactor examination_form_screen \u0026 blood_test_prescription_screen. Cấu hình luồng: Lưu tự động phiếu khám khi ấn Tạo Phiếu Xét Nghiệm, và đổi trạng thái lịch hẹn khi Lưu/Hủy.",
+        "labels": [
+          "clinician",
+          "ui",
+          "integration"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Wire Logic for Clinician Forms"
+      }
+    },
+    {
+      "id": "v7",
+      "taskId": "49of6r",
+      "version": 7,
+      "timestamp": "2026-05-03T06:46:04.200124Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "description": "Chuyển đổi và gắn logic xử lý cho các màn hình forms của bác sĩ (ClinicianExaminationFormPage và ClinicianBloodTestPrescriptionPage). Lấy dữ liệu bệnh nhân thực tế và kết nối với ClinicianOrderCubit để lưu phiếu.",
+        "implementationPlan": "1. Domain (Appointment): Định nghĩa enum AppointmentStatus với 4 trạng thái cốt lõi: scheduled, inProgress, completed, cancelled. Cập nhật Appointment entity.\n2. Domain (Examination): Tạo Examination entity \u0026 repository interface.\n3. Data Layer: Cập nhật AppointmentModel để serialize/deserialize enum. Tạo ExaminationModel \u0026 ExaminationRepositoryImpl.\n4. Logic Layer: Tạo CreateExamination usecase \u0026 ExaminationCubit. Cập nhật AppointmentCubit xử lý 4 trạng thái trên.\n5. UI (Bảng danh sách): Cập nhật RecentPatientsTable thêm cột 'KQXN' để hiển thị độc lập TestOrderStatus (từ test_order_model), giữ cột 'Trạng thái' cho AppointmentStatus.\n6. UI (Forms): Refactor examination_form_screen \u0026 blood_test_prescription_screen. Cấu hình luồng: Lưu tự động phiếu khám khi ấn Tạo Phiếu Xét Nghiệm, và đổi trạng thái lịch hẹn khi Lưu/Hủy.",
+        "labels": [
+          "clinician",
+          "ui",
+          "integration"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Wire Logic for Clinician Forms"
+      }
+    },
+    {
+      "id": "v8",
+      "taskId": "49of6r",
+      "version": 8,
+      "timestamp": "2026-05-03T07:49:24.2445535Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented logic for ClinicianExaminationForm and ClinicianBloodTestPrescription. Integrated with ExaminationCubit and ClinicianOrderCubit. Real data binding with PatientCubit. Verified and committed."
+        }
+      ],
+      "snapshot": {
+        "description": "Chuyển đổi và gắn logic xử lý cho các màn hình forms của bác sĩ (ClinicianExaminationFormPage và ClinicianBloodTestPrescriptionPage). Lấy dữ liệu bệnh nhân thực tế và kết nối với ClinicianOrderCubit để lưu phiếu.",
+        "implementationNotes": "Implemented logic for ClinicianExaminationForm and ClinicianBloodTestPrescription. Integrated with ExaminationCubit and ClinicianOrderCubit. Real data binding with PatientCubit. Verified and committed.",
+        "implementationPlan": "1. Domain (Appointment): Định nghĩa enum AppointmentStatus với 4 trạng thái cốt lõi: scheduled, inProgress, completed, cancelled. Cập nhật Appointment entity.\n2. Domain (Examination): Tạo Examination entity \u0026 repository interface.\n3. Data Layer: Cập nhật AppointmentModel để serialize/deserialize enum. Tạo ExaminationModel \u0026 ExaminationRepositoryImpl.\n4. Logic Layer: Tạo CreateExamination usecase \u0026 ExaminationCubit. Cập nhật AppointmentCubit xử lý 4 trạng thái trên.\n5. UI (Bảng danh sách): Cập nhật RecentPatientsTable thêm cột 'KQXN' để hiển thị độc lập TestOrderStatus (từ test_order_model), giữ cột 'Trạng thái' cho AppointmentStatus.\n6. UI (Forms): Refactor examination_form_screen \u0026 blood_test_prescription_screen. Cấu hình luồng: Lưu tự động phiếu khám khi ấn Tạo Phiếu Xét Nghiệm, và đổi trạng thái lịch hẹn khi Lưu/Hủy.",
+        "labels": [
+          "clinician",
+          "ui",
+          "integration"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "Wire Logic for Clinician Forms"
+      }
+    }
+  ]
+}

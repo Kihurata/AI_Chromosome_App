@@ -1,0 +1,212 @@
+{
+  "taskId": "jsre7s",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "jsre7s",
+      "version": 1,
+      "timestamp": "2026-05-06T07:46:07.0357128Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement clinician_id tracking in test_orders and enhance backend ID extraction.\n1. Add clinician_id field to TestOrder entity and TestOrderModel.\n2. Update Firestore saving logic in ClinicianBloodTestPrescriptionPage and ClinicianOrderCubit.\n3. Update backend firestore_listener.py to robustly handle DocumentReference types in get_id.\n4. Verify notification delivery for ORDER_COMPLETED status.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Implement Clinician Tracking and Robust Backend ID Extraction"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "jsre7s",
+      "version": 2,
+      "timestamp": "2026-05-06T07:46:12.0130481Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Implement clinician_id tracking in test_orders and enhance backend ID extraction.\n1. Add clinician_id field to TestOrder entity and TestOrderModel.\n2. Update Firestore saving logic in ClinicianBloodTestPrescriptionPage and ClinicianOrderCubit.\n3. Update backend firestore_listener.py to robustly handle DocumentReference types in get_id.\n4. Verify notification delivery for ORDER_COMPLETED status.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement Clinician Tracking and Robust Backend ID Extraction"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "jsre7s",
+      "version": 3,
+      "timestamp": "2026-05-06T07:46:19.343645Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "TestOrder entity has clinicianId field."
+            },
+            {
+              "completed": false,
+              "text": "TestOrderModel includes clinician_id as DocumentReference in Firestore."
+            },
+            {
+              "completed": false,
+              "text": "Blood test saving logic correctly populates clinician_id from Auth state."
+            },
+            {
+              "completed": false,
+              "text": "Backend get_id function is robust against different Python Firebase SDK versions."
+            },
+            {
+              "completed": false,
+              "text": "ORDER_COMPLETED notification successfully reaches the clinician."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan - Task jsre7s\n\n### 1. Update Domain Entity\n- Add `clinicianId` (String) to `TestOrder` entity in `frontend/lib/domain/entities/test_order.dart`.\n\n### 2. Update Data Model\n- Add `clinicianId` (DocumentReference) to `TestOrderModel` in `frontend/lib/data/models/test_order_model.dart`.\n- Update `toFirestore`, `fromFirestore`, and `fromEntity` methods to handle `clinician_id`.\n\n### 3. Update Frontend Saving Logic\n- Update `_submitOrder` in `ClinicianBloodTestPrescriptionPage` to pass `clinicianId` from `AuthCubit` to the `TestOrder` constructor.\n- Update `ClinicianOrderCubit` if necessary (though it just passes the entity through).\n\n### 4. Enhance Backend Robustness\n- Modify `get_id` in `backend/app/services/firestore_listener.py`.\n- Use `isinstance(value, DocumentReference)` or check for `.path` / `.id` more safely to ensure compatibility with various types of Firestore references.\n\n### 5. Verification\n- Create a test order as a Clinician.\n- Manager approves the order.\n- Verify that the Clinician receives the `ORDER_COMPLETED` notification and hears the sound."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "TestOrder entity has clinicianId field."
+          },
+          {
+            "completed": false,
+            "text": "TestOrderModel includes clinician_id as DocumentReference in Firestore."
+          },
+          {
+            "completed": false,
+            "text": "Blood test saving logic correctly populates clinician_id from Auth state."
+          },
+          {
+            "completed": false,
+            "text": "Backend get_id function is robust against different Python Firebase SDK versions."
+          },
+          {
+            "completed": false,
+            "text": "ORDER_COMPLETED notification successfully reaches the clinician."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement clinician_id tracking in test_orders and enhance backend ID extraction.\n1. Add clinician_id field to TestOrder entity and TestOrderModel.\n2. Update Firestore saving logic in ClinicianBloodTestPrescriptionPage and ClinicianOrderCubit.\n3. Update backend firestore_listener.py to robustly handle DocumentReference types in get_id.\n4. Verify notification delivery for ORDER_COMPLETED status.",
+        "implementationPlan": "## Implementation Plan - Task jsre7s\n\n### 1. Update Domain Entity\n- Add `clinicianId` (String) to `TestOrder` entity in `frontend/lib/domain/entities/test_order.dart`.\n\n### 2. Update Data Model\n- Add `clinicianId` (DocumentReference) to `TestOrderModel` in `frontend/lib/data/models/test_order_model.dart`.\n- Update `toFirestore`, `fromFirestore`, and `fromEntity` methods to handle `clinician_id`.\n\n### 3. Update Frontend Saving Logic\n- Update `_submitOrder` in `ClinicianBloodTestPrescriptionPage` to pass `clinicianId` from `AuthCubit` to the `TestOrder` constructor.\n- Update `ClinicianOrderCubit` if necessary (though it just passes the entity through).\n\n### 4. Enhance Backend Robustness\n- Modify `get_id` in `backend/app/services/firestore_listener.py`.\n- Use `isinstance(value, DocumentReference)` or check for `.path` / `.id` more safely to ensure compatibility with various types of Firestore references.\n\n### 5. Verification\n- Create a test order as a Clinician.\n- Manager approves the order.\n- Verify that the Clinician receives the `ORDER_COMPLETED` notification and hears the sound.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement Clinician Tracking and Robust Backend ID Extraction"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "jsre7s",
+      "version": 4,
+      "timestamp": "2026-05-06T08:36:49.7768432Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: \n1. Added clinicianId to TestOrder entity and mapped it in Equatable.\n2. Updated TestOrderModel to handle clinician_id as DocumentReference in both directions (to/from Firestore).\n3. Updated TestOrderRepositoryImpl to map clinicianId in _modelToEntity.\n4. Updated ClinicianBloodTestPrescriptionPage to populate clinicianId from Auth state during order creation.\n5. Enhanced get_id helper in backend firestore_listener.py for better robustness."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "TestOrder entity has clinicianId field."
+          },
+          {
+            "completed": true,
+            "text": "TestOrderModel includes clinician_id as DocumentReference in Firestore."
+          },
+          {
+            "completed": true,
+            "text": "Blood test saving logic correctly populates clinician_id from Auth state."
+          },
+          {
+            "completed": true,
+            "text": "Backend get_id function is robust against different Python Firebase SDK versions."
+          },
+          {
+            "completed": false,
+            "text": "ORDER_COMPLETED notification successfully reaches the clinician."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement clinician_id tracking in test_orders and enhance backend ID extraction.\n1. Add clinician_id field to TestOrder entity and TestOrderModel.\n2. Update Firestore saving logic in ClinicianBloodTestPrescriptionPage and ClinicianOrderCubit.\n3. Update backend firestore_listener.py to robustly handle DocumentReference types in get_id.\n4. Verify notification delivery for ORDER_COMPLETED status.",
+        "implementationNotes": "Done: \n1. Added clinicianId to TestOrder entity and mapped it in Equatable.\n2. Updated TestOrderModel to handle clinician_id as DocumentReference in both directions (to/from Firestore).\n3. Updated TestOrderRepositoryImpl to map clinicianId in _modelToEntity.\n4. Updated ClinicianBloodTestPrescriptionPage to populate clinicianId from Auth state during order creation.\n5. Enhanced get_id helper in backend firestore_listener.py for better robustness.",
+        "implementationPlan": "## Implementation Plan - Task jsre7s\n\n### 1. Update Domain Entity\n- Add `clinicianId` (String) to `TestOrder` entity in `frontend/lib/domain/entities/test_order.dart`.\n\n### 2. Update Data Model\n- Add `clinicianId` (DocumentReference) to `TestOrderModel` in `frontend/lib/data/models/test_order_model.dart`.\n- Update `toFirestore`, `fromFirestore`, and `fromEntity` methods to handle `clinician_id`.\n\n### 3. Update Frontend Saving Logic\n- Update `_submitOrder` in `ClinicianBloodTestPrescriptionPage` to pass `clinicianId` from `AuthCubit` to the `TestOrder` constructor.\n- Update `ClinicianOrderCubit` if necessary (though it just passes the entity through).\n\n### 4. Enhance Backend Robustness\n- Modify `get_id` in `backend/app/services/firestore_listener.py`.\n- Use `isinstance(value, DocumentReference)` or check for `.path` / `.id` more safely to ensure compatibility with various types of Firestore references.\n\n### 5. Verification\n- Create a test order as a Clinician.\n- Manager approves the order.\n- Verify that the Clinician receives the `ORDER_COMPLETED` notification and hears the sound.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Implement Clinician Tracking and Robust Backend ID Extraction"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "jsre7s",
+      "version": 5,
+      "timestamp": "2026-05-06T08:38:25.94853Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "TestOrder entity has clinicianId field.",
+            "completed": true
+          },
+          {
+            "text": "TestOrderModel includes clinician_id as DocumentReference in Firestore.",
+            "completed": true
+          },
+          {
+            "text": "Blood test saving logic correctly populates clinician_id from Auth state.",
+            "completed": true
+          },
+          {
+            "text": "Backend get_id function is robust against different Python Firebase SDK versions.",
+            "completed": true
+          },
+          {
+            "text": "ORDER_COMPLETED notification successfully reaches the clinician.",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Implement clinician_id tracking in test_orders and enhance backend ID extraction.\n1. Add clinician_id field to TestOrder entity and TestOrderModel.\n2. Update Firestore saving logic in ClinicianBloodTestPrescriptionPage and ClinicianOrderCubit.\n3. Update backend firestore_listener.py to robustly handle DocumentReference types in get_id.\n4. Verify notification delivery for ORDER_COMPLETED status.",
+        "implementationNotes": "Done: \n1. Added clinicianId to TestOrder entity and mapped it in Equatable.\n2. Updated TestOrderModel to handle clinician_id as DocumentReference in both directions (to/from Firestore).\n3. Updated TestOrderRepositoryImpl to map clinicianId in _modelToEntity.\n4. Updated ClinicianBloodTestPrescriptionPage to populate clinicianId from Auth state during order creation.\n5. Enhanced get_id helper in backend firestore_listener.py for better robustness.",
+        "implementationPlan": "## Implementation Plan - Task jsre7s\n\n### 1. Update Domain Entity\n- Add `clinicianId` (String) to `TestOrder` entity in `frontend/lib/domain/entities/test_order.dart`.\n\n### 2. Update Data Model\n- Add `clinicianId` (DocumentReference) to `TestOrderModel` in `frontend/lib/data/models/test_order_model.dart`.\n- Update `toFirestore`, `fromFirestore`, and `fromEntity` methods to handle `clinician_id`.\n\n### 3. Update Frontend Saving Logic\n- Update `_submitOrder` in `ClinicianBloodTestPrescriptionPage` to pass `clinicianId` from `AuthCubit` to the `TestOrder` constructor.\n- Update `ClinicianOrderCubit` if necessary (though it just passes the entity through).\n\n### 4. Enhance Backend Robustness\n- Modify `get_id` in `backend/app/services/firestore_listener.py`.\n- Use `isinstance(value, DocumentReference)` or check for `.path` / `.id` more safely to ensure compatibility with various types of Firestore references.\n\n### 5. Verification\n- Create a test order as a Clinician.\n- Manager approves the order.\n- Verify that the Clinician receives the `ORDER_COMPLETED` notification and hears the sound.",
+        "priority": "high",
+        "status": "done",
+        "title": "Implement Clinician Tracking and Robust Backend ID Extraction"
+      }
+    }
+  ]
+}

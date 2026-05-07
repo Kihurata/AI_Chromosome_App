@@ -1,0 +1,55 @@
+{
+  "taskId": "qaljjb",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "qaljjb",
+      "version": 1,
+      "timestamp": "2026-05-02T09:56:03.5351636Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Update LabManagerDashboardPage to use dynamic data from ManagerDashboardCubit instead of hardcoded values for StatCards.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Manager Dashboard: Connect real-time Stats"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "qaljjb",
+      "version": 2,
+      "timestamp": "2026-05-02T09:56:44.7542645Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Connected all StatCards to real-time stats from ManagerDashboardCubit. Verified with dart analyze."
+        }
+      ],
+      "snapshot": {
+        "description": "Update LabManagerDashboardPage to use dynamic data from ManagerDashboardCubit instead of hardcoded values for StatCards.",
+        "implementationNotes": "Connected all StatCards to real-time stats from ManagerDashboardCubit. Verified with dart analyze.",
+        "priority": "high",
+        "status": "done",
+        "title": "Manager Dashboard: Connect real-time Stats"
+      }
+    }
+  ]
+}

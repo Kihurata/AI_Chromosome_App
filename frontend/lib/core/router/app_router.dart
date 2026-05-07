@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../models/nav_item.dart';
 import '../config/app_nav_items.dart';
 import '../providers/auth_provider.dart';
+import '../di/injection.dart';
 import '../../presentation/screens/auth/login_page.dart';
 import '../../presentation/screens/receptionist/receptionist_dashboard_body.dart';
 import '../../presentation/screens/receptionist/patient_list_page.dart';
 import '../../presentation/screens/receptionist/appointment_calendar_page.dart';
-import '../../presentation/screens/dashboard/doctor_dashboard_page.dart';
+import '../../presentation/screens/clinician/dashboard/doctor_dashboard_page.dart';
 import '../../presentation/screens/specialist/specialist_dashboard_page.dart';
 import '../../presentation/widgets/shared/navigation/main_shell.dart';
-import '../../presentation/screens/clinician/appointment_list/appointment_list_screen.dart';
-import '../../presentation/screens/clinician/medical_record/medical_record_screen.dart';
-import '../../presentation/screens/clinician/examination_form_screen.dart';
-import '../../presentation/screens/clinician/blood_test_prescription_screen.dart';
+import '../../presentation/screens/patient_detail/medical_record/shared_medical_record_page.dart';
+import '../../presentation/screens/clinician/forms/examination_form_screen.dart';
+import '../../presentation/screens/clinician/forms/blood_test_prescription_screen.dart';
 import '../../presentation/screens/workspace/workspace_screen.dart';
-import '../../presentation/screens/manager/manager_dashboard_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../presentation/screens/manager/lab_manager_dashboard_page.dart';
+import '../../presentation/screens/manager/lab_result_review_page.dart';
+import '../../presentation/screens/patient_detail/test_result_detail_page.dart';
 import '../../logic/bloc/specialist/ai_analysis_cubit.dart';
 import '../../logic/bloc/workspace/workspace_cubit.dart';
 import '../../logic/bloc/specialist/sample_management_cubit.dart';
@@ -26,7 +28,6 @@ import '../../presentation/screens/specialist/sample_management_page.dart';
 import '../../presentation/screens/specialist/sample_detail_screen.dart';
 import '../../domain/usecases/specialist/update_chromosome_position.dart';
 import '../../domain/usecases/test_order/submit_analysis_result.dart';
-import '../di/injection.dart';
 
 // ── Route path constants ──────────────────────────────────────────────────────
 class AppRoutes {
@@ -155,13 +156,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.clinicianAppointments,
             name: 'clinician-appointments',
-            builder: (context, state) => const ClinicianAppointmentListPage(),
+            builder: (context, state) => const DoctorDashboardPage(),
           ),
           GoRoute(
             path: '${AppRoutes.clinicianMedicalRecord}/:id',
             name: 'clinician-medical-record',
-            builder: (context, state) => ClinicianMedicalRecordPage(
+            builder: (context, state) => SharedMedicalRecordPage(
               id: state.pathParameters['id'] ?? '',
+              appointmentId: state.uri.queryParameters['appointmentId'],
             ),
           ),
           GoRoute(
@@ -175,6 +177,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: '${AppRoutes.clinicianBloodTest}/:id',
             name: 'clinician-blood-test',
             builder: (context, state) => ClinicianBloodTestPrescriptionPage(
+              id: state.pathParameters['id'] ?? '',
+            ),
+          ),
+          GoRoute(
+            path: '${AppRoutes.clinicianLab}/:id',
+            name: 'clinician-lab',
+            builder: (context, state) => const DoctorDashboardPage(),
+          ),
+          GoRoute(
+            path: '/clinician/test-result/:id',
+            name: 'clinician-test-result',
+            builder: (context, state) => TestResultDetailPage(
               id: state.pathParameters['id'] ?? '',
             ),
           ),
@@ -226,12 +240,19 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: AppRoutes.managerDashboard,
             name: 'manager-dashboard',
-            builder: (context, state) => const ManagerDashboardPage(),
+            builder: (context, state) => const LabManagerDashboardPage(),
           ),
           GoRoute(
             path: AppRoutes.managerReports,
             name: 'manager-reports',
-            builder: (context, state) => const _PlaceholderPage(title: 'Báo cáo Lab'),
+            builder: (context, state) => const LabManagerDashboardPage(),
+          ),
+          GoRoute(
+            path: '/manager/review/:id',
+            name: 'manager-review',
+            builder: (context, state) => LabResultReviewPage(
+              orderId: state.pathParameters['id'] ?? '',
+            ),
           ),
 
           // Profile (shared)

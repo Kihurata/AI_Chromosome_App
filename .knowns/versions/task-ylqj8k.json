@@ -1,0 +1,124 @@
+{
+  "taskId": "ylqj8k",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "ylqj8k",
+      "version": 1,
+      "timestamp": "2026-05-03T04:26:52.7249452Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Ensure all table column labels and displayed information across role-based screens accurately reflect the properties of the domain models. Wire up Cubit/Riverpod logic to any screens currently displaying mock data or lacking data-fetching logic.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Data Binding \u0026 Logic Integration for Role Screens"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "ylqj8k",
+      "version": 2,
+      "timestamp": "2026-05-03T04:26:59.3053282Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Ensure all table column labels and displayed information across role-based screens accurately reflect the properties of the domain models. Wire up Cubit/Riverpod logic to any screens currently displaying mock data or lacking data-fetching logic.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Data Binding \u0026 Logic Integration for Role Screens"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "ylqj8k",
+      "version": 3,
+      "timestamp": "2026-05-03T04:27:34.8205354Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Audit Domain Models**: Review `frontend\\lib\\data\\models` (Patient, Appointment, TestOrder, Sample, MetaphaseImage, Chromosome) to map out all exact property names and data types.\n2. **Update Table Column Labels**: Navigate through all list widgets (e.g., `TodayAppointmentsTable`, `PatientTableHeader`, `LabExaminationTable`, `RecentPatientsTable`) and rename the column headers so they semantically and technically match the model properties.\n3. **Update Displayed Information**: Review detailed view screens (e.g., `lab_result_review_page.dart`, `receptionist_patient_detail_view.dart`, `test_results_tab.dart`, `history_tab.dart`) across all roles (Manager, Specialist, Clinician, Receptionist) to replace any placeholder/mock text with dynamic bindings from the models.\n4. **Wire Logic (Cubit/Riverpod)**: For screens/widgets currently lacking data-fetching logic (using mock data), inject the appropriate `BlocBuilder` (Cubit) or `Consumer` (Riverpod) following the clean architecture State Management Pattern to pull real data from repositories.\n5. **Validation**: Test the screens per role to ensure real-time data flows correctly to the UI without breaking layout or architectural constraints (e.g., no direct Firestore calls in Presentation layer)."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Ensure all table column labels and displayed information across role-based screens accurately reflect the properties of the domain models. Wire up Cubit/Riverpod logic to any screens currently displaying mock data or lacking data-fetching logic.",
+        "implementationPlan": "## Implementation Plan\n1. **Audit Domain Models**: Review `frontend\\lib\\data\\models` (Patient, Appointment, TestOrder, Sample, MetaphaseImage, Chromosome) to map out all exact property names and data types.\n2. **Update Table Column Labels**: Navigate through all list widgets (e.g., `TodayAppointmentsTable`, `PatientTableHeader`, `LabExaminationTable`, `RecentPatientsTable`) and rename the column headers so they semantically and technically match the model properties.\n3. **Update Displayed Information**: Review detailed view screens (e.g., `lab_result_review_page.dart`, `receptionist_patient_detail_view.dart`, `test_results_tab.dart`, `history_tab.dart`) across all roles (Manager, Specialist, Clinician, Receptionist) to replace any placeholder/mock text with dynamic bindings from the models.\n4. **Wire Logic (Cubit/Riverpod)**: For screens/widgets currently lacking data-fetching logic (using mock data), inject the appropriate `BlocBuilder` (Cubit) or `Consumer` (Riverpod) following the clean architecture State Management Pattern to pull real data from repositories.\n5. **Validation**: Test the screens per role to ensure real-time data flows correctly to the UI without breaking layout or architectural constraints (e.g., no direct Firestore calls in Presentation layer).",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Data Binding \u0026 Logic Integration for Role Screens"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "ylqj8k",
+      "version": 4,
+      "timestamp": "2026-05-03T07:27:39.0926405Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": "## Implementation Plan\n1. **Audit Domain Models**: Review `frontend\\lib\\data\\models` (Patient, Appointment, TestOrder, Sample, MetaphaseImage, Chromosome) to map out all exact property names and data types.\n2. **Update Table Column Labels**: Navigate through all list widgets (e.g., `TodayAppointmentsTable`, `PatientTableHeader`, `LabExaminationTable`, `RecentPatientsTable`) and rename the column headers so they semantically and technically match the model properties.\n3. **Update Displayed Information**: Review detailed view screens (e.g., `lab_result_review_page.dart`, `receptionist_patient_detail_view.dart`, `test_results_tab.dart`, `history_tab.dart`) across all roles (Manager, Specialist, Clinician, Receptionist) to replace any placeholder/mock text with dynamic bindings from the models.\n4. **Wire Logic (Cubit/Riverpod)**: For screens/widgets currently lacking data-fetching logic (using mock data), inject the appropriate `BlocBuilder` (Cubit) or `Consumer` (Riverpod) following the clean architecture State Management Pattern to pull real data from repositories.\n5. **Validation**: Test the screens per role to ensure real-time data flows correctly to the UI without breaking layout or architectural constraints (e.g., no direct Firestore calls in Presentation layer).",
+          "newValue": "## Implementation Plan\n1. **SharedMedicalRecordPage**: Inject PatientCubit and call \fetchPatientById(widget.id) to load real data. Replace hardcoded 'Johnathan Doe' with state.patient.fullName.\n2. **PatientInfoTab**: Refactor to accept Patient entity. Map \fullName, phone, dob, gender, patientCode, and \u0007ddress to the UI fields. Remove non-existent fields like 'VIP status'.\n3. **TestResultsTab**: Integrate ClinicianOrderCubit. Use BlocBuilder to listen to TestOrdersLoaded. Filter orders by patientId and display real test history in the AppDataTable.\n4. **HistoryTab**: Integrate ExaminationCubit. Use BlocBuilder to display real clinical examination records instead of the current 3 mock timeline items.\n5. **Validation**: Run \flutter analyze and verify that all screens correctly reflect the domain model attributes defined in lib/domain/entities."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Ensure all table column labels and displayed information across role-based screens accurately reflect the properties of the domain models. Wire up Cubit/Riverpod logic to any screens currently displaying mock data or lacking data-fetching logic.",
+        "implementationPlan": "## Implementation Plan\n1. **SharedMedicalRecordPage**: Inject PatientCubit and call \fetchPatientById(widget.id) to load real data. Replace hardcoded 'Johnathan Doe' with state.patient.fullName.\n2. **PatientInfoTab**: Refactor to accept Patient entity. Map \fullName, phone, dob, gender, patientCode, and \u0007ddress to the UI fields. Remove non-existent fields like 'VIP status'.\n3. **TestResultsTab**: Integrate ClinicianOrderCubit. Use BlocBuilder to listen to TestOrdersLoaded. Filter orders by patientId and display real test history in the AppDataTable.\n4. **HistoryTab**: Integrate ExaminationCubit. Use BlocBuilder to display real clinical examination records instead of the current 3 mock timeline items.\n5. **Validation**: Run \flutter analyze and verify that all screens correctly reflect the domain model attributes defined in lib/domain/entities.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Data Binding \u0026 Logic Integration for Role Screens"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "ylqj8k",
+      "version": 5,
+      "timestamp": "2026-05-03T07:35:35.9680138Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented real data binding for patient detail role screens. Integrated PatientCubit, ClinicianOrderCubit, and ExaminationCubit to replace mock data in SharedMedicalRecordPage and its tabs (Info, History, Test Results). Verified with flutter analyze."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Ensure all table column labels and displayed information across role-based screens accurately reflect the properties of the domain models. Wire up Cubit/Riverpod logic to any screens currently displaying mock data or lacking data-fetching logic.",
+        "implementationNotes": "Implemented real data binding for patient detail role screens. Integrated PatientCubit, ClinicianOrderCubit, and ExaminationCubit to replace mock data in SharedMedicalRecordPage and its tabs (Info, History, Test Results). Verified with flutter analyze.",
+        "implementationPlan": "## Implementation Plan\n1. **SharedMedicalRecordPage**: Inject PatientCubit and call \fetchPatientById(widget.id) to load real data. Replace hardcoded 'Johnathan Doe' with state.patient.fullName.\n2. **PatientInfoTab**: Refactor to accept Patient entity. Map \fullName, phone, dob, gender, patientCode, and \u0007ddress to the UI fields. Remove non-existent fields like 'VIP status'.\n3. **TestResultsTab**: Integrate ClinicianOrderCubit. Use BlocBuilder to listen to TestOrdersLoaded. Filter orders by patientId and display real test history in the AppDataTable.\n4. **HistoryTab**: Integrate ExaminationCubit. Use BlocBuilder to display real clinical examination records instead of the current 3 mock timeline items.\n5. **Validation**: Run \flutter analyze and verify that all screens correctly reflect the domain model attributes defined in lib/domain/entities.",
+        "priority": "high",
+        "status": "done",
+        "title": "Data Binding \u0026 Logic Integration for Role Screens"
+      }
+    }
+  ]
+}

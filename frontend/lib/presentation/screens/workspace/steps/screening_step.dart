@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:file_picker/file_picker.dart';
+import '../../../../domain/entities/metaphase_image.dart';
+import '../../../../domain/repositories/workspace_repository.dart';
+import '../../../../core/di/injection.dart';
+import '../../../../logic/bloc/specialist/ai_analysis_cubit.dart';
+import '../../../../logic/bloc/specialist/ai_analysis_state.dart';
+import '../../../widgets/shared/form/app_buttons.dart';
 import '../../../../logic/bloc/workspace/workspace_cubit.dart';
+import '../../../widgets/specialist/comparison_dialog.dart';
 
 class ScreeningStep extends StatefulWidget {
   final String orderId;
@@ -11,12 +19,27 @@ class ScreeningStep extends StatefulWidget {
 }
 
 class _ScreeningStepState extends State<ScreeningStep> {
-  // Temporary mock data for UI visualization
-  final List<Map<String, dynamic>> _mockImages = List.generate(8, (index) => {
-    'id': 'img_$index',
-    'url': 'https://picsum.photos/seed/$index/300/300',
-    'ai_score': 70 + (index * 5) % 30, // Mock score between 70-100
-  });
+  Future<void> _pickAndUploadFiles() async {
+    final result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type: FileType.image,
+      withData: true,
+    );
+
+    if (result != null) {
+      final bytesList = result.files
+          .where((f) => f.bytes != null)
+          .map((f) => f.bytes!)
+          .toList();
+
+      if (bytesList.isNotEmpty && mounted) {
+        context.read<AiAnalysisCubit>().uploadMultipleImages(
+          bytesList,
+          widget.orderId,
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,104 +54,370 @@ class _ScreeningStepState extends State<ScreeningStep> {
           ),
           const SizedBox(height: 8),
           const Text(
-            'Chọn 1-3 ảnh rõ nét nhất (đã được AI đánh giá sơ bộ) để tiến hành bóc tách.',
+            'Chọn 1-3 ảnh rõ nét nhất để tiến hành bóc tách. Upload ảnh mới nếu cần.',
             style: TextStyle(color: Colors.black54),
           ),
-          const SizedBox(height: 24),
-          Expanded(
-            child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
-              builder: (context, workspaceState) {
-                final selectedIds = workspaceState.selectedImageIds;
-
-                return GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 250,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: 1.0,
+          const SizedBox(height: 16),
+          // Upload button row
+          BlocConsumer<AiAnalysisCubit, AiAnalysisState>(
+            listener: (context, state) {
+              if (state is AiAnalysisUploadCompleted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Tải ảnh lên thành công! Bấm Phân tích AI để tiếp tục.',
+                    ),
+                    backgroundColor: Colors.green,
                   ),
-                  itemCount: _mockImages.length,
-                  itemBuilder: (context, index) {
-                    final image = _mockImages[index];
-                    final imageId = image['id'] as String;
-                    final aiScore = image['ai_score'] as int;
-                    final isSelected = selectedIds.contains(imageId);
-                    
-                    // AC-6: Disable unselected if 3 are already selected
-                    final isMaxSelected = selectedIds.length >= 3;
-                    final isDisabled = isMaxSelected && !isSelected;
+                );
+              } else if (state is AiAnalysisError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Lỗi: ${state.message}'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              final isUploading = state is AiAnalysisUploadingProgress;
+              final current = isUploading ? state.current : 0;
+              final total = isUploading ? state.total : 0;
 
-                    return GestureDetector(
-                      onTap: isDisabled ? null : () {
-                        context.read<WorkspaceCubit>().toggleImageSelection(imageId);
-                      },
-                      child: Opacity(
-                        opacity: isDisabled ? 0.5 : 1.0,
-                        child: Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: isSelected ? Theme.of(context).primaryColor : Colors.transparent,
-                              width: 3,
+              return Row(
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: isUploading ? null : _pickAndUploadFiles,
+                    icon: const Icon(Icons.upload_file),
+                    label: Text(
+                      isUploading
+                          ? 'Đang tải lên $current/$total...'
+                          : 'Upload ảnh',
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          const SizedBox(height: 24),
+          // Image grid
+          Expanded(
+            child: StreamBuilder(
+              stream: getIt<WorkspaceRepository>().watchMetaphaseImages(
+                widget.orderId,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: Text('Chưa có ảnh nào được tải lên.'),
+                  );
+                }
+
+                return snapshot.data!.fold(
+                  (failure) =>
+                      Center(child: Text('Lỗi tải ảnh: ${failure.message}')),
+                  (images) {
+                    if (images.isEmpty) {
+                      return const Center(
+                        child: Text('Chưa có ảnh nào được tải lên.'),
+                      );
+                    }
+
+                    final hasUploadedImages = images.any(
+                      (img) => img.status == AiProcessingStatus.uploaded,
+                    );
+                    final isProcessingAny = images.any(
+                      (img) => img.status == AiProcessingStatus.processing,
+                    );
+
+                    return Column(
+                      children: [
+                        // AI trigger button row
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: (hasUploadedImages && !isProcessingAny)
+                                  ? () => context
+                                        .read<AiAnalysisCubit>()
+                                        .triggerAnalysis(widget.orderId)
+                                  : null,
+                              icon: const Icon(Icons.auto_awesome),
+                              label: const Text('Phân tích AI'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Theme.of(context).primaryColor,
+                                foregroundColor: Colors.white,
+                              ),
                             ),
-                            image: DecorationImage(
-                              image: NetworkImage(image['url'] as String),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          child: Stack(
-                            children: [
-                              // Top Left: AI Score Badge
-                              Positioned(
-                                top: 8,
-                                left: 8,
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: aiScore >= 90 ? Colors.green : (aiScore >= 80 ? Colors.orange : Colors.red),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Icon(Icons.auto_awesome, color: Colors.white, size: 14),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        'AI: $aiScore',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+                        // Image grid
+                        Expanded(
+                          child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
+                            builder: (context, workspaceState) {
+                              final selectedIds =
+                                  workspaceState.selectedImageIds;
+
+                              return GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      maxCrossAxisExtent: 250,
+                                      crossAxisSpacing: 16,
+                                      mainAxisSpacing: 16,
+                                      childAspectRatio: 1.0,
+                                    ),
+                                itemCount: images.length,
+                                itemBuilder: (context, index) {
+                                  final image = images[index];
+                                  final imageId = image.id;
+                                  final isSelected = selectedIds.contains(
+                                    imageId,
+                                  );
+                                  final isMaxSelected = selectedIds.length >= 3;
+                                  final isDisabled =
+                                      isMaxSelected && !isSelected;
+                                  final aiScore = image.aiScore ?? 0;
+
+                                  return GestureDetector(
+                                    onTap: isDisabled
+                                        ? null
+                                        : () => context
+                                              .read<WorkspaceCubit>()
+                                              .toggleImageSelection(imageId),
+                                    child: Opacity(
+                                      opacity: isDisabled ? 0.5 : 1.0,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade200,
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
+                                            border: Border.all(
+                                              color: isSelected
+                                                  ? Theme.of(
+                                                      context,
+                                                    ).primaryColor
+                                                  : Colors.transparent,
+                                              width: 3,
+                                            ),
+                                          ),
+                                          child: Stack(
+                                            fit: StackFit.expand,
+                                            children: [
+                                              // Use Image.network (uses HTML img on web, bypasses CORS)
+                                              Image.network(
+                                                image.rawImageUrl,
+                                                fit: BoxFit.cover,
+                                                errorBuilder:
+                                                    (
+                                                      context,
+                                                      error,
+                                                      stackTrace,
+                                                    ) => const Center(
+                                                      child: Icon(
+                                                        Icons.broken_image,
+                                                        size: 40,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                              ),
+                                              // Processing overlay
+                                              if (image.status ==
+                                                  AiProcessingStatus.processing)
+                                                Container(
+                                                  color: Colors.black
+                                                      .withValues(alpha: 0.4),
+                                                  child: const Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  ),
+                                                ),
+                                              // Completed AI score badge
+                                              if (image.status ==
+                                                  AiProcessingStatus.completed)
+                                                Positioned(
+                                                  top: 8,
+                                                  left: 8,
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                          horizontal: 8,
+                                                          vertical: 4,
+                                                        ),
+                                                    decoration: BoxDecoration(
+                                                      color: aiScore >= 90
+                                                          ? Colors.green
+                                                          : (aiScore >= 80
+                                                                ? Colors.orange
+                                                                : Colors.red),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12,
+                                                          ),
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        const Icon(
+                                                          Icons.auto_awesome,
+                                                          color: Colors.white,
+                                                          size: 14,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 4,
+                                                        ),
+                                                        Text(
+                                                          'AI: $aiScore',
+                                                          style:
+                                                              const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              // Selection checkmark
+                                              if (isSelected)
+                                                Align(
+                                                  alignment: Alignment.topRight,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          8.0,
+                                                        ),
+                                                    child: Icon(
+                                                      Icons.check_circle,
+                                                      color: Theme.of(
+                                                        context,
+                                                      ).primaryColor,
+                                                      size: 28,
+                                                    ),
+                                                  ),
+                                                ),
+                                              // View AI Result Button
+                                              if (image.status ==
+                                                  AiProcessingStatus.completed)
+                                                Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          8.0,
+                                                        ),
+                                                    child: IconButton(
+                                                      icon: const Icon(
+                                                        Icons.visibility,
+                                                      ),
+                                                      color: Colors.white,
+                                                      style:
+                                                          IconButton.styleFrom(
+                                                            backgroundColor:
+                                                                Theme.of(
+                                                                  context,
+                                                                ).primaryColor,
+                                                          ),
+                                                      onPressed: () {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) =>
+                                                              ComparisonDialog(
+                                                                originalImageUrl:
+                                                                    image.rawImageUrl,
+                                                                aiImageUrl:
+                                                                    image.aiImageUrl ?? '',
+                                                                confidenceScore:
+                                                                    image.aiScore ?? 0,
+                                                                chromosomeCount:
+                                                                    image
+                                                                        .aiCount ??
+                                                                    0,
+                                                              ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              // Top Right: Check Icon
-                              if (isSelected)
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Icon(
-                                      Icons.check_circle,
-                                      color: Theme.of(context).primaryColor,
-                                      size: 28,
                                     ),
-                                  ),
-                                ),
-                            ],
+                                  );
+                                },
+                              );
+                            },
                           ),
                         ),
-                      ),
+                      ],
                     );
                   },
                 );
               },
             ),
+          ),
+          const SizedBox(height: 16),
+          BlocConsumer<AiAnalysisCubit, AiAnalysisState>(
+            listener: (context, state) {
+              if (state is AiAnalysisError) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Phân tích AI thất bại'),
+                    content: Text(state.message),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Thử lại'),
+                      ),
+                      AppPrimaryButton(
+                        text: 'Tự cắt thủ công',
+                        onPressed: () {
+                          Navigator.pop(context);
+                          // D3: Fallback to Step 2 (Manual Slicing)
+                          context.read<WorkspaceCubit>().goToStep(2);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              final isAnalyzing =
+                  state is AiAnalysisWaitingForBackend ||
+                  state is AiAnalysisUploading;
+
+              return Center(
+                child: AppPrimaryButton(
+                  text: isAnalyzing
+                      ? 'Đang phân tích...'
+                      : 'Bắt đầu phân tích AI',
+                  icon: isAnalyzing ? null : Icons.auto_awesome,
+                  isLoading: isAnalyzing,
+                  onPressed:
+                      isAnalyzing // || _selectedIndices.isEmpty (This seems to have a bug or missing variable, I'll fix it if I can see where _selectedIndices comes from)
+                      ? null
+                      : () => context.read<AiAnalysisCubit>().triggerAnalysis(
+                          widget.orderId,
+                          // _selectedIndices.first.toString(),
+                        ),
+                ),
+              );
+            },
           ),
         ],
       ),

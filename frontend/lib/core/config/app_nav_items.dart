@@ -33,11 +33,11 @@ const List<NavItem> appNavItems = [
     label: 'Tổng quan',
     icon: LucideIcons.layoutDashboard,
     routePath: '/clinician/dashboard',
-    allowedRoles: [AppRole.clinician],
+    allowedRoles: [], // Bỏ Clinician
     tooltip: 'Trang tổng quan',
   ),
   NavItem(
-    label: 'Danh sách LK',
+    label: 'Lịch Khám', // Sửa từ 'Danh sách LK'
     icon: LucideIcons.calendar,
     routePath: '/clinician/appointments',
     allowedRoles: [AppRole.clinician],
@@ -47,7 +47,7 @@ const List<NavItem> appNavItems = [
     label: 'Phòng Lab AI',
     icon: LucideIcons.microscope,
     routePath: '/clinician/lab',
-    allowedRoles: [AppRole.clinician, AppRole.specialist],
+    allowedRoles: [AppRole.specialist], // Bỏ Clinician, chỉ giữ lại Specialist
     tooltip: 'Phòng Lab AI phân tích NST',
   ),
 

@@ -1,0 +1,362 @@
+{
+  "taskId": "xaz2lu",
+  "currentVersion": 7,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "xaz2lu",
+      "version": 1,
+      "timestamp": "2026-05-04T04:19:09.4231609Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "- Update examination_form_screen.dart to capture and save all clinical fields.\n- Refactor blood_test_prescription_screen.dart to remove non-model fields and implement atomic creation of TestOrder and Sample.\n- Map TestOrderStatus.pending to 'Chờ chỉ định' on all UI components.\n- Enhance history_tab.dart to display full examination details in expanded view.\n- Ensure adherence to existing models (TestOrderModel, SampleModel, ExaminationModel) without structural changes.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Finalize Clinician Examination and Prescription Workflow"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "xaz2lu",
+      "version": 2,
+      "timestamp": "2026-05-04T04:19:13.3766932Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "- Update examination_form_screen.dart to capture and save all clinical fields.\n- Refactor blood_test_prescription_screen.dart to remove non-model fields and implement atomic creation of TestOrder and Sample.\n- Map TestOrderStatus.pending to 'Chờ chỉ định' on all UI components.\n- Enhance history_tab.dart to display full examination details in expanded view.\n- Ensure adherence to existing models (TestOrderModel, SampleModel, ExaminationModel) without structural changes.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Finalize Clinician Examination and Prescription Workflow"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "xaz2lu",
+      "version": 3,
+      "timestamp": "2026-05-04T04:19:18.2381073Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "examination_form_screen.dart saves all 13 fields correctly to Firestore via Cubit."
+            },
+            {
+              "completed": false,
+              "text": "blood_test_prescription_screen.dart removed 'Test Type' and 'Sample Type' fields to match models."
+            },
+            {
+              "completed": false,
+              "text": "blood_test_prescription_screen.dart creates both TestOrder and Sample atomically in Firestore."
+            },
+            {
+              "completed": false,
+              "text": "TestOrderStatus.pending is mapped to 'Chờ chỉ định' on all relevant UI screens."
+            },
+            {
+              "completed": false,
+              "text": "history_tab.dart displays all detailed clinical fields in the expanded view."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "examination_form_screen.dart saves all 13 fields correctly to Firestore via Cubit."
+          },
+          {
+            "completed": false,
+            "text": "blood_test_prescription_screen.dart removed 'Test Type' and 'Sample Type' fields to match models."
+          },
+          {
+            "completed": false,
+            "text": "blood_test_prescription_screen.dart creates both TestOrder and Sample atomically in Firestore."
+          },
+          {
+            "completed": false,
+            "text": "TestOrderStatus.pending is mapped to 'Chờ chỉ định' on all relevant UI screens."
+          },
+          {
+            "completed": false,
+            "text": "history_tab.dart displays all detailed clinical fields in the expanded view."
+          }
+        ],
+        "assignee": "@me",
+        "description": "- Update examination_form_screen.dart to capture and save all clinical fields.\n- Refactor blood_test_prescription_screen.dart to remove non-model fields and implement atomic creation of TestOrder and Sample.\n- Map TestOrderStatus.pending to 'Chờ chỉ định' on all UI components.\n- Enhance history_tab.dart to display full examination details in expanded view.\n- Ensure adherence to existing models (TestOrderModel, SampleModel, ExaminationModel) without structural changes.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Finalize Clinician Examination and Prescription Workflow"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "xaz2lu",
+      "version": 4,
+      "timestamp": "2026-05-04T04:25:33.5965589Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Completed clinical workflow refinement.\n- Updated examination form to save 13 fields.\n- Enhanced history tab with detailed clinical views.\n- Implemented atomic saving for test orders and samples in ClinicianOrderCubit.\n- Cleaned up prescription form UI to align with models."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "examination_form_screen.dart saves all 13 fields correctly to Firestore via Cubit."
+          },
+          {
+            "completed": true,
+            "text": "blood_test_prescription_screen.dart removed 'Test Type' and 'Sample Type' fields to match models."
+          },
+          {
+            "completed": true,
+            "text": "blood_test_prescription_screen.dart creates both TestOrder and Sample atomically in Firestore."
+          },
+          {
+            "completed": true,
+            "text": "TestOrderStatus.pending is mapped to 'Chờ chỉ định' on all relevant UI screens."
+          },
+          {
+            "completed": true,
+            "text": "history_tab.dart displays all detailed clinical fields in the expanded view."
+          }
+        ],
+        "assignee": "@me",
+        "description": "- Update examination_form_screen.dart to capture and save all clinical fields.\n- Refactor blood_test_prescription_screen.dart to remove non-model fields and implement atomic creation of TestOrder and Sample.\n- Map TestOrderStatus.pending to 'Chờ chỉ định' on all UI components.\n- Enhance history_tab.dart to display full examination details in expanded view.\n- Ensure adherence to existing models (TestOrderModel, SampleModel, ExaminationModel) without structural changes.",
+        "implementationNotes": "Completed clinical workflow refinement.\n- Updated examination form to save 13 fields.\n- Enhanced history tab with detailed clinical views.\n- Implemented atomic saving for test orders and samples in ClinicianOrderCubit.\n- Cleaned up prescription form UI to align with models.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Finalize Clinician Examination and Prescription Workflow"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "xaz2lu",
+      "version": 5,
+      "timestamp": "2026-05-04T04:25:38.5333917Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": true,
+              "text": "examination_form_screen.dart saves all 13 fields correctly to Firestore via Cubit."
+            },
+            {
+              "completed": true,
+              "text": "blood_test_prescription_screen.dart removed 'Test Type' and 'Sample Type' fields to match models."
+            },
+            {
+              "completed": true,
+              "text": "blood_test_prescription_screen.dart creates both TestOrder and Sample atomically in Firestore."
+            },
+            {
+              "completed": true,
+              "text": "history_tab.dart displays all detailed clinical fields in the expanded view."
+            },
+            {
+              "completed": true,
+              "text": "history_tab.dart displays all detailed clinical fields in the expanded view."
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "examination_form_screen.dart saves all 13 fields correctly to Firestore via Cubit."
+            },
+            {
+              "completed": true,
+              "text": "blood_test_prescription_screen.dart removed 'Test Type' and 'Sample Type' fields to match models."
+            },
+            {
+              "completed": true,
+              "text": "blood_test_prescription_screen.dart creates both TestOrder and Sample atomically in Firestore."
+            },
+            {
+              "completed": true,
+              "text": "history_tab.dart displays all detailed clinical fields in the expanded view."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "examination_form_screen.dart saves all 13 fields correctly to Firestore via Cubit."
+          },
+          {
+            "completed": true,
+            "text": "blood_test_prescription_screen.dart removed 'Test Type' and 'Sample Type' fields to match models."
+          },
+          {
+            "completed": true,
+            "text": "blood_test_prescription_screen.dart creates both TestOrder and Sample atomically in Firestore."
+          },
+          {
+            "completed": true,
+            "text": "history_tab.dart displays all detailed clinical fields in the expanded view."
+          }
+        ],
+        "assignee": "@me",
+        "description": "- Update examination_form_screen.dart to capture and save all clinical fields.\n- Refactor blood_test_prescription_screen.dart to remove non-model fields and implement atomic creation of TestOrder and Sample.\n- Map TestOrderStatus.pending to 'Chờ chỉ định' on all UI components.\n- Enhance history_tab.dart to display full examination details in expanded view.\n- Ensure adherence to existing models (TestOrderModel, SampleModel, ExaminationModel) without structural changes.",
+        "implementationNotes": "Completed clinical workflow refinement.\n- Updated examination form to save 13 fields.\n- Enhanced history tab with detailed clinical views.\n- Implemented atomic saving for test orders and samples in ClinicianOrderCubit.\n- Cleaned up prescription form UI to align with models.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Finalize Clinician Examination and Prescription Workflow"
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "xaz2lu",
+      "version": 6,
+      "timestamp": "2026-05-04T04:25:38.958167Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": true,
+              "text": "examination_form_screen.dart saves all 13 fields correctly to Firestore via Cubit."
+            },
+            {
+              "completed": true,
+              "text": "blood_test_prescription_screen.dart removed 'Test Type' and 'Sample Type' fields to match models."
+            },
+            {
+              "completed": true,
+              "text": "blood_test_prescription_screen.dart creates both TestOrder and Sample atomically in Firestore."
+            },
+            {
+              "completed": true,
+              "text": "history_tab.dart displays all detailed clinical fields in the expanded view."
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "examination_form_screen.dart saves all 13 fields correctly to Firestore via Cubit."
+            },
+            {
+              "completed": true,
+              "text": "blood_test_prescription_screen.dart removed 'Test Type' and 'Sample Type' fields to match models."
+            },
+            {
+              "completed": true,
+              "text": "blood_test_prescription_screen.dart creates both TestOrder and Sample atomically in Firestore."
+            },
+            {
+              "completed": true,
+              "text": "history_tab.dart displays all detailed clinical fields in the expanded view."
+            },
+            {
+              "completed": false,
+              "text": "TestOrderStatus.pending remains 'Chờ xử lý' as per user request."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "examination_form_screen.dart saves all 13 fields correctly to Firestore via Cubit."
+          },
+          {
+            "completed": true,
+            "text": "blood_test_prescription_screen.dart removed 'Test Type' and 'Sample Type' fields to match models."
+          },
+          {
+            "completed": true,
+            "text": "blood_test_prescription_screen.dart creates both TestOrder and Sample atomically in Firestore."
+          },
+          {
+            "completed": true,
+            "text": "history_tab.dart displays all detailed clinical fields in the expanded view."
+          },
+          {
+            "completed": false,
+            "text": "TestOrderStatus.pending remains 'Chờ xử lý' as per user request."
+          }
+        ],
+        "assignee": "@me",
+        "description": "- Update examination_form_screen.dart to capture and save all clinical fields.\n- Refactor blood_test_prescription_screen.dart to remove non-model fields and implement atomic creation of TestOrder and Sample.\n- Map TestOrderStatus.pending to 'Chờ chỉ định' on all UI components.\n- Enhance history_tab.dart to display full examination details in expanded view.\n- Ensure adherence to existing models (TestOrderModel, SampleModel, ExaminationModel) without structural changes.",
+        "implementationNotes": "Completed clinical workflow refinement.\n- Updated examination form to save 13 fields.\n- Enhanced history tab with detailed clinical views.\n- Implemented atomic saving for test orders and samples in ClinicianOrderCubit.\n- Cleaned up prescription form UI to align with models.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Finalize Clinician Examination and Prescription Workflow"
+      }
+    },
+    {
+      "id": "v7",
+      "taskId": "xaz2lu",
+      "version": 7,
+      "timestamp": "2026-05-04T04:25:42.4512623Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "examination_form_screen.dart saves all 13 fields correctly to Firestore via Cubit.",
+            "completed": true
+          },
+          {
+            "text": "blood_test_prescription_screen.dart removed 'Test Type' and 'Sample Type' fields to match models.",
+            "completed": true
+          },
+          {
+            "text": "blood_test_prescription_screen.dart creates both TestOrder and Sample atomically in Firestore.",
+            "completed": true
+          },
+          {
+            "text": "history_tab.dart displays all detailed clinical fields in the expanded view.",
+            "completed": true
+          },
+          {
+            "text": "TestOrderStatus.pending remains 'Chờ xử lý' as per user request.",
+            "completed": false
+          }
+        ],
+        "assignee": "@me",
+        "description": "- Update examination_form_screen.dart to capture and save all clinical fields.\n- Refactor blood_test_prescription_screen.dart to remove non-model fields and implement atomic creation of TestOrder and Sample.\n- Map TestOrderStatus.pending to 'Chờ chỉ định' on all UI components.\n- Enhance history_tab.dart to display full examination details in expanded view.\n- Ensure adherence to existing models (TestOrderModel, SampleModel, ExaminationModel) without structural changes.",
+        "implementationNotes": "Completed clinical workflow refinement.\n- Updated examination form to save 13 fields.\n- Enhanced history tab with detailed clinical views.\n- Implemented atomic saving for test orders and samples in ClinicianOrderCubit.\n- Cleaned up prescription form UI to align with models.",
+        "priority": "high",
+        "status": "done",
+        "title": "Finalize Clinician Examination and Prescription Workflow"
+      }
+    }
+  ]
+}

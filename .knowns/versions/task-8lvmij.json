@@ -1,0 +1,132 @@
+{
+  "taskId": "8lvmij",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "8lvmij",
+      "version": 1,
+      "timestamp": "2026-05-04T11:59:32.4898115Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Refactor clinician forms, fix saving logic, and improve data visibility.\n1. Remove administrative sections from ExaminationForm and BloodTestPrescription.\n2. Synchronize date/time pickers.\n3. Fix 'Save' performance and redirect logic.\n4. Resolve PatientInfoTab loading issues.\n5. Ensure data reflects in Medical History and Manager Dashboard.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Refactor Clinician Examination Workflow"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "8lvmij",
+      "version": 2,
+      "timestamp": "2026-05-04T11:59:36.19401Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Refactor clinician forms, fix saving logic, and improve data visibility.\n1. Remove administrative sections from ExaminationForm and BloodTestPrescription.\n2. Synchronize date/time pickers.\n3. Fix 'Save' performance and redirect logic.\n4. Resolve PatientInfoTab loading issues.\n5. Ensure data reflects in Medical History and Manager Dashboard.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Clinician Examination Workflow"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "8lvmij",
+      "version": 3,
+      "timestamp": "2026-05-04T11:59:41.1024985Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "text": "Remove administrative sections from ExaminationForm and BloodTestPrescriptionScreen.",
+              "completed": false
+            },
+            {
+              "text": "Implement standard date/time pickers in both forms.",
+              "completed": false
+            },
+            {
+              "text": "Fix Firestore empty path segment error by ensuring IDs are loaded.",
+              "completed": false
+            },
+            {
+              "text": "Improve save performance (investigate serial calls).",
+              "completed": false
+            },
+            {
+              "text": "Fix PatientInfoTab data loading logic.",
+              "completed": false
+            },
+            {
+              "text": "Verify data visibility in HistoryTab and Manager Dashboard.",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Phase 1: UI Cleanup \u0026 Standardization\n1. Modify `examination_form_screen.dart`: Remove 'THÔNG TIN HÀNH CHÍNH' and replace `followUpDate` input with `DatePicker`.\n2. Modify `blood_test_prescription_screen.dart`: Remove 'THÔNG TIN CHỈ ĐỊNH' and replace `_sampleTimeCtrl` with `DateTimePicker`.\n\n## Phase 2: Bug Fixes \u0026 Performance\n1. Resolve Firestore error: Ensure `patientId` is correctly loaded before creating `TestOrder` and `Sample`.\n2. Optimize saving logic: Check if serial calls in `ClinicianOrderCubit` and `ExaminationCubit` can be batched or improved.\n3. Ensure proper redirection to `/clinician/dashboard` after successful save.\n\n## Phase 3: Data Integrity \u0026 Visibility\n1. Update `SharedMedicalRecordPage` to ensure `PatientInfoTab` receives all necessary patient data.\n2. Update `HistoryTab` to trigger `ExaminationCubit` to load examinations for the patient if needed.\n3. Verify `ManagerDashboardCubit` picks up new orders correctly."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Remove administrative sections from ExaminationForm and BloodTestPrescriptionScreen.",
+            "completed": false
+          },
+          {
+            "text": "Implement standard date/time pickers in both forms.",
+            "completed": false
+          },
+          {
+            "text": "Fix Firestore empty path segment error by ensuring IDs are loaded.",
+            "completed": false
+          },
+          {
+            "text": "Improve save performance (investigate serial calls).",
+            "completed": false
+          },
+          {
+            "text": "Fix PatientInfoTab data loading logic.",
+            "completed": false
+          },
+          {
+            "text": "Verify data visibility in HistoryTab and Manager Dashboard.",
+            "completed": false
+          }
+        ],
+        "assignee": "@me",
+        "description": "Refactor clinician forms, fix saving logic, and improve data visibility.\n1. Remove administrative sections from ExaminationForm and BloodTestPrescription.\n2. Synchronize date/time pickers.\n3. Fix 'Save' performance and redirect logic.\n4. Resolve PatientInfoTab loading issues.\n5. Ensure data reflects in Medical History and Manager Dashboard.",
+        "implementationPlan": "## Phase 1: UI Cleanup \u0026 Standardization\n1. Modify `examination_form_screen.dart`: Remove 'THÔNG TIN HÀNH CHÍNH' and replace `followUpDate` input with `DatePicker`.\n2. Modify `blood_test_prescription_screen.dart`: Remove 'THÔNG TIN CHỈ ĐỊNH' and replace `_sampleTimeCtrl` with `DateTimePicker`.\n\n## Phase 2: Bug Fixes \u0026 Performance\n1. Resolve Firestore error: Ensure `patientId` is correctly loaded before creating `TestOrder` and `Sample`.\n2. Optimize saving logic: Check if serial calls in `ClinicianOrderCubit` and `ExaminationCubit` can be batched or improved.\n3. Ensure proper redirection to `/clinician/dashboard` after successful save.\n\n## Phase 3: Data Integrity \u0026 Visibility\n1. Update `SharedMedicalRecordPage` to ensure `PatientInfoTab` receives all necessary patient data.\n2. Update `HistoryTab` to trigger `ExaminationCubit` to load examinations for the patient if needed.\n3. Verify `ManagerDashboardCubit` picks up new orders correctly.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Clinician Examination Workflow"
+      }
+    }
+  ]
+}

@@ -5,10 +5,13 @@ import '../../domain/repositories/appointment_repository.dart';
 import '../datasources/appointment_remote_datasource.dart';
 import '../models/appointment_model.dart';
 
+import 'package:injectable/injectable.dart';
+
+@LazySingleton(as: AppointmentRepository)
 class AppointmentRepositoryImpl implements AppointmentRepository {
   final AppointmentRemoteDataSource remoteDataSource;
 
-  AppointmentRepositoryImpl({required this.remoteDataSource});
+  AppointmentRepositoryImpl(this.remoteDataSource);
 
   @override
   Future<Either<Failure, List<Appointment>>> getTodayAppointments() async {
@@ -61,10 +64,11 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
   @override
   Future<Either<Failure, void>> updateAppointmentStatus(
     String appointmentId,
-    String status,
+    AppointmentStatus status,
   ) async {
     try {
-      await remoteDataSource.updateAppointmentStatus(appointmentId, status);
+      await remoteDataSource.updateAppointmentStatus(
+          appointmentId, status.toFirestoreString());
       return Right(null);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
@@ -73,15 +77,6 @@ class AppointmentRepositoryImpl implements AppointmentRepository {
 
 
   Appointment _modelToEntity(AppointmentModel model) {
-    return Appointment(
-      id: model.id,
-      patientId: model.patientId.id,
-      patientName: model.patientName,
-      doctorId: model.doctorId.id,
-      doctorName: model.doctorName,
-      appointmentDate: model.appointmentDate,
-      status: model.status,
-      reason: model.reason,
-    );
+    return model.toEntity();
   }
 }

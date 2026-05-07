@@ -21,9 +21,9 @@ class PatientModel extends Patient {
 
   Map<String, dynamic> toFirestore() {
     return {
-      'patientCode': patientCode,
-      'fullName': fullName,
-      'identityCard': identityCard,
+      'patient_code': patientCode,
+      'full_name': fullName,
+      'identity_card': identityCard,
       'dob': Timestamp.fromDate(dob),
       'gender': gender,
       'phone': phone,
@@ -31,29 +31,45 @@ class PatientModel extends Patient {
       'district': district,
       'ward': ward,
       'address': address,
-      'emergencyContactName': emergencyContactName,
-      'emergencyContactPhone': emergencyContactPhone,
+      'emergency_contact_name': emergencyContactName,
+      'emergency_contact_phone': emergencyContactPhone,
       'status': status,
-      'created_at': FieldValue.serverTimestamp(),
+      'updated_at': FieldValue.serverTimestamp(),
     };
   }
 
   factory PatientModel.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    final data = doc.data() as Map<String, dynamic>? ?? {};
+    
+    // Xử lý dob an toàn: chấp nhận Timestamp hoặc String (nếu có dữ liệu cũ)
+    DateTime parsedDob;
+    try {
+      final dobData = data['dob'];
+      if (dobData is Timestamp) {
+        parsedDob = dobData.toDate();
+      } else if (dobData is String) {
+        parsedDob = DateTime.tryParse(dobData) ?? DateTime(1900);
+      } else {
+        parsedDob = DateTime(1900);
+      }
+    } catch (_) {
+      parsedDob = DateTime(1900);
+    }
+
     return PatientModel(
       id: doc.id,
-      patientCode: data['patient_code'] ?? '',
-      fullName: data['full_name'] ?? '',
-      identityCard: data['identity_card'] ?? '',
-      dob: data['dob'] != null ? (data['dob'] as Timestamp).toDate() : DateTime(1900),
+      patientCode: data['patient_code'] ?? data['patientCode'] ?? '',
+      fullName: data['full_name'] ?? data['fullName'] ?? '',
+      identityCard: data['identity_card'] ?? data['identityCard'] ?? '',
+      dob: parsedDob,
       gender: data['gender'] ?? '',
       phone: data['phone'] ?? '',
       province: data['province'] ?? '',
       district: data['district'] ?? '',
       ward: data['ward'] ?? '',
       address: data['address'] ?? '',
-      emergencyContactName: data['emergency_contact_name'] ?? '',
-      emergencyContactPhone: data['emergency_contact_phone'] ?? '',
+      emergencyContactName: data['emergency_contact_name'] ?? data['emergencyContactName'] ?? '',
+      emergencyContactPhone: data['emergency_contact_phone'] ?? data['emergencyContactPhone'] ?? '',
       status: data['status'] ?? 'active',
     );
   }

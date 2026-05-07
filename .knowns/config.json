@@ -38,8 +38,8 @@
     },
     "serverPort": 6420,
     "platforms": [
-      "opencode",
-      "antigravity"
+      "antigravity",
+      "opencode"
     ],
     "enableChatUI": true
   }

@@ -1,0 +1,55 @@
+{
+  "taskId": "k1fu3u",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "k1fu3u",
+      "version": 1,
+      "timestamp": "2026-05-01T06:21:12.3219871Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "- Implement 'Danh sách Ca Xét nghiệm được giao' using MainListLayout.\n- Implement 'Ca Xét nghiệm Chi tiết' using MainFormLayout (handles multiple samples and AI interactions).\n- Ensure strict use of BlocBuilder/BlocListener to connect to AiAnalysisCubit and WorkspaceCubit.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Implement Specialist UI Screens"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "k1fu3u",
+      "version": 2,
+      "timestamp": "2026-05-04T10:30:34.5398077Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "on-hold"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Task bị hủy theo yêu cầu của người dùng. Chuyển sang trạng thái On-Hold để lưu trữ."
+        }
+      ],
+      "snapshot": {
+        "description": "- Implement 'Danh sách Ca Xét nghiệm được giao' using MainListLayout.\n- Implement 'Ca Xét nghiệm Chi tiết' using MainFormLayout (handles multiple samples and AI interactions).\n- Ensure strict use of BlocBuilder/BlocListener to connect to AiAnalysisCubit and WorkspaceCubit.",
+        "implementationNotes": "Task bị hủy theo yêu cầu của người dùng. Chuyển sang trạng thái On-Hold để lưu trữ.",
+        "priority": "medium",
+        "status": "on-hold",
+        "title": "Implement Specialist UI Screens"
+      }
+    }
+  ]
+}

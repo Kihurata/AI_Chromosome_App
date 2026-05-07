@@ -1,0 +1,222 @@
+{
+  "taskId": "mnfun7",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "mnfun7",
+      "version": 1,
+      "timestamp": "2026-05-07T06:44:41.5438869Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement the API call from frontend to trigger analysis, and show a full-screen loading overlay while listening to Firestore for status updates.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "frontend"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Frontend: AI Analysis Trigger \u0026 Loading Overlay"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "mnfun7",
+      "version": 2,
+      "timestamp": "2026-05-07T06:44:51.1406383Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Add `analyzeAllImages` method to `WorkspaceCubit` (or similar state manager)."
+            },
+            {
+              "completed": false,
+              "text": "Call the backend API `POST /api/v1/orders/{test_order_id}/analyze`."
+            },
+            {
+              "completed": false,
+              "text": "Show full-screen loading overlay while `status == 'ANALYZING'`."
+            },
+            {
+              "completed": false,
+              "text": "Listen to Firestore updates for completion and remove overlay."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Add `analyzeAllImages` method to `WorkspaceCubit` (or similar state manager)."
+          },
+          {
+            "completed": false,
+            "text": "Call the backend API `POST /api/v1/orders/{test_order_id}/analyze`."
+          },
+          {
+            "completed": false,
+            "text": "Show full-screen loading overlay while `status == 'ANALYZING'`."
+          },
+          {
+            "completed": false,
+            "text": "Listen to Firestore updates for completion and remove overlay."
+          }
+        ],
+        "description": "Implement the API call from frontend to trigger analysis, and show a full-screen loading overlay while listening to Firestore for status updates.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "frontend"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Frontend: AI Analysis Trigger \u0026 Loading Overlay"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "mnfun7",
+      "version": 3,
+      "timestamp": "2026-05-07T06:46:03.8576123Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Add `analyzeAllImages` method to `WorkspaceCubit` (or similar state manager)."
+          },
+          {
+            "completed": false,
+            "text": "Call the backend API `POST /api/v1/orders/{test_order_id}/analyze`."
+          },
+          {
+            "completed": false,
+            "text": "Show full-screen loading overlay while `status == 'ANALYZING'`."
+          },
+          {
+            "completed": false,
+            "text": "Listen to Firestore updates for completion and remove overlay."
+          }
+        ],
+        "description": "Implement the API call from frontend to trigger analysis, and show a full-screen loading overlay while listening to Firestore for status updates.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "frontend"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Frontend: AI Analysis Trigger \u0026 Loading Overlay"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "mnfun7",
+      "version": 4,
+      "timestamp": "2026-05-07T06:48:43.1329814Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Updated `WorkspaceRepository` to make HTTP call. Added full screen loading overlay to `WorkspaceScreen`. Removed auto-navigation."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Add `analyzeAllImages` method to `WorkspaceCubit` (or similar state manager)."
+          },
+          {
+            "completed": true,
+            "text": "Call the backend API `POST /api/v1/orders/{test_order_id}/analyze`."
+          },
+          {
+            "completed": true,
+            "text": "Show full-screen loading overlay while `status == 'ANALYZING'`."
+          },
+          {
+            "completed": true,
+            "text": "Listen to Firestore updates for completion and remove overlay."
+          }
+        ],
+        "description": "Implement the API call from frontend to trigger analysis, and show a full-screen loading overlay while listening to Firestore for status updates.",
+        "implementationNotes": "Updated `WorkspaceRepository` to make HTTP call. Added full screen loading overlay to `WorkspaceScreen`. Removed auto-navigation.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "frontend"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Frontend: AI Analysis Trigger \u0026 Loading Overlay"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "mnfun7",
+      "version": 5,
+      "timestamp": "2026-05-07T06:48:43.2360748Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Add `analyzeAllImages` method to `WorkspaceCubit` (or similar state manager).",
+            "completed": true
+          },
+          {
+            "text": "Call the backend API `POST /api/v1/orders/{test_order_id}/analyze`.",
+            "completed": true
+          },
+          {
+            "text": "Show full-screen loading overlay while `status == 'ANALYZING'`.",
+            "completed": true
+          },
+          {
+            "text": "Listen to Firestore updates for completion and remove overlay.",
+            "completed": true
+          }
+        ],
+        "description": "Implement the API call from frontend to trigger analysis, and show a full-screen loading overlay while listening to Firestore for status updates.",
+        "implementationNotes": "Updated `WorkspaceRepository` to make HTTP call. Added full screen loading overlay to `WorkspaceScreen`. Removed auto-navigation.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "frontend"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "Frontend: AI Analysis Trigger \u0026 Loading Overlay"
+      }
+    }
+  ]
+}

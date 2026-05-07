@@ -10,12 +10,13 @@ class AIClient:
         self.timeout = timeout
         self.headers = {
             "ngrok-skip-browser-warning": "true",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "X-API-Key": "MY_SECRET_AI_KEY_2026"
         }
 
-    async def analyze_image(self, image_url: str) -> Optional[Dict[str, Any]]:
+    async def analyze_image(self, image_url: str, order_id: str = None, storage_path: str = None) -> Optional[Dict[str, Any]]:
         """
-        Sends image_url to AI Server and receives analysis results.
+        Sends image_url, order_id and optional storage_path to AI Server and receives analysis results.
         """
         api_url = get_ai_server_url()
         if not api_url:
@@ -25,12 +26,18 @@ class AIClient:
         # Ensure endpoint is correctly formatted
         endpoint = f"{api_url.rstrip('/')}/analyze"
         
+        payload = {"image_url": image_url}
+        if order_id:
+            payload["test_order_id"] = order_id
+        if storage_path:
+            payload["storage_path"] = storage_path
+
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             try:
-                logger.info(f"Calling AI Server at: {endpoint}")
+                print(f"📡 [AI CLIENT] Đang gọi AI Server: {endpoint}")
                 response = await client.post(
                     endpoint,
-                    json={"image_url": image_url},
+                    json=payload,
                     headers=self.headers
                 )
                 

@@ -1,0 +1,55 @@
+{
+  "taskId": "5r4thh",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "5r4thh",
+      "version": 1,
+      "timestamp": "2026-05-02T09:34:28.9487404Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Sync latest changes from main branch into ThunKho branch and resolve any new conflicts.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Merge latest updates from main into ThunKho (Part 2)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "5r4thh",
+      "version": 2,
+      "timestamp": "2026-05-04T10:33:24.5008171Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "on-hold"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Task bị hủy theo yêu cầu của người dùng. Chuyển sang trạng thái On-Hold để lưu trữ."
+        }
+      ],
+      "snapshot": {
+        "description": "Sync latest changes from main branch into ThunKho branch and resolve any new conflicts.",
+        "implementationNotes": "Task bị hủy theo yêu cầu của người dùng. Chuyển sang trạng thái On-Hold để lưu trữ.",
+        "priority": "high",
+        "status": "on-hold",
+        "title": "Merge latest updates from main into ThunKho (Part 2)"
+      }
+    }
+  ]
+}

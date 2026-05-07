@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../domain/entities/appointment.dart';
 import '../../../logic/bloc/appointment/appointment_cubit.dart';
 import '../../../logic/bloc/appointment/appointment_state.dart';
 import '../shared/data_display/status_badge.dart';
+import '../shared/form/app_buttons.dart';
+
 
 class TodayAppointmentsTable extends StatefulWidget {
   const TodayAppointmentsTable({super.key});
@@ -57,34 +60,21 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
     return colors[hash.abs() % colors.length];
   }
 
-  BadgeType _mapStatus(String status) {
+  BadgeType _mapStatus(AppointmentStatus status) {
     switch (status) {
-      case 'completed':
+      case AppointmentStatus.completed:
         return BadgeType.success;
-      case 'scheduled':
-        return BadgeType.warning;
-      case 'in_progress':
+      case AppointmentStatus.inProgress:
         return BadgeType.processing;
-      case 'urgent':
+      case AppointmentStatus.cancelled:
         return BadgeType.danger;
-      default:
+      case AppointmentStatus.scheduled:
         return BadgeType.warning;
     }
   }
 
-  String _mapStatusText(String status) {
-    switch (status) {
-      case 'completed':
-        return 'Hoàn tất';
-      case 'scheduled':
-        return 'Đang chờ';
-      case 'in_progress':
-        return 'Đang khám';
-      case 'urgent':
-        return 'Khẩn cấp';
-      default:
-        return 'Đang chờ';
-    }
+  String _mapStatusText(AppointmentStatus status) {
+    return status.displayName;
   }
 
   @override
@@ -197,7 +187,8 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
                     status: _mapStatus(appt.status),
                     statusText: _mapStatusText(appt.status),
                     isLast: index == appointments.length - 1,
-                    onAccept: () => context.read<AppointmentCubit>().updateStatus(appt.id, 'in_progress'),
+                    onAccept: () => context.read<AppointmentCubit>().startExamination(appt.id),
+                    onView: () => context.push('/clinician/medical-record/${appt.patientId}'),
                   );
                 }),
               );
@@ -252,6 +243,7 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
     required BadgeType status,
     required String statusText,
     required VoidCallback onAccept,
+    required VoidCallback onView,
     bool isLast = false,
   }) {
     return Container(
@@ -305,18 +297,23 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (statusText == 'Đang chờ')
-                  SizedBox(
-                    height: 32,
-                    child: TextButton(
-                      onPressed: onAccept,
-                      style: TextButton.styleFrom(
-                        foregroundColor: AppColors.primaryBlue,
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                      ),
-                      child: const Text('Tiếp nhận', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
-                    ),
+                IconButton(
+                  onPressed: onView,
+                  icon: const Icon(LucideIcons.eye, size: 18, color: AppColors.primaryBlue),
+                  tooltip: 'Xem bệnh án',
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                ),
+                if (statusText == 'Đang chờ') ...[
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: onAccept,
+                    icon: const Icon(LucideIcons.checkCircle, size: 18, color: AppColors.successText),
+                    tooltip: 'Tiếp nhận',
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
                   ),
+                ],
               ],
             ),
           ),
@@ -326,14 +323,10 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
   }
 
   Widget _paginationBtn(String text, {bool enabled = true}) {
-    return OutlinedButton(
+    return AppSecondaryButton(
+      text: text,
       onPressed: enabled ? () {} : null,
-      style: OutlinedButton.styleFrom(
-        side: const BorderSide(color: AppColors.border),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-        minimumSize: const Size(0, 36),
-      ),
-      child: Text(text, style: TextStyle(color: enabled ? AppColors.textSecondary : AppColors.textPlaceholder, fontSize: 13)),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
     );
   }
 

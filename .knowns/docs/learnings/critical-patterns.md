@@ -2,7 +2,7 @@
 title: Critical Patterns
 description: Promoted learnings that save the most time. Read at session start via kn-init.
 createdAt: '2026-04-28T05:23:00.000Z'
-updatedAt: '2026-05-02T08:55:13.087Z'
+updatedAt: '2026-05-07T07:55:52.807Z'
 tags:
   - learning
   - critical
@@ -100,3 +100,27 @@ Failing to do this results in `Bad state: Cannot emit new states after calling c
 Dashboard cards or list items that might be squashed on small screens or resized windows should be wrapped in a `SingleChildScrollView` (or use flexible widgets) to prevent `RenderFlex` overflow crashes.
 
 **Full entry:** @doc/learnings/learning-specialist-dashboard-and-firestore-indexing
+
+
+## [2026-05-06] UI: Robust Dashboard Card Layout
+**Category:** pattern / failure
+**Source:** @task-jjckim
+**Tags:** [ui, flutter, layout, overflow]
+
+Standard `Column` with `MainAxisAlignment.spaceBetween` inside a GridView will crash with `RenderFlex overflow` if squashed. The correct robust pattern is:
+Wrap in `LayoutBuilder` -> `SingleChildScrollView` -> `ConstrainedBox(minHeight: constraints.maxHeight)` -> `IntrinsicHeight`. This preserves the space-between look when possible but allows scrolling when needed.
+
+**Full entry:** @doc/learnings/learning-notification-and-dashboard-integration
+
+
+## [2026-05-07] AI Server Integration & Security
+**Category:** pattern / failure
+**Source:** @task-3pasee
+**Tags:** [ai-server, ngrok, security]
+
+**Summary:** 
+1. Luôn thêm header `ngrok-skip-browser-warning: true` khi gọi API qua Ngrok để tránh trang Splash. 
+2. Đồng bộ hóa API Key giữa Backend và AI Server (Colab) để tránh lỗi 403 Forbidden. 
+3. Cấu hình URL linh hoạt qua Firestore thay vì hardcode để thích ứng với URL động của Ngrok.
+
+**Full entry:** @doc/learnings/ai-server-implementation-decisions

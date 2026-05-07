@@ -47,16 +47,16 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
         Text(
           'Quản lý Mẫu Bệnh phẩm',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.textPrimary,
-              ),
+            fontWeight: FontWeight.bold,
+            color: AppColors.textPrimary,
+          ),
         ),
         const SizedBox(height: 8),
         Text(
-          'Theo dõi tiến độ nuôi cấy và tải ảnh metaphase hàng loạt.',
-          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: AppColors.textSecondary,
-              ),
+          'Theo dõi tiến độ nuôi cấy và quản lý mẫu xét nghiệm.',
+          style: Theme.of(
+            context,
+          ).textTheme.bodyLarge?.copyWith(color: AppColors.textSecondary),
         ),
       ],
     );
@@ -72,31 +72,40 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
               _FilterChip(
                 label: 'Tất cả',
                 isSelected: state.filterStatus == null,
-                onSelected: () => context.read<SampleManagementCubit>().setFilter(null),
+                onSelected: () =>
+                    context.read<SampleManagementCubit>().setFilter(null),
               ),
               const SizedBox(width: 12),
               _FilterChip(
                 label: 'Mới thu nhận',
                 isSelected: state.filterStatus == SampleStatus.collected,
-                onSelected: () => context.read<SampleManagementCubit>().setFilter(SampleStatus.collected),
+                onSelected: () => context
+                    .read<SampleManagementCubit>()
+                    .setFilter(SampleStatus.collected),
               ),
               const SizedBox(width: 12),
               _FilterChip(
                 label: 'Đang nuôi cấy',
                 isSelected: state.filterStatus == SampleStatus.culturing,
-                onSelected: () => context.read<SampleManagementCubit>().setFilter(SampleStatus.culturing),
+                onSelected: () => context
+                    .read<SampleManagementCubit>()
+                    .setFilter(SampleStatus.culturing),
               ),
               const SizedBox(width: 12),
               _FilterChip(
                 label: 'Đã thu hoạch',
                 isSelected: state.filterStatus == SampleStatus.harvested,
-                onSelected: () => context.read<SampleManagementCubit>().setFilter(SampleStatus.harvested),
+                onSelected: () => context
+                    .read<SampleManagementCubit>()
+                    .setFilter(SampleStatus.harvested),
               ),
               const SizedBox(width: 12),
               _FilterChip(
                 label: 'Thất bại',
                 isSelected: state.filterStatus == SampleStatus.failed,
-                onSelected: () => context.read<SampleManagementCubit>().setFilter(SampleStatus.failed),
+                onSelected: () => context
+                    .read<SampleManagementCubit>()
+                    .setFilter(SampleStatus.failed),
               ),
             ],
           ),
@@ -124,7 +133,11 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.inventory_2_outlined, size: 48, color: Colors.grey.shade400),
+                Icon(
+                  Icons.inventory_2_outlined,
+                  size: 64,
+                  color: Colors.grey.shade300,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   'Không tìm thấy mẫu nào',
@@ -159,7 +172,9 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
                   ),
-                  border: Border(bottom: BorderSide(color: Colors.grey.shade200)),
+                  border: Border(
+                    bottom: BorderSide(color: Colors.grey.shade200),
+                  ),
                 ),
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 14),
@@ -170,7 +185,12 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                         child: Text(
                           'Mã mẫu & Loại',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Color(0xFF6B7280), letterSpacing: 0.3),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                            color: Color(0xFF6B7280),
+                            letterSpacing: 0.3,
+                          ),
                         ),
                       ),
                       Expanded(
@@ -178,7 +198,12 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                         child: Text(
                           'Bệnh nhân',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Color(0xFF6B7280), letterSpacing: 0.3),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                            color: Color(0xFF6B7280),
+                            letterSpacing: 0.3,
+                          ),
                         ),
                       ),
                       Expanded(
@@ -186,7 +211,12 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                         child: Text(
                           'Ngày thu nhận',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Color(0xFF6B7280), letterSpacing: 0.3),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                            color: Color(0xFF6B7280),
+                            letterSpacing: 0.3,
+                          ),
                         ),
                       ),
                       Expanded(
@@ -194,7 +224,12 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                         child: Text(
                           'Trạng thái',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Color(0xFF6B7280), letterSpacing: 0.3),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                            color: Color(0xFF6B7280),
+                            letterSpacing: 0.3,
+                          ),
                         ),
                       ),
                       Expanded(
@@ -202,7 +237,12 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                         child: Text(
                           'Hành động',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Color(0xFF6B7280), letterSpacing: 0.3),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13,
+                            color: Color(0xFF6B7280),
+                            letterSpacing: 0.3,
+                          ),
                         ),
                       ),
                     ],
@@ -213,16 +253,23 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
               Expanded(
                 child: ListView.separated(
                   itemCount: state.filteredSamples.length,
-                  separatorBuilder: (context, index) => Divider(height: 1, color: Colors.grey.shade100),
+                  separatorBuilder: (context, index) =>
+                      Divider(height: 1, color: Colors.grey.shade100),
                   itemBuilder: (context, index) {
                     final sample = state.filteredSamples[index];
                     return SampleCard(
                       sample: sample,
                       onStatusUpdate: (status) {
-                        context.read<SampleManagementCubit>().updateStatus(sample.id, status);
+                        context.read<SampleManagementCubit>().updateStatus(
+                          sample.id,
+                          status,
+                        );
                       },
                       onFailure: (reason) {
-                        context.read<SampleManagementCubit>().updateNote(sample.id, reason);
+                        context.read<SampleManagementCubit>().updateNote(
+                          sample.id,
+                          reason,
+                        );
                       },
                     );
                   },
@@ -234,8 +281,6 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
       },
     );
   }
-
-
 }
 
 class _FilterChip extends StatelessWidget {
@@ -264,7 +309,13 @@ class _FilterChip extends StatelessWidget {
             color: isSelected ? AppColors.primaryBlue : Colors.grey.shade300,
           ),
           boxShadow: isSelected
-              ? [BoxShadow(color: AppColors.primaryBlue.withValues(alpha: 0.3), blurRadius: 8, offset: const Offset(0, 4))]
+              ? [
+                  BoxShadow(
+                    color: AppColors.primaryBlue.withValues(alpha: 0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
               : [],
         ),
         child: Text(
