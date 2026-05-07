@@ -1,0 +1,43 @@
+{
+  "docPath": "(root)/ai-chromosome-app-presentation-slide-deck-outline",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "(root)/ai-chromosome-app-presentation-slide-deck-outline",
+      "version": 1,
+      "timestamp": "2026-05-07T07:21:16.5021782Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "AI Chromosome App - Presentation Slide Deck Outline"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Slide-by-slide outline and image suggestions for the AI Chromosome App presentation deck"
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "presentation",
+            "slide",
+            "outline"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "# AI Chromosome App - Presentation Slide Deck Outline\n\nThis document outlines the slide-by-slide content for presenting the AI Chromosome App, including talking points, technical highlights, and suggested visual assets for each slide.\n\n---\n\n## Slide 1: Title Slide\n*   **Title:** AI Chromosome App\n*   **Subtitle:** Streamlining Karyotyping Workflows with Artificial Intelligence\n*   **Content:** Giới thiệu ngắn gọn tên dự án và nhóm thực hiện.\n*   **Suggested Image:** Logo của dự án hoặc một hình ảnh minh họa (splash screen) hiện đại kết hợp giữa Y tế (chuỗi DNA/Nhiễm sắc thể) và Công nghệ (mạch điện tử/AI).\n\n## Slide 2: Introduction \u0026 Problem Statement (Đặt vấn đề)\n*   **Content:**\n    *   Quy trình phân tích Karyotype thủ công hiện tại tốn nhiều thời gian (nuôi cấy, thu hoạch, đếm thủ công qua kính hiển vi) và dễ có sai sót.\n    *   Hệ thống quản lý thông tin giữa Phòng khám (Clinician) và Phòng Lab (Specialist) thường rời rạc, gây chậm trễ trong việc trả kết quả cho bệnh nhân.\n*   **Suggested Image:** Hình ảnh so sánh (Before/After) giữa một người đang nheo mắt nhìn kính hiển vi ghi chép sổ sách và một màn hình Dashboard hiện đại.\n\n## Slide 3: The Solution - 6-Stage Workflow (Giải pháp)\n*   **Content:** Hệ thống xây dựng một luồng nghiệp vụ khép kín (Role-based Workflow) tự động hóa quá trình luân chuyển dữ liệu:\n    1.  **Receptionist:** Tạo hồ sơ bệnh nhân.\n    2.  **Clinician:** Khám bệnh, tạo phiếu chỉ định (Test Order), lấy mẫu (gắn QR).\n    3.  **Lab Manager:** Điều phối và giao việc cho Kỹ thuật viên.\n    4.  **Specialist:** Xử lý mẫu và phân tích hình ảnh nguyên phân.\n    5.  **AI Engine:** Tự động đếm và nhận diện nhiễm sắc thể.\n    6.  **Approval:** Chốt kết quả ISCN và tự động xuất file PDF báo cáo.\n*   **Suggested Image:** Sử dụng **Mermaid Diagram** thể hiện luồng đi qua 4 vai trò (có thể lấy từ `guides/business-workflow-and-data-flow`).\n\n## Slide 4: System Architecture \u0026 Tech Stack (Kiến trúc \u0026 Công nghệ)\n*   **Content:**\n    *   **Frontend:** Flutter (Hỗ trợ đa nền tảng Web/Tablet). Áp dụng **Clean Architecture** nghiêm ngặt.\n    *   **State Management:** Hybrid (Riverpod cho Global Services/DI + BLoC/Cubit cho Feature Business Logic).\n    *   **Backend \u0026 DB:** Firebase (Firestore) kết hợp Cloud Functions.\n    *   **AI Server:** Kiến trúc Decoupled chạy trên FastAPI/Colab (thông qua Ngrok) để giảm tải cho Frontend.\n*   **Suggested Image:** Sơ đồ kiến trúc hệ thống (System Architecture Diagram) mô tả các node: App UI \u003c-\u003e Firestore \u003c-\u003e Cloud Functions \u003c-\u003e FastAPI Server.\n\n## Slide 5: Highlight Feature - AI Karyotyping Workspace\n*   **Content:**\n    *   Trung tâm của dự án: Màn hình Workspace của Specialist.\n    *   Luồng xử lý: Upload ảnh Metaphase -\u003e Nút `Trigger AI` -\u003e Trạng thái Processing (Loading thời gian thực) -\u003e Trả về kết quả phân tích.\n*   **Suggested Image:** Ảnh chụp màn hình (Screenshot) thực tế của `Workspace Step 1` hiển thị các ảnh đang ở trạng thái loading (spinner/lottie) hoặc ảnh kết quả sau khi AI xử lý xong.\n\n## Slide 6: Highlight Feature - Real-time Sync \u0026 Dynamic UI\n*   **Content:**\n    *   Hệ thống thông báo toàn cục (Global Notification System) giúp các vai trò nhận thông báo ngay lập tức khi có sự kiện (VD: Mẫu bị hỏng, có Order mới).\n    *   Hệ thống Filter động (Advanced Filter Drawer) được chuẩn hóa và tái sử dụng trên mọi trang Dashboard.\n*   **Suggested Image:** Ảnh chụp màn hình thanh công cụ tìm kiếm (Dashboard Filter Bar) và Sidebar Bộ lọc mở rộng (Advanced Filter Drawer) của ứng dụng. Hoặc ảnh chụp dropdown Notification.\n\n## Slide 7: Technical Challenges \u0026 Learnings (Thách thức \u0026 Giải pháp)\n*   **Content:** \n    *   *Silent Loading Hangs:* Xử lý triệt để lỗi treo UI khi Firestore Stream bị lỗi (thiếu Index) bằng cách bọc `try-catch` tại lớp Repository.\n    *   *Memory/State Leaks:* Quản lý chặt chẽ Lifecycle bất đồng bộ của Cubit (kiểm tra `isClosed` trước khi `emit`) để tránh crash app khi user chuyển trang nhanh.\n    *   *Defensive UI Layout:* Ngăn chặn lỗi màn hình đỏ (RenderFlex Overflow) trên đa thiết bị bằng pattern kết hợp `LayoutBuilder` và `IntrinsicHeight`.\n*   **Suggested Image:** Đoạn code snippet nhỏ (Before/After) minh họa cách fix lỗi Cubit hoặc một icon \"Bug Squashing\" kết hợp biểu tượng Performance.\n\n## Slide 8: Conclusion \u0026 Future Work (Tổng kết \u0026 Hướng phát triển)\n*   **Content:**\n    *   Ứng dụng giải quyết bài toán cốt lõi của phòng Lab di truyền một cách toàn diện và tự động hóa cao.\n    *   Khả năng mở rộng (Future Work): Train thêm mô hình AI cho các loại mẫu khác, tích hợp sâu hơn với hệ thống HIS (Hospital Information System) hiện tại.\n*   **Suggested Image:** Hình ảnh tập thể nhóm (Team Photo) hoặc một Graphic mô tả định hướng tương lai (Mũi tên vút lên / Trái đất kết nối số).\n\n---\n*Created via `kn-doc` presentation research extraction.*",
+        "description": "Slide-by-slide outline and image suggestions for the AI Chromosome App presentation deck",
+        "tags": [
+          "presentation",
+          "slide",
+          "outline"
+        ],
+        "title": "AI Chromosome App - Presentation Slide Deck Outline"
+      }
+    }
+  ]
+}
