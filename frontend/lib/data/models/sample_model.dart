@@ -32,17 +32,21 @@ class SampleModel extends Sample {
 
   factory SampleModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>;
+    
+    // Helper function to safely extract ID from Reference or String
+    String extractId(dynamic value, String defaultValue) {
+      if (value == null) return defaultValue;
+      if (value is DocumentReference) return value.id;
+      return value.toString();
+    }
+
     return SampleModel(
       id: doc.id,
-      testOrderId: data['test_order_id'] != null
-          ? (data['test_order_id'] as DocumentReference).id
-          : '',
+      testOrderId: extractId(data['test_order_id'], ''),
       patientName: data['patient_name'] ?? '',
       patientCode: data['patient_code'] ?? '',
       sampleType: data['sample_type'] ?? '',
-      collectedBy: data['collected_by'] != null
-          ? (data['collected_by'] as DocumentReference).id
-          : 'SYSTEM',
+      collectedBy: extractId(data['collected_by'], 'SYSTEM'),
       collectedAt: data['collected_at'] != null
           ? (data['collected_at'] as Timestamp).toDate()
           : (data['collection_time'] as Timestamp?)?.toDate() ?? DateTime.now(),

@@ -10,6 +10,7 @@ import '../../../../domain/entities/sample.dart';
 import '../../../../logic/bloc/specialist/sample_management_cubit.dart';
 import '../../../../logic/bloc/specialist/sample_management_state.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/services/notification_factory.dart';
 import '../../widgets/shared/layouts/main_list_layout.dart';
 import '../../widgets/shared/form/dashboard_filter_bar.dart';
 import '../../widgets/shared/filter/advanced_filter_drawer.dart';
@@ -44,7 +45,6 @@ class _SampleManagementPageState extends ConsumerState<SampleManagementPage> {
 
   @override
   void dispose() {
-    FocusScope.of(context).unfocus();
     Future.microtask(() {
       _container.read(drawerProvider.notifier).clear();
     });
@@ -87,10 +87,14 @@ class _SampleManagementPageState extends ConsumerState<SampleManagementPage> {
     final cubit = context.read<SampleManagementCubit>();
 
     return BlocListener<SampleManagementCubit, SampleManagementState>(
-      listenWhen: (p, c) => c.lastStartedOrderId != null,
+      listenWhen: (p, c) => c.lastStartedOrderId != null || (p.status != c.status && c.status == SampleManagementStatus.error),
       listener: (context, state) {
+        if (!context.mounted) return;
+
+        if (state.status == SampleManagementStatus.error && state.errorMessage != null) {
+          NotificationFactory.showError(context, state.errorMessage!);
+        }
         if (state.lastStartedOrderId != null) {
-          if (!context.mounted) return;
           final orderId = state.lastStartedOrderId!;
           cubit.clearNavigation();
           context.push('${AppRoutes.specialistAnalysis}/$orderId');
@@ -189,6 +193,24 @@ class _SampleManagementPageState extends ConsumerState<SampleManagementPage> {
       builder: (context, state) {
         if (state.status == SampleManagementStatus.loading) {
           return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state.status == SampleManagementStatus.error) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                const SizedBox(height: 16.0),
+                Text('Lỗi tải dữ liệu: ${state.errorMessage}'),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () => context.read<SampleManagementCubit>().loadSamples(),
+                  child: const Text('Thử lại'),
+                ),
+              ],
+            ),
+          );
         }
 
         if (state.filteredSamples.isEmpty) {

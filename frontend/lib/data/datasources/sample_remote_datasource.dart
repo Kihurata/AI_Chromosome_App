@@ -67,7 +67,7 @@ class FirebaseSampleRemoteDataSource implements SampleRemoteDataSource {
   Stream<List<SampleModel>> watchSamples() {
     return _firestore
         .collection('samples')
-        .orderBy('created_at', descending: true)
+        .orderBy('collected_at', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => SampleModel.fromFirestore(doc))
@@ -79,7 +79,7 @@ class FirebaseSampleRemoteDataSource implements SampleRemoteDataSource {
     return _firestore
         .collection('samples')
         .where('status', isEqualTo: status)
-        .orderBy('created_at', descending: true)
+        .orderBy('collected_at', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => SampleModel.fromFirestore(doc))
