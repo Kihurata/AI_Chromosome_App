@@ -27,4 +27,9 @@ class SpecialistRepositoryImpl implements SpecialistRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<Specialist>>> getAllSpecialists() async {
+    return await getSpecialists();
+  }
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/providers/drawer_provider.dart';
+import '../../../core/models/filter_options.dart';
 import '../../../data/models/patient_model.dart';
 import '../../../domain/entities/patient.dart';
 import '../../../logic/bloc/patient/patient_cubit.dart';
@@ -11,37 +14,92 @@ import '../../utils/ui_utils.dart';
 import '../../widgets/shared/data_display/app_data_table.dart';
 import '../../widgets/shared/layouts/main_list_layout.dart';
 import '../../widgets/shared/form/app_buttons.dart';
+import '../../widgets/shared/form/dashboard_filter_bar.dart';
+import '../../widgets/shared/filter/advanced_filter_drawer.dart';
 import '../patient_detail/patient_detail_screen.dart';
 import 'patient_registration_page.dart';
 
-class PatientListPage extends StatefulWidget {
+class PatientListPage extends ConsumerStatefulWidget {
   const PatientListPage({super.key});
 
   @override
-  State<PatientListPage> createState() => _PatientListPageState();
+  ConsumerState<PatientListPage> createState() => _PatientListPageState();
 }
 
-class _PatientListPageState extends State<PatientListPage> {
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
-
+class _PatientListPageState extends ConsumerState<PatientListPage> {
   @override
   void initState() {
     super.initState();
-    context.read<PatientCubit>().fetchPatients();
+    context.read<PatientCubit>().loadPatients();
   }
 
   @override
   void dispose() {
-    _searchController.dispose();
+    final drawer = ref.read(drawerProvider.notifier);
+    // Clear global drawer when leaving the page
+    Future.microtask(() {
+      drawer.clear();
+    });
     super.dispose();
+  }
+
+  bool _isDrawerRegistered = false;
+
+  void _registerDrawer(WidgetRef ref, PatientCubit cubit) {
+    if (_isDrawerRegistered) return;
+    _isDrawerRegistered = true;
+
+    Future.microtask(() {
+      if (!mounted) return;
+      ref.read(drawerProvider.notifier).update(
+            endDrawer: BlocProvider.value(
+              value: cubit,
+              child: BlocBuilder<PatientCubit, PatientState>(
+                buildWhen: (p, c) {
+                  if (p is PatientLoaded && c is PatientLoaded) {
+                    return p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset;
+                  }
+                  return false;
+                },
+                builder: (context, state) {
+                  if (state is! PatientLoaded) return const SizedBox();
+                  return AppAdvancedFilterDrawer(
+                    currentSortOrder: state.sortOrder,
+                    onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
+                    currentDateRange: state.dateRangePreset,
+                    onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
+                    onApply: () {},
+                    onClear: () => cubit.updateFilters(
+                      searchQuery: '',
+                      sortOrder: AppSortOrder.newest,
+                      dateRangePreset: AppDateRangePreset.all,
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<PatientCubit>();
+    _registerDrawer(ref, cubit);
+
     return MainListLayout(
       title: 'Danh sách bệnh nhân',
       subtitle: 'Quản lý hồ sơ và lịch sử khám bệnh',
+      headerActions: [
+        AppPrimaryButton(
+          text: 'Thêm bệnh nhân',
+          icon: LucideIcons.plus,
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const PatientRegistrationPage()),
+          ),
+        ),
+      ],
+      onRefresh: () async => cubit.loadPatients(),
       child: BlocListener<PatientCubit, PatientState>(
         listener: (context, state) {
           if (state is PatientError) {
@@ -56,21 +114,19 @@ class _PatientListPageState extends State<PatientListPage> {
         },
         child: BlocBuilder<PatientCubit, PatientState>(
           builder: (context, state) {
-            final allPatients = state is PatientLoaded ? state.patients : <Patient>[];
-            final patients = allPatients.where((p) {
-              if (_searchQuery.isEmpty) return true;
-              return p.fullName.toLowerCase().contains(_searchQuery) ||
-                  p.phone.contains(_searchQuery) ||
-                  (p.patientCode ?? '').toLowerCase().contains(_searchQuery);
-            }).toList();
+            final loadedState = state is PatientLoaded ? state : null;
+            final patients = loadedState?.filteredPatients ?? [];
 
             return Padding(
               padding: const EdgeInsets.all(28.0),
               child: AppDataTable(
-                searchHint: 'Tìm theo tên, SĐT hoặc mã BN...',
-                countText: '${patients.length} bệnh nhân',
-                searchController: _searchController,
-                onSearchChanged: (v) => setState(() => _searchQuery = v.trim().toLowerCase()),
+                customHeader: AppDashboardFilterBar(
+                  searchHint: 'Tìm theo tên, SĐT hoặc mã BN...',
+                  initialSearchValue: loadedState?.searchQuery ?? '',
+                  onSearchChanged: (v) => cubit.setSearchQuery(v),
+                  onFilterPressed: () => Scaffold.of(context).openEndDrawer(),
+                  hasActiveFilters: loadedState?.dateRangePreset != AppDateRangePreset.all,
+                ),
                 isLoading: state is PatientLoading,
                 headerRow: const _PatientTableHeader(),
                 emptyState: _EmptyPatients(onAdd: () => Navigator.of(context).push(

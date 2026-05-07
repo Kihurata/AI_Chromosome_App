@@ -6,6 +6,7 @@ import 'failure_reason_dialog.dart';
 import 'bulk_upload_dialog.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../logic/bloc/specialist/ai_analysis_cubit.dart';
+import '../../../../logic/bloc/specialist/sample_management_cubit.dart';
 import '../../../../core/di/injection.dart';
 
 class SampleCard extends StatelessWidget {
@@ -159,6 +160,25 @@ class SampleCard extends StatelessWidget {
         );
 
       case SampleStatus.harvested:
+        return _AbsorbingWidget(
+          child: ElevatedButton.icon(
+            onPressed: () => context
+                .read<SampleManagementCubit>()
+                .startAnalysis(sample.testOrderId),
+            icon: const Icon(Icons.analytics_outlined, size: 16),
+            label: const Text('Bắt đầu Phân tích',
+                style: TextStyle(fontSize: 12)),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF2563EB),
+              foregroundColor: Colors.white,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              elevation: 0,
+            ),
+          ),
+        );
       case SampleStatus.failed:
         return const SizedBox.shrink();
     }

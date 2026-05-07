@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 
 abstract class SpecialistRemoteDataSource {
   Future<List<Map<String, dynamic>>> getSpecialists();
+  Future<List<Map<String, dynamic>>> getAllSpecialists();
 }
 
 @Injectable(as: SpecialistRemoteDataSource)
@@ -27,5 +28,10 @@ class FirebaseSpecialistRemoteDataSource implements SpecialistRemoteDataSource {
         'email': data['email'] ?? '',
       };
     }).toList();
+  }
+
+  @override
+  Future<List<Map<String, dynamic>>> getAllSpecialists() async {
+    return await getSpecialists();
   }
 }

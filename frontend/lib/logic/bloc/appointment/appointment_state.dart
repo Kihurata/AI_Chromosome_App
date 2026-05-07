@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/appointment.dart';
+import '../../../../core/models/filter_options.dart';
 
 abstract class AppointmentState extends Equatable {
   const AppointmentState();
@@ -13,12 +14,44 @@ class AppointmentInitial extends AppointmentState {}
 class AppointmentLoading extends AppointmentState {}
 
 class AppointmentLoaded extends AppointmentState {
-  final List<Appointment> appointments;
+  final List<Appointment> allAppointments;
+  final List<Appointment> filteredAppointments;
+  final String searchQuery;
+  final AppSortOrder sortOrder;
+  final AppDateRangePreset dateRangePreset;
 
-  const AppointmentLoaded(this.appointments);
+  const AppointmentLoaded({
+    required this.allAppointments,
+    required this.filteredAppointments,
+    this.searchQuery = '',
+    this.sortOrder = AppSortOrder.newest,
+    this.dateRangePreset = AppDateRangePreset.all,
+  });
+
+  AppointmentLoaded copyWith({
+    List<Appointment>? allAppointments,
+    List<Appointment>? filteredAppointments,
+    String? searchQuery,
+    AppSortOrder? sortOrder,
+    AppDateRangePreset? dateRangePreset,
+  }) {
+    return AppointmentLoaded(
+      allAppointments: allAppointments ?? this.allAppointments,
+      filteredAppointments: filteredAppointments ?? this.filteredAppointments,
+      searchQuery: searchQuery ?? this.searchQuery,
+      sortOrder: sortOrder ?? this.sortOrder,
+      dateRangePreset: dateRangePreset ?? this.dateRangePreset,
+    );
+  }
 
   @override
-  List<Object?> get props => [appointments];
+  List<Object?> get props => [
+        allAppointments,
+        filteredAppointments,
+        searchQuery,
+        sortOrder,
+        dateRangePreset,
+      ];
 }
 
 class RangeAppointmentsLoaded extends AppointmentState {
@@ -56,4 +89,3 @@ class AppointmentError extends AppointmentState {
   @override
   List<Object?> get props => [message];
 }
-

@@ -50,6 +50,7 @@ class Appointment extends Equatable {
   final String id;
   final String patientId;
   final String patientName;
+  final String? patientCode;
   final String doctorId;
   final String doctorName;
   final DateTime appointmentDate;
@@ -60,6 +61,7 @@ class Appointment extends Equatable {
     required this.id,
     required this.patientId,
     required this.patientName,
+    this.patientCode,
     required this.doctorId,
     required this.doctorName,
     required this.appointmentDate,

@@ -13,4 +13,8 @@ abstract class PatientRepository {
   Future<Either<Failure, void>> updatePatient(Patient patient);
   // Kiểm tra trùng lặp bệnh nhân (theo CCCD hoặc SĐT)
   Future<Either<Failure, Patient?>> checkDuplicatePatient({String? identityCard, String? phone});
+  // Lấy chi tiết bệnh nhân qua mã bệnh nhân
+  Future<Either<Failure, Patient>> getPatientByCode(String code);
+  // Stream danh sách bệnh nhân
+  Stream<Either<Failure, List<Patient>>> watchPatients();
 }

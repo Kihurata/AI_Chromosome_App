@@ -62,8 +62,8 @@ class _ClinicianBloodTestPrescriptionPageState
       patientId = p.id ?? '';
       patientName = p.fullName;
       patientCode = p.patientCode ?? '';
-    } else if (patientState is PatientLoaded && patientState.patients.isNotEmpty) {
-      final p = patientState.patients.first;
+    } else if (patientState is PatientLoaded && patientState.filteredPatients.isNotEmpty) {
+      final p = patientState.filteredPatients.first;
       patientId = p.id ?? '';
       patientName = p.fullName;
       patientCode = p.patientCode ?? '';

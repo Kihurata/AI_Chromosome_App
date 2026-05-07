@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/test_order.dart';
 import '../../../domain/entities/specialist.dart';
+import '../../../../core/models/filter_options.dart';
 
 class ManagerStats extends Equatable {
   final int totalOrders;
@@ -45,6 +46,8 @@ class ManagerDashboardLoaded extends ManagerDashboardState {
   final ManagerStats stats;
   final String searchQuery;
   final TestOrderStatus? statusFilter;
+  final AppSortOrder sortOrder;
+  final AppDateRangePreset dateRangePreset;
   final String? focusedOrderId;
 
   const ManagerDashboardLoaded({
@@ -54,6 +57,8 @@ class ManagerDashboardLoaded extends ManagerDashboardState {
     required this.stats,
     this.searchQuery = '',
     this.statusFilter,
+    this.sortOrder = AppSortOrder.newest,
+    this.dateRangePreset = AppDateRangePreset.all,
     this.focusedOrderId,
   });
 
@@ -64,6 +69,9 @@ class ManagerDashboardLoaded extends ManagerDashboardState {
     ManagerStats? stats,
     String? searchQuery,
     TestOrderStatus? statusFilter,
+    bool clearStatusFilter = false,
+    AppSortOrder? sortOrder,
+    AppDateRangePreset? dateRangePreset,
     String? focusedOrderId,
   }) {
     return ManagerDashboardLoaded(
@@ -72,7 +80,9 @@ class ManagerDashboardLoaded extends ManagerDashboardState {
       specialists: specialists ?? this.specialists,
       stats: stats ?? this.stats,
       searchQuery: searchQuery ?? this.searchQuery,
-      statusFilter: statusFilter ?? this.statusFilter,
+      statusFilter: clearStatusFilter ? null : (statusFilter ?? this.statusFilter),
+      sortOrder: sortOrder ?? this.sortOrder,
+      dateRangePreset: dateRangePreset ?? this.dateRangePreset,
       focusedOrderId: focusedOrderId ?? this.focusedOrderId,
     );
   }
@@ -85,6 +95,8 @@ class ManagerDashboardLoaded extends ManagerDashboardState {
         stats,
         searchQuery,
         statusFilter,
+        sortOrder,
+        dateRangePreset,
         focusedOrderId,
       ];
 }

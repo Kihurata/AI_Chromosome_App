@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class ClinicianRemoteDataSource {
   Future<List<Map<String, dynamic>>> getClinicians();
 }
 
+@LazySingleton(as: ClinicianRemoteDataSource)
 class FirebaseClinicianRemoteDataSource implements ClinicianRemoteDataSource {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/patient.dart';
+import '../../../../core/models/filter_options.dart';
 
 abstract class PatientState extends Equatable {
   const PatientState();
@@ -7,21 +8,51 @@ abstract class PatientState extends Equatable {
   List<Object?> get props => [];
 }
 
-// 1. Trạng thái ban đầu
 class PatientInitial extends PatientState {}
 
-// 2. Đang xử lý (Hiện vòng quay loading)
 class PatientLoading extends PatientState {}
 
-// 3. Tải danh sách thành công
 class PatientLoaded extends PatientState {
-  final List<Patient> patients;
-  const PatientLoaded(this.patients);
+  final List<Patient> allPatients;
+  final List<Patient> filteredPatients;
+  final String searchQuery;
+  final AppSortOrder sortOrder;
+  final AppDateRangePreset dateRangePreset;
+
+  const PatientLoaded({
+    required this.allPatients,
+    required this.filteredPatients,
+    this.searchQuery = '',
+    this.sortOrder = AppSortOrder.newest,
+    this.dateRangePreset = AppDateRangePreset.all,
+  });
+
+  PatientLoaded copyWith({
+    List<Patient>? allPatients,
+    List<Patient>? filteredPatients,
+    String? searchQuery,
+    AppSortOrder? sortOrder,
+    AppDateRangePreset? dateRangePreset,
+  }) {
+    return PatientLoaded(
+      allPatients: allPatients ?? this.allPatients,
+      filteredPatients: filteredPatients ?? this.filteredPatients,
+      searchQuery: searchQuery ?? this.searchQuery,
+      sortOrder: sortOrder ?? this.sortOrder,
+      dateRangePreset: dateRangePreset ?? this.dateRangePreset,
+    );
+  }
+
   @override
-  List<Object?> get props => [patients];
+  List<Object?> get props => [
+        allPatients,
+        filteredPatients,
+        searchQuery,
+        sortOrder,
+        dateRangePreset,
+      ];
 }
 
-// 4. Thực hiện hành động (Thêm/Sửa/Xóa) thành công
 class PatientActionSuccess extends PatientState {
   final String message;
   const PatientActionSuccess(this.message);
@@ -29,7 +60,6 @@ class PatientActionSuccess extends PatientState {
   List<Object?> get props => [message];
 }
 
-// 5. Gặp lỗi
 class PatientError extends PatientState {
   final String message;
   const PatientError(this.message);
@@ -37,7 +67,6 @@ class PatientError extends PatientState {
   List<Object?> get props => [message];
 }
 
-// 6. Xem chi tiết bệnh nhân
 class PatientDetailLoaded extends PatientState {
   final Patient patient;
   const PatientDetailLoaded(this.patient);
@@ -45,7 +74,6 @@ class PatientDetailLoaded extends PatientState {
   List<Object?> get props => [patient];
 }
 
-// 7. Kết quả kiểm tra trùng lặp
 class PatientDuplicateChecked extends PatientState {
   final Patient? existingPatient;
   const PatientDuplicateChecked(this.existingPatient);

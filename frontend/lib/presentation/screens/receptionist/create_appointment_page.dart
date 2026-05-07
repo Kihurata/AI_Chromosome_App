@@ -223,7 +223,7 @@ class _CreateAppointmentPageState extends State<CreateAppointmentPage> {
         if (state is PatientLoading || state is PatientInitial) {
           return const LinearProgressIndicator();
         }
-        final patients = state is PatientLoaded ? state.patients : [];
+        final patients = state is PatientLoaded ? state.allPatients : [];
         return AppDropdown<String>(
           labelText: 'Tìm bệnh nhân *',
           hintText: 'Chọn bệnh nhân...',

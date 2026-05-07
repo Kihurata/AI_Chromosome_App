@@ -66,8 +66,8 @@ class _ClinicianExaminationFormPageState
     if (state is PatientDetailLoaded) {
       return state.patient.id ?? '';
     }
-    if (state is PatientLoaded && state.patients.isNotEmpty) {
-      return state.patients.first.id ?? '';
+    if (state is PatientLoaded && state.filteredPatients.isNotEmpty) {
+      return state.filteredPatients.first.id ?? '';
     }
     return '';
   }

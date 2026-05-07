@@ -15,6 +15,7 @@ class Patient extends Equatable {
   final String emergencyContactName;
   final String emergencyContactPhone;
   final String status;
+  final DateTime? createdAt;
 
   const Patient({
     this.id,
@@ -31,6 +32,7 @@ class Patient extends Equatable {
     this.emergencyContactName = '',
     this.emergencyContactPhone = '',
     this.status = 'active',
+    this.createdAt,
   });
 
   @override
@@ -49,5 +51,6 @@ class Patient extends Equatable {
     emergencyContactName,
     emergencyContactPhone,
     status,
+    createdAt,
   ];
 }

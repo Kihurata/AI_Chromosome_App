@@ -4,7 +4,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../domain/entities/test_order.dart';
 import '../../../../logic/bloc/specialist/specialist_dashboard_cubit.dart';
-import 'package:medcore_crm/presentation/widgets/shared/form/app_buttons.dart';
+import '../../../widgets/shared/form/app_buttons.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class SpecialistOrderCard extends StatelessWidget {

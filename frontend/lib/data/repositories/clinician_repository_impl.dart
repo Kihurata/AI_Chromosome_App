@@ -3,6 +3,9 @@ import '../../core/errors/failures.dart';
 import '../../domain/repositories/clinician_repository.dart';
 import '../datasources/clinician_remote_datasource.dart';
 
+import 'package:injectable/injectable.dart';
+
+@LazySingleton(as: ClinicianRepository)
 class ClinicianRepositoryImpl implements ClinicianRepository {
   final ClinicianRemoteDataSource remoteDataSource;
 

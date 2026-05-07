@@ -17,6 +17,7 @@ class PatientModel extends Patient {
     super.emergencyContactName = '',
     super.emergencyContactPhone = '',
     super.status = 'active',
+    super.createdAt,
   });
 
   Map<String, dynamic> toFirestore() {
@@ -34,6 +35,7 @@ class PatientModel extends Patient {
       'emergency_contact_name': emergencyContactName,
       'emergency_contact_phone': emergencyContactPhone,
       'status': status,
+      'created_at': createdAt != null ? Timestamp.fromDate(createdAt!) : FieldValue.serverTimestamp(),
       'updated_at': FieldValue.serverTimestamp(),
     };
   }
@@ -71,6 +73,7 @@ class PatientModel extends Patient {
       emergencyContactName: data['emergency_contact_name'] ?? data['emergencyContactName'] ?? '',
       emergencyContactPhone: data['emergency_contact_phone'] ?? data['emergencyContactPhone'] ?? '',
       status: data['status'] ?? 'active',
+      createdAt: data['created_at'] is Timestamp ? (data['created_at'] as Timestamp).toDate() : null,
     );
   }
 
@@ -90,6 +93,7 @@ class PatientModel extends Patient {
       emergencyContactName: patient.emergencyContactName,
       emergencyContactPhone: patient.emergencyContactPhone,
       status: patient.status,
+      createdAt: patient.createdAt,
     );
   }
 }

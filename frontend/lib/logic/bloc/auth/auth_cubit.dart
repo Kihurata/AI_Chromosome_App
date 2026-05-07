@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/services/auth_service.dart';
 import '../../../core/services/notification_factory.dart';
+import 'package:injectable/injectable.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -36,6 +37,7 @@ class AuthErrorWithType extends AuthState {
 /// Callback type for retry actions.
 typedef VoidCallbackAction = void Function();
 
+@injectable
 class AuthCubit extends Cubit<AuthState> {
   final AuthService _authService = AuthService();
   final FirebaseFirestore _db = FirebaseFirestore.instance;

@@ -97,7 +97,7 @@ class _AssignSpecialistDialogState extends State<AssignSpecialistDialog> {
                   onPressed: selectedSpecialistId == null
                       ? null
                       : () {
-                          context.read<ManagerDashboardCubit>().assignSpecialist(
+                          context.read<ManagerDashboardCubit>().assignOrder(
                                 orderId: widget.order.id,
                                 specialistId: selectedSpecialistId!,
                               );

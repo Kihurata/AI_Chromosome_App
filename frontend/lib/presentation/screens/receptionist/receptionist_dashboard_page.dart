@@ -107,9 +107,9 @@ class _DashboardStatsRow extends StatelessWidget {
       builder: (context, state) {
         int total = 0, pending = 0, completed = 0;
         if (state is AppointmentLoaded) {
-          total = state.appointments.length;
-          pending = state.appointments.where((a) => a.status == AppointmentStatus.scheduled).length;
-          completed = state.appointments.where((a) => a.status == AppointmentStatus.completed).length;
+          total = state.allAppointments.length;
+          pending = state.allAppointments.where((a) => a.status == AppointmentStatus.scheduled).length;
+          completed = state.allAppointments.where((a) => a.status == AppointmentStatus.completed).length;
         }
 
         return Row(

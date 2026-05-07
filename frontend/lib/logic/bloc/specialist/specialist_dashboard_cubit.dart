@@ -5,6 +5,7 @@ import '../../../domain/entities/test_order.dart';
 import '../../../domain/entities/specialist_stats.dart';
 import '../../../domain/usecases/specialist/watch_assigned_orders.dart';
 import '../../../domain/usecases/specialist/update_order_status.dart';
+import '../../../../core/models/filter_options.dart';
 import 'specialist_dashboard_state.dart';
 
 @injectable
@@ -21,7 +22,6 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
     emit(state.copyWith(status: SpecialistDashboardStatus.loading));
 
     try {
-      // Following Critical Pattern: await for instead of emit.forEach
       await for (final result in watchOrdersUsecase(specialistId)) {
         if (isClosed) break;
 
@@ -32,7 +32,13 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
           )),
           (orders) {
             final stats = _calculateStats(orders);
-            final filtered = _applyFilters(orders, state.searchKeyword, state.statusFilter);
+            final filtered = _applyFilters(
+              orders,
+              state.searchKeyword,
+              state.statusFilter,
+              state.sortOrder,
+              state.dateRangePreset,
+            );
             emit(state.copyWith(
               status: SpecialistDashboardStatus.success,
               allOrders: orders,
@@ -52,42 +58,66 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
     }
   }
 
-  void setSearchKeyword(String keyword) {
-    final filtered = _applyFilters(state.allOrders, keyword, state.statusFilter);
+  void updateFilters({
+    String? searchKeyword,
+    TestOrderStatus? statusFilter,
+    AppSortOrder? sortOrder,
+    AppDateRangePreset? dateRangePreset,
+    bool clearStatusFilter = false,
+  }) {
+    final newKeyword = searchKeyword ?? state.searchKeyword;
+    final newStatus = clearStatusFilter ? null : (statusFilter ?? state.statusFilter);
+    final newSort = sortOrder ?? state.sortOrder;
+    final newDate = dateRangePreset ?? state.dateRangePreset;
+
+    final filtered = _applyFilters(
+      state.allOrders,
+      newKeyword,
+      newStatus,
+      newSort,
+      newDate,
+    );
+
     emit(state.copyWith(
-      searchKeyword: keyword,
+      searchKeyword: newKeyword,
+      statusFilter: newStatus,
+      clearStatusFilter: clearStatusFilter,
+      sortOrder: newSort,
+      dateRangePreset: newDate,
       filteredOrders: filtered,
-      focusedOrderId: null, // Clear focus on manual search
+      focusedOrderId: null,
     ));
   }
 
+  void setSearchKeyword(String keyword) => updateFilters(searchKeyword: keyword);
+
+  void setStatusFilter(TestOrderStatus? status) =>
+      updateFilters(statusFilter: status, clearStatusFilter: status == null);
+
   void focusOrder(String orderId) {
     // Auto search by order ID
-    final filtered = _applyFilters(state.allOrders, orderId, null);
+    final filtered = _applyFilters(
+      state.allOrders,
+      orderId,
+      null,
+      state.sortOrder,
+      AppDateRangePreset.all,
+    );
     
     emit(state.copyWith(
       searchKeyword: orderId,
-      statusFilter: null, // Clear status filter to ensure the order is visible
+      statusFilter: null,
+      clearStatusFilter: true,
+      dateRangePreset: AppDateRangePreset.all,
       filteredOrders: filtered,
       focusedOrderId: orderId,
     ));
 
-    // Clear focus highlight after 5 seconds but keep the search result
     Future.delayed(const Duration(seconds: 5), () {
       if (!isClosed && state.focusedOrderId == orderId) {
         emit(state.copyWith(focusedOrderId: null));
       }
     });
-  }
-
-  void setStatusFilter(TestOrderStatus? status) {
-    final filtered = _applyFilters(state.allOrders, state.searchKeyword, status);
-    emit(state.copyWith(
-      statusFilter: status,
-      clearStatusFilter: status == null,
-      filteredOrders: filtered,
-      focusedOrderId: null, // Clear focus on manual filter
-    ));
   }
 
   Future<void> startOrderAnalysis(String orderId) async {
@@ -109,15 +139,41 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
     List<TestOrder> orders,
     String keyword,
     TestOrderStatus? status,
+    AppSortOrder sortOrder,
+    AppDateRangePreset dateRange,
   ) {
-    return orders.where((order) {
-      final matchesSearch = keyword.isEmpty || 
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    final filtered = orders.where((order) {
+      final matchesSearch = keyword.isEmpty ||
           order.patientName.toLowerCase().contains(keyword.toLowerCase()) ||
           order.patientCode.toLowerCase().contains(keyword.toLowerCase()) ||
-          order.id.toLowerCase().contains(keyword.toLowerCase()); // Added ID search
+          order.id.toLowerCase().contains(keyword.toLowerCase());
       final matchesStatus = status == null || order.status == status;
-      return matchesSearch && matchesStatus;
+
+      bool matchesDate = true;
+      if (dateRange != AppDateRangePreset.all) {
+        final orderDate = order.createdAt;
+        if (dateRange == AppDateRangePreset.today) {
+          matchesDate = orderDate.isAfter(today);
+        } else if (dateRange == AppDateRangePreset.last7Days) {
+          matchesDate = orderDate.isAfter(now.subtract(const Duration(days: 7)));
+        } else if (dateRange == AppDateRangePreset.last30Days) {
+          matchesDate = orderDate.isAfter(now.subtract(const Duration(days: 30)));
+        }
+      }
+
+      return matchesSearch && matchesStatus && matchesDate;
     }).toList();
+
+    if (sortOrder == AppSortOrder.newest) {
+      filtered.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    } else {
+      filtered.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    }
+
+    return filtered;
   }
 
   SpecialistStats _calculateStats(List<TestOrder> orders) {
@@ -129,7 +185,7 @@ class SpecialistDashboardCubit extends Cubit<SpecialistDashboardState> {
     for (final order in orders) {
       switch (order.status) {
         case TestOrderStatus.pending:
-        case TestOrderStatus.culturing: // gộp nuôi cấy vào "Chờ xử lý"
+        case TestOrderStatus.culturing:
           pending++;
           break;
         case TestOrderStatus.analyzing:
