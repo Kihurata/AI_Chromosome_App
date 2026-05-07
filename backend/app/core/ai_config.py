@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 def get_ai_server_url() -> str:
     """
     Fetches the AI Server URL from Firestore system configuration.
-    Path: system_configs/ai_server -> field: api_url
+    Path: system_configs/ai_server -> field: url
     """
     try:
         db = firestore.client()
@@ -15,12 +15,12 @@ def get_ai_server_url() -> str:
         
         if doc.exists:
             data = doc.to_dict()
-            api_url = data.get('api_url')
+            api_url = data.get('url')
             if api_url:
                 logger.info(f"AI Server URL fetched: {api_url}")
                 return api_url
             else:
-                logger.warning("AI Server URL document exists but 'api_url' field is missing.")
+                logger.warning("AI Server URL document exists but 'url' field is missing.")
         else:
             logger.warning("AI Server URL document 'system_configs/ai_server' not found.")
             

@@ -20,4 +20,6 @@ abstract class WorkspaceRepository {
   Stream<Either<Failure, MetaphaseImage>> watchMetaphaseImageRecord(String orderId);
 
   Stream<Either<Failure, List<MetaphaseImage>>> watchMetaphaseImages(String orderId);
+  
+  Future<Either<Failure, void>> triggerAiAnalysis(String orderId);
 }
