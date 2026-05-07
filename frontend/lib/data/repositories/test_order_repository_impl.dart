@@ -29,8 +29,9 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
     String clinicianId,
   ) async {
     try {
-      final models =
-          await remoteDataSource.getTestOrdersByClinician(clinicianId);
+      final models = await remoteDataSource.getTestOrdersByClinician(
+        clinicianId,
+      );
       return Right(models.map(_modelToEntity).toList());
     } catch (e) {
       return Left(ServerFailure(e.toString()));
@@ -83,10 +84,11 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
     String specialistId,
   ) async* {
     try {
-      yield* remoteDataSource.watchAssignedOrders(specialistId).map<
-          Either<Failure, List<TestOrder>>>((models) {
-        return Right(models.map(_modelToEntity).toList());
-      });
+      yield* remoteDataSource
+          .watchAssignedOrders(specialistId)
+          .map<Either<Failure, List<TestOrder>>>((models) {
+            return Right(models.map(_modelToEntity).toList());
+          });
     } catch (e) {
       yield Left(ServerFailure(e.toString()));
     }
@@ -95,10 +97,11 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
   @override
   Stream<Either<Failure, List<TestOrder>>> watchAllOrders() async* {
     try {
-      yield* remoteDataSource.watchAllOrders().map<
-          Either<Failure, List<TestOrder>>>((models) {
-        return Right(models.map(_modelToEntity).toList());
-      });
+      yield* remoteDataSource
+          .watchAllOrders()
+          .map<Either<Failure, List<TestOrder>>>((models) {
+            return Right(models.map(_modelToEntity).toList());
+          });
     } catch (e) {
       yield Left(ServerFailure(e.toString()));
     }
@@ -118,4 +121,3 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
     );
   }
 }
-

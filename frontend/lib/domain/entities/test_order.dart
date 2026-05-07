@@ -89,14 +89,14 @@ class TestOrder extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        patientId,
-        patientName,
-        patientCode,
-        appointmentId,
-        specialistId,
-        clinicianId,
-        status,
-        createdAt,
-      ];
+    id,
+    patientId,
+    patientName,
+    patientCode,
+    appointmentId,
+    specialistId,
+    clinicianId,
+    status,
+    createdAt,
+  ];
 }

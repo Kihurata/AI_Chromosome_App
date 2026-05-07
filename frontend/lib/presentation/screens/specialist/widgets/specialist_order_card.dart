@@ -12,7 +12,7 @@ class SpecialistOrderCard extends StatelessWidget {
   final bool isFocused;
 
   const SpecialistOrderCard({
-    super.key, 
+    super.key,
     required this.order,
     this.isFocused = false,
   });
@@ -30,9 +30,9 @@ class SpecialistOrderCard extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: isFocused 
-              ? AppColors.primaryBlue.withValues(alpha: 0.1) 
-              : Colors.black.withValues(alpha: 0.02),
+            color: isFocused
+                ? AppColors.primaryBlue.withValues(alpha: 0.1)
+                : Colors.black.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -47,66 +47,76 @@ class SpecialistOrderCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
           child: Row(
-          children: [
-            // ── Bệnh nhân ──────────────────────────────────────────────
-            Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    order.patientName,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      color: Color(0xFF111827),
+            children: [
+              // ── Bệnh nhân ──────────────────────────────────────────────
+              Expanded(
+                flex: 3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      order.patientName,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        color: Color(0xFF111827),
+                      ),
                     ),
+                    const SizedBox(height: 3),
+                    Text(
+                      order.patientCode,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // ── Xét nghiệm ─────────────────────────────────────────────
+              Expanded(
+                flex: 2,
+                child: Text(
+                  _getTestTypeName(order.status),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF374151),
                   ),
-                  const SizedBox(height: 3),
-                  Text(
-                    order.patientCode,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
-                  ),
-                ],
+                ),
               ),
-            ),
-            // ── Xét nghiệm ─────────────────────────────────────────────
-            Expanded(
-              flex: 2,
-              child: Text(
-                _getTestTypeName(order.status),
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 13, color: Color(0xFF374151)),
+              // ── Ngày yêu cầu ───────────────────────────────────────────
+              Expanded(
+                flex: 2,
+                child: Text(
+                  _formatDate(order.createdAt),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+                ),
               ),
-            ),
-            // ── Ngày yêu cầu ───────────────────────────────────────────
-            Expanded(
-              flex: 2,
-              child: Text(
-                _formatDate(order.createdAt),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+              // ── Trạng thái ──────────────────────────────────────────────
+              Expanded(
+                flex: 2,
+                child: Center(child: _buildStatusBadge(order.status)),
               ),
-            ),
-            // ── Trạng thái ──────────────────────────────────────────────
-            Expanded(
-              flex: 2,
-              child: Center(child: _buildStatusBadge(order.status)),
-            ),
-            // ── Hành động ──────────────────────────────────────────────
-            Expanded(flex: 3, child: Center(child: _buildActionCell(context))),
-          ],
+              // ── Hành động ──────────────────────────────────────────────
+              Expanded(
+                flex: 3,
+                child: Center(child: _buildActionCell(context)),
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildActionCell(BuildContext context) {
     // Hiện nút Phân Tích nếu đơn chưa hoàn thành/từ chối
-    if (order.status != TestOrderStatus.completed && order.status != TestOrderStatus.rejected) {
+    if (order.status != TestOrderStatus.completed &&
+        order.status != TestOrderStatus.rejected) {
       return _buildActionButton(context);
     }
     return const SizedBox.shrink(); // This is fine as it's not the interactive part
@@ -139,13 +149,16 @@ class SpecialistOrderCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       );
     }
-    
+
     if (order.status == TestOrderStatus.analyzing) {
       return AppSecondaryButton(
         text: 'Tiếp tục',
         icon: LucideIcons.externalLink,
         onPressed: () {
-          context.goNamed('specialist-analysis', pathParameters: {'orderId': order.id});
+          context.goNamed(
+            'specialist-analysis',
+            pathParameters: {'orderId': order.id},
+          );
         },
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       );
@@ -159,7 +172,9 @@ class SpecialistOrderCard extends StatelessWidget {
       context: context,
       builder: (dialogContext) => AlertDialog(
         title: const Text('Xác nhận bắt đầu'),
-        content: Text('Bạn có chắc chắn muốn bắt đầu phân tích phiếu của bệnh nhân ${order.patientName}?'),
+        content: Text(
+          'Bạn có chắc chắn muốn bắt đầu phân tích phiếu của bệnh nhân ${order.patientName}?',
+        ),
         actions: [
           AppSecondaryButton(
             text: 'Hủy',
@@ -169,7 +184,9 @@ class SpecialistOrderCard extends StatelessWidget {
           AppPrimaryButton(
             text: 'Bắt đầu',
             onPressed: () {
-              context.read<SpecialistDashboardCubit>().startOrderAnalysis(order.id);
+              context.read<SpecialistDashboardCubit>().startOrderAnalysis(
+                order.id,
+              );
               Navigator.pop(dialogContext);
             },
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
