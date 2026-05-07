@@ -114,6 +114,8 @@ class OrchestratorService:
                 'status': 'COMPLETED',
                 'ai_count': len(chromosomes),
                 'ai_confidence': confidence,
+                'ai_score': int(confidence * 100) if confidence <= 1.0 else int(confidence), # Chuyển thành thang điểm 100 nếu cần
+                'ai_image_url': ai_image_url,
                 'analysisCompletedAt': firestore.SERVER_TIMESTAMP,
                 'updatedAt': firestore.SERVER_TIMESTAMP
             }

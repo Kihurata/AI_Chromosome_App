@@ -180,8 +180,7 @@ class _ScreeningStepState extends State<ScreeningStep> {
                                   final isMaxSelected = selectedIds.length >= 3;
                                   final isDisabled =
                                       isMaxSelected && !isSelected;
-                                  const aiScore =
-                                      95; // Mock until backend returns score
+                                  final aiScore = image.aiScore ?? 0;
 
                                   return GestureDetector(
                                     onTap: isDisabled
