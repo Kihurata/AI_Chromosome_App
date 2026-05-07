@@ -8,6 +8,7 @@ import '../../../../logic/bloc/specialist/ai_analysis_cubit.dart';
 import '../../../../logic/bloc/specialist/ai_analysis_state.dart';
 import '../../../widgets/shared/form/app_buttons.dart';
 import '../../../../logic/bloc/workspace/workspace_cubit.dart';
+import '../../../widgets/specialist/comparison_dialog.dart';
 
 class ScreeningStep extends StatefulWidget {
   final String orderId;
@@ -33,9 +34,9 @@ class _ScreeningStepState extends State<ScreeningStep> {
 
       if (bytesList.isNotEmpty && mounted) {
         context.read<AiAnalysisCubit>().uploadMultipleImages(
-              bytesList,
-              widget.orderId,
-            );
+          bytesList,
+          widget.orderId,
+        );
       }
     }
   }
@@ -63,7 +64,9 @@ class _ScreeningStepState extends State<ScreeningStep> {
               if (state is AiAnalysisUploadCompleted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Tải ảnh lên thành công! Bấm Phân tích AI để tiếp tục.'),
+                    content: Text(
+                      'Tải ảnh lên thành công! Bấm Phân tích AI để tiếp tục.',
+                    ),
                     backgroundColor: Colors.green,
                   ),
                 );
@@ -87,7 +90,9 @@ class _ScreeningStepState extends State<ScreeningStep> {
                     onPressed: isUploading ? null : _pickAndUploadFiles,
                     icon: const Icon(Icons.upload_file),
                     label: Text(
-                      isUploading ? 'Đang tải lên $current/$total...' : 'Upload ảnh',
+                      isUploading
+                          ? 'Đang tải lên $current/$total...'
+                          : 'Upload ảnh',
                     ),
                   ),
                 ],
@@ -98,20 +103,27 @@ class _ScreeningStepState extends State<ScreeningStep> {
           // Image grid
           Expanded(
             child: StreamBuilder(
-              stream: getIt<WorkspaceRepository>().watchMetaphaseImages(widget.orderId),
+              stream: getIt<WorkspaceRepository>().watchMetaphaseImages(
+                widget.orderId,
+              ),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (!snapshot.hasData) {
-                  return const Center(child: Text('Chưa có ảnh nào được tải lên.'));
+                  return const Center(
+                    child: Text('Chưa có ảnh nào được tải lên.'),
+                  );
                 }
 
                 return snapshot.data!.fold(
-                  (failure) => Center(child: Text('Lỗi tải ảnh: ${failure.message}')),
+                  (failure) =>
+                      Center(child: Text('Lỗi tải ảnh: ${failure.message}')),
                   (images) {
                     if (images.isEmpty) {
-                      return const Center(child: Text('Chưa có ảnh nào được tải lên.'));
+                      return const Center(
+                        child: Text('Chưa có ảnh nào được tải lên.'),
+                      );
                     }
 
                     final hasUploadedImages = images.any(
@@ -129,7 +141,9 @@ class _ScreeningStepState extends State<ScreeningStep> {
                           children: [
                             ElevatedButton.icon(
                               onPressed: (hasUploadedImages && !isProcessingAny)
-                                  ? () => context.read<AiAnalysisCubit>().triggerAnalysis(widget.orderId)
+                                  ? () => context
+                                        .read<AiAnalysisCubit>()
+                                        .triggerAnalysis(widget.orderId)
                                   : null,
                               icon: const Icon(Icons.auto_awesome),
                               label: const Text('Phân tích AI'),
@@ -145,28 +159,36 @@ class _ScreeningStepState extends State<ScreeningStep> {
                         Expanded(
                           child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
                             builder: (context, workspaceState) {
-                              final selectedIds = workspaceState.selectedImageIds;
+                              final selectedIds =
+                                  workspaceState.selectedImageIds;
 
                               return GridView.builder(
-                                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 250,
-                                  crossAxisSpacing: 16,
-                                  mainAxisSpacing: 16,
-                                  childAspectRatio: 1.0,
-                                ),
+                                gridDelegate:
+                                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      maxCrossAxisExtent: 250,
+                                      crossAxisSpacing: 16,
+                                      mainAxisSpacing: 16,
+                                      childAspectRatio: 1.0,
+                                    ),
                                 itemCount: images.length,
                                 itemBuilder: (context, index) {
                                   final image = images[index];
                                   final imageId = image.id;
-                                  final isSelected = selectedIds.contains(imageId);
+                                  final isSelected = selectedIds.contains(
+                                    imageId,
+                                  );
                                   final isMaxSelected = selectedIds.length >= 3;
-                                  final isDisabled = isMaxSelected && !isSelected;
-                                  const aiScore = 95; // Mock until backend returns score
+                                  final isDisabled =
+                                      isMaxSelected && !isSelected;
+                                  const aiScore =
+                                      95; // Mock until backend returns score
 
                                   return GestureDetector(
                                     onTap: isDisabled
                                         ? null
-                                        : () => context.read<WorkspaceCubit>().toggleImageSelection(imageId),
+                                        : () => context
+                                              .read<WorkspaceCubit>()
+                                              .toggleImageSelection(imageId),
                                     child: Opacity(
                                       opacity: isDisabled ? 0.5 : 1.0,
                                       child: ClipRRect(
@@ -174,10 +196,14 @@ class _ScreeningStepState extends State<ScreeningStep> {
                                         child: Container(
                                           decoration: BoxDecoration(
                                             color: Colors.grey.shade200,
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius: BorderRadius.circular(
+                                              12,
+                                            ),
                                             border: Border.all(
                                               color: isSelected
-                                                  ? Theme.of(context).primaryColor
+                                                  ? Theme.of(
+                                                      context,
+                                                    ).primaryColor
                                                   : Colors.transparent,
                                               width: 3,
                                             ),
@@ -189,43 +215,76 @@ class _ScreeningStepState extends State<ScreeningStep> {
                                               Image.network(
                                                 image.rawImageUrl,
                                                 fit: BoxFit.cover,
-                                                errorBuilder: (context, error, stackTrace) => const Center(
-                                                  child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
-                                                ),
+                                                errorBuilder:
+                                                    (
+                                                      context,
+                                                      error,
+                                                      stackTrace,
+                                                    ) => const Center(
+                                                      child: Icon(
+                                                        Icons.broken_image,
+                                                        size: 40,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
                                               ),
                                               // Processing overlay
-                                              if (image.status == AiProcessingStatus.processing)
+                                              if (image.status ==
+                                                  AiProcessingStatus.processing)
                                                 Container(
-                                                  color: Colors.black.withValues(alpha: 0.4),
+                                                  color: Colors.black
+                                                      .withValues(alpha: 0.4),
                                                   child: const Center(
-                                                    child: CircularProgressIndicator(),
+                                                    child:
+                                                        CircularProgressIndicator(),
                                                   ),
                                                 ),
                                               // Completed AI score badge
-                                              if (image.status == AiProcessingStatus.completed)
+                                              if (image.status ==
+                                                  AiProcessingStatus.completed)
                                                 Positioned(
                                                   top: 8,
                                                   left: 8,
                                                   child: Container(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                          horizontal: 8,
+                                                          vertical: 4,
+                                                        ),
                                                     decoration: BoxDecoration(
                                                       color: aiScore >= 90
                                                           ? Colors.green
-                                                          : (aiScore >= 80 ? Colors.orange : Colors.red),
-                                                      borderRadius: BorderRadius.circular(12),
+                                                          : (aiScore >= 80
+                                                                ? Colors.orange
+                                                                : Colors.red),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            12,
+                                                          ),
                                                     ),
                                                     child: Row(
-                                                      mainAxisSize: MainAxisSize.min,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
                                                       children: [
-                                                        const Icon(Icons.auto_awesome, color: Colors.white, size: 14),
-                                                        const SizedBox(width: 4),
+                                                        const Icon(
+                                                          Icons.auto_awesome,
+                                                          color: Colors.white,
+                                                          size: 14,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 4,
+                                                        ),
                                                         Text(
                                                           'AI: $aiScore',
-                                                          style: const TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
+                                                          style:
+                                                              const TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: 12,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
                                                         ),
                                                       ],
                                                     ),
@@ -236,11 +295,60 @@ class _ScreeningStepState extends State<ScreeningStep> {
                                                 Align(
                                                   alignment: Alignment.topRight,
                                                   child: Padding(
-                                                    padding: const EdgeInsets.all(8.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          8.0,
+                                                        ),
                                                     child: Icon(
                                                       Icons.check_circle,
-                                                      color: Theme.of(context).primaryColor,
+                                                      color: Theme.of(
+                                                        context,
+                                                      ).primaryColor,
                                                       size: 28,
+                                                    ),
+                                                  ),
+                                                ),
+                                              // View AI Result Button
+                                              if (image.status ==
+                                                  AiProcessingStatus.completed)
+                                                Align(
+                                                  alignment:
+                                                      Alignment.bottomRight,
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          8.0,
+                                                        ),
+                                                    child: IconButton(
+                                                      icon: const Icon(
+                                                        Icons.visibility,
+                                                      ),
+                                                      color: Colors.white,
+                                                      style:
+                                                          IconButton.styleFrom(
+                                                            backgroundColor:
+                                                                Theme.of(
+                                                                  context,
+                                                                ).primaryColor,
+                                                          ),
+                                                      onPressed: () {
+                                                        showDialog(
+                                                          context: context,
+                                                          builder: (context) =>
+                                                              ComparisonDialog(
+                                                                originalImageUrl:
+                                                                    image.rawImageUrl,
+                                                                aiImageUrl:
+                                                                    image.aiImageUrl ?? '',
+                                                                confidenceScore:
+                                                                    image.aiScore ?? 0,
+                                                                chromosomeCount:
+                                                                    image
+                                                                        .aiCount ??
+                                                                    0,
+                                                              ),
+                                                        );
+                                                      },
                                                     ),
                                                   ),
                                                 ),
@@ -290,19 +398,24 @@ class _ScreeningStepState extends State<ScreeningStep> {
               }
             },
             builder: (context, state) {
-              final isAnalyzing = state is AiAnalysisWaitingForBackend || state is AiAnalysisUploading;
-              
+              final isAnalyzing =
+                  state is AiAnalysisWaitingForBackend ||
+                  state is AiAnalysisUploading;
+
               return Center(
                 child: AppPrimaryButton(
-                  text: isAnalyzing ? 'Đang phân tích...' : 'Bắt đầu phân tích AI',
+                  text: isAnalyzing
+                      ? 'Đang phân tích...'
+                      : 'Bắt đầu phân tích AI',
                   icon: isAnalyzing ? null : Icons.auto_awesome,
                   isLoading: isAnalyzing,
-                  onPressed: isAnalyzing // || _selectedIndices.isEmpty (This seems to have a bug or missing variable, I'll fix it if I can see where _selectedIndices comes from)
+                  onPressed:
+                      isAnalyzing // || _selectedIndices.isEmpty (This seems to have a bug or missing variable, I'll fix it if I can see where _selectedIndices comes from)
                       ? null
                       : () => context.read<AiAnalysisCubit>().triggerAnalysis(
-                            widget.orderId,
-                            // _selectedIndices.first.toString(),
-                          ),
+                          widget.orderId,
+                          // _selectedIndices.first.toString(),
+                        ),
                 ),
               );
             },

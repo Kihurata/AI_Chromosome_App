@@ -116,17 +116,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i974.FirebaseFirestore>(),
       ),
     );
-    gh.lazySingleton<_i77.WorkspaceRepository>(
-      () => _i964.WorkspaceRepositoryImpl(gh<_i974.FirebaseFirestore>()),
-    );
     gh.factory<_i10.SampleManagementCubit>(
       () => _i10.SampleManagementCubit(gh<_i643.SampleRepository>()),
     );
     gh.lazySingleton<_i467.PatientRepository>(
       () => _i308.PatientRepositoryImpl(gh<_i940.PatientRemoteDataSource>()),
     );
-    gh.factory<_i1003.UpdateChromosomePosition>(
-      () => _i1003.UpdateChromosomePosition(gh<_i77.WorkspaceRepository>()),
+    gh.lazySingleton<_i77.WorkspaceRepository>(
+      () => _i964.WorkspaceRepositoryImpl(
+        gh<_i974.FirebaseFirestore>(),
+        gh<_i361.Dio>(),
+      ),
     );
     gh.lazySingleton<_i474.GetSampleByIdUsecase>(
       () => _i474.GetSampleByIdUsecase(gh<_i643.SampleRepository>()),
@@ -189,6 +189,12 @@ extension GetItInjectableX on _i174.GetIt {
         updateSampleNote: gh<_i589.UpdateSampleNoteUsecase>(),
       ),
     );
+    gh.lazySingleton<_i1057.TriggerAiAnalysis>(
+      () => _i1057.TriggerAiAnalysis(gh<_i77.WorkspaceRepository>()),
+    );
+    gh.factory<_i1003.UpdateChromosomePosition>(
+      () => _i1003.UpdateChromosomePosition(gh<_i77.WorkspaceRepository>()),
+    );
     gh.lazySingleton<_i193.ExaminationRepository>(
       () => _i996.ExaminationRepositoryImpl(
         gh<_i851.ExaminationRemoteDataSource>(),
@@ -199,6 +205,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i314.GetExaminationsByPatient>(
       () => _i314.GetExaminationsByPatient(gh<_i193.ExaminationRepository>()),
+    );
+    gh.factory<_i65.AiAnalysisCubit>(
+      () => _i65.AiAnalysisCubit(
+        uploadUsecase: gh<_i547.UploadImageForAiAnalysis>(),
+        uploadMultipleUsecase: gh<_i256.UploadMultipleImages>(),
+        triggerAiUsecase: gh<_i1057.TriggerAiAnalysis>(),
+        workspaceRepository: gh<_i77.WorkspaceRepository>(),
+      ),
     );
     gh.factory<_i814.UpdateOrderStatus>(
       () => _i814.UpdateOrderStatus(gh<_i655.TestOrderRepository>()),
@@ -220,9 +234,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1069.WatchAllOrders>(
       () => _i1069.WatchAllOrders(gh<_i655.TestOrderRepository>()),
-    );
-    gh.lazySingleton<_i1057.TriggerAiAnalysis>(
-      () => _i1057.TriggerAiAnalysis(gh<_i655.TestOrderRepository>()),
     );
     gh.factory<_i379.UpdateAppointmentStatus>(
       () => _i379.UpdateAppointmentStatus(gh<_i53.AppointmentRepository>()),
@@ -262,14 +273,6 @@ extension GetItInjectableX on _i174.GetIt {
         createExamination: gh<_i70.CreateExamination>(),
         updateAppointmentStatus: gh<_i379.UpdateAppointmentStatus>(),
         getExaminationsByPatient: gh<_i314.GetExaminationsByPatient>(),
-      ),
-    );
-    gh.factory<_i65.AiAnalysisCubit>(
-      () => _i65.AiAnalysisCubit(
-        uploadUsecase: gh<_i547.UploadImageForAiAnalysis>(),
-        uploadMultipleUsecase: gh<_i256.UploadMultipleImages>(),
-        triggerAiUsecase: gh<_i1057.TriggerAiAnalysis>(),
-        workspaceRepository: gh<_i77.WorkspaceRepository>(),
       ),
     );
     return this;

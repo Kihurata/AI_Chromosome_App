@@ -44,16 +44,22 @@ class MetaphaseImage extends Equatable {
   final String id;
   final String orderId;
   final String rawImageUrl;
+  final String? aiImageUrl;
   final AiProcessingStatus status;
   final int? processingTimeMs;
+  final int? aiCount;
+  final int? aiScore;
   final DateTime createdAt;
 
   const MetaphaseImage({
     required this.id,
     required this.orderId,
     required this.rawImageUrl,
+    this.aiImageUrl,
     this.status = AiProcessingStatus.uploaded,
     this.processingTimeMs,
+    this.aiCount,
+    this.aiScore,
     required this.createdAt,
   });
 
@@ -62,8 +68,11 @@ class MetaphaseImage extends Equatable {
         id,
         orderId,
         rawImageUrl,
+        aiImageUrl,
         status,
         processingTimeMs,
+        aiCount,
+        aiScore,
         createdAt,
       ];
 }

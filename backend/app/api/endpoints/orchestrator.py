@@ -38,4 +38,22 @@ async def analyze_image_endpoint(request: AnalyzeRequest, background_tasks: Back
     # Add to background tasks
     background_tasks.add_task(orchestrator_service.process_ai_analysis, order_id, image_id, raw_image_url)
     
-    return {"message": "Analysis started", "orderId": order_id, "imageId": image_id, "status": "PROCESSING"}
+@router.post("/v1/orders/{order_id}/analyze")
+async def analyze_order_images_endpoint(order_id: str):
+    """
+    Endpoint to trigger AI analysis for all UPLOADED images in a specific order.
+    """
+    # Verify order exists
+    order_ref = orchestrator_service.db.collection('test_orders').document(order_id)
+    order_doc = order_ref.get()
+    
+    if not order_doc.exists:
+        raise HTTPException(status_code=404, detail="Order not found")
+        
+    tasks_count = await orchestrator_service.trigger_analysis_for_order(order_id)
+    
+    return {
+        "message": "Analysis started for order",
+        "orderId": order_id,
+        "tasksScheduled": tasks_count
+    }

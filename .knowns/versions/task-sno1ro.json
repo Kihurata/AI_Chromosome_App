@@ -1,0 +1,202 @@
+{
+  "taskId": "sno1ro",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "sno1ro",
+      "version": 1,
+      "timestamp": "2026-05-07T06:44:41.5978395Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Create a popup dialog showing the original image vs AI annotated image, including confidence score and chromosome count.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "frontend"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Frontend: AI Image Comparison Popup"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "sno1ro",
+      "version": 2,
+      "timestamp": "2026-05-07T06:44:51.5426202Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Create `ComparisonDialog` widget."
+            },
+            {
+              "completed": false,
+              "text": "Bind data: Original Image, AI Image, Confidence, Chromosome Count."
+            },
+            {
+              "completed": false,
+              "text": "Add `onTap` to the image card in step 1 to show the dialog if status is COMPLETED."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Create `ComparisonDialog` widget."
+          },
+          {
+            "completed": false,
+            "text": "Bind data: Original Image, AI Image, Confidence, Chromosome Count."
+          },
+          {
+            "completed": false,
+            "text": "Add `onTap` to the image card in step 1 to show the dialog if status is COMPLETED."
+          }
+        ],
+        "description": "Create a popup dialog showing the original image vs AI annotated image, including confidence score and chromosome count.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "frontend"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Frontend: AI Image Comparison Popup"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "sno1ro",
+      "version": 3,
+      "timestamp": "2026-05-07T06:48:52.0622678Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Create `ComparisonDialog` widget."
+          },
+          {
+            "completed": false,
+            "text": "Bind data: Original Image, AI Image, Confidence, Chromosome Count."
+          },
+          {
+            "completed": false,
+            "text": "Add `onTap` to the image card in step 1 to show the dialog if status is COMPLETED."
+          }
+        ],
+        "description": "Create a popup dialog showing the original image vs AI annotated image, including confidence score and chromosome count.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "frontend"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Frontend: AI Image Comparison Popup"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "sno1ro",
+      "version": 4,
+      "timestamp": "2026-05-07T06:49:46.4670124Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented ComparisonDialog widget and integrated it into screening_step using an eye icon button for completed images."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Create `ComparisonDialog` widget."
+          },
+          {
+            "completed": true,
+            "text": "Bind data: Original Image, AI Image, Confidence, Chromosome Count."
+          },
+          {
+            "completed": true,
+            "text": "Add `onTap` to the image card in step 1 to show the dialog if status is COMPLETED."
+          }
+        ],
+        "description": "Create a popup dialog showing the original image vs AI annotated image, including confidence score and chromosome count.",
+        "implementationNotes": "Implemented ComparisonDialog widget and integrated it into screening_step using an eye icon button for completed images.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "frontend"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Frontend: AI Image Comparison Popup"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "sno1ro",
+      "version": 5,
+      "timestamp": "2026-05-07T06:49:46.5696748Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Create `ComparisonDialog` widget.",
+            "completed": true
+          },
+          {
+            "text": "Bind data: Original Image, AI Image, Confidence, Chromosome Count.",
+            "completed": true
+          },
+          {
+            "text": "Add `onTap` to the image card in step 1 to show the dialog if status is COMPLETED.",
+            "completed": true
+          }
+        ],
+        "description": "Create a popup dialog showing the original image vs AI annotated image, including confidence score and chromosome count.",
+        "implementationNotes": "Implemented ComparisonDialog widget and integrated it into screening_step using an eye icon button for completed images.",
+        "labels": [
+          "from-spec",
+          "go-mode",
+          "frontend"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Frontend: AI Image Comparison Popup"
+      }
+    }
+  ]
+}

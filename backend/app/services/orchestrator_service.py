@@ -63,22 +63,27 @@ class OrchestratorService:
             logger.info(f"--- [AI START] Image: {image_id} ---")
             
             # 1. Call AI Server (Timeout handled inside AIClient)
-            ai_result = await self.ai_client.analyze_image(image_url)
+            # Extract filename from raw_image_url to keep same naming in ai_predict folder
+            # raw_image_url format: .../test_orders%2F{order_id}%2Fraw%2F{filename}?alt=media
+            import urllib.parse
+            path = urllib.parse.urlparse(image_url).path
+            filename = path.split('%2F')[-1] if '%2F' in path else f"{image_id}.jpg"
+            
+            storage_path = f"test_orders/{order_id}/ai_predict/{filename}"
+            logger.info(f"Generated storage_path: {storage_path}")
+
+            ai_result = await self.ai_client.analyze_image(image_url, order_id=order_id, storage_path=storage_path)
             
             if not ai_result:
                 raise Exception("AI Server returned empty result or timed out.")
 
             # 2. Map LabelMe JSON to Firestore Domain Objects
             chromosomes = map_labelme_to_chromosomes(ai_result, order_id, image_id)
+            ai_image_url = ai_result.get('ai_image_url') or ai_result.get('annotated_image_url')
             
             # 3. Batch Persistence for Atomic Consistency
-            # We use a batch to ensure the image status and its chromosomes are updated together.
             batch = self.db.batch()
             chrom_collection = img_ref.collection('chromosomes')
-            
-            # Clear existing chromosomes if any (to allow retries/re-processing)
-            # Note: For large collections, this would need a separate deletion logic.
-            # In this context, we assume it's the first run or cleanup was handled.
             
             for chrom_data in chromosomes:
                 new_chrom_ref = chrom_collection.document()
@@ -86,12 +91,16 @@ class OrchestratorService:
                 batch.set(new_chrom_ref, chrom_data)
             
             # 4. Final Transition: Set to COMPLETED
-            batch.update(img_ref, {
+            update_data = {
                 'status': 'COMPLETED',
                 'ai_count': len(chromosomes),
                 'analysisCompletedAt': firestore.SERVER_TIMESTAMP,
                 'updatedAt': firestore.SERVER_TIMESTAMP
-            })
+            }
+            if ai_image_url:
+                update_data['ai_image_url'] = ai_image_url
+                
+            batch.update(img_ref, update_data)
             
             batch.commit()
             logger.info(f"--- [AI SUCCESS] Image: {image_id} | Chromosomes: {len(chromosomes)} ---")
