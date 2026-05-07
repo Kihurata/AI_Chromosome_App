@@ -27,14 +27,17 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ExaminationCubit>().loadExaminations(widget.patientId);
+      if (!mounted) return;
+      final cubit = context.read<ExaminationCubit>();
+      cubit.loadExaminations(widget.patientId);
+      _registerDrawer(ref, cubit);
     });
   }
 
   @override
   void dispose() {
     // Clear global drawer when leaving the page
-    Future.microtask(() => ref.read(drawerProvider.notifier).clear());
+    ref.read(drawerProvider.notifier).clear();
     super.dispose();
   }
 
@@ -44,43 +47,39 @@ class _HistoryTabState extends ConsumerState<HistoryTab> {
     if (_isDrawerRegistered) return;
     _isDrawerRegistered = true;
 
-    Future.microtask(() {
-      if (!mounted) return;
-      ref.read(drawerProvider.notifier).update(
-            endDrawer: BlocProvider.value(
-              value: cubit,
-              child: BlocBuilder<ExaminationCubit, ExaminationState>(
-                buildWhen: (p, c) {
-                  if (p is ExaminationLoaded && c is ExaminationLoaded) {
-                    return p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset;
-                  }
-                  return false;
-                },
-                builder: (context, state) {
-                  if (state is! ExaminationLoaded) return const SizedBox();
-                  return AppAdvancedFilterDrawer(
-                    currentSortOrder: state.sortOrder,
-                    onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
-                    currentDateRange: state.dateRangePreset,
-                    onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
-                    onApply: () {},
-                    onClear: () => cubit.updateFilters(
-                      searchQuery: '',
-                      sortOrder: AppSortOrder.newest,
-                      dateRangePreset: AppDateRangePreset.all,
-                    ),
-                  );
-                },
-              ),
+    ref.read(drawerProvider.notifier).update(
+          endDrawer: BlocProvider.value(
+            value: cubit,
+            child: BlocBuilder<ExaminationCubit, ExaminationState>(
+              buildWhen: (p, c) {
+                if (p is ExaminationLoaded && c is ExaminationLoaded) {
+                  return p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset;
+                }
+                return false;
+              },
+              builder: (context, state) {
+                if (state is! ExaminationLoaded) return const SizedBox();
+                return AppAdvancedFilterDrawer(
+                  currentSortOrder: state.sortOrder,
+                  onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
+                  currentDateRange: state.dateRangePreset,
+                  onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
+                  onApply: () {},
+                  onClear: () => cubit.updateFilters(
+                    searchQuery: '',
+                    sortOrder: AppSortOrder.newest,
+                    dateRangePreset: AppDateRangePreset.all,
+                  ),
+                );
+              },
             ),
-          );
-    });
+          ),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ExaminationCubit>();
-    _registerDrawer(ref, cubit);
 
     return BlocBuilder<ExaminationCubit, ExaminationState>(
       builder: (context, state) {

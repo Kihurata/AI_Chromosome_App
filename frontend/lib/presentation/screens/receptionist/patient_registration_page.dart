@@ -64,6 +64,7 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
 
   @override
   void dispose() {
+    FocusScope.of(context).unfocus();
     _fullNameController.dispose();
     _identityCardController.dispose();
     _dobController.dispose();
@@ -153,6 +154,7 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
             }
           });
         } else if (state is PatientActionSuccess) {
+          if (!context.mounted) return;
           setState(() => _isSubmitting = false);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

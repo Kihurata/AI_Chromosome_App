@@ -24,11 +24,13 @@ class MainListLayout extends ConsumerWidget {
     // Dynamically update the global AppHeader in MainShell
     if (title != null || subtitle != null || headerActions != null) {
       Future.microtask(() {
-        ref.read(headerProvider.notifier).update(
-          title: title,
-          subtitle: subtitle,
-          actions: headerActions,
-        );
+        if (context.mounted) {
+          ref.read(headerProvider.notifier).update(
+            title: title,
+            subtitle: subtitle,
+            actions: headerActions,
+          );
+        }
       });
     }
 

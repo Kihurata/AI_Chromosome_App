@@ -37,62 +37,67 @@ class _SpecialistDashboardPageState
     _cubit = getIt<SpecialistDashboardCubit>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      
       final authState = ref.read(authNotifierProvider);
       if (authState.user?.uid != null) {
         _cubit.loadOrders(authState.user!.uid);
       }
+      
+      _registerDrawer(ref);
     });
   }
 
   void _registerDrawer(WidgetRef ref) {
     if (_isDrawerRegistered) return;
-    
     _isDrawerRegistered = true;
-    Future.microtask(() {
-      if (!mounted) return;
-      ref.read(drawerProvider.notifier).update(
-            endDrawer: BlocProvider.value(
-              value: _cubit,
-              child: BlocBuilder<SpecialistDashboardCubit, SpecialistDashboardState>(
-                buildWhen: (p, c) => p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset,
-                builder: (context, state) {
-                  return AppAdvancedFilterDrawer(
-                    currentSortOrder: state.sortOrder,
-                    onSortOrderChanged: (sort) => _cubit.updateFilters(sortOrder: sort),
-                    currentDateRange: state.dateRangePreset,
-                    onDateRangeChanged: (range) => _cubit.updateFilters(dateRangePreset: range),
-                    onApply: () {},
-                    onClear: () => _cubit.updateFilters(
-                      searchKeyword: '',
-                      clearStatusFilter: true,
-                      sortOrder: AppSortOrder.newest,
-                      dateRangePreset: AppDateRangePreset.all,
-                    ),
-                  );
-                },
-              ),
+    
+    ref.read(drawerProvider.notifier).update(
+          endDrawer: BlocProvider.value(
+            value: _cubit,
+            child: BlocBuilder<SpecialistDashboardCubit, SpecialistDashboardState>(
+              buildWhen: (p, c) => p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset,
+              builder: (context, state) {
+                return AppAdvancedFilterDrawer(
+                  currentSortOrder: state.sortOrder,
+                  onSortOrderChanged: (sort) => _cubit.updateFilters(sortOrder: sort),
+                  currentDateRange: state.dateRangePreset,
+                  onDateRangeChanged: (range) => _cubit.updateFilters(dateRangePreset: range),
+                  onApply: () {},
+                  onClear: () => _cubit.updateFilters(
+                    searchKeyword: '',
+                    clearStatusFilter: true,
+                    sortOrder: AppSortOrder.newest,
+                    dateRangePreset: AppDateRangePreset.all,
+                  ),
+                );
+              },
             ),
-          );
-    });
+          ),
+        );
+  }
+
+  late ProviderContainer _container;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _container = ProviderScope.containerOf(context);
   }
 
   @override
   void dispose() {
-    _cubit.close();
-    final drawer = ref.read(drawerProvider.notifier);
-    // Clear global drawer when leaving the page
+    FocusScope.of(context).unfocus();
     Future.microtask(() {
-      drawer.clear();
+      _container.read(drawerProvider.notifier).clear();
     });
+    _cubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authNotifierProvider);
-
-    // Register drawer once when cubit is ready
-    _registerDrawer(ref);
 
     return BlocProvider.value(
       value: _cubit,
@@ -102,6 +107,7 @@ class _SpecialistDashboardPageState
             listenWhen: (previous, current) => current.lastStartedOrderId != null,
             listener: (context, state) {
               if (state.lastStartedOrderId != null) {
+                if (!context.mounted) return;
                 final orderId = state.lastStartedOrderId!;
                 _cubit.clearNavigation();
                 context.push('${AppRoutes.specialistAnalysis}/$orderId');

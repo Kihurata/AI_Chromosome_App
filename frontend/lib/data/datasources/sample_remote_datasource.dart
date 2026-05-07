@@ -17,7 +17,20 @@ class FirebaseSampleRemoteDataSource implements SampleRemoteDataSource {
 
   @override
   Future<void> createSample(SampleModel sample) async {
-    await _firestore.collection('samples').doc(sample.id).set(sample.toFirestore());
+    final batch = _firestore.batch();
+    
+    // Create the sample document
+    final sampleRef = _firestore.collection('samples').doc(sample.id);
+    batch.set(sampleRef, sample.toFirestore());
+    
+    // Update the test order status
+    final orderRef = _firestore.collection('test_orders').doc(sample.testOrderId);
+    batch.update(orderRef, {
+      'status': 'CULTURING',
+      'updated_at': FieldValue.serverTimestamp(),
+    });
+    
+    await batch.commit();
   }
 
   @override

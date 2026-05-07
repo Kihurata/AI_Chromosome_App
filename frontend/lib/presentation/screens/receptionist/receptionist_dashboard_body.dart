@@ -17,44 +17,80 @@ import '../../widgets/shared/filter/advanced_filter_drawer.dart';
 import 'patient_registration_page.dart';
 
 /// Slim receptionist dashboard — no sidebar/header (handled by AppNavigationWrapper).
-class ReceptionistDashboardBody extends ConsumerWidget {
+class ReceptionistDashboardBody extends ConsumerStatefulWidget {
   const ReceptionistDashboardBody({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final cubit = context.read<AppointmentCubit>();
+  ConsumerState<ReceptionistDashboardBody> createState() => _ReceptionistDashboardBodyState();
+}
 
-    // Register advanced filter drawer for this page
-    Future.microtask(() {
-      ref.read(drawerProvider.notifier).update(
-            endDrawer: BlocProvider.value(
-              value: cubit,
-              child: BlocBuilder<AppointmentCubit, AppointmentState>(
-                buildWhen: (p, c) {
-                  if (p is AppointmentLoaded && c is AppointmentLoaded) {
-                    return p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset;
-                  }
-                  return false;
-                },
-                builder: (context, state) {
-                  if (state is! AppointmentLoaded) return const SizedBox();
-                  return AppAdvancedFilterDrawer(
-                    currentSortOrder: state.sortOrder,
-                    onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
-                    currentDateRange: state.dateRangePreset,
-                    onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
-                    onApply: () {},
-                    onClear: () => cubit.updateFilters(
-                      searchQuery: '',
-                      sortOrder: AppSortOrder.newest,
-                      dateRangePreset: AppDateRangePreset.all,
-                    ),
-                  );
-                },
-              ),
-            ),
-          );
+class _ReceptionistDashboardBodyState extends ConsumerState<ReceptionistDashboardBody> {
+  bool _isDrawerRegistered = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final cubit = context.read<AppointmentCubit>();
+      _registerDrawer(ref, cubit);
     });
+  }
+
+  late ProviderContainer _container;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _container = ProviderScope.containerOf(context);
+  }
+
+  @override
+  void dispose() {
+    FocusScope.of(context).unfocus();
+    Future.microtask(() {
+      _container.read(drawerProvider.notifier).clear();
+    });
+    super.dispose();
+  }
+
+  void _registerDrawer(WidgetRef ref, AppointmentCubit cubit) {
+    if (_isDrawerRegistered) return;
+    _isDrawerRegistered = true;
+
+    ref.read(drawerProvider.notifier).update(
+          endDrawer: BlocProvider.value(
+            value: cubit,
+            child: BlocBuilder<AppointmentCubit, AppointmentState>(
+              buildWhen: (p, c) {
+                if (p is AppointmentLoaded && c is AppointmentLoaded) {
+                  return p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset;
+                }
+                return false;
+              },
+              builder: (context, state) {
+                if (state is! AppointmentLoaded) return const SizedBox();
+                return AppAdvancedFilterDrawer(
+                  currentSortOrder: state.sortOrder,
+                  onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
+                  currentDateRange: state.dateRangePreset,
+                  onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
+                  onApply: () {},
+                  onClear: () => cubit.updateFilters(
+                    searchQuery: '',
+                    sortOrder: AppSortOrder.newest,
+                    dateRangePreset: AppDateRangePreset.all,
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<AppointmentCubit>();
 
     return MainListLayout(
       title: 'Tổng quan',

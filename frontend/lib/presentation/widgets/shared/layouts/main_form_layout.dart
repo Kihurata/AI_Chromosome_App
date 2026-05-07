@@ -21,11 +21,13 @@ class MainFormLayout extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Dynamically update the global AppHeader in MainShell
     Future.microtask(() {
-      ref.read(headerProvider.notifier).update(
-        title: title,
-        subtitle: subtitle,
-        showBackButton: showBackButton,
-      );
+      if (context.mounted) {
+        ref.read(headerProvider.notifier).update(
+          title: title,
+          subtitle: subtitle,
+          showBackButton: showBackButton,
+        );
+      }
     });
 
     return Container(

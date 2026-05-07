@@ -27,14 +27,26 @@ class _SampleManagementPageState extends ConsumerState<SampleManagementPage> {
   void initState() {
     super.initState();
     context.read<SampleManagementCubit>().loadSamples();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final cubit = context.read<SampleManagementCubit>();
+      _registerDrawer(ref, cubit);
+    });
+  }
+
+  late ProviderContainer _container;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _container = ProviderScope.containerOf(context);
   }
 
   @override
   void dispose() {
-    final drawer = ref.read(drawerProvider.notifier);
-    // Clear global drawer when leaving the page
+    FocusScope.of(context).unfocus();
     Future.microtask(() {
-      drawer.clear();
+      _container.read(drawerProvider.notifier).clear();
     });
     super.dispose();
   }
@@ -45,43 +57,40 @@ class _SampleManagementPageState extends ConsumerState<SampleManagementPage> {
     if (_isDrawerRegistered) return;
     _isDrawerRegistered = true;
 
-    Future.microtask(() {
-      if (!mounted) return;
-      ref.read(drawerProvider.notifier).update(
-            endDrawer: BlocProvider.value(
-              value: cubit,
-              child: BlocBuilder<SampleManagementCubit, SampleManagementState>(
-                buildWhen: (p, c) => p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset,
-                builder: (context, state) {
-                  return AppAdvancedFilterDrawer(
-                    currentSortOrder: state.sortOrder,
-                    onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
-                    currentDateRange: state.dateRangePreset,
-                    onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
-                    onApply: () {},
-                    onClear: () => cubit.updateFilters(
-                      searchKeyword: '',
-                      clearStatusFilter: true,
-                      sortOrder: AppSortOrder.newest,
-                      dateRangePreset: AppDateRangePreset.all,
-                    ),
-                  );
-                },
-              ),
+    ref.read(drawerProvider.notifier).update(
+          endDrawer: BlocProvider.value(
+            value: cubit,
+            child: BlocBuilder<SampleManagementCubit, SampleManagementState>(
+              buildWhen: (p, c) => p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset,
+              builder: (context, state) {
+                return AppAdvancedFilterDrawer(
+                  currentSortOrder: state.sortOrder,
+                  onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
+                  currentDateRange: state.dateRangePreset,
+                  onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
+                  onApply: () {},
+                  onClear: () => cubit.updateFilters(
+                    searchKeyword: '',
+                    clearStatusFilter: true,
+                    sortOrder: AppSortOrder.newest,
+                    dateRangePreset: AppDateRangePreset.all,
+                  ),
+                );
+              },
             ),
-          );
-    });
+          ),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<SampleManagementCubit>();
-    _registerDrawer(ref, cubit);
 
     return BlocListener<SampleManagementCubit, SampleManagementState>(
       listenWhen: (p, c) => c.lastStartedOrderId != null,
       listener: (context, state) {
         if (state.lastStartedOrderId != null) {
+          if (!context.mounted) return;
           final orderId = state.lastStartedOrderId!;
           cubit.clearNavigation();
           context.push('${AppRoutes.specialistAnalysis}/$orderId');

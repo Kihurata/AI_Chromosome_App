@@ -1,0 +1,200 @@
+{
+  "taskId": "2d63n1",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "2d63n1",
+      "version": 1,
+      "timestamp": "2026-05-07T10:12:17.9435296Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "in-progress"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Refactor the sample creation flow. Shift the responsibility of creating a Sample from Clinician to Specialist. Update Clinician form to only create TestOrder. Update Specialist dashboard to have a \"Tạo Mẫu\" button for PENDING orders. Refactor SampleDetailScreen into a sample creation form with UI matching the old Clinician form. Ensure new samples appear in SampleManagementPage.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Sample Creation Flow (Clinician to Specialist)"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "2d63n1",
+      "version": 2,
+      "timestamp": "2026-05-07T10:12:32.0126415Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Refactor blood_test_prescription_screen.dart to only submit TestOrder"
+            },
+            {
+              "completed": false,
+              "text": "Change button to 'Tạo Mẫu' in specialist_order_card.dart for pending orders"
+            },
+            {
+              "completed": false,
+              "text": "Refactor sample_detail_screen.dart to be a form for creating SampleModel"
+            },
+            {
+              "completed": false,
+              "text": "Implement createSample logic in SampleDetailCubit"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Refactor blood_test_prescription_screen.dart to only submit TestOrder"
+          },
+          {
+            "completed": false,
+            "text": "Change button to 'Tạo Mẫu' in specialist_order_card.dart for pending orders"
+          },
+          {
+            "completed": false,
+            "text": "Refactor sample_detail_screen.dart to be a form for creating SampleModel"
+          },
+          {
+            "completed": false,
+            "text": "Implement createSample logic in SampleDetailCubit"
+          }
+        ],
+        "description": "Refactor the sample creation flow. Shift the responsibility of creating a Sample from Clinician to Specialist. Update Clinician form to only create TestOrder. Update Specialist dashboard to have a \"Tạo Mẫu\" button for PENDING orders. Refactor SampleDetailScreen into a sample creation form with UI matching the old Clinician form. Ensure new samples appear in SampleManagementPage.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Sample Creation Flow (Clinician to Specialist)"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "2d63n1",
+      "version": 3,
+      "timestamp": "2026-05-07T10:12:44.9782382Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n\n1. **Refactor Clinician Form (`blood_test_prescription_screen.dart`)**\n   - Remove `_selectedDate`, `_selectedTime`, and `_clinicalNotesCtrl` inputs from the UI.\n   - Update `_submitOrder(context)` to only instantiate a `TestOrder` (without a `Sample`).\n   - Call `ClinicianOrderCubit.createOrder` instead of `submitOrderWithSample`.\n   - Simplify the layout so it just confirms the creation of a \"Phiếu Chỉ Định\".\n\n2. **Update Specialist Order Card (`specialist_order_card.dart`)**\n   - For `TestOrderStatus.pending`, change the button label to **\"Tạo Mẫu\"** and change the icon (e.g., `LucideIcons.flaskConical`).\n   - Remove the `_showStartAnalysisConfirm` popup for `pending` status.\n   - When clicked, keep the existing navigation logic `context.pushNamed('specialist-sample-detail', pathParameters: {'id': order.id})` (which will now be used for sample creation).\n\n3. **Refactor Sample Detail Screen (`sample_detail_screen.dart`)**\n   - Migrate UI to use `MainFormLayout`, removing the read-only display.\n   - Add DatePicker and TimePicker (reused code from the old clinician form).\n   - Add a TextField for Clinical Notes.\n   - Load the `TestOrder` via `SpecialistDashboardCubit` (or route extra) to extract `patientName` and `patientCode`.\n   - On save, construct a new `SampleModel` with `sampleType: 'Máu'`, the selected date/time, notes, and hardcoded status `SampleStatus.collected`.\n   - Trigger `SampleDetailCubit.createSample(...)` to save data to Firestore.\n   - On success, return to the dashboard (`context.pop()`).\n\n4. **Update Sample Detail Cubit (`sample_detail_cubit.dart`)**\n   - Add `CollectPhysicalSample` usecase as a dependency.\n   - Implement `createSample(Sample sample)` which emits loading state, executes the usecase, and emits success/error states.\n   - Ensure the dependency is properly registered in DI (`injection.dart`).\n\n5. **Verify Sample Management Page**\n   - `SampleManagementPage` uses a stream via `SampleManagementCubit`, so new samples will automatically appear without code changes. Test this to be certain."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Refactor blood_test_prescription_screen.dart to only submit TestOrder"
+          },
+          {
+            "completed": false,
+            "text": "Change button to 'Tạo Mẫu' in specialist_order_card.dart for pending orders"
+          },
+          {
+            "completed": false,
+            "text": "Refactor sample_detail_screen.dart to be a form for creating SampleModel"
+          },
+          {
+            "completed": false,
+            "text": "Implement createSample logic in SampleDetailCubit"
+          }
+        ],
+        "description": "Refactor the sample creation flow. Shift the responsibility of creating a Sample from Clinician to Specialist. Update Clinician form to only create TestOrder. Update Specialist dashboard to have a \"Tạo Mẫu\" button for PENDING orders. Refactor SampleDetailScreen into a sample creation form with UI matching the old Clinician form. Ensure new samples appear in SampleManagementPage.",
+        "implementationPlan": "## Implementation Plan\n\n1. **Refactor Clinician Form (`blood_test_prescription_screen.dart`)**\n   - Remove `_selectedDate`, `_selectedTime`, and `_clinicalNotesCtrl` inputs from the UI.\n   - Update `_submitOrder(context)` to only instantiate a `TestOrder` (without a `Sample`).\n   - Call `ClinicianOrderCubit.createOrder` instead of `submitOrderWithSample`.\n   - Simplify the layout so it just confirms the creation of a \"Phiếu Chỉ Định\".\n\n2. **Update Specialist Order Card (`specialist_order_card.dart`)**\n   - For `TestOrderStatus.pending`, change the button label to **\"Tạo Mẫu\"** and change the icon (e.g., `LucideIcons.flaskConical`).\n   - Remove the `_showStartAnalysisConfirm` popup for `pending` status.\n   - When clicked, keep the existing navigation logic `context.pushNamed('specialist-sample-detail', pathParameters: {'id': order.id})` (which will now be used for sample creation).\n\n3. **Refactor Sample Detail Screen (`sample_detail_screen.dart`)**\n   - Migrate UI to use `MainFormLayout`, removing the read-only display.\n   - Add DatePicker and TimePicker (reused code from the old clinician form).\n   - Add a TextField for Clinical Notes.\n   - Load the `TestOrder` via `SpecialistDashboardCubit` (or route extra) to extract `patientName` and `patientCode`.\n   - On save, construct a new `SampleModel` with `sampleType: 'Máu'`, the selected date/time, notes, and hardcoded status `SampleStatus.collected`.\n   - Trigger `SampleDetailCubit.createSample(...)` to save data to Firestore.\n   - On success, return to the dashboard (`context.pop()`).\n\n4. **Update Sample Detail Cubit (`sample_detail_cubit.dart`)**\n   - Add `CollectPhysicalSample` usecase as a dependency.\n   - Implement `createSample(Sample sample)` which emits loading state, executes the usecase, and emits success/error states.\n   - Ensure the dependency is properly registered in DI (`injection.dart`).\n\n5. **Verify Sample Management Page**\n   - `SampleManagementPage` uses a stream via `SampleManagementCubit`, so new samples will automatically appear without code changes. Test this to be certain.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Sample Creation Flow (Clinician to Specialist)"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "2d63n1",
+      "version": 4,
+      "timestamp": "2026-05-07T10:22:19.2788521Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Refactored clinician form to only create TestOrder. Updated specialist card button to 'Tạo Mẫu'. Refactored SampleDetailScreen into a creation form. Created GetTestOrderById usecase and updated SampleDetailCubit. Running build_runner to update DI."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Refactor blood_test_prescription_screen.dart to only submit TestOrder"
+          },
+          {
+            "completed": true,
+            "text": "Change button to 'Tạo Mẫu' in specialist_order_card.dart for pending orders"
+          },
+          {
+            "completed": true,
+            "text": "Refactor sample_detail_screen.dart to be a form for creating SampleModel"
+          },
+          {
+            "completed": true,
+            "text": "Implement createSample logic in SampleDetailCubit"
+          }
+        ],
+        "description": "Refactor the sample creation flow. Shift the responsibility of creating a Sample from Clinician to Specialist. Update Clinician form to only create TestOrder. Update Specialist dashboard to have a \"Tạo Mẫu\" button for PENDING orders. Refactor SampleDetailScreen into a sample creation form with UI matching the old Clinician form. Ensure new samples appear in SampleManagementPage.",
+        "implementationNotes": "Refactored clinician form to only create TestOrder. Updated specialist card button to 'Tạo Mẫu'. Refactored SampleDetailScreen into a creation form. Created GetTestOrderById usecase and updated SampleDetailCubit. Running build_runner to update DI.",
+        "implementationPlan": "## Implementation Plan\n\n1. **Refactor Clinician Form (`blood_test_prescription_screen.dart`)**\n   - Remove `_selectedDate`, `_selectedTime`, and `_clinicalNotesCtrl` inputs from the UI.\n   - Update `_submitOrder(context)` to only instantiate a `TestOrder` (without a `Sample`).\n   - Call `ClinicianOrderCubit.createOrder` instead of `submitOrderWithSample`.\n   - Simplify the layout so it just confirms the creation of a \"Phiếu Chỉ Định\".\n\n2. **Update Specialist Order Card (`specialist_order_card.dart`)**\n   - For `TestOrderStatus.pending`, change the button label to **\"Tạo Mẫu\"** and change the icon (e.g., `LucideIcons.flaskConical`).\n   - Remove the `_showStartAnalysisConfirm` popup for `pending` status.\n   - When clicked, keep the existing navigation logic `context.pushNamed('specialist-sample-detail', pathParameters: {'id': order.id})` (which will now be used for sample creation).\n\n3. **Refactor Sample Detail Screen (`sample_detail_screen.dart`)**\n   - Migrate UI to use `MainFormLayout`, removing the read-only display.\n   - Add DatePicker and TimePicker (reused code from the old clinician form).\n   - Add a TextField for Clinical Notes.\n   - Load the `TestOrder` via `SpecialistDashboardCubit` (or route extra) to extract `patientName` and `patientCode`.\n   - On save, construct a new `SampleModel` with `sampleType: 'Máu'`, the selected date/time, notes, and hardcoded status `SampleStatus.collected`.\n   - Trigger `SampleDetailCubit.createSample(...)` to save data to Firestore.\n   - On success, return to the dashboard (`context.pop()`).\n\n4. **Update Sample Detail Cubit (`sample_detail_cubit.dart`)**\n   - Add `CollectPhysicalSample` usecase as a dependency.\n   - Implement `createSample(Sample sample)` which emits loading state, executes the usecase, and emits success/error states.\n   - Ensure the dependency is properly registered in DI (`injection.dart`).\n\n5. **Verify Sample Management Page**\n   - `SampleManagementPage` uses a stream via `SampleManagementCubit`, so new samples will automatically appear without code changes. Test this to be certain.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Sample Creation Flow (Clinician to Specialist)"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "2d63n1",
+      "version": 5,
+      "timestamp": "2026-05-07T10:23:30.8177814Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Refactor blood_test_prescription_screen.dart to only submit TestOrder",
+            "completed": true
+          },
+          {
+            "text": "Change button to 'Tạo Mẫu' in specialist_order_card.dart for pending orders",
+            "completed": true
+          },
+          {
+            "text": "Refactor sample_detail_screen.dart to be a form for creating SampleModel",
+            "completed": true
+          },
+          {
+            "text": "Implement createSample logic in SampleDetailCubit",
+            "completed": true
+          }
+        ],
+        "description": "Refactor the sample creation flow. Shift the responsibility of creating a Sample from Clinician to Specialist. Update Clinician form to only create TestOrder. Update Specialist dashboard to have a \"Tạo Mẫu\" button for PENDING orders. Refactor SampleDetailScreen into a sample creation form with UI matching the old Clinician form. Ensure new samples appear in SampleManagementPage.",
+        "implementationNotes": "Refactored clinician form to only create TestOrder. Updated specialist card button to 'Tạo Mẫu'. Refactored SampleDetailScreen into a creation form. Created GetTestOrderById usecase and updated SampleDetailCubit. Running build_runner to update DI.",
+        "implementationPlan": "## Implementation Plan\n\n1. **Refactor Clinician Form (`blood_test_prescription_screen.dart`)**\n   - Remove `_selectedDate`, `_selectedTime`, and `_clinicalNotesCtrl` inputs from the UI.\n   - Update `_submitOrder(context)` to only instantiate a `TestOrder` (without a `Sample`).\n   - Call `ClinicianOrderCubit.createOrder` instead of `submitOrderWithSample`.\n   - Simplify the layout so it just confirms the creation of a \"Phiếu Chỉ Định\".\n\n2. **Update Specialist Order Card (`specialist_order_card.dart`)**\n   - For `TestOrderStatus.pending`, change the button label to **\"Tạo Mẫu\"** and change the icon (e.g., `LucideIcons.flaskConical`).\n   - Remove the `_showStartAnalysisConfirm` popup for `pending` status.\n   - When clicked, keep the existing navigation logic `context.pushNamed('specialist-sample-detail', pathParameters: {'id': order.id})` (which will now be used for sample creation).\n\n3. **Refactor Sample Detail Screen (`sample_detail_screen.dart`)**\n   - Migrate UI to use `MainFormLayout`, removing the read-only display.\n   - Add DatePicker and TimePicker (reused code from the old clinician form).\n   - Add a TextField for Clinical Notes.\n   - Load the `TestOrder` via `SpecialistDashboardCubit` (or route extra) to extract `patientName` and `patientCode`.\n   - On save, construct a new `SampleModel` with `sampleType: 'Máu'`, the selected date/time, notes, and hardcoded status `SampleStatus.collected`.\n   - Trigger `SampleDetailCubit.createSample(...)` to save data to Firestore.\n   - On success, return to the dashboard (`context.pop()`).\n\n4. **Update Sample Detail Cubit (`sample_detail_cubit.dart`)**\n   - Add `CollectPhysicalSample` usecase as a dependency.\n   - Implement `createSample(Sample sample)` which emits loading state, executes the usecase, and emits success/error states.\n   - Ensure the dependency is properly registered in DI (`injection.dart`).\n\n5. **Verify Sample Management Page**\n   - `SampleManagementPage` uses a stream via `SampleManagementCubit`, so new samples will automatically appear without code changes. Test this to be certain.",
+        "priority": "high",
+        "status": "done",
+        "title": "Refactor Sample Creation Flow (Clinician to Specialist)"
+      }
+    }
+  ]
+}

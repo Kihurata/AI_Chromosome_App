@@ -73,43 +73,40 @@ class MedCoreApp extends ConsumerWidget {
         child: Consumer(
           builder: (context, ref, _) {
             final router = ref.watch(appRouterProvider);
-            return Directionality(
-              textDirection: TextDirection.ltr,
-              child: Column(
-                children: [
-                  const ConnectivityBanner(),
-                  Expanded(
-                      child: MaterialApp.router(
-                        debugShowCheckedModeBanner: false,
-                        title: 'MedCore CRM',
-                        theme: ThemeData(
-                          useMaterial3: true,
-                          primarySwatch: Colors.blue,
-                        ),
-                        localizationsDelegates: const [
-                          GlobalMaterialLocalizations.delegate,
-                          GlobalWidgetsLocalizations.delegate,
-                          GlobalCupertinoLocalizations.delegate,
-                        ],
-                        supportedLocales: const [
-                          Locale('vi', 'VN'),
-                          Locale('en', 'US'),
-                        ],
-                        routerConfig: router,
-                        builder: (context, child) {
-                          return BlocListener<NotificationCubit, NotificationState>(
-                            listener: (context, state) {
-                              if (state is NotificationReceived) {
-                                _handleIncomingNotification(context, state, router);
-                              }
-                            },
-                            child: child!,
-                          );
-                        },
-                      ),
-                  ),
-                ],
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: 'MedCore CRM',
+              theme: ThemeData(
+                useMaterial3: true,
+                primarySwatch: Colors.blue,
               ),
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('vi', 'VN'),
+                Locale('en', 'US'),
+              ],
+              routerConfig: router,
+              builder: (context, child) {
+                return Column(
+                  children: [
+                    const ConnectivityBanner(),
+                    Expanded(
+                      child: BlocListener<NotificationCubit, NotificationState>(
+                        listener: (context, state) {
+                          if (state is NotificationReceived) {
+                            _handleIncomingNotification(context, state, router);
+                          }
+                        },
+                        child: child!,
+                      ),
+                    ),
+                  ],
+                );
+              },
             );
           },
         ),

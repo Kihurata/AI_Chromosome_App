@@ -31,14 +31,27 @@ class _PatientListPageState extends ConsumerState<PatientListPage> {
   void initState() {
     super.initState();
     context.read<PatientCubit>().loadPatients();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final cubit = context.read<PatientCubit>();
+      _registerDrawer(ref, cubit);
+    });
+  }
+
+  late ProviderContainer _container;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _container = ProviderScope.containerOf(context);
   }
 
   @override
   void dispose() {
-    final drawer = ref.read(drawerProvider.notifier);
+    FocusScope.of(context).unfocus();
     // Clear global drawer when leaving the page
     Future.microtask(() {
-      drawer.clear();
+      _container.read(drawerProvider.notifier).clear();
     });
     super.dispose();
   }
@@ -49,43 +62,39 @@ class _PatientListPageState extends ConsumerState<PatientListPage> {
     if (_isDrawerRegistered) return;
     _isDrawerRegistered = true;
 
-    Future.microtask(() {
-      if (!mounted) return;
-      ref.read(drawerProvider.notifier).update(
-            endDrawer: BlocProvider.value(
-              value: cubit,
-              child: BlocBuilder<PatientCubit, PatientState>(
-                buildWhen: (p, c) {
-                  if (p is PatientLoaded && c is PatientLoaded) {
-                    return p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset;
-                  }
-                  return false;
-                },
-                builder: (context, state) {
-                  if (state is! PatientLoaded) return const SizedBox();
-                  return AppAdvancedFilterDrawer(
-                    currentSortOrder: state.sortOrder,
-                    onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
-                    currentDateRange: state.dateRangePreset,
-                    onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
-                    onApply: () {},
-                    onClear: () => cubit.updateFilters(
-                      searchQuery: '',
-                      sortOrder: AppSortOrder.newest,
-                      dateRangePreset: AppDateRangePreset.all,
-                    ),
-                  );
-                },
-              ),
+    ref.read(drawerProvider.notifier).update(
+          endDrawer: BlocProvider.value(
+            value: cubit,
+            child: BlocBuilder<PatientCubit, PatientState>(
+              buildWhen: (p, c) {
+                if (p is PatientLoaded && c is PatientLoaded) {
+                  return p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset;
+                }
+                return false;
+              },
+              builder: (context, state) {
+                if (state is! PatientLoaded) return const SizedBox();
+                return AppAdvancedFilterDrawer(
+                  currentSortOrder: state.sortOrder,
+                  onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
+                  currentDateRange: state.dateRangePreset,
+                  onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
+                  onApply: () {},
+                  onClear: () => cubit.updateFilters(
+                    searchQuery: '',
+                    sortOrder: AppSortOrder.newest,
+                    dateRangePreset: AppDateRangePreset.all,
+                  ),
+                );
+              },
             ),
-          );
-    });
+          ),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<PatientCubit>();
-    _registerDrawer(ref, cubit);
 
     return MainListLayout(
       title: 'Danh sách bệnh nhân',

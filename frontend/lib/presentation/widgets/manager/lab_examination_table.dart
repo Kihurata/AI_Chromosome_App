@@ -95,7 +95,7 @@ class _OrderRow extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              '#LAB-${order.id.substring(0, 4).toUpperCase()}',
+              '#LAB-${order.id.length > 4 ? order.id.substring(0, 4).toUpperCase() : order.id.toUpperCase()}',
               style: const TextStyle(
                 color: AppColors.primaryBlue,
                 fontWeight: FontWeight.bold,
