@@ -11,46 +11,64 @@ class OrchestratorService:
         self.db = firestore.client()
         self.ai_client = AIClient()
 
-    async def trigger_analysis_for_order(self, order_id: str):
+    async def analyze_order(self, order_id: str):
         """
-        Scans an order for 'UPLOADED' images and initiates background AI analysis tasks.
+        Scans an order for images and initiates a SEQUENTIAL background analysis.
+        Returns immediately to avoid frontend timeouts.
         """
-        logger.info(f"Checking for images requiring AI analysis in order: {order_id}")
+        print(f"🔍 [BACKEND] Khởi chạy tiến trình phân tích cho đơn hàng: {order_id}")
         
         try:
-            # Get all images for this order
             images_ref = self.db.collection('test_orders').document(order_id).collection('metaphase_images')
-            # Only process images that haven't been touched by AI yet
-            images = images_ref.where('status', '==', 'UPLOADED').stream()
+            images_all = list(images_ref.stream())
             
-            tasks = []
-            for img_doc in images:
-                img_data = img_doc.to_dict()
-                image_id = img_doc.id
-                raw_image_url = img_data.get('raw_image_url')
-                
-                if raw_image_url:
-                    # 1. Immediate State Lock: Set to PROCESSING to prevent concurrent triggers
-                    img_doc.reference.update({
-                        'status': 'PROCESSING',
-                        'analysisStartedAt': firestore.SERVER_TIMESTAMP
-                    })
-                    
-                    # 2. Schedule Background Task
-                    # Note: We don't 'await' here because we want the listener to return quickly
-                    task = asyncio.create_task(self.process_ai_analysis(order_id, image_id, raw_image_url))
-                    tasks.append(task)
+            # Filter images that need processing
+            to_process = []
+            for img_doc in images_all:
+                status = img_doc.to_dict().get('status', 'UPLOADED')
+                if status in ['UPLOADED', 'PENDING']:
+                    to_process.append(img_doc)
+
+            if not to_process:
+                print(f"ℹ️ [BACKEND] Không có ảnh mới nào cần phân tích cho {order_id}")
+                return 0
+
+            # Start the sequential loop in the BACKGROUND
+            asyncio.create_task(self._run_sequential_analysis(order_id, to_process))
             
-            if tasks:
-                logger.info(f"Successfully scheduled {len(tasks)} AI analysis tasks for order {order_id}")
-            else:
-                logger.info(f"No pending images found for order {order_id}")
-                
-            return len(tasks)
+            print(f"✅ [BACKEND] Đã bắt đầu tiến trình nền cho {len(to_process)} ảnh. API trả về ngay lập tức.")
+            return len(to_process)
             
         except Exception as e:
             logger.error(f"Failed to trigger analysis for order {order_id}: {e}")
             return 0
+
+    async def _run_sequential_analysis(self, order_id: str, image_docs: list):
+        """
+        Internal helper to run analysis one-by-one in the background.
+        """
+        print(f"⚙️ [BACKGROUND] Bắt đầu xử lý tuần tự {len(image_docs)} ảnh...")
+        for img_doc in image_docs:
+            img_data = img_doc.to_dict()
+            image_id = img_doc.id
+            raw_image_url = img_data.get('raw_image_url')
+            
+            if raw_image_url:
+                print(f"🚀 [BACKGROUND] Đang xử lý: {image_id}")
+                # Lock status
+                img_doc.reference.update({
+                    'status': 'PROCESSING',
+                    'analysisStartedAt': firestore.SERVER_TIMESTAMP
+                })
+                
+                # Await single analysis
+                try:
+                    await self.process_ai_analysis(order_id, image_id, raw_image_url)
+                except Exception as e:
+                    print(f"❌ [BACKGROUND] Lỗi khi xử lý ảnh {image_id}: {e}")
+                    img_doc.reference.update({'status': 'FAILED'})
+        
+        print(f"🏁 [BACKGROUND] Hoàn thành toàn bộ {len(image_docs)} ảnh cho đơn hàng {order_id}")
 
     async def process_ai_analysis(self, order_id: str, image_id: str, image_url: str):
         """
@@ -80,6 +98,7 @@ class OrchestratorService:
             # 2. Map LabelMe JSON to Firestore Domain Objects
             chromosomes = map_labelme_to_chromosomes(ai_result, order_id, image_id)
             ai_image_url = ai_result.get('ai_image_url') or ai_result.get('annotated_image_url')
+            confidence = ai_result.get('confidence', 0.0)
             
             # 3. Batch Persistence for Atomic Consistency
             batch = self.db.batch()
@@ -94,6 +113,7 @@ class OrchestratorService:
             update_data = {
                 'status': 'COMPLETED',
                 'ai_count': len(chromosomes),
+                'ai_confidence': confidence,
                 'analysisCompletedAt': firestore.SERVER_TIMESTAMP,
                 'updatedAt': firestore.SERVER_TIMESTAMP
             }

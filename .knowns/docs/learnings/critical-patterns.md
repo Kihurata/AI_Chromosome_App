@@ -2,7 +2,7 @@
 title: Critical Patterns
 description: Promoted learnings that save the most time. Read at session start via kn-init.
 createdAt: '2026-04-28T05:23:00.000Z'
-updatedAt: '2026-05-06T16:08:31.518Z'
+updatedAt: '2026-05-07T07:55:52.807Z'
 tags:
   - learning
   - critical
@@ -111,3 +111,16 @@ Standard `Column` with `MainAxisAlignment.spaceBetween` inside a GridView will c
 Wrap in `LayoutBuilder` -> `SingleChildScrollView` -> `ConstrainedBox(minHeight: constraints.maxHeight)` -> `IntrinsicHeight`. This preserves the space-between look when possible but allows scrolling when needed.
 
 **Full entry:** @doc/learnings/learning-notification-and-dashboard-integration
+
+
+## [2026-05-07] AI Server Integration & Security
+**Category:** pattern / failure
+**Source:** @task-3pasee
+**Tags:** [ai-server, ngrok, security]
+
+**Summary:** 
+1. Luôn thêm header `ngrok-skip-browser-warning: true` khi gọi API qua Ngrok để tránh trang Splash. 
+2. Đồng bộ hóa API Key giữa Backend và AI Server (Colab) để tránh lỗi 403 Forbidden. 
+3. Cấu hình URL linh hoạt qua Firestore thay vì hardcode để thích ứng với URL động của Ngrok.
+
+**Full entry:** @doc/learnings/ai-server-implementation-decisions

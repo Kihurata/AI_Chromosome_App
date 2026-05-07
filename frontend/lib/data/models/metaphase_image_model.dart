@@ -11,6 +11,7 @@ class MetaphaseImageModel extends MetaphaseImage {
     super.processingTimeMs,
     super.aiCount,
     super.aiScore,
+    super.aiConfidence,
     required super.createdAt,
   });
 
@@ -25,6 +26,7 @@ class MetaphaseImageModel extends MetaphaseImage {
       processingTimeMs: data['processing_time_ms'],
       aiCount: data['ai_count'],
       aiScore: data['ai_score'],
+      aiConfidence: (data['ai_confidence'] as num?)?.toDouble(),
       createdAt: (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
@@ -39,6 +41,7 @@ class MetaphaseImageModel extends MetaphaseImage {
       processingTimeMs: entity.processingTimeMs,
       aiCount: entity.aiCount,
       aiScore: entity.aiScore,
+      aiConfidence: entity.aiConfidence,
       createdAt: entity.createdAt,
     );
   }
@@ -52,6 +55,7 @@ class MetaphaseImageModel extends MetaphaseImage {
       'processing_time_ms': processingTimeMs,
       'ai_count': aiCount,
       'ai_score': aiScore,
+      'ai_confidence': aiConfidence,
       'created_at': Timestamp.fromDate(createdAt),
     };
   }

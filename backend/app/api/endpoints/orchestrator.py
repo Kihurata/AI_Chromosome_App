@@ -50,7 +50,7 @@ async def analyze_order_images_endpoint(order_id: str):
     if not order_doc.exists:
         raise HTTPException(status_code=404, detail="Order not found")
         
-    tasks_count = await orchestrator_service.trigger_analysis_for_order(order_id)
+    tasks_count = await orchestrator_service.analyze_order(order_id)
     
     return {
         "message": "Analysis started for order",

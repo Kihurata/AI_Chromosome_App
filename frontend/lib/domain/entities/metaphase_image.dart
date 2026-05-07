@@ -49,6 +49,7 @@ class MetaphaseImage extends Equatable {
   final int? processingTimeMs;
   final int? aiCount;
   final int? aiScore;
+  final double? aiConfidence;
   final DateTime createdAt;
 
   const MetaphaseImage({
@@ -60,6 +61,7 @@ class MetaphaseImage extends Equatable {
     this.processingTimeMs,
     this.aiCount,
     this.aiScore,
+    this.aiConfidence,
     required this.createdAt,
   });
 
@@ -73,6 +75,7 @@ class MetaphaseImage extends Equatable {
         processingTimeMs,
         aiCount,
         aiScore,
+        aiConfidence,
         createdAt,
       ];
 }

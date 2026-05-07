@@ -34,7 +34,7 @@ class AIClient:
 
         async with httpx.AsyncClient(timeout=self.timeout) as client:
             try:
-                logger.info(f"Calling AI Server at: {endpoint} | storage_path: {storage_path}")
+                print(f"📡 [AI CLIENT] Đang gọi AI Server: {endpoint}")
                 response = await client.post(
                     endpoint,
                     json=payload,
