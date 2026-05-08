@@ -2,7 +2,7 @@
 title: 'Learning: Specialist Dashboard and Firestore Indexing'
 description: Learnings from fixing the Specialist Dashboard loading issues, DI conflicts, and Firestore index management.
 createdAt: '2026-05-02T08:55:09.295Z'
-updatedAt: '2026-05-02T08:55:09.295Z'
+updatedAt: '2026-05-07T20:45:35.873Z'
 tags:
   - learning
   - specialist
@@ -69,3 +69,21 @@ tags:
 ### Failures
 - **Unverified DI Generation:** Changed annotations but didn't verify if `build_runner` updated `injection.config.dart`. Resulted in the app still using stale singleton behavior. (**BAD_CALL**)
 - **Redundant Navigation Wrappers:** Refactored a widget's navigation but forgot that its parent (`ListView` item) also had an `InkWell` wrapper with a hardcoded route. Always search for route strings throughout the project when refactoring paths.
+
+
+## [2026-05-07] Model Integrity & Schema Validation
+**Source:** @task-9219v8
+**Tags:** [firestore, models, schema-validation, stability, debugging]
+
+### Patterns
+- **Resilient ID Extraction:** Use a helper function (e.g., `extractId`) in `fromFirestore` to safely handle both `DocumentReference` and `String` for ID fields. This prevents `TypeError` crashes when database records are inconsistent.
+- **Safe Notification Display:** Always use `if (!context.mounted) return;` before calling `NotificationFactory` or `ScaffoldMessenger` in async listeners to prevent "deactivated widget" errors.
+- **Explicit Sort Field Check:** Before implementing `orderBy`, verify the field exists in the Firestore collection and matches the property name in the `SampleModel`.
+
+### Decisions
+- **Manual Retry UI:** Bổ sung giao diện Error State với nút "Thử lại" trong `BlocBuilder` để người dùng có thể chủ động tải lại dữ liệu khi có lỗi Stream hoặc mạng. (**GOOD_CALL**)
+- **Removal of Unsafe Unfocus:** Xóa bỏ `FocusScope.of(context).unfocus()` trong hàm `dispose()` vì việc tìm kiếm tổ tiên của widget sau khi đã bị hủy là không an toàn. (**GOOD_CALL**)
+
+### Failures
+- **Assumed Field Name:** Sử dụng trường `created_at` để sắp xếp trong khi schema thực tế là `collected_at`. Firestore lặng lẽ loại bỏ các bản ghi không chứa trường được yêu cầu trong `orderBy`, dẫn đến danh sách trống. (**BAD_CALL**)
+- **Type Mismatch in Models:** Ép kiểu cứng `as DocumentReference` trong model khiến ứng dụng crash hoàn toàn khi gặp bản ghi cũ lưu dạng `String`. Luôn phải kiểm tra thuộc tính model thật kỹ trước khi code. (**FAILURE**)

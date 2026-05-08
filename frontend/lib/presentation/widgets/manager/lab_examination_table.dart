@@ -173,7 +173,7 @@ class _OrderRow extends StatelessWidget {
   }
 
   Widget _buildActionButton(BuildContext context) {
-    if (order.status == TestOrderStatus.pending) {
+    if (order.status == TestOrderStatus.pending && order.specialistId == null) {
       return AppPrimaryButton(
         text: 'Chỉ định BS',
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

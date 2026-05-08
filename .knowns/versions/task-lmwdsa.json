@@ -1,0 +1,173 @@
+{
+  "taskId": "lmwdsa",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "lmwdsa",
+      "version": 1,
+      "timestamp": "2026-05-08T04:29:16.9896402Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Refining Specialist/Receptionist workflows:\n1. Hide 'Assign Specialist' button after assignment in Manager Dashboard.\n2. Fix StatusBadge width issue in Receptionist Dashboard and Calendar (badge is too wide).\n3. Implement Sample Type dropdown in Specialist Sample Detail Screen with 7 biological sample types.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Refining Dashboard and Sample Workflow"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "lmwdsa",
+      "version": 2,
+      "timestamp": "2026-05-08T04:29:20.7723285Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Refining Specialist/Receptionist workflows:\n1. Hide 'Assign Specialist' button after assignment in Manager Dashboard.\n2. Fix StatusBadge width issue in Receptionist Dashboard and Calendar (badge is too wide).\n3. Implement Sample Type dropdown in Specialist Sample Detail Screen with 7 biological sample types.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Refining Dashboard and Sample Workflow"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "lmwdsa",
+      "version": 3,
+      "timestamp": "2026-05-08T04:29:31.540125Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "'Chỉ định BS' button is hidden if a specialist is already assigned."
+            },
+            {
+              "completed": false,
+              "text": "StatusBadge in TodayAppointmentsTable hugs content (not full width)."
+            },
+            {
+              "completed": false,
+              "text": "StatusBadge in AppointmentCalendarPage hugs content (not full width)."
+            },
+            {
+              "completed": false,
+              "text": "Sample Type in SampleDetailScreen is a dropdown with 7 specific types."
+            },
+            {
+              "completed": false,
+              "text": "Selecting and saving a sample type works correctly."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Update 'lab_examination_table.dart' action button visibility logic.\n2. Fix StatusBadge layout in 'today_appointments_table.dart' and 'appointment_calendar_page.dart' using Align widget.\n3. Replace Sample Type text/field with AppDropdown in 'sample_detail_screen.dart'.\n4. Hardcode 7 biological sample types in the dropdown.\n5. Verify changes in the UI."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "'Chỉ định BS' button is hidden if a specialist is already assigned."
+          },
+          {
+            "completed": false,
+            "text": "StatusBadge in TodayAppointmentsTable hugs content (not full width)."
+          },
+          {
+            "completed": false,
+            "text": "StatusBadge in AppointmentCalendarPage hugs content (not full width)."
+          },
+          {
+            "completed": false,
+            "text": "Sample Type in SampleDetailScreen is a dropdown with 7 specific types."
+          },
+          {
+            "completed": false,
+            "text": "Selecting and saving a sample type works correctly."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Refining Specialist/Receptionist workflows:\n1. Hide 'Assign Specialist' button after assignment in Manager Dashboard.\n2. Fix StatusBadge width issue in Receptionist Dashboard and Calendar (badge is too wide).\n3. Implement Sample Type dropdown in Specialist Sample Detail Screen with 7 biological sample types.",
+        "implementationPlan": "1. Update 'lab_examination_table.dart' action button visibility logic.\n2. Fix StatusBadge layout in 'today_appointments_table.dart' and 'appointment_calendar_page.dart' using Align widget.\n3. Replace Sample Type text/field with AppDropdown in 'sample_detail_screen.dart'.\n4. Hardcode 7 biological sample types in the dropdown.\n5. Verify changes in the UI.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Refining Dashboard and Sample Workflow"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "lmwdsa",
+      "version": 4,
+      "timestamp": "2026-05-08T04:31:25.7841806Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implementation complete:\n1. Updated LabExaminationTable to hide 'Assign Specialist' button if specialistId is not null.\n2. Fixed StatusBadge width in TodayAppointmentsTable and AppointmentCalendarPage using Align widget.\n3. Implemented Sample Type dropdown in SampleDetailScreen with 7 biological types.\n4. Updated Sample creation logic to use selected dropdown value."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "'Chỉ định BS' button is hidden if a specialist is already assigned.",
+            "completed": true
+          },
+          {
+            "text": "StatusBadge in TodayAppointmentsTable hugs content (not full width).",
+            "completed": true
+          },
+          {
+            "text": "StatusBadge in AppointmentCalendarPage hugs content (not full width).",
+            "completed": true
+          },
+          {
+            "text": "Sample Type in SampleDetailScreen is a dropdown with 7 specific types.",
+            "completed": true
+          },
+          {
+            "text": "Selecting and saving a sample type works correctly.",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Refining Specialist/Receptionist workflows:\n1. Hide 'Assign Specialist' button after assignment in Manager Dashboard.\n2. Fix StatusBadge width issue in Receptionist Dashboard and Calendar (badge is too wide).\n3. Implement Sample Type dropdown in Specialist Sample Detail Screen with 7 biological sample types.",
+        "implementationNotes": "Implementation complete:\n1. Updated LabExaminationTable to hide 'Assign Specialist' button if specialistId is not null.\n2. Fixed StatusBadge width in TodayAppointmentsTable and AppointmentCalendarPage using Align widget.\n3. Implemented Sample Type dropdown in SampleDetailScreen with 7 biological types.\n4. Updated Sample creation logic to use selected dropdown value.",
+        "implementationPlan": "1. Update 'lab_examination_table.dart' action button visibility logic.\n2. Fix StatusBadge layout in 'today_appointments_table.dart' and 'appointment_calendar_page.dart' using Align widget.\n3. Replace Sample Type text/field with AppDropdown in 'sample_detail_screen.dart'.\n4. Hardcode 7 biological sample types in the dropdown.\n5. Verify changes in the UI.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Refining Dashboard and Sample Workflow"
+      }
+    }
+  ]
+}

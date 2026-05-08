@@ -2,7 +2,7 @@
 title: Critical Patterns
 description: Promoted learnings that save the most time. Read at session start via kn-init.
 createdAt: '2026-04-28T05:23:00.000Z'
-updatedAt: '2026-05-07T07:55:52.807Z'
+updatedAt: '2026-05-07T20:45:41.263Z'
 tags:
   - learning
   - critical
@@ -150,3 +150,25 @@ Refreshing the page (F5) in a Flutter Web app with Firebase Auth can cause the u
 2. **Race Condition**: `NotificationCubit` updating the FCM token with `.set(..., SetOptions(merge: true))` on startup may trigger *before* `AuthCubit` reads the document. If the document was empty or didn't exist in cache, `set()` creates a partial document with ONLY `fcm_token`, causing `AuthCubit` to fall back to the default role!
 
 **Full entry:** @doc/learnings/learning-auth-role-f5-issue
+
+---
+
+## [2026-05-07] Model Property Verification
+**Category:** failure / decision
+**Source:** @task-9219v8
+**Tags:** [models, schema, best-practice]
+
+**MANDATORY:** Luôn kiểm tra thật kỹ các thuộc tính của model (cả trong `domain/entities` và `data/models`) và so sánh trực tiếp với dữ liệu trên Firestore Console trước khi viết logic truy vấn (`where`, `orderBy`). Việc giả định sai tên trường (ví dụ: `created_at` thay vì `collected_at`) sẽ khiến Firestore trả về danh sách rỗng mà không báo lỗi, gây mất nhiều thời gian debug.
+
+**Full entry:** @doc/learnings/learning-specialist-dashboard-and-firestore-indexing
+
+---
+
+## [2026-05-07] Safe Context Usage in Async/Lifecycle
+**Category:** pattern
+**Source:** @task-9219v8
+**Tags:** [flutter, lifecycle, mounted]
+
+Luôn sử dụng `if (!context.mounted) return;` trước khi thực hiện bất kỳ hành động nào liên quan đến UI (SnackBar, Dialog, Navigation) trong các listener hoặc sau khi `await`. Đặc biệt, **KHÔNG** gọi `FocusScope.of(context)` hoặc các phương thức tìm kiếm tổ tiên khác trong hàm `dispose()` vì Widget lúc này đã bị gỡ bỏ, gây ra lỗi "Looking up a deactivated widget's ancestor is unsafe".
+
+**Full entry:** @doc/learnings/learning-specialist-dashboard-and-firestore-indexing
