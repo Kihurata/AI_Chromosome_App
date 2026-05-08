@@ -19,7 +19,7 @@ import '../../presentation/screens/clinician/forms/examination_form_screen.dart'
 import '../../presentation/screens/clinician/forms/blood_test_prescription_screen.dart';
 import '../../presentation/screens/workspace/workspace_screen.dart';
 import '../../presentation/screens/manager/lab_manager_dashboard_page.dart';
-import '../../presentation/screens/manager/lab_result_review_page.dart';
+import '../../presentation/screens/manager/approval/manager_approval_screen.dart';
 import '../../presentation/screens/patient_detail/test_result_detail_page.dart';
 import '../../logic/bloc/specialist/ai_analysis_cubit.dart';
 import '../../logic/bloc/workspace/workspace_cubit.dart';
@@ -254,7 +254,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/manager/review/:id',
             name: 'manager-review',
-            builder: (context, state) => LabResultReviewPage(
+            builder: (context, state) => ManagerApprovalScreen(
               orderId: state.pathParameters['id'] ?? '',
             ),
           ),

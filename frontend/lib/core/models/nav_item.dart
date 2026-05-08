@@ -9,7 +9,7 @@ enum AppRole {
 
   /// Parse from Firestore string value
   static AppRole fromString(String value) {
-    print("AppRole.fromString: Received '$value'");
+    debugPrint("AppRole.fromString: Received '$value'");
     final lowerValue = value.toLowerCase().trim();
     if (lowerValue == 'doctor') return AppRole.clinician;
     if (lowerValue == 'admin') return AppRole.manager;

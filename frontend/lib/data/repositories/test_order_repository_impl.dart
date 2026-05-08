@@ -129,6 +129,7 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
       specialistId: model.specialistId?.id,
       clinicianId: model.clinicianId?.id,
       status: TestOrderStatus.fromString(model.status),
+      reportContent: model.reportContent,
       createdAt: model.createdAt,
     );
   }
@@ -158,6 +159,16 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
     try {
       await remoteDataSource.updateReportContent(orderId, reportContent);
       return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, TestOrder>> getOrderById(String orderId) async {
+    try {
+      final model = await remoteDataSource.getOrderById(orderId);
+      return Right(_modelToEntity(model));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }

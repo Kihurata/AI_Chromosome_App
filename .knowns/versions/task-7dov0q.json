@@ -1,0 +1,34 @@
+{
+  "taskId": "7dov0q",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "7dov0q",
+      "version": 1,
+      "timestamp": "2026-05-08T07:02:38.508478Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Integrate navigation logic in ManagerDashboard to open the Approval Screen when a 'Waiting Approval' order is clicked.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "[UI] Navigation from Manager Dashboard"
+      }
+    }
+  ]
+}

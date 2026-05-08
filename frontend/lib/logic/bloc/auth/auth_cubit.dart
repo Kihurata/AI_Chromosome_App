@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/services/auth_service.dart';
 import '../../../core/services/notification_factory.dart';
@@ -51,14 +52,14 @@ class AuthCubit extends Cubit<AuthState> {
       if (user != null) {
         try {
           // Fetch role from Firestore
-          print("AuthCubit: Project ID: ${_db.app.options.projectId}");
-          print("AuthCubit: Fetching role for ${user.uid}");
+          debugPrint("AuthCubit: Project ID: ${_db.app.options.projectId}");
+          debugPrint("AuthCubit: Fetching role for ${user.uid}");
           // Force fetch from server to avoid stale cache on F5
           final doc = await _db.collection('users').doc(user.uid).get(const GetOptions(source: Source.server));
           if (doc.exists) {
-            print("AuthCubit: Document data: ${doc.data()}");
+            debugPrint("AuthCubit: Document data: ${doc.data()}");
             final role = doc.data()?['role'] ?? 'user';
-            print("AuthCubit: Role fetched: '$role'");
+            debugPrint("AuthCubit: Role fetched: '$role'");
             emit(Authenticated(user, role));
           } else {
             // No profile found, logout and error

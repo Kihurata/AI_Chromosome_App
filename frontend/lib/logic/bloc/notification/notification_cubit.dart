@@ -32,8 +32,7 @@ class NotificationCubit extends Cubit<NotificationState> {
             String? token = await _fcm.getToken();
             if (token != null) {
               debugPrint("FCM Token: $token");
-              print("NotificationCubit: Skipping token update for debug.");
-              // await _updateUserToken(token, user.uid);
+              await _updateUserToken(token, user.uid);
             }
           } catch (e) {
             debugPrint("Error getting FCM token: $e");

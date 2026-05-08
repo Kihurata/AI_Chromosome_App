@@ -1,0 +1,34 @@
+{
+  "taskId": "f7t474",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "f7t474",
+      "version": 1,
+      "timestamp": "2026-05-08T07:02:38.496467Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement ManagerApprovalCubit to handle saving edited report, updating status to COMPLETED (Approve) or REJECTED (Reject) in Firestore.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "[Logic] Approve/Reject State Management"
+      }
+    }
+  ]
+}

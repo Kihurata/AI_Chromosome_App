@@ -27,4 +27,5 @@ abstract class TestOrderRepository {
   Stream<Either<Failure, List<TestOrder>>> watchTestOrdersByPatient(String patientId);
   Future<Either<Failure, void>> updateOrderSpecialist(String orderId, String specialistId);
   Future<Either<Failure, void>> updateReportContent(String orderId, String reportContent);
+  Future<Either<Failure, TestOrder>> getOrderById(String orderId);
 }

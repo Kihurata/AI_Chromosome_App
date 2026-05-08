@@ -1,0 +1,69 @@
+{
+  "docPath": "specs/manager-approval-ui-specification",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "specs/manager-approval-ui-specification",
+      "version": 1,
+      "timestamp": "2026-05-08T07:01:33.151845Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Manager Approval UI Specification"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Specification for the Manager Approval and Report Review screen."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "spec",
+            "draft"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\n\nMàn hình phê duyệt kết quả dành cho Quản lý (Manager). Cho phép Quản lý kiểm tra lại nội dung báo cáo di truyền, hình ảnh Karyotype và thực hiện chỉnh sửa cuối cùng trước khi chính thức xuất báo cáo hoặc từ chối.\n\n## Locked Decisions\n\n- **D1**: Giao diện kế thừa từ Workspace Step 5. Quản lý có quyền chỉnh sửa trực tiếp nội dung báo cáo (Quill Editor).\n- **D2**: Chỉ có 2 trạng thái kết thúc: Duyệt (COMPLETED) hoặc Từ chối (REJECTED). Không có quy trình sửa lại.\n- **D3**: Điều hướng từ Manager Dashboard thông qua danh sách đơn hàng 'Chờ phê duyệt'.\n\n## Requirements\n\n### Functional Requirements\n- **FR-1 (Load Data)**: Khi vào trang, hệ thống phải load dữ liệu từ Firestore (collection `test_orders`) bao gồm: thông tin bệnh nhân, ảnh Karyotype (`chromosomes`), ảnh Metaphase và đặc biệt là nội dung báo cáo (`report_content`).\n- **FR-2 (Full View)**: Hiển thị đầy đủ Karyotype Grid và Metaphase Image để Quản lý đối soát dữ liệu.\n- **FR-3 (Final Edit)**: Tích hợp Quill Editor với nội dung hiện tại để Quản lý có thể sửa lỗi chính tả hoặc bổ sung tư vấn di truyền.\n- **FR-4 (Approve Action)**: Nút 'Duyệt Kết Quả' sẽ cập nhật trạng thái đơn hàng thành `COMPLETED` và lưu nội dung báo cáo cuối cùng.\n- **FR-5 (Reject Action)**: Nút 'Từ chối' sẽ cập nhật trạng thái đơn hàng thành `REJECTED` và yêu cầu xác nhận trước khi đóng hồ sơ.\n\n### Non-Functional Requirements\n- **NFR-1 (Layout Consistency)**: Giao diện phải đồng bộ với Design System của ứng dụng và layout Workspace.\n- **NFR-2 (Responsiveness)**: Áp dụng các mẫu Robust Layout (Wrap, Scroll) để tránh lỗi overflow trên các màn hình nhỏ hơn.\n\n## Acceptance Criteria\n\n- [ ] **AC-1**: Truy cập từ Manager Dashboard vào trang Chi tiết phê duyệt thành công.\n- [ ] **AC-2**: Hiển thị đúng và đầy đủ nội dung báo cáo đã được Specialist soạn thảo trước đó.\n- [ ] **AC-3**: Thay đổi nội dung trong Editor và nhấn 'Duyệt' phải cập nhật đúng dữ liệu lên Firestore.\n- [ ] **AC-4**: Trạng thái đơn hàng phải chuyển sang 'Hoàn tất' (COMPLETED) sau khi duyệt.\n- [ ] **AC-5**: Không bị lỗi RenderFlex overflow khi thay đổi kích thước cửa sổ trình duyệt.\n\n## Scenarios\n\n### Scenario 1: Duyệt báo cáo thành công\n**Given** Một đơn hàng đang ở trạng thái 'WAITING_APPROVAL' có đầy đủ dữ liệu báo cáo.\n**When** Quản lý mở trang chi tiết, sửa một câu trong phần tư vấn, và nhấn 'Duyệt Kết Quả'.\n**Then** Dữ liệu mới được lưu, trạng thái chuyển sang 'COMPLETED', và quay về Dashboard.\n\n### Scenario 2: Từ chối báo cáo\n**Given** Một đơn hàng có dữ liệu sai sót nghiêm trọng.\n**When** Quản lý nhấn 'Từ chối' và xác nhận trong Dialog.\n**Then** Trạng thái đơn hàng chuyển sang 'REJECTED' và hồ sơ bị đóng lại.\n\n## Technical Notes\n\n- Sử dụng lại `KaryotypeGrid` widget và cấu trúc `ReportStep` để đảm bảo tính nhất quán.\n- Cần tạo một Cubit mới (`ManagerApprovalCubit`) hoặc mở rộng `WorkspaceCubit` để xử lý logic phê duyệt/từ chối.\n",
+        "description": "Specification for the Manager Approval and Report Review screen.",
+        "tags": [
+          "spec",
+          "draft"
+        ],
+        "title": "Manager Approval UI Specification"
+      }
+    },
+    {
+      "id": "v2",
+      "docPath": "specs/manager-approval-ui-specification",
+      "version": 2,
+      "timestamp": "2026-05-08T07:02:30.946123Z",
+      "changes": [
+        {
+          "field": "tags",
+          "oldValue": [
+            "spec",
+            "draft"
+          ],
+          "newValue": [
+            "spec",
+            "approved"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\n\nMàn hình phê duyệt kết quả dành cho Quản lý (Manager). Cho phép Quản lý kiểm tra lại nội dung báo cáo di truyền, hình ảnh Karyotype và thực hiện chỉnh sửa cuối cùng trước khi chính thức xuất báo cáo hoặc từ chối.\n\n## Locked Decisions\n\n- **D1**: Giao diện kế thừa từ Workspace Step 5. Quản lý có quyền chỉnh sửa trực tiếp nội dung báo cáo (Quill Editor).\n- **D2**: Chỉ có 2 trạng thái kết thúc: Duyệt (COMPLETED) hoặc Từ chối (REJECTED). Không có quy trình sửa lại.\n- **D3**: Điều hướng từ Manager Dashboard thông qua danh sách đơn hàng 'Chờ phê duyệt'.\n\n## Requirements\n\n### Functional Requirements\n- **FR-1 (Load Data)**: Khi vào trang, hệ thống phải load dữ liệu từ Firestore (collection `test_orders`) bao gồm: thông tin bệnh nhân, ảnh Karyotype (`chromosomes`), ảnh Metaphase và đặc biệt là nội dung báo cáo (`report_content`).\n- **FR-2 (Full View)**: Hiển thị đầy đủ Karyotype Grid và Metaphase Image để Quản lý đối soát dữ liệu.\n- **FR-3 (Final Edit)**: Tích hợp Quill Editor với nội dung hiện tại để Quản lý có thể sửa lỗi chính tả hoặc bổ sung tư vấn di truyền.\n- **FR-4 (Approve Action)**: Nút 'Duyệt Kết Quả' sẽ cập nhật trạng thái đơn hàng thành `COMPLETED` và lưu nội dung báo cáo cuối cùng.\n- **FR-5 (Reject Action)**: Nút 'Từ chối' sẽ cập nhật trạng thái đơn hàng thành `REJECTED` và yêu cầu xác nhận trước khi đóng hồ sơ.\n\n### Non-Functional Requirements\n- **NFR-1 (Layout Consistency)**: Giao diện phải đồng bộ với Design System của ứng dụng và layout Workspace.\n- **NFR-2 (Responsiveness)**: Áp dụng các mẫu Robust Layout (Wrap, Scroll) để tránh lỗi overflow trên các màn hình nhỏ hơn.\n\n## Acceptance Criteria\n\n- [ ] **AC-1**: Truy cập từ Manager Dashboard vào trang Chi tiết phê duyệt thành công.\n- [ ] **AC-2**: Hiển thị đúng và đầy đủ nội dung báo cáo đã được Specialist soạn thảo trước đó.\n- [ ] **AC-3**: Thay đổi nội dung trong Editor và nhấn 'Duyệt' phải cập nhật đúng dữ liệu lên Firestore.\n- [ ] **AC-4**: Trạng thái đơn hàng phải chuyển sang 'Hoàn tất' (COMPLETED) sau khi duyệt.\n- [ ] **AC-5**: Không bị lỗi RenderFlex overflow khi thay đổi kích thước cửa sổ trình duyệt.\n\n## Scenarios\n\n### Scenario 1: Duyệt báo cáo thành công\n**Given** Một đơn hàng đang ở trạng thái 'WAITING_APPROVAL' có đầy đủ dữ liệu báo cáo.\n**When** Quản lý mở trang chi tiết, sửa một câu trong phần tư vấn, và nhấn 'Duyệt Kết Quả'.\n**Then** Dữ liệu mới được lưu, trạng thái chuyển sang 'COMPLETED', và quay về Dashboard.\n\n### Scenario 2: Từ chối báo cáo\n**Given** Một đơn hàng có dữ liệu sai sót nghiêm trọng.\n**When** Quản lý nhấn 'Từ chối' và xác nhận trong Dialog.\n**Then** Trạng thái đơn hàng chuyển sang 'REJECTED' và hồ sơ bị đóng lại.\n\n## Technical Notes\n\n- Sử dụng lại `KaryotypeGrid` widget và cấu trúc `ReportStep` để đảm bảo tính nhất quán.\n- Cần tạo một Cubit mới (`ManagerApprovalCubit`) hoặc mở rộng `WorkspaceCubit` để xử lý logic phê duyệt/từ chối.",
+        "description": "Specification for the Manager Approval and Report Review screen.",
+        "tags": [
+          "spec",
+          "approved"
+        ],
+        "title": "Manager Approval UI Specification"
+      }
+    }
+  ]
+}

@@ -10,6 +10,7 @@ class TestOrderModel {
   final DocumentReference? specialistId;
   final DocumentReference? clinicianId;
   final String status;
+  final String? reportContent;
   final DateTime createdAt;
 
   TestOrderModel({
@@ -21,6 +22,7 @@ class TestOrderModel {
     this.specialistId,
     this.clinicianId,
     this.status = 'PENDING',
+    this.reportContent,
     required this.createdAt,
   });
 
@@ -34,6 +36,7 @@ class TestOrderModel {
       'specialist_id': specialistId,
       'clinician_id': clinicianId,
       'status': status,
+      'report_content': reportContent,
       'created_at': Timestamp.fromDate(createdAt),
       'updated_at': Timestamp.fromDate(createdAt),
     };
@@ -53,6 +56,7 @@ class TestOrderModel {
       specialistId: data['specialist_id'] as DocumentReference?,
       clinicianId: data['clinician_id'] as DocumentReference?,
       status: data['status'] ?? 'PENDING',
+      reportContent: data['report_content'] as String?,
       createdAt: (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
@@ -73,6 +77,7 @@ class TestOrderModel {
           ? firestore.collection('users').doc(testOrder.clinicianId)
           : null,
       status: testOrder.status.toFirestoreString(),
+      reportContent: testOrder.reportContent,
       createdAt: testOrder.createdAt,
     );
   }

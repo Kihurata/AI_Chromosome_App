@@ -14,6 +14,7 @@ abstract class TestOrderRemoteDataSource {
   Future<List<TestOrderModel>> getTestOrdersByPatient(String patientId);
   Future<void> updateOrderSpecialist(String orderId, String specialistId);
   Future<void> updateReportContent(String orderId, String reportContent);
+  Future<TestOrderModel> getOrderById(String orderId);
 }
 
 @Injectable(as: TestOrderRemoteDataSource)
@@ -148,5 +149,14 @@ class FirebaseTestOrderRemoteDataSource implements TestOrderRemoteDataSource {
       'report_content': reportContent,
       'updated_at': FieldValue.serverTimestamp(),
     });
+  }
+
+  @override
+  Future<TestOrderModel> getOrderById(String orderId) async {
+    final doc = await _firestore.collection('test_orders').doc(orderId).get();
+    if (!doc.exists) {
+      throw Exception('Order not found');
+    }
+    return TestOrderModel.fromFirestore(doc);
   }
 }

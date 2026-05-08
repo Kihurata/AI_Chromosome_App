@@ -79,6 +79,7 @@ import '../../domain/usecases/specialist/watch_assigned_orders.dart' as _i907;
 import '../../domain/usecases/test_order/approve_karyotype_result.dart' as _i63;
 import '../../domain/usecases/test_order/assign_order_to_specialist.dart'
     as _i320;
+import '../../domain/usecases/test_order/get_order_by_id.dart' as _i598;
 import '../../domain/usecases/test_order/get_test_order_by_id.dart' as _i205;
 import '../../domain/usecases/test_order/reject_karyotype_result.dart' as _i749;
 import '../../domain/usecases/test_order/submit_analysis_result.dart' as _i906;
@@ -90,6 +91,7 @@ import '../../logic/bloc/auth/auth_cubit.dart' as _i579;
 import '../../logic/bloc/clinician/clinician_order_cubit.dart' as _i108;
 import '../../logic/bloc/clinician/examination_cubit.dart' as _i41;
 import '../../logic/bloc/layout/layout_cubit.dart' as _i556;
+import '../../logic/bloc/manager/approval/manager_approval_cubit.dart' as _i331;
 import '../../logic/bloc/manager/manager_approval_cubit.dart' as _i429;
 import '../../logic/bloc/manager/manager_dashboard_cubit.dart' as _i58;
 import '../../logic/bloc/patient/patient_cubit.dart' as _i965;
@@ -282,6 +284,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i320.AssignOrderToSpecialist>(
       () => _i320.AssignOrderToSpecialist(gh<_i655.TestOrderRepository>()),
     );
+    gh.factory<_i598.GetOrderById>(
+      () => _i598.GetOrderById(gh<_i655.TestOrderRepository>()),
+    );
     gh.factory<_i205.GetTestOrderById>(
       () => _i205.GetTestOrderById(gh<_i655.TestOrderRepository>()),
     );
@@ -318,6 +323,15 @@ extension GetItInjectableX on _i174.GetIt {
         updateSampleNote: gh<_i589.UpdateSampleNoteUsecase>(),
         getTestOrderById: gh<_i205.GetTestOrderById>(),
         collectPhysicalSample: gh<_i453.CollectPhysicalSample>(),
+      ),
+    );
+    gh.factory<_i331.ManagerApprovalCubit>(
+      () => _i331.ManagerApprovalCubit(
+        getOrderByIdUsecase: gh<_i598.GetOrderById>(),
+        approveKaryotypeResultUsecase: gh<_i63.ApproveKaryotypeResult>(),
+        rejectKaryotypeResultUsecase: gh<_i749.RejectKaryotypeResult>(),
+        updateReportContentUsecase: gh<_i939.UpdateReportContent>(),
+        workspaceRepository: gh<_i77.WorkspaceRepository>(),
       ),
     );
     gh.factory<_i618.AppointmentCubit>(

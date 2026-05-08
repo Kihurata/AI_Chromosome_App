@@ -1,0 +1,34 @@
+{
+  "taskId": "gb9nq1",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "gb9nq1",
+      "version": 1,
+      "timestamp": "2026-05-08T07:02:38.482283Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Implement data fetching logic to load Metaphase image, Karyotype grid, and Report Delta JSON for the specific orderId.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "[Logic] Load Analysis Data \u0026 Report Content"
+      }
+    }
+  ]
+}

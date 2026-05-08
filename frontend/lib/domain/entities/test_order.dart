@@ -23,6 +23,7 @@ enum TestOrderStatus {
       case 'IN_PROGRESS': // Compatibility
         return TestOrderStatus.analyzing;
       case 'WAITING_FOR_APPROVAL': // Compatibility
+      case 'IN_REVIEW': // Compatibility
         return TestOrderStatus.waitingApproval;
       default:
         return TestOrderStatus.pending;
@@ -73,6 +74,7 @@ class TestOrder extends Equatable {
   final String? specialistId;
   final String? clinicianId;
   final TestOrderStatus status;
+  final String? reportContent;
   final DateTime createdAt;
 
   const TestOrder({
@@ -83,6 +85,7 @@ class TestOrder extends Equatable {
     required this.appointmentId,
     this.specialistId,
     this.clinicianId,
+    this.reportContent,
     this.status = TestOrderStatus.pending,
     required this.createdAt,
   });
@@ -96,6 +99,7 @@ class TestOrder extends Equatable {
     appointmentId,
     specialistId,
     clinicianId,
+    reportContent,
     status,
     createdAt,
   ];

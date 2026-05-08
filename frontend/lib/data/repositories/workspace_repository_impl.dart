@@ -1,5 +1,6 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:dartz/dartz.dart';
 import 'dart:convert';
 import '../../core/errors/failures.dart';
@@ -184,9 +185,23 @@ class WorkspaceRepositoryImpl implements WorkspaceRepository {
       
       final firestoreSnapshot = await firestoreRef.get();
       if (firestoreSnapshot.docs.isNotEmpty) {
-        final chromosomes = firestoreSnapshot.docs.map((doc) {
-          return ChromosomeModel.fromFirestore(doc).toEntity();
-        }).toList();
+        final List<Chromosome> chromosomes = [];
+        for (var doc in firestoreSnapshot.docs) {
+          final model = ChromosomeModel.fromFirestore(doc);
+          String url = model.imageUrl ?? '';
+          
+          // If the URL is just a path, resolve it to a download URL
+          if (url.isNotEmpty && !url.startsWith('http')) {
+            try {
+              final resolvedUrl = await storage.ref().child(url).getDownloadURL();
+              url = resolvedUrl;
+            } catch (e) {
+              debugPrint('Error resolving download URL for ${model.imageUrl}: $e');
+            }
+          }
+          
+          chromosomes.add(model.toEntity().copyWith(imageUrl: url));
+        }
         return Right(chromosomes);
       }
 
