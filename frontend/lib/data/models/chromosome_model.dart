@@ -10,6 +10,7 @@ class ChromosomeModel {
   final double height;
   final double rotation;
   final bool isFlipped;
+  final String? imageUrl;
 
   ChromosomeModel({
     required this.id,
@@ -20,6 +21,7 @@ class ChromosomeModel {
     required this.height,
     required this.rotation,
     required this.isFlipped,
+    this.imageUrl,
   });
 
   factory ChromosomeModel.fromFirestore(DocumentSnapshot doc) {
@@ -35,6 +37,7 @@ class ChromosomeModel {
       height: (coords['h'] ?? 0).toDouble(),
       rotation: (data['rotation'] ?? 0).toDouble(),
       isFlipped: data['is_flipped'] ?? false,
+      imageUrl: data['image_url'] ?? data['imageUrl'],
     );
   }
 
@@ -48,6 +51,7 @@ class ChromosomeModel {
       height: entity.height,
       rotation: entity.rotation,
       isFlipped: entity.isFlipped,
+      imageUrl: entity.imageUrl,
     );
   }
 
@@ -61,6 +65,7 @@ class ChromosomeModel {
       height: height,
       rotation: rotation,
       isFlipped: isFlipped,
+      imageUrl: imageUrl,
     );
   }
 
@@ -70,6 +75,7 @@ class ChromosomeModel {
       'coordinates': {'x': x, 'y': y, 'w': width, 'h': height},
       'rotation': rotation,
       'is_flipped': isFlipped,
+      'image_url': imageUrl,
     };
   }
 }

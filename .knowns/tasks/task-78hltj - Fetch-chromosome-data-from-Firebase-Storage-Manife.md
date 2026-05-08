@@ -7,7 +7,7 @@ labels:
   - from-spec
   - go-mode
 createdAt: '2026-05-07T16:02:45.366Z'
-updatedAt: '2026-05-07T16:11:54.201Z'
+updatedAt: '2026-05-07T16:51:47.674Z'
 timeSpent: 0
 spec: specs/workspace-step-3-karyogram-data-fetch
 fulfills:
@@ -24,10 +24,10 @@ Fetch chromosome data by primarily attempting to download `manifest.json`. If un
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Add Firebase Storage dependency/repository.
-- [ ] #2 Implement JSON Manifest fetching method.
-- [ ] #3 Implement fallback Storage directory listing method and Metadata parsing.
-- [ ] #4 Call fetch method when navigating to Step 3 and show loading state.
+- [x] #1 Add Firebase Storage dependency/repository.
+- [x] #2 Implement JSON Manifest fetching method.
+- [x] #3 Implement fallback Storage directory listing method and Metadata parsing.
+- [x] #4 Call fetch method when navigating to Step 3 and show loading state.
 <!-- AC:END -->
 
 ## Implementation Plan

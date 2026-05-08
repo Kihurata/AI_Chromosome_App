@@ -7,7 +7,7 @@ labels:
   - from-spec
   - go-mode
 createdAt: '2026-05-07T16:02:45.460Z'
-updatedAt: '2026-05-07T16:12:04.753Z'
+updatedAt: '2026-05-07T16:51:47.791Z'
 timeSpent: 0
 spec: specs/workspace-step-3-karyogram-data-fetch
 fulfills:
@@ -23,8 +23,8 @@ Implement "Save / Confirm" action in Step 3. Send a request to FastAPI backend t
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Add Save button in KaryogramStep.
-- [ ] #2 Create `submitKaryogramLayout` usecase/endpoint integration.
-- [ ] #3 On successful save, set `isDirty = false`.
+- [x] #1 Add Save button in KaryogramStep.
+- [x] #2 Create `submitKaryogramLayout` usecase/endpoint integration.
+- [x] #3 On successful save, set `isDirty = false`.
 <!-- AC:END -->
 

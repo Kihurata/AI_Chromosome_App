@@ -7,7 +7,7 @@ labels:
   - from-spec
   - go-mode
 createdAt: '2026-05-07T16:02:45.395Z'
-updatedAt: '2026-05-07T16:12:09.033Z'
+updatedAt: '2026-05-07T16:51:47.702Z'
 timeSpent: 0
 spec: specs/workspace-step-3-karyogram-data-fetch
 fulfills:
@@ -24,8 +24,8 @@ Add `isDirty` boolean to `WorkspaceState`. Set to true on drag-and-drop. Use `No
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Add `isDirty` to WorkspaceState.
-- [ ] #2 Set `isDirty = true` in `assignChromosomeLabel`.
-- [ ] #3 Add `canPop` or warning mechanism using `NotificationFactory` when trying to change steps or go back while dirty.
+- [x] #1 Add `isDirty` to WorkspaceState.
+- [x] #2 Set `isDirty = true` in `assignChromosomeLabel`.
+- [x] #3 Add `canPop` or warning mechanism using `NotificationFactory` when trying to change steps or go back while dirty.
 <!-- AC:END -->
 

@@ -11,7 +11,7 @@ class UpdateChromosomePosition {
 
   UpdateChromosomePosition(this.repository);
 
-  Future<Either<Failure, void>> call(String orderId, Chromosome chromosome) {
-    return repository.updateChromosomePosition(orderId, chromosome);
+  Future<Either<Failure, void>> call(String orderId, String imageId, Chromosome chromosome) {
+    return repository.updateChromosomePosition(orderId, imageId, chromosome);
   }
 }
