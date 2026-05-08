@@ -3,6 +3,7 @@ import '../../../domain/entities/chromosome.dart';
 import '../../../domain/usecases/specialist/update_chromosome_position.dart';
 import '../../../domain/usecases/test_order/submit_analysis_result.dart';
 import '../../../domain/repositories/workspace_repository.dart';
+import '../../../domain/entities/metaphase_image.dart';
 
 enum WorkspaceStatus { initial, loading, success, error }
 
@@ -15,6 +16,7 @@ class WorkspaceState {
   final WorkspaceStatus status;
   final String? errorMessage;
   final bool isDirty;
+  final List<DiagnosisSuggestion> suggestions;
 
   WorkspaceState({
     required this.chromosomes,
@@ -25,6 +27,7 @@ class WorkspaceState {
     this.status = WorkspaceStatus.initial,
     this.errorMessage,
     this.isDirty = false,
+    this.suggestions = const [],
   });
 
   WorkspaceState copyWith({
@@ -36,6 +39,7 @@ class WorkspaceState {
     WorkspaceStatus? status,
     String? errorMessage,
     bool? isDirty,
+    List<DiagnosisSuggestion>? suggestions,
   }) {
     return WorkspaceState(
       chromosomes: chromosomes ?? this.chromosomes,
@@ -46,6 +50,7 @@ class WorkspaceState {
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       isDirty: isDirty ?? this.isDirty,
+      suggestions: suggestions ?? this.suggestions,
     );
   }
 }
@@ -85,11 +90,26 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
         status: WorkspaceStatus.error,
         errorMessage: failure.message,
       )),
-      (chromosomes) => emit(state.copyWith(
-        status: WorkspaceStatus.success,
-        chromosomes: chromosomes,
-        isDirty: false,
-      )),
+      (chromosomes) async {
+        // Also fetch image metadata for suggestions
+        final imageResult = await workspaceRepository.getMetaphaseImage(
+          orderId,
+          selectedImageId,
+        );
+
+        List<DiagnosisSuggestion> suggestions = [];
+        imageResult.fold(
+          (_) => null, // Ignore error for metadata, just empty suggestions
+          (image) => suggestions = image.aiSuggestions,
+        );
+
+        emit(state.copyWith(
+          status: WorkspaceStatus.success,
+          chromosomes: chromosomes,
+          suggestions: suggestions,
+          isDirty: false,
+        ));
+      },
     );
   }
 
@@ -110,8 +130,9 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
         status: WorkspaceStatus.error,
         errorMessage: failure.message,
       )),
-      (_) => emit(state.copyWith(
+      (suggestions) => emit(state.copyWith(
         status: WorkspaceStatus.success,
+        suggestions: suggestions,
         isDirty: false,
       )),
     );
@@ -132,8 +153,9 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
     emit(state.copyWith(chromosomes: updatedList, selectedId: id, isDirty: true));
 
     // 2. Background sync to Firestore
-    if (updatedChromosome != null) {
-      updatePositionUsecase(orderId, updatedChromosome!);
+    if (updatedChromosome != null && state.selectedImageIds.isNotEmpty) {
+      final selectedImageId = state.selectedImageIds.first;
+      updatePositionUsecase(orderId, selectedImageId, updatedChromosome!);
     }
   }
 
@@ -149,8 +171,9 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
 
     emit(state.copyWith(chromosomes: updatedList, selectedId: id, isDirty: true));
 
-    if (updatedChromosome != null) {
-      updatePositionUsecase(orderId, updatedChromosome!);
+    if (updatedChromosome != null && state.selectedImageIds.isNotEmpty) {
+      final selectedImageId = state.selectedImageIds.first;
+      updatePositionUsecase(orderId, selectedImageId, updatedChromosome!);
     }
   }
 

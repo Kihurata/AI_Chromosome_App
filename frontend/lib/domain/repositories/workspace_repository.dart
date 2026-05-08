@@ -8,6 +8,7 @@ abstract class WorkspaceRepository {
   
   Future<Either<Failure, void>> updateChromosomePosition(
     String orderId,
+    String imageId,
     Chromosome chromosome,
   );
   
@@ -22,13 +23,18 @@ abstract class WorkspaceRepository {
   Stream<Either<Failure, List<MetaphaseImage>>> watchMetaphaseImages(String orderId);
   
   Future<Either<Failure, void>> triggerAiAnalysis(String orderId);
+  
+  Future<Either<Failure, MetaphaseImage>> getMetaphaseImage(
+    String orderId,
+    String imageId,
+  );
 
   Future<Either<Failure, List<Chromosome>>> fetchChromosomesFromStorage(
     String orderId,
     String selectedImageId,
   );
 
-  Future<Either<Failure, void>> saveKaryogram(
+  Future<Either<Failure, List<DiagnosisSuggestion>>> saveKaryogram(
     String orderId,
     String selectedImageId,
     List<Chromosome> chromosomes,

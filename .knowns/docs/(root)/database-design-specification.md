@@ -1,6 +1,8 @@
 ---
 title: Database Design Specification
 description: Detailed Firestore schema, collection fields, and entity relationships to prevent data design confusion.
+createdAt: '2026-05-08T01:42:42.862Z'
+updatedAt: '2026-05-08T01:42:59.545Z'
 tags:
   - database
   - firestore
@@ -62,9 +64,28 @@ erDiagram
 ## 3. Sub-collections (AI Analysis)
 
 ### 3.1. test_orders/{orderId}/metaphase_images
-- Lưu danh sách các ảnh metaphase đã upload.
-- Mỗi document chứa: `raw_image_url`, `status` (UPLOADED, PROCESSED), `processed_at`.
+Lưu danh sách các ảnh cụm nhiễm sắc thể (metaphase) đã được tải lên và phân tích.
+- **Fields:**
+    - `raw_image_url` (string): URL ảnh gốc trên Firebase Storage.
+    - `ai_image_url` (string, optional): URL ảnh đã qua xử lý AI (vẽ khung, đánh số).
+    - `status` (string): Trạng thái (UPLOADED, PROCESSING, PROCESSED, FAILED).
+    - `processing_time_ms` (number, optional): Thời gian xử lý của AI.
+    - `ai_count` (number, optional): Số lượng NST đếm được.
+    - `ai_suggestions` (array): Danh sách các gợi ý chẩn đoán từ AI. Mỗi phần tử chứa:
+        - `iscn` (string): Công thức NST (VD: "47,XY,+21").
+        - `description` (string): Tên hội chứng (VD: "Hội chứng Down").
+        - `confidence` (number): Độ tin cậy (0.0 - 1.0).
+    - `created_at` (timestamp): Thời gian tạo document.
 
 ### 3.2. .../metaphase_images/{imageId}/chromosomes
-- Lưu danh sách các nhiễm sắc thể được cắt ra từ ảnh.
-- Chứa tọa độ (`x`, `y`), `index`, và kết quả phân loại từ AI.
+Lưu danh sách các nhiễm sắc thể riêng lẻ được cắt ra từ ảnh cụm. Đây là **Working Copy** lưu trữ các chỉnh sửa của người dùng ở Bước 3.
+- **Fields:**
+    - `id` (string): ID duy nhất của NST.
+    - `label` (string): Loại NST (1-22, X, Y).
+    - `index` (number): Số thứ tự phân biệt giữa các NST cùng loại.
+    - `imageUrl` (string): URL ảnh cắt của NST.
+    - `bbox` (array): Khung giới hạn [x_min, y_min, x_max, y_max].
+    - `coordinates` (map): Tọa độ hiển thị trên Karyogram (`x`, `y`, `w`, `h`).
+    - `rotation` (number): Góc xoay (độ).
+    - `is_flipped` (boolean): Trạng thái lật ảnh.
+    - `status` (string): Trạng thái (DETECTED, CLASSIFIED).

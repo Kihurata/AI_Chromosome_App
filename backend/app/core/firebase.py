@@ -17,7 +17,9 @@ def init_firebase():
         if os.path.exists(key_path):
             try:
                 cred = credentials.Certificate(key_path)
-                firebase_admin.initialize_app(cred)
+                firebase_admin.initialize_app(cred, {
+                    'storageBucket': 'chromosome-app-d6167.firebasestorage.app'
+                })
                 print("Firebase Admin initialized successfully.")
             except Exception as e:
                 print(f"Failed to initialize Firebase Admin: {e}")

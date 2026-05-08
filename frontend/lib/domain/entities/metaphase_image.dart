@@ -40,6 +40,21 @@ enum AiProcessingStatus {
   }
 }
 
+class DiagnosisSuggestion extends Equatable {
+  final String iscn;
+  final String description;
+  final double confidence;
+
+  const DiagnosisSuggestion({
+    required this.iscn,
+    required this.description,
+    required this.confidence,
+  });
+
+  @override
+  List<Object?> get props => [iscn, description, confidence];
+}
+
 class MetaphaseImage extends Equatable {
   final String id;
   final String orderId;
@@ -50,6 +65,7 @@ class MetaphaseImage extends Equatable {
   final int? aiCount;
   final int? aiScore;
   final double? aiConfidence;
+  final List<DiagnosisSuggestion> aiSuggestions;
   final DateTime createdAt;
 
   const MetaphaseImage({
@@ -62,6 +78,7 @@ class MetaphaseImage extends Equatable {
     this.aiCount,
     this.aiScore,
     this.aiConfidence,
+    this.aiSuggestions = const [],
     required this.createdAt,
   });
 
@@ -76,6 +93,7 @@ class MetaphaseImage extends Equatable {
         aiCount,
         aiScore,
         aiConfidence,
+        aiSuggestions,
         createdAt,
       ];
 }

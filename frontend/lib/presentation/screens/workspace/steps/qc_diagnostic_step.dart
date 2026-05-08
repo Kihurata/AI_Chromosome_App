@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../logic/bloc/workspace/workspace_cubit.dart';
+import '../../../../domain/entities/metaphase_image.dart';
 import '../../../widgets/shared/form/app_text_field.dart';
 
 
@@ -80,24 +83,46 @@ class _QcDiagnosticStepState extends State<QcDiagnosticStep> {
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.blue.shade200),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: const [
-                      Icon(Icons.auto_awesome, color: Colors.blue),
-                      SizedBox(width: 8),
-                      Text(
-                        'AI Gợi ý Chẩn đoán',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
+              child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
+                builder: (context, state) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: const [
+                          Icon(Icons.auto_awesome, color: Colors.blue),
+                          SizedBox(width: 8),
+                          Text(
+                            'AI Gợi ý Chẩn đoán',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue),
+                          ),
+                        ],
                       ),
+                      const Divider(height: 32),
+                      if (state.suggestions.isEmpty)
+                        const Center(
+                          child: Text(
+                            'Chưa có gợi ý. Hãy lưu kết quả ở bước 3 trước.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.grey, fontSize: 13),
+                          ),
+                        ),
+                      ...state.suggestions.map((DiagnosisSuggestion suggestion) => Column(
+                            children: [
+                              _buildSuggestionCard(
+                                suggestion.iscn,
+                                suggestion.description,
+                                suggestion.confidence,
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                          )),
                     ],
-                  ),
-                  const Divider(height: 32),
-                  _buildSuggestionCard('46,XY', 'Nam giới bình thường', 0.98),
-                  const SizedBox(height: 12),
-                  _buildSuggestionCard('47,XY,+21', 'Hội chứng Down', 0.02),
-                ],
+                  );
+                },
               ),
             ),
           ),

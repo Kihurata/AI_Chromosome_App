@@ -12,11 +12,23 @@ class MetaphaseImageModel extends MetaphaseImage {
     super.aiCount,
     super.aiScore,
     super.aiConfidence,
+    super.aiSuggestions,
     required super.createdAt,
   });
 
   factory MetaphaseImageModel.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    
+    final suggestionsData = data['ai_suggestions'] as List<dynamic>?;
+    final suggestions = suggestionsData?.map((item) {
+          final map = item as Map<String, dynamic>;
+          return DiagnosisSuggestion(
+            iscn: map['iscn'] ?? '',
+            description: map['description'] ?? '',
+            confidence: (map['confidence'] as num?)?.toDouble() ?? 0.0,
+          );
+        }).toList() ?? [];
+
     return MetaphaseImageModel(
       id: doc.id,
       orderId: data['order_id'] ?? '',
@@ -27,6 +39,7 @@ class MetaphaseImageModel extends MetaphaseImage {
       aiCount: data['ai_count'],
       aiScore: data['ai_score'],
       aiConfidence: (data['ai_confidence'] as num?)?.toDouble(),
+      aiSuggestions: suggestions,
       createdAt: (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
@@ -42,6 +55,7 @@ class MetaphaseImageModel extends MetaphaseImage {
       aiCount: entity.aiCount,
       aiScore: entity.aiScore,
       aiConfidence: entity.aiConfidence,
+      aiSuggestions: entity.aiSuggestions,
       createdAt: entity.createdAt,
     );
   }
@@ -56,6 +70,11 @@ class MetaphaseImageModel extends MetaphaseImage {
       'ai_count': aiCount,
       'ai_score': aiScore,
       'ai_confidence': aiConfidence,
+      'ai_suggestions': aiSuggestions.map((s) => {
+        'iscn': s.iscn,
+        'description': s.description,
+        'confidence': s.confidence,
+      }).toList(),
       'created_at': Timestamp.fromDate(createdAt),
     };
   }
