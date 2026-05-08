@@ -1,32 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:medcore_crm/core/theme/app_colors.dart';
-import 'package:medcore_crm/presentation/widgets/shared/data_display/app_data_table.dart';
-import 'package:medcore_crm/presentation/widgets/shared/data_display/status_badge.dart';
-import 'package:medcore_crm/logic/bloc/clinician/clinician_order_cubit.dart';
-import 'package:medcore_crm/logic/bloc/clinician/clinician_order_state.dart';
-import 'package:medcore_crm/domain/entities/test_order.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/providers/drawer_provider.dart';
+import '../../../../../core/models/filter_options.dart';
+import '../../../../widgets/shared/data_display/app_data_table.dart';
+import '../../../../widgets/shared/data_display/status_badge.dart';
+import '../../../../widgets/shared/form/dashboard_filter_bar.dart';
+import '../../../../widgets/shared/filter/advanced_filter_drawer.dart';
+import '../../../../../logic/bloc/clinician/clinician_order_cubit.dart';
+import '../../../../../logic/bloc/clinician/clinician_order_state.dart';
+import '../../../../../domain/entities/test_order.dart';
 import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
 
-class TestResultsTab extends StatefulWidget {
+class TestResultsTab extends ConsumerStatefulWidget {
   final String patientId;
   const TestResultsTab({super.key, required this.patientId});
 
   @override
-  State<TestResultsTab> createState() => _TestResultsTabState();
+  ConsumerState<TestResultsTab> createState() => _TestResultsTabState();
 }
 
-class _TestResultsTabState extends State<TestResultsTab> {
+class _TestResultsTabState extends ConsumerState<TestResultsTab> {
   @override
   void initState() {
     super.initState();
-    context.read<ClinicianOrderCubit>().listenToAllOrders();
+    // Clear drawer from previous pages
+    ref.read(drawerProvider.notifier).clear();
+    
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final cubit = context.read<ClinicianOrderCubit>();
+      cubit.loadTestOrders(widget.patientId);
+      _registerDrawer(ref, cubit);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  bool _isDrawerRegistered = false;
+
+  void _registerDrawer(WidgetRef ref, ClinicianOrderCubit cubit) {
+    if (_isDrawerRegistered) return;
+    _isDrawerRegistered = true;
+
+    ref.read(drawerProvider.notifier).update(
+          endDrawer: BlocProvider.value(
+            value: cubit,
+            child: BlocBuilder<ClinicianOrderCubit, ClinicianOrderState>(
+              buildWhen: (p, c) {
+                if (p is TestOrdersLoaded && c is TestOrdersLoaded) {
+                  return p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset;
+                }
+                return false;
+              },
+              builder: (context, state) {
+                if (state is! TestOrdersLoaded) return const SizedBox();
+                return AppAdvancedFilterDrawer(
+                  currentSortOrder: state.sortOrder,
+                  onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
+                  currentDateRange: state.dateRangePreset,
+                  onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
+                  onApply: () {},
+                  onClear: () => cubit.updateFilters(
+                    searchQuery: '',
+                    sortOrder: AppSortOrder.newest,
+                    dateRangePreset: AppDateRangePreset.all,
+                  ),
+                );
+              },
+            ),
+          ),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ClinicianOrderCubit>();
+
     return BlocBuilder<ClinicianOrderCubit, ClinicianOrderState>(
       builder: (context, state) {
         if (state is ClinicianOrderLoading) {
@@ -34,7 +90,7 @@ class _TestResultsTabState extends State<TestResultsTab> {
         }
 
         if (state is TestOrdersLoaded) {
-          final patientOrders = state.testOrders.where((o) => o.patientId == widget.patientId).toList();
+          final patientOrders = state.filteredOrders;
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +107,13 @@ class _TestResultsTabState extends State<TestResultsTab> {
               SizedBox(
                 height: 500,
                 child: AppDataTable(
-                  searchHint: 'Tìm kiếm xét nghiệm...',
+                  customHeader: AppDashboardFilterBar(
+                    searchHint: 'Tìm kiếm xét nghiệm theo ID...',
+                    initialSearchValue: state.searchQuery,
+                    onSearchChanged: (v) => cubit.setSearchQuery(v),
+                    onFilterPressed: () => Scaffold.of(context).openEndDrawer(),
+                    hasActiveFilters: state.dateRangePreset != AppDateRangePreset.all,
+                  ),
                   countText: '${patientOrders.length} xét nghiệm',
                   headerRow: const _HeaderRow(),
                   rows: patientOrders.map((order) => _OrderRow(order: order)).toList(),
@@ -80,7 +142,7 @@ class _TestResultsTabState extends State<TestResultsTab> {
           Icon(LucideIcons.flaskConical, size: 64, color: AppColors.border.withValues(alpha: 0.5)),
           const SizedBox(height: 16),
           const Text(
-            'Chưa có dữ liệu xét nghiệm',
+            'Chưa có dữ liệu xét nghiệm phù hợp',
             style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
           ),
         ],
@@ -126,7 +188,9 @@ class _OrderRow extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              order.patientCode,
+              order.id.length > 8
+                  ? order.id.substring(0, 8).toUpperCase()
+                  : order.id.toUpperCase(),
               style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.primaryBlue),
             ),
           ),

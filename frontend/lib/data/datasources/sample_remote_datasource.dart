@@ -17,7 +17,20 @@ class FirebaseSampleRemoteDataSource implements SampleRemoteDataSource {
 
   @override
   Future<void> createSample(SampleModel sample) async {
-    await _firestore.collection('samples').doc(sample.id).set(sample.toFirestore());
+    final batch = _firestore.batch();
+    
+    // Create the sample document
+    final sampleRef = _firestore.collection('samples').doc(sample.id);
+    batch.set(sampleRef, sample.toFirestore());
+    
+    // Update the test order status
+    final orderRef = _firestore.collection('test_orders').doc(sample.testOrderId);
+    batch.update(orderRef, {
+      'status': 'CULTURING',
+      'updated_at': FieldValue.serverTimestamp(),
+    });
+    
+    await batch.commit();
   }
 
   @override
@@ -54,7 +67,7 @@ class FirebaseSampleRemoteDataSource implements SampleRemoteDataSource {
   Stream<List<SampleModel>> watchSamples() {
     return _firestore
         .collection('samples')
-        .orderBy('created_at', descending: true)
+        .orderBy('collected_at', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => SampleModel.fromFirestore(doc))
@@ -66,7 +79,7 @@ class FirebaseSampleRemoteDataSource implements SampleRemoteDataSource {
     return _firestore
         .collection('samples')
         .where('status', isEqualTo: status)
-        .orderBy('created_at', descending: true)
+        .orderBy('collected_at', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs
             .map((doc) => SampleModel.fromFirestore(doc))

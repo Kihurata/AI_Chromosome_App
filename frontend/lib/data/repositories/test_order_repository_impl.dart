@@ -107,6 +107,18 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
     }
   }
 
+  @override
+  Stream<Either<Failure, List<TestOrder>>> watchTestOrdersByPatient(String patientId) async* {
+    try {
+      yield* remoteDataSource.watchTestOrdersByPatient(patientId).map<
+          Either<Failure, List<TestOrder>>>((models) {
+        return Right(models.map(_modelToEntity).toList());
+      });
+    } catch (e) {
+      yield Left(ServerFailure(e.toString()));
+    }
+  }
+
   TestOrder _modelToEntity(TestOrderModel model) {
     return TestOrder(
       id: model.id,
@@ -119,5 +131,25 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
       status: TestOrderStatus.fromString(model.status),
       createdAt: model.createdAt,
     );
+  }
+
+  @override
+  Future<Either<Failure, List<TestOrder>>> getTestOrdersByPatient(String patientId) async {
+    try {
+      final models = await remoteDataSource.getTestOrdersByPatient(patientId);
+      return Right(models.map(_modelToEntity).toList());
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateOrderSpecialist(String orderId, String specialistId) async {
+    try {
+      await remoteDataSource.updateOrderSpecialist(orderId, specialistId);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
   }
 }

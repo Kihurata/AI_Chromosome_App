@@ -25,7 +25,7 @@ class _RecentPatientsTableState extends State<RecentPatientsTable> {
   void initState() {
     super.initState();
     context.read<AppointmentCubit>().listenToTodayAppointments();
-    context.read<ClinicianOrderCubit>().listenToAllOrders();
+    context.read<ClinicianOrderCubit>().loadTestOrders();
   }
 
   BadgeType _mapAppointmentStatus(AppointmentStatus status) {
@@ -40,8 +40,6 @@ class _RecentPatientsTableState extends State<RecentPatientsTable> {
         return BadgeType.warning;
     }
   }
-
-
 
   String _getInitials(String name) {
     if (name.isEmpty) return '??';
@@ -155,7 +153,7 @@ class _RecentPatientsTableState extends State<RecentPatientsTable> {
                 );
               }
 
-              final appointments = state is AppointmentLoaded ? state.appointments : <Appointment>[];
+              final appointments = state is AppointmentLoaded ? state.filteredAppointments : <Appointment>[];
 
               if (appointments.isEmpty) {
                 return const Padding(
@@ -165,7 +163,7 @@ class _RecentPatientsTableState extends State<RecentPatientsTable> {
                       children: [
                         Icon(LucideIcons.calendarX, size: 48, color: AppColors.textPlaceholder),
                         SizedBox(height: 16),
-                        Text('Không có hoạt động nào hôm nay', style: TextStyle(color: AppColors.textSecondary)),
+                        Text('Không có hoạt động nào phù hợp', style: TextStyle(color: AppColors.textSecondary)),
                       ],
                     ),
                   ),
@@ -192,11 +190,11 @@ class _RecentPatientsTableState extends State<RecentPatientsTable> {
             ),
             child: BlocBuilder<AppointmentCubit, AppointmentState>(
               builder: (context, state) {
-                final count = state is AppointmentLoaded ? state.appointments.length : 0;
+                final count = state is AppointmentLoaded ? state.filteredAppointments.length : 0;
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Hiển thị $count cập nhật hôm nay', style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+                    Text('Hiển thị $count cập nhật phù hợp', style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                     Row(
                       children: [
                         AppSecondaryButton(
@@ -288,7 +286,7 @@ class _RecentPatientsTableState extends State<RecentPatientsTable> {
               ),
             ),
           ),
-          // Cột KQXN (Test Order — chưa có dữ liệu thực thì ẩn)
+          // Cột KQXN (Test Order)
           Expanded(
             flex: 2,
             child: Align(
@@ -330,9 +328,6 @@ class _RecentPatientsTableState extends State<RecentPatientsTable> {
   }
 }
 
-/// Widget hiển thị cột KQXN độc lập
-/// Không cần TestOrderCubit global — hiển thị placeholder cho đến khi
-/// một luồng riêng cung cấp dữ liệu thực tế
 class _KqxnBadge extends StatelessWidget {
   final String appointmentId;
   const _KqxnBadge({required this.appointmentId});
@@ -357,7 +352,7 @@ class _KqxnBadge extends StatelessWidget {
     return BlocBuilder<ClinicianOrderCubit, ClinicianOrderState>(
       builder: (context, state) {
         if (state is TestOrdersLoaded) {
-          final orders = state.testOrders.where((o) => o.appointmentId == appointmentId).toList();
+          final orders = state.allOrders.where((o) => o.appointmentId == appointmentId).toList();
           if (orders.isEmpty) {
             return const Text(
               '—',

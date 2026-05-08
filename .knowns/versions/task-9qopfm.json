@@ -1,0 +1,233 @@
+{
+  "taskId": "9qopfm",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "9qopfm",
+      "version": 1,
+      "timestamp": "2026-05-07T04:54:14.4838052Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Nâng cấp đồng bộ giao diện Dashboard và các màn hình danh sách cho tất cả các Role:\n1. Thêm thanh Toolbar (Search 70%, Advanced Filter 30%).\n2. Thêm Side Drawer lọc nâng cao (Sắp xếp Mới nhất/Cũ nhất, Khoảng thời gian: Hôm nay, 7 ngày, 30 ngày, Tùy chỉnh).\n3. Đảm bảo tất cả danh sách luôn hiển thị dữ liệu mới nhất ở hàng đầu (Newest First).\n4. Áp dụng cho: Dashboard (Tất cả role), Quản lý mẫu, Danh sách bệnh nhân, Lịch sử khám bệnh (History Tab), Kết quả xét nghiệm (Test Results Tab).\n5. Xây dựng logic lọc tại chỗ (Local Filtering) trong Cubit để đảm bảo tốc độ phản hồi.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Comprehensive Dashboard UI Upgrade: Search, Time Filter \u0026 Sorting"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "9qopfm",
+      "version": 2,
+      "timestamp": "2026-05-07T04:54:19.5567057Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Nâng cấp đồng bộ giao diện Dashboard và các màn hình danh sách cho tất cả các Role:\n1. Thêm thanh Toolbar (Search 70%, Advanced Filter 30%).\n2. Thêm Side Drawer lọc nâng cao (Sắp xếp Mới nhất/Cũ nhất, Khoảng thời gian: Hôm nay, 7 ngày, 30 ngày, Tùy chỉnh).\n3. Đảm bảo tất cả danh sách luôn hiển thị dữ liệu mới nhất ở hàng đầu (Newest First).\n4. Áp dụng cho: Dashboard (Tất cả role), Quản lý mẫu, Danh sách bệnh nhân, Lịch sử khám bệnh (History Tab), Kết quả xét nghiệm (Test Results Tab).\n5. Xây dựng logic lọc tại chỗ (Local Filtering) trong Cubit để đảm bảo tốc độ phản hồi.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Comprehensive Dashboard UI Upgrade: Search, Time Filter \u0026 Sorting"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "9qopfm",
+      "version": 3,
+      "timestamp": "2026-05-07T04:54:26.4602979Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Xây dựng widget AppDashboardFilterBar và AppAdvancedFilterDrawer dùng chung."
+            },
+            {
+              "completed": false,
+              "text": "Cập nhật logic Search/Sort/Time Filter cho 7 Cubit (Specialist, Manager, Clinician, Patient, v.v.)."
+            },
+            {
+              "completed": false,
+              "text": "Tích hợp Toolbar và Drawer vào 4 trang Dashboard chính."
+            },
+            {
+              "completed": false,
+              "text": "Tích hợp vào các trang Patient List, Medical Record (History Tab, Test Results Tab)."
+            },
+            {
+              "completed": false,
+              "text": "Đảm bảo tính năng Newest First (mới nhất lên đầu) hoạt động trên mọi bảng."
+            },
+            {
+              "completed": false,
+              "text": "Kiểm tra hiệu năng lọc Local Filtering không gây giật lag UI."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan: Comprehensive Dashboard UI Upgrade\n\n### Phase 1: Shared UI Components\n- **File**: `frontend/lib/presentation/widgets/shared/form/dashboard_filter_bar.dart`\n    - Build `AppDashboardFilterBar`: Search input (70%) + Advanced Filter Button (30%).\n- **File**: `frontend/lib/presentation/widgets/shared/filter/advanced_filter_drawer.dart`\n    - Build `AppAdvancedFilterDrawer`: Modular list of filter groups.\n    - Implement Time Sorting (Newest/Oldest) and Time Range (Presets + Custom) groups.\n\n### Phase 2: Logic Layer (Cubit) Standardization\n- **Pattern**: Add `searchQuery`, `sortOrder`, `dateRange` to states. Implement `updateFilters` in Cubits.\n- **Affected Cubits**:\n    1. `SpecialistDashboardCubit`\n    2. `SampleManagementCubit`\n    3. `ManagerDashboardCubit`\n    4. `AppointmentCubit` (Clinician/Receptionist)\n    5. `PatientCubit` (Receptionist)\n    6. `ExaminationCubit` (History Tab)\n    7. `ClinicianOrderCubit` (Test Results Tab)\n\n### Phase 3: Dashboard Integrations\n- Integrate `AppDashboardFilterBar` into:\n    - `DoctorDashboardPage`\n    - `LabManagerDashboardPage`\n    - `ReceptionistDashboardPage` (Dashboard body)\n    - `SpecialistDashboardPage`\n\n### Phase 4: Detailed List Integrations\n- Integrate into:\n    - `PatientListPage`\n    - `SampleManagementPage`\n    - `HistoryTab` (Medical Record)\n    - `TestResultsTab` (Medical Record)\n\n### Phase 5: Verification\n- Run `flutter analyze`.\n- Verify sorting (Newest first) and search functionality on at least 2 key screens."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Xây dựng widget AppDashboardFilterBar và AppAdvancedFilterDrawer dùng chung."
+          },
+          {
+            "completed": false,
+            "text": "Cập nhật logic Search/Sort/Time Filter cho 7 Cubit (Specialist, Manager, Clinician, Patient, v.v.)."
+          },
+          {
+            "completed": false,
+            "text": "Tích hợp Toolbar và Drawer vào 4 trang Dashboard chính."
+          },
+          {
+            "completed": false,
+            "text": "Tích hợp vào các trang Patient List, Medical Record (History Tab, Test Results Tab)."
+          },
+          {
+            "completed": false,
+            "text": "Đảm bảo tính năng Newest First (mới nhất lên đầu) hoạt động trên mọi bảng."
+          },
+          {
+            "completed": false,
+            "text": "Kiểm tra hiệu năng lọc Local Filtering không gây giật lag UI."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Nâng cấp đồng bộ giao diện Dashboard và các màn hình danh sách cho tất cả các Role:\n1. Thêm thanh Toolbar (Search 70%, Advanced Filter 30%).\n2. Thêm Side Drawer lọc nâng cao (Sắp xếp Mới nhất/Cũ nhất, Khoảng thời gian: Hôm nay, 7 ngày, 30 ngày, Tùy chỉnh).\n3. Đảm bảo tất cả danh sách luôn hiển thị dữ liệu mới nhất ở hàng đầu (Newest First).\n4. Áp dụng cho: Dashboard (Tất cả role), Quản lý mẫu, Danh sách bệnh nhân, Lịch sử khám bệnh (History Tab), Kết quả xét nghiệm (Test Results Tab).\n5. Xây dựng logic lọc tại chỗ (Local Filtering) trong Cubit để đảm bảo tốc độ phản hồi.",
+        "implementationPlan": "## Implementation Plan: Comprehensive Dashboard UI Upgrade\n\n### Phase 1: Shared UI Components\n- **File**: `frontend/lib/presentation/widgets/shared/form/dashboard_filter_bar.dart`\n    - Build `AppDashboardFilterBar`: Search input (70%) + Advanced Filter Button (30%).\n- **File**: `frontend/lib/presentation/widgets/shared/filter/advanced_filter_drawer.dart`\n    - Build `AppAdvancedFilterDrawer`: Modular list of filter groups.\n    - Implement Time Sorting (Newest/Oldest) and Time Range (Presets + Custom) groups.\n\n### Phase 2: Logic Layer (Cubit) Standardization\n- **Pattern**: Add `searchQuery`, `sortOrder`, `dateRange` to states. Implement `updateFilters` in Cubits.\n- **Affected Cubits**:\n    1. `SpecialistDashboardCubit`\n    2. `SampleManagementCubit`\n    3. `ManagerDashboardCubit`\n    4. `AppointmentCubit` (Clinician/Receptionist)\n    5. `PatientCubit` (Receptionist)\n    6. `ExaminationCubit` (History Tab)\n    7. `ClinicianOrderCubit` (Test Results Tab)\n\n### Phase 3: Dashboard Integrations\n- Integrate `AppDashboardFilterBar` into:\n    - `DoctorDashboardPage`\n    - `LabManagerDashboardPage`\n    - `ReceptionistDashboardPage` (Dashboard body)\n    - `SpecialistDashboardPage`\n\n### Phase 4: Detailed List Integrations\n- Integrate into:\n    - `PatientListPage`\n    - `SampleManagementPage`\n    - `HistoryTab` (Medical Record)\n    - `TestResultsTab` (Medical Record)\n\n### Phase 5: Verification\n- Run `flutter analyze`.\n- Verify sorting (Newest first) and search functionality on at least 2 key screens.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Comprehensive Dashboard UI Upgrade: Search, Time Filter \u0026 Sorting"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "9qopfm",
+      "version": 4,
+      "timestamp": "2026-05-07T05:03:55.6716101Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Phase 1 complete: Created AppDashboardFilterBar and AppAdvancedFilterDrawer shared widgets."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Xây dựng widget AppDashboardFilterBar và AppAdvancedFilterDrawer dùng chung."
+          },
+          {
+            "completed": false,
+            "text": "Cập nhật logic Search/Sort/Time Filter cho 7 Cubit (Specialist, Manager, Clinician, Patient, v.v.)."
+          },
+          {
+            "completed": false,
+            "text": "Tích hợp Toolbar và Drawer vào 4 trang Dashboard chính."
+          },
+          {
+            "completed": false,
+            "text": "Tích hợp vào các trang Patient List, Medical Record (History Tab, Test Results Tab)."
+          },
+          {
+            "completed": false,
+            "text": "Đảm bảo tính năng Newest First (mới nhất lên đầu) hoạt động trên mọi bảng."
+          },
+          {
+            "completed": false,
+            "text": "Kiểm tra hiệu năng lọc Local Filtering không gây giật lag UI."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Nâng cấp đồng bộ giao diện Dashboard và các màn hình danh sách cho tất cả các Role:\n1. Thêm thanh Toolbar (Search 70%, Advanced Filter 30%).\n2. Thêm Side Drawer lọc nâng cao (Sắp xếp Mới nhất/Cũ nhất, Khoảng thời gian: Hôm nay, 7 ngày, 30 ngày, Tùy chỉnh).\n3. Đảm bảo tất cả danh sách luôn hiển thị dữ liệu mới nhất ở hàng đầu (Newest First).\n4. Áp dụng cho: Dashboard (Tất cả role), Quản lý mẫu, Danh sách bệnh nhân, Lịch sử khám bệnh (History Tab), Kết quả xét nghiệm (Test Results Tab).\n5. Xây dựng logic lọc tại chỗ (Local Filtering) trong Cubit để đảm bảo tốc độ phản hồi.",
+        "implementationNotes": "Phase 1 complete: Created AppDashboardFilterBar and AppAdvancedFilterDrawer shared widgets.",
+        "implementationPlan": "## Implementation Plan: Comprehensive Dashboard UI Upgrade\n\n### Phase 1: Shared UI Components\n- **File**: `frontend/lib/presentation/widgets/shared/form/dashboard_filter_bar.dart`\n    - Build `AppDashboardFilterBar`: Search input (70%) + Advanced Filter Button (30%).\n- **File**: `frontend/lib/presentation/widgets/shared/filter/advanced_filter_drawer.dart`\n    - Build `AppAdvancedFilterDrawer`: Modular list of filter groups.\n    - Implement Time Sorting (Newest/Oldest) and Time Range (Presets + Custom) groups.\n\n### Phase 2: Logic Layer (Cubit) Standardization\n- **Pattern**: Add `searchQuery`, `sortOrder`, `dateRange` to states. Implement `updateFilters` in Cubits.\n- **Affected Cubits**:\n    1. `SpecialistDashboardCubit`\n    2. `SampleManagementCubit`\n    3. `ManagerDashboardCubit`\n    4. `AppointmentCubit` (Clinician/Receptionist)\n    5. `PatientCubit` (Receptionist)\n    6. `ExaminationCubit` (History Tab)\n    7. `ClinicianOrderCubit` (Test Results Tab)\n\n### Phase 3: Dashboard Integrations\n- Integrate `AppDashboardFilterBar` into:\n    - `DoctorDashboardPage`\n    - `LabManagerDashboardPage`\n    - `ReceptionistDashboardPage` (Dashboard body)\n    - `SpecialistDashboardPage`\n\n### Phase 4: Detailed List Integrations\n- Integrate into:\n    - `PatientListPage`\n    - `SampleManagementPage`\n    - `HistoryTab` (Medical Record)\n    - `TestResultsTab` (Medical Record)\n\n### Phase 5: Verification\n- Run `flutter analyze`.\n- Verify sorting (Newest first) and search functionality on at least 2 key screens.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Comprehensive Dashboard UI Upgrade: Search, Time Filter \u0026 Sorting"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "9qopfm",
+      "version": 5,
+      "timestamp": "2026-05-07T05:40:29.1998221Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Phase 1 complete: Created AppDashboardFilterBar and AppAdvancedFilterDrawer shared widgets.",
+          "newValue": "Phase 1 complete: Created AppDashboardFilterBar and AppAdvancedFilterDrawer shared widgets.\nĐã sửa lỗi naming mismatch trong Model, Repository và Cubit. Đã tạo các Usecase thiếu. Đã fix lỗi UI và DI. Yêu cầu user chạy build_runner."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Xây dựng widget AppDashboardFilterBar và AppAdvancedFilterDrawer dùng chung.",
+            "completed": true
+          },
+          {
+            "text": "Cập nhật logic Search/Sort/Time Filter cho 7 Cubit (Specialist, Manager, Clinician, Patient, v.v.).",
+            "completed": false
+          },
+          {
+            "text": "Tích hợp Toolbar và Drawer vào 4 trang Dashboard chính.",
+            "completed": false
+          },
+          {
+            "text": "Tích hợp vào các trang Patient List, Medical Record (History Tab, Test Results Tab).",
+            "completed": false
+          },
+          {
+            "text": "Đảm bảo tính năng Newest First (mới nhất lên đầu) hoạt động trên mọi bảng.",
+            "completed": false
+          },
+          {
+            "text": "Kiểm tra hiệu năng lọc Local Filtering không gây giật lag UI.",
+            "completed": false
+          }
+        ],
+        "assignee": "@me",
+        "description": "Nâng cấp đồng bộ giao diện Dashboard và các màn hình danh sách cho tất cả các Role:\n1. Thêm thanh Toolbar (Search 70%, Advanced Filter 30%).\n2. Thêm Side Drawer lọc nâng cao (Sắp xếp Mới nhất/Cũ nhất, Khoảng thời gian: Hôm nay, 7 ngày, 30 ngày, Tùy chỉnh).\n3. Đảm bảo tất cả danh sách luôn hiển thị dữ liệu mới nhất ở hàng đầu (Newest First).\n4. Áp dụng cho: Dashboard (Tất cả role), Quản lý mẫu, Danh sách bệnh nhân, Lịch sử khám bệnh (History Tab), Kết quả xét nghiệm (Test Results Tab).\n5. Xây dựng logic lọc tại chỗ (Local Filtering) trong Cubit để đảm bảo tốc độ phản hồi.",
+        "implementationNotes": "Phase 1 complete: Created AppDashboardFilterBar and AppAdvancedFilterDrawer shared widgets.\nĐã sửa lỗi naming mismatch trong Model, Repository và Cubit. Đã tạo các Usecase thiếu. Đã fix lỗi UI và DI. Yêu cầu user chạy build_runner.",
+        "implementationPlan": "## Implementation Plan: Comprehensive Dashboard UI Upgrade\n\n### Phase 1: Shared UI Components\n- **File**: `frontend/lib/presentation/widgets/shared/form/dashboard_filter_bar.dart`\n    - Build `AppDashboardFilterBar`: Search input (70%) + Advanced Filter Button (30%).\n- **File**: `frontend/lib/presentation/widgets/shared/filter/advanced_filter_drawer.dart`\n    - Build `AppAdvancedFilterDrawer`: Modular list of filter groups.\n    - Implement Time Sorting (Newest/Oldest) and Time Range (Presets + Custom) groups.\n\n### Phase 2: Logic Layer (Cubit) Standardization\n- **Pattern**: Add `searchQuery`, `sortOrder`, `dateRange` to states. Implement `updateFilters` in Cubits.\n- **Affected Cubits**:\n    1. `SpecialistDashboardCubit`\n    2. `SampleManagementCubit`\n    3. `ManagerDashboardCubit`\n    4. `AppointmentCubit` (Clinician/Receptionist)\n    5. `PatientCubit` (Receptionist)\n    6. `ExaminationCubit` (History Tab)\n    7. `ClinicianOrderCubit` (Test Results Tab)\n\n### Phase 3: Dashboard Integrations\n- Integrate `AppDashboardFilterBar` into:\n    - `DoctorDashboardPage`\n    - `LabManagerDashboardPage`\n    - `ReceptionistDashboardPage` (Dashboard body)\n    - `SpecialistDashboardPage`\n\n### Phase 4: Detailed List Integrations\n- Integrate into:\n    - `PatientListPage`\n    - `SampleManagementPage`\n    - `HistoryTab` (Medical Record)\n    - `TestResultsTab` (Medical Record)\n\n### Phase 5: Verification\n- Run `flutter analyze`.\n- Verify sorting (Newest first) and search functionality on at least 2 key screens.",
+        "priority": "high",
+        "status": "done",
+        "title": "Comprehensive Dashboard UI Upgrade: Search, Time Filter \u0026 Sorting"
+      }
+    }
+  ]
+}

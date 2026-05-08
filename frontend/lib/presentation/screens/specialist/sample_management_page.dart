@@ -1,114 +1,188 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+import '../../../../core/router/app_router.dart';
+import '../../../../core/providers/drawer_provider.dart';
+import '../../../../core/models/filter_options.dart';
 import '../../../../domain/entities/sample.dart';
 import '../../../../logic/bloc/specialist/sample_management_cubit.dart';
 import '../../../../logic/bloc/specialist/sample_management_state.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/services/notification_factory.dart';
+import '../../widgets/shared/layouts/main_list_layout.dart';
+import '../../widgets/shared/form/dashboard_filter_bar.dart';
+import '../../widgets/shared/filter/advanced_filter_drawer.dart';
 import 'widgets/sample_card.dart';
 
-class SampleManagementPage extends StatefulWidget {
+class SampleManagementPage extends ConsumerStatefulWidget {
   const SampleManagementPage({super.key});
 
   @override
-  State<SampleManagementPage> createState() => _SampleManagementPageState();
+  ConsumerState<SampleManagementPage> createState() => _SampleManagementPageState();
 }
 
-class _SampleManagementPageState extends State<SampleManagementPage> {
+class _SampleManagementPageState extends ConsumerState<SampleManagementPage> {
   @override
   void initState() {
     super.initState();
     context.read<SampleManagementCubit>().loadSamples();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final cubit = context.read<SampleManagementCubit>();
+      _registerDrawer(ref, cubit);
+    });
+  }
+
+  late ProviderContainer _container;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _container = ProviderScope.containerOf(context);
+  }
+
+  @override
+  void dispose() {
+    Future.microtask(() {
+      _container.read(drawerProvider.notifier).clear();
+    });
+    super.dispose();
+  }
+
+  bool _isDrawerRegistered = false;
+
+  void _registerDrawer(WidgetRef ref, SampleManagementCubit cubit) {
+    if (_isDrawerRegistered) return;
+    _isDrawerRegistered = true;
+
+    ref.read(drawerProvider.notifier).update(
+          endDrawer: BlocProvider.value(
+            value: cubit,
+            child: BlocBuilder<SampleManagementCubit, SampleManagementState>(
+              buildWhen: (p, c) => p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset,
+              builder: (context, state) {
+                return AppAdvancedFilterDrawer(
+                  currentSortOrder: state.sortOrder,
+                  onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
+                  currentDateRange: state.dateRangePreset,
+                  onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
+                  onApply: () {},
+                  onClear: () => cubit.updateFilters(
+                    searchKeyword: '',
+                    clearStatusFilter: true,
+                    sortOrder: AppSortOrder.newest,
+                    dateRangePreset: AppDateRangePreset.all,
+                  ),
+                );
+              },
+            ),
+          ),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(),
-            const SizedBox(height: 24),
-            _buildFilterBar(),
-            const SizedBox(height: 24),
-            Expanded(child: _buildSampleList()),
-          ],
+    final cubit = context.read<SampleManagementCubit>();
+
+    return BlocListener<SampleManagementCubit, SampleManagementState>(
+      listenWhen: (p, c) => c.lastStartedOrderId != null || (p.status != c.status && c.status == SampleManagementStatus.error),
+      listener: (context, state) {
+        if (!context.mounted) return;
+
+        if (state.status == SampleManagementStatus.error && state.errorMessage != null) {
+          NotificationFactory.showError(context, state.errorMessage!);
+        }
+        if (state.lastStartedOrderId != null) {
+          final orderId = state.lastStartedOrderId!;
+          cubit.clearNavigation();
+          context.push('${AppRoutes.specialistAnalysis}/$orderId');
+        }
+      },
+      child: MainListLayout(
+        title: 'Quản lý Mẫu Bệnh phẩm',
+        subtitle: 'Theo dõi tiến độ nuôi cấy và quản lý mẫu xét nghiệm.',
+        onRefresh: () async => cubit.loadSamples(),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildModernFilterBar(),
+              const SizedBox(height: 24),
+              _buildSampleList(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Quản lý Mẫu Bệnh phẩm',
-          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Theo dõi tiến độ nuôi cấy và quản lý mẫu xét nghiệm.',
-          style: Theme.of(
-            context,
-          ).textTheme.bodyLarge?.copyWith(color: AppColors.textSecondary),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildFilterBar() {
+  Widget _buildModernFilterBar() {
     return BlocBuilder<SampleManagementCubit, SampleManagementState>(
+      buildWhen: (p, c) => 
+          p.searchKeyword != c.searchKeyword || 
+          p.filterStatus != c.filterStatus ||
+          p.dateRangePreset != c.dateRangePreset,
       builder: (context, state) {
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              _FilterChip(
-                label: 'Tất cả',
-                isSelected: state.filterStatus == null,
-                onSelected: () =>
-                    context.read<SampleManagementCubit>().setFilter(null),
+        return Column(
+          children: [
+            AppDashboardFilterBar(
+              searchHint: 'Tìm theo tên bệnh nhân, mã mẫu...',
+              initialSearchValue: state.searchKeyword,
+              onSearchChanged: (v) => context.read<SampleManagementCubit>().setSearchKeyword(v),
+              onFilterPressed: () => Scaffold.of(context).openEndDrawer(),
+              hasActiveFilters: state.filterStatus != null || state.dateRangePreset != AppDateRangePreset.all,
+            ),
+            const SizedBox(height: 16),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  _FilterChip(
+                    label: 'Tất cả',
+                    isSelected: state.filterStatus == null,
+                    onSelected: () =>
+                        context.read<SampleManagementCubit>().setFilter(null),
+                  ),
+                  const SizedBox(width: 12),
+                  _FilterChip(
+                    label: 'Mới thu nhận',
+                    isSelected: state.filterStatus == SampleStatus.collected,
+                    onSelected: () => context
+                        .read<SampleManagementCubit>()
+                        .setFilter(SampleStatus.collected),
+                  ),
+                  const SizedBox(width: 12),
+                  _FilterChip(
+                    label: 'Đang nuôi cấy',
+                    isSelected: state.filterStatus == SampleStatus.culturing,
+                    onSelected: () => context
+                        .read<SampleManagementCubit>()
+                        .setFilter(SampleStatus.culturing),
+                  ),
+                  const SizedBox(width: 12),
+                  _FilterChip(
+                    label: 'Đã thu hoạch',
+                    isSelected: state.filterStatus == SampleStatus.harvested,
+                    onSelected: () => context
+                        .read<SampleManagementCubit>()
+                        .setFilter(SampleStatus.harvested),
+                  ),
+                  const SizedBox(width: 12),
+                  _FilterChip(
+                    label: 'Thất bại',
+                    isSelected: state.filterStatus == SampleStatus.failed,
+                    onSelected: () => context
+                        .read<SampleManagementCubit>()
+                        .setFilter(SampleStatus.failed),
+                  ),
+                ],
               ),
-              const SizedBox(width: 12),
-              _FilterChip(
-                label: 'Mới thu nhận',
-                isSelected: state.filterStatus == SampleStatus.collected,
-                onSelected: () => context
-                    .read<SampleManagementCubit>()
-                    .setFilter(SampleStatus.collected),
-              ),
-              const SizedBox(width: 12),
-              _FilterChip(
-                label: 'Đang nuôi cấy',
-                isSelected: state.filterStatus == SampleStatus.culturing,
-                onSelected: () => context
-                    .read<SampleManagementCubit>()
-                    .setFilter(SampleStatus.culturing),
-              ),
-              const SizedBox(width: 12),
-              _FilterChip(
-                label: 'Đã thu hoạch',
-                isSelected: state.filterStatus == SampleStatus.harvested,
-                onSelected: () => context
-                    .read<SampleManagementCubit>()
-                    .setFilter(SampleStatus.harvested),
-              ),
-              const SizedBox(width: 12),
-              _FilterChip(
-                label: 'Thất bại',
-                isSelected: state.filterStatus == SampleStatus.failed,
-                onSelected: () => context
-                    .read<SampleManagementCubit>()
-                    .setFilter(SampleStatus.failed),
-              ),
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
@@ -121,27 +195,45 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
           return const Center(child: CircularProgressIndicator());
         }
 
+        if (state.status == SampleManagementStatus.error) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                const SizedBox(height: 16.0),
+                Text('Lỗi tải dữ liệu: ${state.errorMessage}'),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () => context.read<SampleManagementCubit>().loadSamples(),
+                  child: const Text('Thử lại'),
+                ),
+              ],
+            ),
+          );
+        }
+
         if (state.filteredSamples.isEmpty) {
           return Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 64),
             decoration: BoxDecoration(
-              color: Colors.grey.shade50,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.grey.shade100),
+              border: Border.all(color: AppColors.border),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.inventory_2_outlined,
+                  LucideIcons.package,
                   size: 64,
-                  color: Colors.grey.shade300,
+                  color: AppColors.textPlaceholder.withValues(alpha: 0.5),
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  'Không tìm thấy mẫu nào',
-                  style: TextStyle(color: Colors.grey.shade500, fontSize: 16),
+                const Text(
+                  'Không tìm thấy mẫu nào phù hợp',
+                  style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
                 ),
               ],
             ),
@@ -152,7 +244,7 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.grey.shade200),
+            border: Border.all(color: AppColors.border),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.03),
@@ -166,14 +258,14 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
             children: [
               // ── Header row ──────────────────────────────────────────────
               Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade50,
-                  borderRadius: const BorderRadius.only(
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFAFBFC),
+                  borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
                   ),
                   border: Border(
-                    bottom: BorderSide(color: Colors.grey.shade200),
+                    bottom: BorderSide(color: AppColors.border),
                   ),
                 ),
                 child: const Padding(
@@ -187,9 +279,9 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                            color: Color(0xFF6B7280),
-                            letterSpacing: 0.3,
+                            fontSize: 11,
+                            color: AppColors.textSecondary,
+                            letterSpacing: 0.5,
                           ),
                         ),
                       ),
@@ -200,9 +292,9 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                            color: Color(0xFF6B7280),
-                            letterSpacing: 0.3,
+                            fontSize: 11,
+                            color: AppColors.textSecondary,
+                            letterSpacing: 0.5,
                           ),
                         ),
                       ),
@@ -213,9 +305,9 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                            color: Color(0xFF6B7280),
-                            letterSpacing: 0.3,
+                            fontSize: 11,
+                            color: AppColors.textSecondary,
+                            letterSpacing: 0.5,
                           ),
                         ),
                       ),
@@ -226,9 +318,9 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                            color: Color(0xFF6B7280),
-                            letterSpacing: 0.3,
+                            fontSize: 11,
+                            color: AppColors.textSecondary,
+                            letterSpacing: 0.5,
                           ),
                         ),
                       ),
@@ -239,9 +331,9 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                            color: Color(0xFF6B7280),
-                            letterSpacing: 0.3,
+                            fontSize: 11,
+                            color: AppColors.textSecondary,
+                            letterSpacing: 0.5,
                           ),
                         ),
                       ),
@@ -250,11 +342,12 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                 ),
               ),
               // ── Data rows ────────────────────────────────────────────────
-              Expanded(
-                child: ListView.separated(
+              ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: state.filteredSamples.length,
                   separatorBuilder: (context, index) =>
-                      Divider(height: 1, color: Colors.grey.shade100),
+                      const Divider(height: 1, color: AppColors.border),
                   itemBuilder: (context, index) {
                     final sample = state.filteredSamples[index];
                     return SampleCard(
@@ -274,7 +367,6 @@ class _SampleManagementPageState extends State<SampleManagementPage> {
                     );
                   },
                 ),
-              ),
             ],
           ),
         );
@@ -296,33 +388,37 @@ class _FilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onSelected,
-      borderRadius: BorderRadius.circular(20),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryBlue : Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? AppColors.primaryBlue : Colors.grey.shade300,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: InkWell(
+        onTap: onSelected,
+        borderRadius: BorderRadius.circular(20),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.primaryBlue : Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isSelected ? AppColors.primaryBlue : AppColors.border,
+            ),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: AppColors.primaryBlue.withValues(alpha: 0.2),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                : [],
           ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: AppColors.primaryBlue.withValues(alpha: 0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : [],
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? Colors.white : AppColors.textSecondary,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? Colors.white : AppColors.textSecondary,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              fontSize: 13,
+            ),
           ),
         ),
       ),

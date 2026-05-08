@@ -10,6 +10,9 @@ abstract class TestOrderRemoteDataSource {
   Future<void> assignSpecialistToOrder(String orderId, String specialistId);
   Stream<List<TestOrderModel>> watchAssignedOrders(String specialistId);
   Stream<List<TestOrderModel>> watchAllOrders();
+  Stream<List<TestOrderModel>> watchTestOrdersByPatient(String patientId);
+  Future<List<TestOrderModel>> getTestOrdersByPatient(String patientId);
+  Future<void> updateOrderSpecialist(String orderId, String specialistId);
 }
 
 @Injectable(as: TestOrderRemoteDataSource)
@@ -68,7 +71,6 @@ class FirebaseTestOrderRemoteDataSource implements TestOrderRemoteDataSource {
     final specialistRef = _firestore.collection('users').doc(specialistId);
     await _firestore.collection('test_orders').doc(orderId).update({
       'specialist_id': specialistRef,
-      'status': 'ANALYZING',
       'updated_at': FieldValue.serverTimestamp(),
     });
   }
@@ -98,6 +100,44 @@ class FirebaseTestOrderRemoteDataSource implements TestOrderRemoteDataSource {
       return snapshot.docs
           .map((doc) => TestOrderModel.fromFirestore(doc))
           .toList();
+    });
+  }
+
+  @override
+  Stream<List<TestOrderModel>> watchTestOrdersByPatient(String patientId) {
+    final patientRef = _firestore.collection('patients').doc(patientId);
+    return _firestore
+        .collection('test_orders')
+        .where('patient_id', isEqualTo: patientRef)
+        .orderBy('created_at', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => TestOrderModel.fromFirestore(doc))
+          .toList();
+    });
+  }
+
+  @override
+  Future<List<TestOrderModel>> getTestOrdersByPatient(String patientId) async {
+    final patientRef = _firestore.collection('patients').doc(patientId);
+    final snapshot = await _firestore
+        .collection('test_orders')
+        .where('patient_id', isEqualTo: patientRef)
+        .orderBy('created_at', descending: true)
+        .get();
+
+    return snapshot.docs
+        .map((doc) => TestOrderModel.fromFirestore(doc))
+        .toList();
+  }
+
+  @override
+  Future<void> updateOrderSpecialist(String orderId, String specialistId) async {
+    final specialistRef = _firestore.collection('users').doc(specialistId);
+    await _firestore.collection('test_orders').doc(orderId).update({
+      'specialist_id': specialistRef,
+      'updated_at': FieldValue.serverTimestamp(),
     });
   }
 }

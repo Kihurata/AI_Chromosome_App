@@ -1,0 +1,161 @@
+{
+  "taskId": "fsnb6s",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "fsnb6s",
+      "version": 1,
+      "timestamp": "2026-05-07T06:58:41.5439701Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Refactor AppDashboardFilterBar to improve visual alignment, color visibility, and responsive width. \n1. Match Filter button height with Search input field.\n2. Shrink Filter button width (adjust flex ratio).\n3. Change Filter button color to clinical blue.\n4. Ensure consistent styling (border radius, padding).",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Optimize Search and Filter Bar UI"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "fsnb6s",
+      "version": 2,
+      "timestamp": "2026-05-07T06:58:46.1249272Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Refactor AppDashboardFilterBar to improve visual alignment, color visibility, and responsive width. \n1. Match Filter button height with Search input field.\n2. Shrink Filter button width (adjust flex ratio).\n3. Change Filter button color to clinical blue.\n4. Ensure consistent styling (border radius, padding).",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Optimize Search and Filter Bar UI"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "fsnb6s",
+      "version": 3,
+      "timestamp": "2026-05-07T06:58:53.4754395Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Filter button height matches Search input field exactly."
+            },
+            {
+              "completed": false,
+              "text": "Filter button width is reduced (flex ratio 8.5:1.5 or 9:1)."
+            },
+            {
+              "completed": false,
+              "text": "Filter button uses AppColors.primaryBlue and follows design system."
+            },
+            {
+              "completed": false,
+              "text": "Active filter state is visually indicated (optional but recommended)."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Modify `AppDashboardFilterBar` in `lib/presentation/widgets/shared/form/dashboard_filter_bar.dart`:\n   - Wrap Row content in `IntrinsicHeight` to allow button to match input height.\n   - Adjust `flex` ratio of Search Input vs Filter Button (e.g., 85/15 or 90/10).\n   - Pass a custom `backgroundColor` and `textColor` to `AppSecondaryButton` to achieve the blue look, or switch to `AppPrimaryButton` with adjusted padding.\n2. Update `AppSecondaryButton` style in `lib/presentation/widgets/shared/form/app_buttons.dart` if necessary to support flexible heights/colors.\n3. Verify visual alignment and responsiveness on various screen widths."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Filter button height matches Search input field exactly."
+          },
+          {
+            "completed": false,
+            "text": "Filter button width is reduced (flex ratio 8.5:1.5 or 9:1)."
+          },
+          {
+            "completed": false,
+            "text": "Filter button uses AppColors.primaryBlue and follows design system."
+          },
+          {
+            "completed": false,
+            "text": "Active filter state is visually indicated (optional but recommended)."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Refactor AppDashboardFilterBar to improve visual alignment, color visibility, and responsive width. \n1. Match Filter button height with Search input field.\n2. Shrink Filter button width (adjust flex ratio).\n3. Change Filter button color to clinical blue.\n4. Ensure consistent styling (border radius, padding).",
+        "implementationPlan": "1. Modify `AppDashboardFilterBar` in `lib/presentation/widgets/shared/form/dashboard_filter_bar.dart`:\n   - Wrap Row content in `IntrinsicHeight` to allow button to match input height.\n   - Adjust `flex` ratio of Search Input vs Filter Button (e.g., 85/15 or 90/10).\n   - Pass a custom `backgroundColor` and `textColor` to `AppSecondaryButton` to achieve the blue look, or switch to `AppPrimaryButton` with adjusted padding.\n2. Update `AppSecondaryButton` style in `lib/presentation/widgets/shared/form/app_buttons.dart` if necessary to support flexible heights/colors.\n3. Verify visual alignment and responsiveness on various screen widths.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Optimize Search and Filter Bar UI"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "fsnb6s",
+      "version": 4,
+      "timestamp": "2026-05-07T07:00:55.0882662Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented UI optimizations for search and filter bar. Match heights using IntrinsicHeight, reduced button width, applied primary blue color, and added active filter badge."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Filter button height matches Search input field exactly.",
+            "completed": true
+          },
+          {
+            "text": "Filter button width is reduced (flex ratio 8.5:1.5 or 9:1).",
+            "completed": true
+          },
+          {
+            "text": "Filter button uses AppColors.primaryBlue and follows design system.",
+            "completed": true
+          },
+          {
+            "text": "Active filter state is visually indicated (optional but recommended).",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Refactor AppDashboardFilterBar to improve visual alignment, color visibility, and responsive width. \n1. Match Filter button height with Search input field.\n2. Shrink Filter button width (adjust flex ratio).\n3. Change Filter button color to clinical blue.\n4. Ensure consistent styling (border radius, padding).",
+        "implementationNotes": "Implemented UI optimizations for search and filter bar. Match heights using IntrinsicHeight, reduced button width, applied primary blue color, and added active filter badge.",
+        "implementationPlan": "1. Modify `AppDashboardFilterBar` in `lib/presentation/widgets/shared/form/dashboard_filter_bar.dart`:\n   - Wrap Row content in `IntrinsicHeight` to allow button to match input height.\n   - Adjust `flex` ratio of Search Input vs Filter Button (e.g., 85/15 or 90/10).\n   - Pass a custom `backgroundColor` and `textColor` to `AppSecondaryButton` to achieve the blue look, or switch to `AppPrimaryButton` with adjusted padding.\n2. Update `AppSecondaryButton` style in `lib/presentation/widgets/shared/form/app_buttons.dart` if necessary to support flexible heights/colors.\n3. Verify visual alignment and responsiveness on various screen widths.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Optimize Search and Filter Bar UI"
+      }
+    }
+  ]
+}

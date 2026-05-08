@@ -9,6 +9,8 @@ abstract class PatientRemoteDataSource {
   Future<void> updatePatient(PatientModel patient);
   Future<PatientModel> getPatientById(String id);
   Future<PatientModel?> checkDuplicatePatient({String? identityCard, String? phone});
+  Future<PatientModel> getPatientByCode(String code);
+  Stream<List<PatientModel>> watchPatients();
 }
 
 @LazySingleton(as: PatientRemoteDataSource)
@@ -89,5 +91,32 @@ class PatientRemoteDataSourceImpl implements PatientRemoteDataSource {
     } catch (e) {
       throw ServerException(message: "Lỗi kiểm tra trùng lặp bệnh nhân");
     }
+  }
+
+  @override
+  Future<PatientModel> getPatientByCode(String code) async {
+    try {
+      final snap = await firestore
+          .collection('patients')
+          .where('patient_code', isEqualTo: code)
+          .limit(1)
+          .get();
+      if (snap.docs.isEmpty) {
+        throw ServerException(message: "Không tìm thấy bệnh nhân với mã $code");
+      }
+      return PatientModel.fromFirestore(snap.docs.first);
+    } catch (e) {
+      throw ServerException(message: "Lỗi khi lấy thông tin bệnh nhân qua mã");
+    }
+  }
+
+  @override
+  Stream<List<PatientModel>> watchPatients() {
+    return firestore
+        .collection('patients')
+        .orderBy('created_at', descending: true)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => PatientModel.fromFirestore(doc)).toList());
   }
 }

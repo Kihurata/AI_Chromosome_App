@@ -1,0 +1,75 @@
+{
+  "taskId": "9219v8",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "9219v8",
+      "version": 1,
+      "timestamp": "2026-05-07T20:14:51.7831998Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "in-progress"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Change sorting field from 'created_at' to 'collected_at' in SampleRemoteDataSource to match Firestore schema and fix empty list issue. Add error handling to SampleManagementPage.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Fix Sample Management Data Loading"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "9219v8",
+      "version": 2,
+      "timestamp": "2026-05-07T20:17:10.7419304Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Fixed sample data loading by changing 'created_at' to 'collected_at' in Firestore queries. Added error handling and retry UI to SampleManagementPage. Verified with dart analyze."
+        }
+      ],
+      "snapshot": {
+        "description": "Change sorting field from 'created_at' to 'collected_at' in SampleRemoteDataSource to match Firestore schema and fix empty list issue. Add error handling to SampleManagementPage.",
+        "implementationNotes": "Fixed sample data loading by changing 'created_at' to 'collected_at' in Firestore queries. Added error handling and retry UI to SampleManagementPage. Verified with dart analyze.",
+        "priority": "high",
+        "status": "done",
+        "title": "Fix Sample Management Data Loading"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "9219v8",
+      "version": 3,
+      "timestamp": "2026-05-07T20:27:44.7468939Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": "Fixed sample data loading by changing 'created_at' to 'collected_at' in Firestore queries. Added error handling and retry UI to SampleManagementPage. Verified with dart analyze.",
+          "newValue": "Fixed sample data loading by changing 'created_at' to 'collected_at' in Firestore queries. Added error handling and retry UI to SampleManagementPage. Verified with dart analyze.\n🐛 Debug: Fixed TypeError in SampleModel.fromFirestore by safely handling both String and DocumentReference for ID fields. This resolves the crash when encountering inconsistent data types in Firestore."
+        }
+      ],
+      "snapshot": {
+        "description": "Change sorting field from 'created_at' to 'collected_at' in SampleRemoteDataSource to match Firestore schema and fix empty list issue. Add error handling to SampleManagementPage.",
+        "implementationNotes": "Fixed sample data loading by changing 'created_at' to 'collected_at' in Firestore queries. Added error handling and retry UI to SampleManagementPage. Verified with dart analyze.\n🐛 Debug: Fixed TypeError in SampleModel.fromFirestore by safely handling both String and DocumentReference for ID fields. This resolves the crash when encountering inconsistent data types in Firestore.",
+        "priority": "high",
+        "status": "done",
+        "title": "Fix Sample Management Data Loading"
+      }
+    }
+  ]
+}

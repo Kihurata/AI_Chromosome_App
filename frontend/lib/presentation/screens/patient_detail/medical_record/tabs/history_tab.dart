@@ -1,32 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:medcore_crm/core/theme/app_colors.dart';
-import 'package:medcore_crm/logic/bloc/clinician/examination_cubit.dart';
-import 'package:medcore_crm/logic/bloc/clinician/examination_state.dart';
-import 'package:medcore_crm/domain/entities/examination.dart';
+import '../../../../../core/theme/app_colors.dart';
+import '../../../../../core/providers/drawer_provider.dart';
+import '../../../../../core/models/filter_options.dart';
+import '../../../../../logic/bloc/clinician/examination_cubit.dart';
+import '../../../../../logic/bloc/clinician/examination_state.dart';
+import '../../../../../domain/entities/examination.dart';
+import '../../../../widgets/shared/form/dashboard_filter_bar.dart';
+import '../../../../widgets/shared/filter/advanced_filter_drawer.dart';
 import 'package:intl/intl.dart';
 
-class HistoryTab extends StatefulWidget {
+class HistoryTab extends ConsumerStatefulWidget {
   final String patientId;
   const HistoryTab({super.key, required this.patientId});
 
   @override
-  State<HistoryTab> createState() => _HistoryTabState();
+  ConsumerState<HistoryTab> createState() => _HistoryTabState();
 }
 
-class _HistoryTabState extends State<HistoryTab> {
+class _HistoryTabState extends ConsumerState<HistoryTab> {
   final List<bool> _isExpanded = [];
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ExaminationCubit>().loadExaminationsByPatient(widget.patientId);
+      if (!mounted) return;
+      final cubit = context.read<ExaminationCubit>();
+      cubit.loadExaminations(widget.patientId);
+      _registerDrawer(ref, cubit);
     });
   }
+
+  @override
+  void dispose() {
+    // Clear global drawer when leaving the page
+    ref.read(drawerProvider.notifier).clear();
+    super.dispose();
+  }
+
+  bool _isDrawerRegistered = false;
+
+  void _registerDrawer(WidgetRef ref, ExaminationCubit cubit) {
+    if (_isDrawerRegistered) return;
+    _isDrawerRegistered = true;
+
+    ref.read(drawerProvider.notifier).update(
+          endDrawer: BlocProvider.value(
+            value: cubit,
+            child: BlocBuilder<ExaminationCubit, ExaminationState>(
+              buildWhen: (p, c) {
+                if (p is ExaminationLoaded && c is ExaminationLoaded) {
+                  return p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset;
+                }
+                return false;
+              },
+              builder: (context, state) {
+                if (state is! ExaminationLoaded) return const SizedBox();
+                return AppAdvancedFilterDrawer(
+                  currentSortOrder: state.sortOrder,
+                  onSortOrderChanged: (sort) => cubit.updateFilters(sortOrder: sort),
+                  currentDateRange: state.dateRangePreset,
+                  onDateRangeChanged: (range) => cubit.updateFilters(dateRangePreset: range),
+                  onApply: () {},
+                  onClear: () => cubit.updateFilters(
+                    searchQuery: '',
+                    sortOrder: AppSortOrder.newest,
+                    dateRangePreset: AppDateRangePreset.all,
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ExaminationCubit>();
+
     return BlocBuilder<ExaminationCubit, ExaminationState>(
       builder: (context, state) {
         if (state is ExaminationLoading) {
@@ -34,18 +88,15 @@ class _HistoryTabState extends State<HistoryTab> {
         }
 
         List<Examination> examinations = [];
-        if (state is ExaminationLoaded) {
-          examinations = state.examinations.where((e) => e.patientId == widget.patientId).toList();
+        final loadedState = state is ExaminationLoaded ? state : null;
+        if (loadedState != null) {
+          examinations = loadedState.filteredExaminations;
           
           // Initialize expanded states if needed
           if (_isExpanded.length != examinations.length) {
             _isExpanded.clear();
             _isExpanded.addAll(List.generate(examinations.length, (index) => index == 0));
           }
-        }
-
-        if (examinations.isEmpty) {
-          return _buildEmptyState();
         }
 
         return Column(
@@ -78,17 +129,30 @@ class _HistoryTabState extends State<HistoryTab> {
                 ),
               ],
             ),
+            const SizedBox(height: 24),
+
+            // Filter Bar
+            AppDashboardFilterBar(
+              searchHint: 'Tìm kiếm theo chẩn đoán, triệu chứng...',
+              initialSearchValue: loadedState?.searchQuery ?? '',
+              onSearchChanged: (v) => cubit.setSearchQuery(v),
+              onFilterPressed: () => Scaffold.of(context).openEndDrawer(),
+              hasActiveFilters: loadedState?.dateRangePreset != AppDateRangePreset.all,
+            ),
             const SizedBox(height: 32),
             
             // Timeline List
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: examinations.length,
-              itemBuilder: (context, index) {
-                return _buildTimelineItem(examinations[index], index);
-              },
-            ),
+            if (examinations.isEmpty) 
+              _buildEmptyState()
+            else
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: examinations.length,
+                itemBuilder: (context, index) {
+                  return _buildTimelineItem(examinations[index], index);
+                },
+              ),
           ],
         );
       },
@@ -353,10 +417,11 @@ class _HistoryTabState extends State<HistoryTab> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(height: 48),
           Icon(LucideIcons.history, size: 64, color: AppColors.border.withValues(alpha: 0.5)),
           const SizedBox(height: 16),
           const Text(
-            'Chưa có lịch sử khám bệnh',
+            'Chưa có lịch sử khám bệnh phù hợp',
             style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
           ),
         ],

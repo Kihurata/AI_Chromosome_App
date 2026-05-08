@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../domain/entities/test_order.dart';
-import '../../../../logic/bloc/specialist/specialist_dashboard_cubit.dart';
-import 'package:medcore_crm/presentation/widgets/shared/form/app_buttons.dart';
+import '../../../widgets/shared/form/app_buttons.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class SpecialistOrderCard extends StatelessWidget {
@@ -143,9 +141,23 @@ class SpecialistOrderCard extends StatelessWidget {
   Widget _buildActionButton(BuildContext context) {
     if (order.status == TestOrderStatus.pending) {
       return AppPrimaryButton(
-        text: 'Bắt đầu phân tích',
-        icon: LucideIcons.play,
-        onPressed: () => _showStartAnalysisConfirm(context),
+        text: 'Tạo Mẫu',
+        icon: LucideIcons.flaskConical,
+        onPressed: () {
+          context.pushNamed(
+            'specialist-sample-detail',
+            pathParameters: {'id': order.id},
+          );
+        },
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      );
+    }
+
+    if (order.status == TestOrderStatus.culturing) {
+      return AppSecondaryButton(
+        text: 'Đang xử lý mẫu',
+        icon: LucideIcons.loader,
+        onPressed: null, // Disabled
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       );
     }
@@ -195,7 +207,6 @@ class SpecialistOrderCard extends StatelessWidget {
       ),
     );
   }
-
   // Placeholder: map status to a test type label (real data would come from order entity)
   String _getTestTypeName(TestOrderStatus status) {
     switch (status) {

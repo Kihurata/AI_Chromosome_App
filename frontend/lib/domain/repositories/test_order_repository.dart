@@ -7,6 +7,9 @@ abstract class TestOrderRepository {
   Future<Either<Failure, List<TestOrder>>> getTestOrdersByClinician(
     String clinicianId,
   );
+  Future<Either<Failure, List<TestOrder>>> getTestOrdersByPatient(
+    String patientId,
+  );
   Future<Either<Failure, List<TestOrder>>> getAllPendingOrders();
   Future<Either<Failure, void>> updateOrderStatus(
     String orderId,
@@ -21,4 +24,6 @@ abstract class TestOrderRepository {
     String specialistId,
   );
   Stream<Either<Failure, List<TestOrder>>> watchAllOrders();
+  Stream<Either<Failure, List<TestOrder>>> watchTestOrdersByPatient(String patientId);
+  Future<Either<Failure, void>> updateOrderSpecialist(String orderId, String specialistId);
 }

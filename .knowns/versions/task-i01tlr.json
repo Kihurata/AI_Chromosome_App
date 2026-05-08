@@ -1,0 +1,103 @@
+{
+  "taskId": "i01tlr",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "i01tlr",
+      "version": 1,
+      "timestamp": "2026-05-07T04:00:02.7609677Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "1. Dashboard: Xóa các nút lọc trạng thái, sắp xếp danh sách phiếu xét nghiệm mới nhất lên đầu.\n2. Quản lý Mẫu: Thêm nút 'Bắt đầu Phân tích' khi mẫu ở trạng thái 'Thu hoạch thành công'. Nút này sẽ cập nhật trạng thái phiếu xét nghiệm sang 'Đang phân tích' và điều hướng tới trang Workspace.\nLưu ý: Không chỉnh sửa thêm các phần khác ngoài yêu cầu.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Refactor Specialist UI: Dashboard Cleanup and Sample Analysis Trigger"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "i01tlr",
+      "version": 2,
+      "timestamp": "2026-05-07T04:00:09.0980937Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "1. Dashboard: Xóa các nút lọc trạng thái, sắp xếp danh sách phiếu xét nghiệm mới nhất lên đầu.\n2. Quản lý Mẫu: Thêm nút 'Bắt đầu Phân tích' khi mẫu ở trạng thái 'Thu hoạch thành công'. Nút này sẽ cập nhật trạng thái phiếu xét nghiệm sang 'Đang phân tích' và điều hướng tới trang Workspace.\nLưu ý: Không chỉnh sửa thêm các phần khác ngoài yêu cầu.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Specialist UI: Dashboard Cleanup and Sample Analysis Trigger"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "i01tlr",
+      "version": 3,
+      "timestamp": "2026-05-07T04:00:31.9530577Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan: Refactor Specialist UI (Task i01tlr)\n\n### 1. Dashboard: Cleanup \u0026 Sorting\n- **File**: `frontend/lib/presentation/screens/specialist/widgets/specialist_filter_bar.dart`\n    - Xóa widget `Wrap` chứa các chip lọc.\n- **File**: `frontend/lib/logic/bloc/specialist/specialist_dashboard_cubit.dart`\n    - Cập nhật `_applyFilters` để thực hiện `sort` danh sách theo `createdAt` giảm dần.\n\n### 2. Sample Management: Analysis Trigger\n- **File**: `frontend/lib/logic/bloc/specialist/sample_management_state.dart`\n    - Thêm field `lastStartedOrderId` và logic `copyWith` tương ứng.\n- **File**: `frontend/lib/logic/bloc/specialist/sample_management_cubit.dart`\n    - Inject usecase `UpdateOrderStatus`.\n    - Thêm method `startAnalysis(String orderId)`.\n- **File**: `frontend/lib/presentation/screens/specialist/widgets/sample_card.dart`\n    - Thêm nút 'Bắt đầu Phân tích' cho trạng thái `harvested`.\n- **File**: `frontend/lib/presentation/screens/specialist/sample_management_page.dart`\n    - Thêm `BlocListener` để xử lý điều hướng khi `lastStartedOrderId` có dữ liệu.\n\n### 3. Verification\n- Chạy `flutter analyze`.\n- Kiểm tra tính đúng đắn của UI và luồng điều hướng."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "1. Dashboard: Xóa các nút lọc trạng thái, sắp xếp danh sách phiếu xét nghiệm mới nhất lên đầu.\n2. Quản lý Mẫu: Thêm nút 'Bắt đầu Phân tích' khi mẫu ở trạng thái 'Thu hoạch thành công'. Nút này sẽ cập nhật trạng thái phiếu xét nghiệm sang 'Đang phân tích' và điều hướng tới trang Workspace.\nLưu ý: Không chỉnh sửa thêm các phần khác ngoài yêu cầu.",
+        "implementationPlan": "## Implementation Plan: Refactor Specialist UI (Task i01tlr)\n\n### 1. Dashboard: Cleanup \u0026 Sorting\n- **File**: `frontend/lib/presentation/screens/specialist/widgets/specialist_filter_bar.dart`\n    - Xóa widget `Wrap` chứa các chip lọc.\n- **File**: `frontend/lib/logic/bloc/specialist/specialist_dashboard_cubit.dart`\n    - Cập nhật `_applyFilters` để thực hiện `sort` danh sách theo `createdAt` giảm dần.\n\n### 2. Sample Management: Analysis Trigger\n- **File**: `frontend/lib/logic/bloc/specialist/sample_management_state.dart`\n    - Thêm field `lastStartedOrderId` và logic `copyWith` tương ứng.\n- **File**: `frontend/lib/logic/bloc/specialist/sample_management_cubit.dart`\n    - Inject usecase `UpdateOrderStatus`.\n    - Thêm method `startAnalysis(String orderId)`.\n- **File**: `frontend/lib/presentation/screens/specialist/widgets/sample_card.dart`\n    - Thêm nút 'Bắt đầu Phân tích' cho trạng thái `harvested`.\n- **File**: `frontend/lib/presentation/screens/specialist/sample_management_page.dart`\n    - Thêm `BlocListener` để xử lý điều hướng khi `lastStartedOrderId` có dữ liệu.\n\n### 3. Verification\n- Chạy `flutter analyze`.\n- Kiểm tra tính đúng đắn của UI và luồng điều hướng.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Refactor Specialist UI: Dashboard Cleanup and Sample Analysis Trigger"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "i01tlr",
+      "version": 4,
+      "timestamp": "2026-05-07T04:10:17.6992376Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Hoàn tất refactor giao diện Specialist theo yêu cầu:\n1. Dashboard: Xóa các nút lọc trạng thái, chỉ giữ lại thanh tìm kiếm. Cập nhật logic sắp xếp danh sách phiếu xét nghiệm theo thời gian (mới nhất lên đầu).\n2. Quản lý Mẫu: Thêm nút 'Bắt đầu Phân tích' khi mẫu ở trạng thái 'Thu hoạch thành công'. Khi bấm nút, hệ thống sẽ cập nhật trạng thái phiếu xét nghiệm sang 'Đang phân tích' và tự động điều hướng tới trang Workspace phân tích.\n3. Đã cập nhật Dependency Injection (build_runner) và kiểm tra lỗi bằng flutter analyze (No issues found)."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "1. Dashboard: Xóa các nút lọc trạng thái, sắp xếp danh sách phiếu xét nghiệm mới nhất lên đầu.\n2. Quản lý Mẫu: Thêm nút 'Bắt đầu Phân tích' khi mẫu ở trạng thái 'Thu hoạch thành công'. Nút này sẽ cập nhật trạng thái phiếu xét nghiệm sang 'Đang phân tích' và điều hướng tới trang Workspace.\nLưu ý: Không chỉnh sửa thêm các phần khác ngoài yêu cầu.",
+        "implementationNotes": "Hoàn tất refactor giao diện Specialist theo yêu cầu:\n1. Dashboard: Xóa các nút lọc trạng thái, chỉ giữ lại thanh tìm kiếm. Cập nhật logic sắp xếp danh sách phiếu xét nghiệm theo thời gian (mới nhất lên đầu).\n2. Quản lý Mẫu: Thêm nút 'Bắt đầu Phân tích' khi mẫu ở trạng thái 'Thu hoạch thành công'. Khi bấm nút, hệ thống sẽ cập nhật trạng thái phiếu xét nghiệm sang 'Đang phân tích' và tự động điều hướng tới trang Workspace phân tích.\n3. Đã cập nhật Dependency Injection (build_runner) và kiểm tra lỗi bằng flutter analyze (No issues found).",
+        "implementationPlan": "## Implementation Plan: Refactor Specialist UI (Task i01tlr)\n\n### 1. Dashboard: Cleanup \u0026 Sorting\n- **File**: `frontend/lib/presentation/screens/specialist/widgets/specialist_filter_bar.dart`\n    - Xóa widget `Wrap` chứa các chip lọc.\n- **File**: `frontend/lib/logic/bloc/specialist/specialist_dashboard_cubit.dart`\n    - Cập nhật `_applyFilters` để thực hiện `sort` danh sách theo `createdAt` giảm dần.\n\n### 2. Sample Management: Analysis Trigger\n- **File**: `frontend/lib/logic/bloc/specialist/sample_management_state.dart`\n    - Thêm field `lastStartedOrderId` và logic `copyWith` tương ứng.\n- **File**: `frontend/lib/logic/bloc/specialist/sample_management_cubit.dart`\n    - Inject usecase `UpdateOrderStatus`.\n    - Thêm method `startAnalysis(String orderId)`.\n- **File**: `frontend/lib/presentation/screens/specialist/widgets/sample_card.dart`\n    - Thêm nút 'Bắt đầu Phân tích' cho trạng thái `harvested`.\n- **File**: `frontend/lib/presentation/screens/specialist/sample_management_page.dart`\n    - Thêm `BlocListener` để xử lý điều hướng khi `lastStartedOrderId` có dữ liệu.\n\n### 3. Verification\n- Chạy `flutter analyze`.\n- Kiểm tra tính đúng đắn của UI và luồng điều hướng.",
+        "priority": "high",
+        "status": "done",
+        "title": "Refactor Specialist UI: Dashboard Cleanup and Sample Analysis Trigger"
+      }
+    }
+  ]
+}

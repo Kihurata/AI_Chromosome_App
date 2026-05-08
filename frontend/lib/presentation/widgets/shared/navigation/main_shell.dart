@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/providers/drawer_provider.dart';
 import 'app_header.dart';
 import 'app_side_rail.dart';
 
-class MainShell extends StatelessWidget {
+class MainShell extends ConsumerWidget {
   final Widget child;
 
   const MainShell({
@@ -11,9 +13,12 @@ class MainShell extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final drawerState = ref.watch(drawerProvider);
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
+      endDrawer: drawerState.endDrawer,
       body: Row(
         children: [
           // Left: Side Rail

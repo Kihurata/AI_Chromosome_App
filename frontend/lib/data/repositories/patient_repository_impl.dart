@@ -80,4 +80,23 @@ class PatientRepositoryImpl implements PatientRepository {
       return const Left(ServerFailure('Lỗi kiểm tra trùng lặp bệnh nhân'));
     }
   }
+
+  @override
+  Future<Either<Failure, Patient>> getPatientByCode(String code) async {
+    try {
+      final patient = await remoteDataSource.getPatientByCode(code);
+      return Right(patient);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } catch (e) {
+      return const Left(ServerFailure('Lỗi khi lấy thông tin bệnh nhân qua mã'));
+    }
+  }
+
+  @override
+  Stream<Either<Failure, List<Patient>>> watchPatients() {
+    return remoteDataSource.watchPatients().map(
+          (patients) => Right<Failure, List<Patient>>(patients),
+        );
+  }
 }

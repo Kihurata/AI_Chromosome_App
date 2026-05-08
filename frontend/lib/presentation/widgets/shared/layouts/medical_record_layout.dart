@@ -32,6 +32,7 @@ class MedicalRecordLayout extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Dynamically update the global AppHeader in MainShell
     Future.microtask(() {
+      if (!context.mounted) return;
       ref.read(headerProvider.notifier).update(
         title: title,
         actions: headerAction != null ? [headerAction!] : null,

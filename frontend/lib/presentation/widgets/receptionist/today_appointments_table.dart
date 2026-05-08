@@ -157,7 +157,9 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
                 );
               }
 
-              if (state is AppointmentLoaded && state.appointments.isEmpty) {
+              final appointments = state is AppointmentLoaded ? state.filteredAppointments : <Appointment>[];
+              
+              if (appointments.isEmpty) {
                 return const Padding(
                   padding: EdgeInsets.all(48.0),
                   child: Center(
@@ -165,14 +167,13 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
                       children: [
                         Icon(LucideIcons.calendarX, size: 48, color: AppColors.textPlaceholder),
                         SizedBox(height: 16),
-                        Text('Không có lịch hẹn nào cho hôm nay', style: TextStyle(color: AppColors.textSecondary)),
+                        Text('Không có lịch hẹn nào phù hợp', style: TextStyle(color: AppColors.textSecondary)),
                       ],
                     ),
                   ),
                 );
               }
 
-              final appointments = state is AppointmentLoaded ? state.appointments : <Appointment>[];
               return Column(
                 children: List.generate(appointments.length, (index) {
                   final appt = appointments[index];
@@ -201,11 +202,11 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
             decoration: const BoxDecoration(border: Border(top: BorderSide(color: AppColors.border))),
             child: BlocBuilder<AppointmentCubit, AppointmentState>(
               builder: (context, state) {
-                final count = state is AppointmentLoaded ? state.appointments.length : 0;
+                final count = state is AppointmentLoaded ? state.filteredAppointments.length : 0;
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Hiển thị $count lịch hẹn cho hôm nay', style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
+                    Text('Hiển thị $count lịch hẹn phù hợp', style: const TextStyle(color: AppColors.textSecondary, fontSize: 13)),
                     Row(
                       children: [
                         _paginationBtn('Trước', enabled: false),

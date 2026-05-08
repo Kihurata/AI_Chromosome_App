@@ -66,8 +66,8 @@ class _ClinicianExaminationFormPageState
     if (state is PatientDetailLoaded) {
       return state.patient.id ?? '';
     }
-    if (state is PatientLoaded && state.patients.isNotEmpty) {
-      return state.patients.first.id ?? '';
+    if (state is PatientLoaded && state.filteredPatients.isNotEmpty) {
+      return state.filteredPatients.first.id ?? '';
     }
     return '';
   }
@@ -139,6 +139,7 @@ class _ClinicianExaminationFormPageState
   Widget build(BuildContext context) {
     return BlocListener<ExaminationCubit, ExaminationState>(
       listener: (context, state) {
+        if (!mounted) return;
         if (state is ExaminationError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(state.message), backgroundColor: Colors.red),
@@ -147,7 +148,7 @@ class _ClinicianExaminationFormPageState
       },
       child: MainFormLayout(
         title: 'PHIẾU KHÁM BỆNH',
-        subtitle: 'Mã lịch hẹn: #${widget.id.substring(0, 8).toUpperCase()}',
+        subtitle: 'Mã lịch hẹn: #${widget.id.length > 8 ? widget.id.substring(0, 8).toUpperCase() : widget.id.toUpperCase()}',
         showBackButton: false,
         child: Padding(
           padding: const EdgeInsets.all(32),

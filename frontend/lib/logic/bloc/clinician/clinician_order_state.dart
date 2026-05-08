@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import '../../../domain/entities/test_order.dart';
+import '../../../../core/models/filter_options.dart';
 
 abstract class ClinicianOrderState extends Equatable {
   const ClinicianOrderState();
@@ -13,12 +14,44 @@ class ClinicianOrderInitial extends ClinicianOrderState {}
 class ClinicianOrderLoading extends ClinicianOrderState {}
 
 class TestOrdersLoaded extends ClinicianOrderState {
-  final List<TestOrder> testOrders;
+  final List<TestOrder> allOrders;
+  final List<TestOrder> filteredOrders;
+  final String searchQuery;
+  final AppSortOrder sortOrder;
+  final AppDateRangePreset dateRangePreset;
 
-  const TestOrdersLoaded(this.testOrders);
+  const TestOrdersLoaded({
+    required this.allOrders,
+    required this.filteredOrders,
+    this.searchQuery = '',
+    this.sortOrder = AppSortOrder.newest,
+    this.dateRangePreset = AppDateRangePreset.all,
+  });
+
+  TestOrdersLoaded copyWith({
+    List<TestOrder>? allOrders,
+    List<TestOrder>? filteredOrders,
+    String? searchQuery,
+    AppSortOrder? sortOrder,
+    AppDateRangePreset? dateRangePreset,
+  }) {
+    return TestOrdersLoaded(
+      allOrders: allOrders ?? this.allOrders,
+      filteredOrders: filteredOrders ?? this.filteredOrders,
+      searchQuery: searchQuery ?? this.searchQuery,
+      sortOrder: sortOrder ?? this.sortOrder,
+      dateRangePreset: dateRangePreset ?? this.dateRangePreset,
+    );
+  }
 
   @override
-  List<Object?> get props => [testOrders];
+  List<Object?> get props => [
+        allOrders,
+        filteredOrders,
+        searchQuery,
+        sortOrder,
+        dateRangePreset,
+      ];
 }
 
 class ClinicianOrderSuccess extends ClinicianOrderState {

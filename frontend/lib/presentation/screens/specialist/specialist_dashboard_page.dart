@@ -6,10 +6,13 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/providers/auth_provider.dart';
+import '../../../../core/providers/drawer_provider.dart';
+import '../../../../core/models/filter_options.dart';
 import '../../../logic/bloc/specialist/specialist_dashboard_cubit.dart';
 import '../../../logic/bloc/specialist/specialist_dashboard_state.dart';
 import '../../../logic/bloc/notification/notification_cubit.dart';
 import '../../widgets/shared/layouts/main_list_layout.dart';
+import '../../widgets/shared/filter/advanced_filter_drawer.dart';
 import 'widgets/specialist_bento_stats.dart';
 import 'widgets/specialist_filter_bar.dart';
 import 'widgets/specialist_order_list.dart';
@@ -26,6 +29,7 @@ class SpecialistDashboardPage extends ConsumerStatefulWidget {
 class _SpecialistDashboardPageState
     extends ConsumerState<SpecialistDashboardPage> {
   late final SpecialistDashboardCubit _cubit;
+  bool _isDrawerRegistered = false;
 
   @override
   void initState() {
@@ -33,15 +37,60 @@ class _SpecialistDashboardPageState
     _cubit = getIt<SpecialistDashboardCubit>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      
       final authState = ref.read(authNotifierProvider);
       if (authState.user?.uid != null) {
         _cubit.loadOrders(authState.user!.uid);
       }
+      
+      _registerDrawer(ref);
     });
+  }
+
+  void _registerDrawer(WidgetRef ref) {
+    if (_isDrawerRegistered) return;
+    _isDrawerRegistered = true;
+    
+    ref.read(drawerProvider.notifier).update(
+          endDrawer: BlocProvider.value(
+            value: _cubit,
+            child: BlocBuilder<SpecialistDashboardCubit, SpecialistDashboardState>(
+              buildWhen: (p, c) => p.sortOrder != c.sortOrder || p.dateRangePreset != c.dateRangePreset,
+              builder: (context, state) {
+                return AppAdvancedFilterDrawer(
+                  currentSortOrder: state.sortOrder,
+                  onSortOrderChanged: (sort) => _cubit.updateFilters(sortOrder: sort),
+                  currentDateRange: state.dateRangePreset,
+                  onDateRangeChanged: (range) => _cubit.updateFilters(dateRangePreset: range),
+                  onApply: () {},
+                  onClear: () => _cubit.updateFilters(
+                    searchKeyword: '',
+                    clearStatusFilter: true,
+                    sortOrder: AppSortOrder.newest,
+                    dateRangePreset: AppDateRangePreset.all,
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+  }
+
+  late ProviderContainer _container;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _container = ProviderScope.containerOf(context);
   }
 
   @override
   void dispose() {
+    FocusScope.of(context).unfocus();
+    Future.microtask(() {
+      _container.read(drawerProvider.notifier).clear();
+    });
     _cubit.close();
     super.dispose();
   }
@@ -58,6 +107,7 @@ class _SpecialistDashboardPageState
             listenWhen: (previous, current) => current.lastStartedOrderId != null,
             listener: (context, state) {
               if (state.lastStartedOrderId != null) {
+                if (!context.mounted) return;
                 final orderId = state.lastStartedOrderId!;
                 _cubit.clearNavigation();
                 context.push('${AppRoutes.specialistAnalysis}/$orderId');
@@ -118,6 +168,7 @@ class _SpecialistDashboardPageState
                 }
 
                 return Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SpecialistBentoStats(stats: state.stats),

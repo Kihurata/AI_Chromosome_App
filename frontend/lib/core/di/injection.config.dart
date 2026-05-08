@@ -17,12 +17,14 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
 import '../../data/datasources/appointment_remote_datasource.dart' as _i294;
+import '../../data/datasources/clinician_remote_datasource.dart' as _i319;
 import '../../data/datasources/examination_remote_datasource.dart' as _i851;
 import '../../data/datasources/patient_remote_datasource.dart' as _i940;
 import '../../data/datasources/sample_remote_datasource.dart' as _i629;
 import '../../data/datasources/specialist_remote_datasource.dart' as _i215;
 import '../../data/datasources/test_order_remote_datasource.dart' as _i221;
 import '../../data/repositories/appointment_repository_impl.dart' as _i310;
+import '../../data/repositories/clinician_repository_impl.dart' as _i86;
 import '../../data/repositories/examination_repository_impl.dart' as _i996;
 import '../../data/repositories/image_storage_repository_impl.dart' as _i644;
 import '../../data/repositories/patient_repository_impl.dart' as _i308;
@@ -31,6 +33,7 @@ import '../../data/repositories/specialist_repository_impl.dart' as _i343;
 import '../../data/repositories/test_order_repository_impl.dart' as _i713;
 import '../../data/repositories/workspace_repository_impl.dart' as _i964;
 import '../../domain/repositories/appointment_repository.dart' as _i53;
+import '../../domain/repositories/clinician_repository.dart' as _i933;
 import '../../domain/repositories/examination_repository.dart' as _i193;
 import '../../domain/repositories/image_storage_repository.dart' as _i970;
 import '../../domain/repositories/patient_repository.dart' as _i467;
@@ -38,17 +41,32 @@ import '../../domain/repositories/sample_repository.dart' as _i643;
 import '../../domain/repositories/specialist_repository.dart' as _i121;
 import '../../domain/repositories/test_order_repository.dart' as _i655;
 import '../../domain/repositories/workspace_repository.dart' as _i77;
+import '../../domain/usecases/appointment/create_appointment.dart' as _i910;
+import '../../domain/usecases/appointment/get_appointments_in_range.dart'
+    as _i501;
+import '../../domain/usecases/appointment/get_today_appointments.dart' as _i563;
 import '../../domain/usecases/appointment/update_appointment_status.dart'
     as _i379;
+import '../../domain/usecases/appointment/watch_today_appointments.dart'
+    as _i914;
 import '../../domain/usecases/clinician/create_examination.dart' as _i70;
+import '../../domain/usecases/clinician/create_test_order.dart' as _i374;
+import '../../domain/usecases/clinician/get_clinicians.dart' as _i254;
 import '../../domain/usecases/clinician/get_examinations_by_patient.dart'
     as _i314;
+import '../../domain/usecases/clinician/get_test_orders_by_patient.dart'
+    as _i347;
+import '../../domain/usecases/clinician/watch_test_orders_by_patient.dart'
+    as _i244;
 import '../../domain/usecases/get_sample_by_id_usecase.dart' as _i474;
 import '../../domain/usecases/patient/add_patient.dart' as _i819;
 import '../../domain/usecases/patient/check_duplicate_patient.dart' as _i188;
+import '../../domain/usecases/patient/get_patient_by_code.dart' as _i572;
 import '../../domain/usecases/patient/get_patient_by_id.dart' as _i1004;
 import '../../domain/usecases/patient/get_patients.dart' as _i266;
 import '../../domain/usecases/patient/update_patient.dart' as _i485;
+import '../../domain/usecases/patient/watch_patients.dart' as _i699;
+import '../../domain/usecases/sample/collect_physical_sample.dart' as _i453;
 import '../../domain/usecases/specialist/get_specialists.dart' as _i760;
 import '../../domain/usecases/specialist/trigger_ai_analysis.dart' as _i1057;
 import '../../domain/usecases/specialist/update_chromosome_position.dart'
@@ -61,10 +79,14 @@ import '../../domain/usecases/specialist/watch_assigned_orders.dart' as _i907;
 import '../../domain/usecases/test_order/approve_karyotype_result.dart' as _i63;
 import '../../domain/usecases/test_order/assign_order_to_specialist.dart'
     as _i320;
+import '../../domain/usecases/test_order/get_test_order_by_id.dart' as _i205;
 import '../../domain/usecases/test_order/reject_karyotype_result.dart' as _i749;
 import '../../domain/usecases/test_order/submit_analysis_result.dart' as _i906;
 import '../../domain/usecases/test_order/watch_all_orders.dart' as _i1069;
 import '../../domain/usecases/update_sample_note_usecase.dart' as _i589;
+import '../../logic/bloc/appointment/appointment_cubit.dart' as _i618;
+import '../../logic/bloc/auth/auth_cubit.dart' as _i579;
+import '../../logic/bloc/clinician/clinician_order_cubit.dart' as _i108;
 import '../../logic/bloc/clinician/examination_cubit.dart' as _i41;
 import '../../logic/bloc/layout/layout_cubit.dart' as _i556;
 import '../../logic/bloc/manager/manager_approval_cubit.dart' as _i429;
@@ -86,6 +108,7 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final dioModule = _$DioModule();
     final firebaseModule = _$FirebaseModule();
+    gh.factory<_i579.AuthCubit>(() => _i579.AuthCubit());
     gh.lazySingleton<_i361.Dio>(() => dioModule.dio);
     gh.lazySingleton<_i974.FirebaseFirestore>(() => firebaseModule.firestore);
     gh.lazySingleton<_i59.FirebaseAuth>(() => firebaseModule.auth);
@@ -122,9 +145,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i77.WorkspaceRepository>(),
       ),
     );
+    gh.lazySingleton<_i319.ClinicianRemoteDataSource>(
+      () => _i319.FirebaseClinicianRemoteDataSource(),
+    );
     gh.lazySingleton<_i643.SampleRepository>(
       () => _i731.SampleRepositoryImpl(
         remoteDataSource: gh<_i629.SampleRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i933.ClinicianRepository>(
+      () => _i86.ClinicianRepositoryImpl(
+        remoteDataSource: gh<_i319.ClinicianRemoteDataSource>(),
       ),
     );
     gh.lazySingleton<_i940.PatientRemoteDataSource>(
@@ -135,9 +166,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i974.FirebaseFirestore>(),
       ),
     );
-    gh.factory<_i10.SampleManagementCubit>(
-      () => _i10.SampleManagementCubit(gh<_i643.SampleRepository>()),
-    );
     gh.lazySingleton<_i467.PatientRepository>(
       () => _i308.PatientRepositoryImpl(gh<_i940.PatientRemoteDataSource>()),
     );
@@ -147,11 +175,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1003.UpdateChromosomePosition>(
       () => _i1003.UpdateChromosomePosition(gh<_i77.WorkspaceRepository>()),
     );
+    gh.factory<_i254.GetClinicians>(
+      () => _i254.GetClinicians(gh<_i933.ClinicianRepository>()),
+    );
     gh.lazySingleton<_i474.GetSampleByIdUsecase>(
       () => _i474.GetSampleByIdUsecase(gh<_i643.SampleRepository>()),
     );
     gh.lazySingleton<_i589.UpdateSampleNoteUsecase>(
       () => _i589.UpdateSampleNoteUsecase(gh<_i643.SampleRepository>()),
+    );
+    gh.factory<_i453.CollectPhysicalSample>(
+      () => _i453.CollectPhysicalSample(gh<_i643.SampleRepository>()),
     );
     gh.lazySingleton<_i851.ExaminationRemoteDataSource>(
       () =>
@@ -189,6 +223,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i188.CheckDuplicatePatient>(
       () => _i188.CheckDuplicatePatient(gh<_i467.PatientRepository>()),
     );
+    gh.factory<_i572.GetPatientByCode>(
+      () => _i572.GetPatientByCode(gh<_i467.PatientRepository>()),
+    );
     gh.factory<_i1004.GetPatientById>(
       () => _i1004.GetPatientById(gh<_i467.PatientRepository>()),
     );
@@ -198,11 +235,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i485.UpdatePatient>(
       () => _i485.UpdatePatient(gh<_i467.PatientRepository>()),
     );
-    gh.factory<_i524.SampleDetailCubit>(
-      () => _i524.SampleDetailCubit(
-        getSampleById: gh<_i474.GetSampleByIdUsecase>(),
-        updateSampleNote: gh<_i589.UpdateSampleNoteUsecase>(),
-      ),
+    gh.factory<_i699.WatchPatients>(
+      () => _i699.WatchPatients(gh<_i467.PatientRepository>()),
     );
     gh.lazySingleton<_i193.ExaminationRepository>(
       () => _i996.ExaminationRepositoryImpl(
@@ -214,6 +248,26 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i314.GetExaminationsByPatient>(
       () => _i314.GetExaminationsByPatient(gh<_i193.ExaminationRepository>()),
+    );
+    gh.factory<_i965.PatientCubit>(
+      () => _i965.PatientCubit(
+        getPatientsUsecase: gh<_i266.GetPatients>(),
+        addPatientUsecase: gh<_i819.AddPatient>(),
+        updatePatientUsecase: gh<_i485.UpdatePatient>(),
+        getPatientByIdUsecase: gh<_i1004.GetPatientById>(),
+        getPatientByCodeUsecase: gh<_i572.GetPatientByCode>(),
+        watchPatientsUsecase: gh<_i699.WatchPatients>(),
+        checkDuplicatePatientUsecase: gh<_i188.CheckDuplicatePatient>(),
+      ),
+    );
+    gh.factory<_i374.CreateTestOrder>(
+      () => _i374.CreateTestOrder(gh<_i655.TestOrderRepository>()),
+    );
+    gh.factory<_i347.GetTestOrdersByPatient>(
+      () => _i347.GetTestOrdersByPatient(gh<_i655.TestOrderRepository>()),
+    );
+    gh.factory<_i244.WatchTestOrdersByPatient>(
+      () => _i244.WatchTestOrdersByPatient(gh<_i655.TestOrderRepository>()),
     );
     gh.factory<_i814.UpdateOrderStatus>(
       () => _i814.UpdateOrderStatus(gh<_i655.TestOrderRepository>()),
@@ -227,6 +281,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i320.AssignOrderToSpecialist>(
       () => _i320.AssignOrderToSpecialist(gh<_i655.TestOrderRepository>()),
     );
+    gh.factory<_i205.GetTestOrderById>(
+      () => _i205.GetTestOrderById(gh<_i655.TestOrderRepository>()),
+    );
     gh.factory<_i749.RejectKaryotypeResult>(
       () => _i749.RejectKaryotypeResult(gh<_i655.TestOrderRepository>()),
     );
@@ -236,16 +293,37 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1069.WatchAllOrders>(
       () => _i1069.WatchAllOrders(gh<_i655.TestOrderRepository>()),
     );
+    gh.factory<_i910.CreateAppointment>(
+      () => _i910.CreateAppointment(gh<_i53.AppointmentRepository>()),
+    );
+    gh.factory<_i501.GetAppointmentsInRange>(
+      () => _i501.GetAppointmentsInRange(gh<_i53.AppointmentRepository>()),
+    );
+    gh.factory<_i563.GetTodayAppointments>(
+      () => _i563.GetTodayAppointments(gh<_i53.AppointmentRepository>()),
+    );
     gh.factory<_i379.UpdateAppointmentStatus>(
       () => _i379.UpdateAppointmentStatus(gh<_i53.AppointmentRepository>()),
     );
-    gh.factory<_i965.PatientCubit>(
-      () => _i965.PatientCubit(
-        getPatientsUsecase: gh<_i266.GetPatients>(),
-        addPatientUsecase: gh<_i819.AddPatient>(),
-        updatePatientUsecase: gh<_i485.UpdatePatient>(),
-        getPatientByIdUsecase: gh<_i1004.GetPatientById>(),
-        checkDuplicatePatientUsecase: gh<_i188.CheckDuplicatePatient>(),
+    gh.factory<_i914.WatchTodayAppointments>(
+      () => _i914.WatchTodayAppointments(gh<_i53.AppointmentRepository>()),
+    );
+    gh.factory<_i524.SampleDetailCubit>(
+      () => _i524.SampleDetailCubit(
+        getSampleById: gh<_i474.GetSampleByIdUsecase>(),
+        updateSampleNote: gh<_i589.UpdateSampleNoteUsecase>(),
+        getTestOrderById: gh<_i205.GetTestOrderById>(),
+        collectPhysicalSample: gh<_i453.CollectPhysicalSample>(),
+      ),
+    );
+    gh.factory<_i618.AppointmentCubit>(
+      () => _i618.AppointmentCubit(
+        createAppointment: gh<_i910.CreateAppointment>(),
+        getTodayAppointments: gh<_i563.GetTodayAppointments>(),
+        getAppointmentsInRange: gh<_i501.GetAppointmentsInRange>(),
+        watchTodayAppointments: gh<_i914.WatchTodayAppointments>(),
+        updateAppointmentStatus: gh<_i379.UpdateAppointmentStatus>(),
+        getClinicians: gh<_i254.GetClinicians>(),
       ),
     );
     gh.factory<_i429.ManagerApprovalCubit>(
@@ -254,13 +332,24 @@ extension GetItInjectableX on _i174.GetIt {
         rejectKaryotypeResult: gh<_i749.RejectKaryotypeResult>(),
       ),
     );
+    gh.factory<_i41.ExaminationCubit>(
+      () => _i41.ExaminationCubit(
+        createExaminationUsecase: gh<_i70.CreateExamination>(),
+        getExaminationsUsecase: gh<_i314.GetExaminationsByPatient>(),
+        updateAppointmentStatusUsecase: gh<_i379.UpdateAppointmentStatus>(),
+      ),
+    );
     gh.factory<_i58.ManagerDashboardCubit>(
       () => _i58.ManagerDashboardCubit(
         gh<_i1069.WatchAllOrders>(),
-        gh<_i320.AssignOrderToSpecialist>(),
-        gh<_i63.ApproveKaryotypeResult>(),
-        gh<_i749.RejectKaryotypeResult>(),
         gh<_i760.GetSpecialists>(),
+        gh<_i320.AssignOrderToSpecialist>(),
+      ),
+    );
+    gh.factory<_i10.SampleManagementCubit>(
+      () => _i10.SampleManagementCubit(
+        gh<_i643.SampleRepository>(),
+        gh<_i814.UpdateOrderStatus>(),
       ),
     );
     gh.factory<_i608.SpecialistDashboardCubit>(
@@ -269,11 +358,13 @@ extension GetItInjectableX on _i174.GetIt {
         updateStatusUsecase: gh<_i814.UpdateOrderStatus>(),
       ),
     );
-    gh.factory<_i41.ExaminationCubit>(
-      () => _i41.ExaminationCubit(
-        createExamination: gh<_i70.CreateExamination>(),
-        updateAppointmentStatus: gh<_i379.UpdateAppointmentStatus>(),
-        getExaminationsByPatient: gh<_i314.GetExaminationsByPatient>(),
+    gh.factory<_i108.ClinicianOrderCubit>(
+      () => _i108.ClinicianOrderCubit(
+        createTestOrderUsecase: gh<_i374.CreateTestOrder>(),
+        getTestOrdersByPatientUsecase: gh<_i347.GetTestOrdersByPatient>(),
+        watchTestOrdersByPatientUsecase: gh<_i244.WatchTestOrdersByPatient>(),
+        collectPhysicalSampleUsecase: gh<_i453.CollectPhysicalSample>(),
+        watchAllOrdersUsecase: gh<_i1069.WatchAllOrders>(),
       ),
     );
     return this;

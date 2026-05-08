@@ -44,7 +44,7 @@ class _AssignSpecialistDialogState extends State<AssignSpecialistDialog> {
               children: [
                 Expanded(
                   child: Text(
-                    'Chỉ định Chuyên viên Di truyền cho phiếu #ORD-${widget.order.id.substring(0, 4).toUpperCase()}',
+                    'Chỉ định Chuyên viên Di truyền cho phiếu #ORD-${widget.order.id.length > 4 ? widget.order.id.substring(0, 4).toUpperCase() : widget.order.id.toUpperCase()}',
                     style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -97,7 +97,7 @@ class _AssignSpecialistDialogState extends State<AssignSpecialistDialog> {
                   onPressed: selectedSpecialistId == null
                       ? null
                       : () {
-                          context.read<ManagerDashboardCubit>().assignSpecialist(
+                          context.read<ManagerDashboardCubit>().assignOrder(
                                 orderId: widget.order.id,
                                 specialistId: selectedSpecialistId!,
                               );
