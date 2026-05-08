@@ -11,6 +11,7 @@ import '../../../../domain/entities/sample.dart';
 import '../../widgets/shared/layouts/main_form_layout.dart';
 import '../../widgets/shared/form/app_text_field.dart';
 import '../../widgets/shared/form/app_buttons.dart';
+import '../../widgets/shared/form/app_dropdown.dart';
 import 'package:intl/intl.dart';
 
 class SampleDetailScreen extends StatefulWidget {
@@ -30,6 +31,7 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
   
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedTime = TimeOfDay.now();
+  String _selectedSampleType = 'Máu ngoại vi';
 
   @override
   void initState() {
@@ -69,7 +71,7 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
       testOrderId: widget.sampleId,
       patientName: patientName,
       patientCode: patientCode,
-      sampleType: 'Máu',
+      sampleType: _selectedSampleType,
       collectedBy: specialistId,
       collectedAt: collectedAt,
       notes: _noteController.text,
@@ -130,12 +132,23 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
                         ],
                       ),
                       const SizedBox(height: 20),
-                      AppTextField(
-                        labelText: 'Loại mẫu',
-                        hintText: 'Máu',
-                        controller: TextEditingController(text: 'Máu'),
+                      AppDropdown<String>(
+                        labelText: 'Loại mẫu *',
+                        hintText: 'Chọn loại mẫu...',
+                        value: _selectedSampleType,
                         prefixIcon: LucideIcons.testTube2,
-                        readOnly: true,
+                        items: const [
+                          DropdownMenuItem(value: 'Máu ngoại vi', child: Text('Máu ngoại vi')),
+                          DropdownMenuItem(value: 'Dịch ối', child: Text('Dịch ối')),
+                          DropdownMenuItem(value: 'Gai nhau', child: Text('Gai nhau')),
+                          DropdownMenuItem(value: 'Tủy xương', child: Text('Tủy xương')),
+                          DropdownMenuItem(value: 'Máu cuống rốn', child: Text('Máu cuống rốn')),
+                          DropdownMenuItem(value: 'Sinh thiết da', child: Text('Sinh thiết da')),
+                          DropdownMenuItem(value: 'Mô sảy thai', child: Text('Mô sảy thai')),
+                        ],
+                        onChanged: (v) {
+                          if (v != null) setState(() => _selectedSampleType = v);
+                        },
                       ),
                       const SizedBox(height: 20),
                       AppTextField(

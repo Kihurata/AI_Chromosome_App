@@ -240,9 +240,12 @@ class _AppointmentRow extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: StatusBadge(
-              text: _mapStatusText(appointment.status),
-              type: _mapStatusType(appointment.status),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: StatusBadge(
+                text: _mapStatusText(appointment.status),
+                type: _mapStatusType(appointment.status),
+              ),
             ),
           ),
           Expanded(

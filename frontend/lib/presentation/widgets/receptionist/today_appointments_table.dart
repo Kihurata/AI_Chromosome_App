@@ -290,7 +290,10 @@ class _TodayAppointmentsTableState extends State<TodayAppointmentsTable> {
           // Status
           Expanded(
             flex: 2,
-            child: StatusBadge(text: statusText, type: status),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: StatusBadge(text: statusText, type: status),
+            ),
           ),
           // Actions
           SizedBox(

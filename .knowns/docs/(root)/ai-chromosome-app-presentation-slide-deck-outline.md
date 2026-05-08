@@ -2,7 +2,7 @@
 title: AI Chromosome App - Presentation Slide Deck Outline
 description: Slide-by-slide outline and image suggestions for the AI Chromosome App presentation deck
 createdAt: '2026-05-07T07:21:16.466Z'
-updatedAt: '2026-05-07T07:55:13.440Z'
+updatedAt: '2026-05-08T02:27:54.097Z'
 tags:
   - presentation
   - slide
@@ -51,14 +51,23 @@ This document outlines the slide-by-slide content for presenting the AI Chromoso
     *   **Data Mapping:** Phân biệt rạch ròi giữa `Model` (dùng để map JSON từ Firebase) và `Entity` (đối tượng thuần nghiệp vụ). Dữ liệu lên đến giao diện bắt buộc phải là `Entity` thông qua hàm `fromEntity`.
 *   **Suggested Image:** Sơ đồ hình tròn (Onion Architecture) hoặc sơ đồ khối đi từ Data -> Domain -> Presentation.
 
-## Slide 6: UI Component Reusability (Nghệ thuật tái sử dụng Giao diện)
-*   **Content:** Các khối UI dùng chung được phân loại thành 3 nhóm chính:
-    1.  **Global Shell Layout:** Dùng chung bộ khung điều hướng gồm `AppSideRail` (Collapsible sidebar, menu thay đổi theo Role) và `AppHeader` (Breadcrumbs động, Notifications).
-    2.  **Dashboard Filtering System:** Bộ lọc `AppAdvancedFilterDrawer` và thanh công cụ `AppDashboardFilterBar` được inject động thông qua `drawerProvider` của Riverpod, dùng cho mọi trang danh sách.
-    3.  **Design System Components:** Tái sử dụng triệt để các component nguyên tử như `DataTables`, `Status Badges` (hình viên thuốc đổi màu theo trạng thái), và hệ thống lưới 8-point grid.
-*   **Suggested Image:** Minh họa dạng xếp hình (Lego blocks) cho thấy một cái khung Dashboard rỗng + các mảnh ghép Filter / Sidebar trượt vào từ bên cạnh.
+## Slide 6: Triết lý Tái sử dụng - "Build Once, Use Everywhere"
+*   **Content:** Giải thích lý do nhóm sử dụng các thành phần dùng chung (Shared Components):
+    *   **Đồng nhất trải nghiệm (Consistency):** Tạo ra một môi trường làm việc chuyên nghiệp, giúp người dùng ở mọi vai trò luôn thấy quen thuộc với hệ thống.
+    *   **Tối ưu hóa nguồn lực:** Tiết kiệm thời gian phát triển bằng cách kế thừa khung giao diện sẵn có thay vì xây dựng lại từ đầu cho mỗi Module.
+    *   **Bảo trì tập trung:** Mọi thay đổi về kiến trúc giao diện hay thanh điều hướng đều được cập nhật tức thì trên toàn hệ thống chỉ với một lần chỉnh sửa.
+    *   **Khả năng mở rộng linh hoạt:** Việc thêm một vai trò mới (Role) trở nên đơn giản thông qua việc cấu hình dữ liệu vào khung layout chuẩn hóa.
+*   **Suggested Image:** Ảnh chụp cấu trúc thư mục phần `shared/widgets` để minh họa cách tổ chức code tập trung, kèm theo sơ đồ so sánh việc tạo layout riêng lẻ (phức tạp) và layout dùng chung (gọn gàng).
 
-## Slide 7: Hybrid State Management & UI-Data Boundary (Kiểm soát trạng thái)
+## Slide 7: Hiện thực hóa Tái sử dụng: MainShell & Dynamic UI
+*   **Content:** Cách thức kỹ thuật để triển khai tính tái sử dụng:
+    *   **MainShell Layout:** Thành phần "khung xương" cốt lõi, quản lý cấu trúc hiển thị tổng thể và tích hợp sẵn Sidebar, Header cho toàn bộ ứng dụng.
+    *   **Thanh điều hướng động (Dynamic Sidebar):** Menu tự động điều chỉnh các tùy chọn dựa trên vai trò người dùng (Role-based) nhưng vẫn duy trì tính năng và phong cách thiết kế đồng nhất.
+    *   **Hệ thống nhãn trạng thái chuẩn hóa (Standardized Labels):** Các thành phần hiển thị trạng thái được thiết kế nhất quán, dễ dàng tái sử dụng trong mọi ngữ cảnh như bảng dữ liệu hay thẻ thông tin.
+    *   **Bảng dữ liệu vạn năng (Shared DataTables):** Cấu trúc bảng được module hóa cao, xử lý mượt mà cho nhiều loại dữ liệu khác nhau từ danh sách bệnh nhân đến phiếu xét nghiệm.
+*   **Suggested Image:** Một đoạn Code Snippet ngắn của `MainShell` (vùng bọc `child` widget) minh họa tính đóng gói, kết hợp với ảnh chụp màn hình Dashboard của 2 vai trò khác nhau (ví dụ Clinician và Specialist) để thấy rõ sự đồng nhất về khung giao diện.
+
+## Slide 8: Hybrid State Management & UI-Data Boundary (Kiểm soát trạng thái)
 *   **Content:**
     *   **Riverpod ("Data Pipe"):** Đảm nhận Dependency Injection và quản lý Global Services. Tối ưu lấy dữ liệu realtime từ Firestore (`StreamProvider`).
     *   **BLoC/Cubit ("UI Controller"):** Quản lý Business Logic từng màn hình, đóng vai trò là "chốt chặn" bảo vệ UI.
@@ -66,26 +75,26 @@ This document outlines the slide-by-slide content for presenting the AI Chromoso
     *   **Chống nhiễu dữ liệu:** Tách riêng các State Class (vd: `AppointmentLoaded` và `RangeAppointmentsLoaded`) để các màn hình dùng chung Cubit không bị render nhầm dữ liệu của nhau.
 *   **Suggested Image:** Code snippet so sánh "Before & After" (StreamBuilder vs BlocBuilder) kết hợp sơ đồ dòng chảy UI -> Cubit -> Repo -> Firebase.
 
-## Slide 8: Highlight Feature - AI Karyotyping Workspace
+## Slide 9: Highlight Feature - AI Karyotyping Workspace
 *   **Content:**
     *   Trung tâm của dự án: Màn hình Workspace của Specialist.
     *   Luồng xử lý: Upload ảnh Metaphase -> Nút `Trigger AI` -> Trạng thái Processing (Loading thời gian thực) -> Trả về kết quả phân tích.
 *   **Suggested Image:** Ảnh chụp màn hình thực tế của `Workspace Step 1` hiển thị trạng thái đang phân tích hoặc kết quả sau khi AI xử lý xong.
 
-## Slide 9: Highlight Feature - Real-time Sync & Dynamic UI
+## Slide 10: Highlight Feature - Real-time Sync & Dynamic UI
 *   **Content:**
     *   Hệ thống thông báo toàn cục giúp các user nhận thông báo ngay lập tức (VD: Mẫu bị hỏng, có Order mới).
     *   Dữ liệu được làm phẳng (Denormalization) hợp lý để query cực nhanh (VD: lưu kèm `patient_name` trong `test_orders` để không bị N+1 queries).
 *   **Suggested Image:** Ảnh chụp màn hình thanh tìm kiếm, Sidebar Bộ lọc mở rộng hoặc dropdown Notification.
 
-## Slide 10: Technical Challenges & Learnings (Thách thức & Giải pháp)
+## Slide 11: Technical Challenges & Learnings (Thách thức & Giải pháp)
 *   **Content:** 
     *   *Silent Loading Hangs:* Xử lý triệt để lỗi treo UI khi Firestore Stream bị lỗi (thiếu Index) bằng cách bọc `try-catch` tại lớp Repository.
     *   *Memory/State Leaks:* Quản lý chặt chẽ Lifecycle bất đồng bộ của Cubit (kiểm tra `isClosed` trước khi `emit`) để tránh crash app.
     *   *Defensive UI Layout:* Ngăn chặn lỗi màn hình đỏ (RenderFlex Overflow) trên đa thiết bị bằng pattern `LayoutBuilder` và `IntrinsicHeight`.
 *   **Suggested Image:** Đoạn code snippet nhỏ minh họa cách fix lỗi Cubit hoặc icon "Bug Squashing".
 
-## Slide 11: Conclusion & Future Work (Tổng kết & Hướng phát triển)
+## Slide 12: Conclusion & Future Work (Tổng kết & Hướng phát triển)
 *   **Content:**
     *   Ứng dụng giải quyết bài toán cốt lõi của phòng Lab di truyền một cách toàn diện và tự động hóa cao.
     *   Khả năng mở rộng (Future Work): Train thêm AI cho các loại mẫu khác, tích hợp sâu hơn với hệ thống HIS (Hospital Information System) của bệnh viện.

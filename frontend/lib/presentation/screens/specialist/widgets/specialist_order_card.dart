@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/entities/test_order.dart';
 import '../../../widgets/shared/form/app_buttons.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../logic/bloc/specialist/specialist_dashboard_cubit.dart';
 
 class SpecialistOrderCard extends StatelessWidget {
   final TestOrder order;
@@ -181,34 +179,6 @@ class SpecialistOrderCard extends StatelessWidget {
     return const SizedBox(width: 140, height: 40);
   }
 
-  void _showStartAnalysisConfirm(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text('Xác nhận bắt đầu'),
-        content: Text(
-          'Bạn có chắc chắn muốn bắt đầu phân tích phiếu của bệnh nhân ${order.patientName}?',
-        ),
-        actions: [
-          AppSecondaryButton(
-            text: 'Hủy',
-            onPressed: () => Navigator.pop(dialogContext),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          ),
-          AppPrimaryButton(
-            text: 'Bắt đầu',
-            onPressed: () {
-              context.read<SpecialistDashboardCubit>().startOrderAnalysis(
-                order.id,
-              );
-              Navigator.pop(dialogContext);
-            },
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          ),
-        ],
-      ),
-    );
-  }
   // Placeholder: map status to a test type label (real data would come from order entity)
   String _getTestTypeName(TestOrderStatus status) {
     switch (status) {
