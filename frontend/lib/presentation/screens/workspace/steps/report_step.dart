@@ -80,10 +80,11 @@ class _ReportStepState extends State<ReportStep> {
                         const SizedBox(height: 16),
                         
                         // Images Section
-                        Row(
+                        Wrap(
+                          spacing: 12,
+                          runSpacing: 12,
                           children: [
                             _buildImageCard('Karyotype', 'https://via.placeholder.com/100'),
-                            const SizedBox(width: 12),
                             _buildImageCard('Metaphase', 'https://via.placeholder.com/100'),
                           ],
                         ),
@@ -135,8 +136,10 @@ class _ReportStepState extends State<ReportStep> {
                         const SizedBox(height: 24),
                         
                         // Action Buttons
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Wrap(
+                          spacing: 12,
+                          runSpacing: 12,
+                          alignment: WrapAlignment.spaceBetween,
                           children: [
                             AppSecondaryButton(
                               text: 'Cập nhật xem trước',

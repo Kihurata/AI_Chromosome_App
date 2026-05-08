@@ -36,19 +36,22 @@ class KaryotypeGrid extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade300),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Column(
-        children: rows.map((row) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: row.map((label) {
-                final list = grouped[label] ?? [];
-                return _buildCell(label, list);
-              }).toList(),
-            ),
-          );
-        }).toList(),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Column(
+          children: rows.map((row) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: row.map((label) {
+                  final list = grouped[label] ?? [];
+                  return _buildCell(label, list);
+                }).toList(),
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
