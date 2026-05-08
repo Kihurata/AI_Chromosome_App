@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/entities/chromosome.dart';
 import '../../../domain/usecases/specialist/update_chromosome_position.dart';
 import '../../../domain/usecases/test_order/submit_analysis_result.dart';
+import '../../../domain/repositories/workspace_repository.dart';
 
 enum WorkspaceStatus { initial, loading, success, error }
 
@@ -13,6 +14,7 @@ class WorkspaceState {
   final int maxReachedStep;
   final WorkspaceStatus status;
   final String? errorMessage;
+  final bool isDirty;
 
   WorkspaceState({
     required this.chromosomes,
@@ -22,6 +24,7 @@ class WorkspaceState {
     this.maxReachedStep = 1,
     this.status = WorkspaceStatus.initial,
     this.errorMessage,
+    this.isDirty = false,
   });
 
   WorkspaceState copyWith({
@@ -32,6 +35,7 @@ class WorkspaceState {
     int? maxReachedStep,
     WorkspaceStatus? status,
     String? errorMessage,
+    bool? isDirty,
   }) {
     return WorkspaceState(
       chromosomes: chromosomes ?? this.chromosomes,
@@ -41,6 +45,7 @@ class WorkspaceState {
       maxReachedStep: maxReachedStep ?? this.maxReachedStep,
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
+      isDirty: isDirty ?? this.isDirty,
     );
   }
 }
@@ -48,11 +53,13 @@ class WorkspaceState {
 class WorkspaceCubit extends Cubit<WorkspaceState> {
   final UpdateChromosomePosition updatePositionUsecase;
   final SubmitAnalysisResult submitAnalysisUsecase;
+  final WorkspaceRepository workspaceRepository;
   final String orderId;
 
   WorkspaceCubit({
     required this.updatePositionUsecase,
     required this.submitAnalysisUsecase,
+    required this.workspaceRepository,
     required this.orderId,
   }) : super(WorkspaceState(chromosomes: []));
 
@@ -61,6 +68,53 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
     // Priority: If we are not currently dragging something, 
     // or we want to overwrite local state with DB source.
     emit(state.copyWith(chromosomes: streamData));
+  }
+
+  Future<void> fetchChromosomesForStep3() async {
+    if (state.selectedImageIds.isEmpty) return;
+    
+    emit(state.copyWith(status: WorkspaceStatus.loading));
+    final selectedImageId = state.selectedImageIds.first;
+    final result = await workspaceRepository.fetchChromosomesFromStorage(
+      orderId,
+      selectedImageId,
+    );
+    
+    result.fold(
+      (failure) => emit(state.copyWith(
+        status: WorkspaceStatus.error,
+        errorMessage: failure.message,
+      )),
+      (chromosomes) => emit(state.copyWith(
+        status: WorkspaceStatus.success,
+        chromosomes: chromosomes,
+        isDirty: false,
+      )),
+    );
+  }
+
+  Future<void> saveKaryogram() async {
+    if (state.selectedImageIds.isEmpty) return;
+    
+    emit(state.copyWith(status: WorkspaceStatus.loading));
+    final selectedImageId = state.selectedImageIds.first;
+    
+    final result = await workspaceRepository.saveKaryogram(
+      orderId,
+      selectedImageId,
+      state.chromosomes,
+    );
+    
+    result.fold(
+      (failure) => emit(state.copyWith(
+        status: WorkspaceStatus.error,
+        errorMessage: failure.message,
+      )),
+      (_) => emit(state.copyWith(
+        status: WorkspaceStatus.success,
+        isDirty: false,
+      )),
+    );
   }
 
   // Handle local dragging/rotation (Temporary state + background sync)
@@ -75,7 +129,7 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
     }).toList();
 
     // 1. Immediate UI update for smooth dragging
-    emit(state.copyWith(chromosomes: updatedList, selectedId: id));
+    emit(state.copyWith(chromosomes: updatedList, selectedId: id, isDirty: true));
 
     // 2. Background sync to Firestore
     if (updatedChromosome != null) {
@@ -93,7 +147,7 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
       return item;
     }).toList();
 
-    emit(state.copyWith(chromosomes: updatedList, selectedId: id));
+    emit(state.copyWith(chromosomes: updatedList, selectedId: id, isDirty: true));
 
     if (updatedChromosome != null) {
       updatePositionUsecase(orderId, updatedChromosome!);
@@ -105,15 +159,11 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
   }
 
   void toggleImageSelection(String imageId) {
-    final currentSelected = List<String>.from(state.selectedImageIds);
-    if (currentSelected.contains(imageId)) {
-      currentSelected.remove(imageId);
+    if (state.selectedImageIds.contains(imageId)) {
+      emit(state.copyWith(selectedImageIds: []));
     } else {
-      if (currentSelected.length < 3) {
-        currentSelected.add(imageId);
-      }
+      emit(state.copyWith(selectedImageIds: [imageId]));
     }
-    emit(state.copyWith(selectedImageIds: currentSelected));
   }
 
   void goToStep(int step) {

@@ -42,27 +42,20 @@ class KaryogramStep extends StatelessWidget {
                             .where((c) => c.label == '' || c.label == 'unassigned')
                             .toList();
 
+                        if (state.status == WorkspaceStatus.loading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
                         // If empty but the whole list is empty, generate dummies for testing
                         // Normally this comes from step 2 via FastAPI.
                         if (unassigned.isEmpty && state.chromosomes.isEmpty) {
                           return Center(
                             child: AppPrimaryButton(
-                              text: 'Tạo dữ liệu mẫu',
+                              text: 'Tải lại dữ liệu',
                               onPressed: () {
-                                final dummies = List.generate(
-                                  46,
-                                  (index) => Chromosome(
-                                    id: 'chr_$index',
-                                    label: 'unassigned',
-                                    x: 0,
-                                    y: 0,
-                                    width: 40,
-                                    height: 100,
-                                    rotation: 0,
-                                    isFlipped: false,
-                                  ),
-                                );
-                                context.read<WorkspaceCubit>().syncFromStream(dummies);
+                                context.read<WorkspaceCubit>().fetchChromosomesForStep3();
                               },
                             ),
                           );
@@ -162,6 +155,12 @@ class _DraggableChromosome extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: Theme.of(context).primaryColor, width: 2),
           ),
+          child: chromosome.imageUrl != null
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(chromosome.imageUrl!, fit: BoxFit.contain, opacity: const AlwaysStoppedAnimation(0.5)),
+                )
+              : null,
         ),
       ),
       childWhenDragging: Container(
@@ -173,13 +172,18 @@ class _DraggableChromosome extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.blue.shade100,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Colors.blue, width: 2),
         ),
-        child: const Center(
-          child: Icon(Icons.line_weight, color: Colors.blue),
-        ),
+        child: chromosome.imageUrl != null
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(chromosome.imageUrl!, fit: BoxFit.contain),
+              )
+            : const Center(
+                child: Icon(Icons.line_weight, color: Colors.blue),
+              ),
       ),
     );
   }

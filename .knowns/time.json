@@ -20,6 +20,13 @@
       "startedAt": "2026-05-04T11:59:36.289Z",
       "pausedAt": null,
       "totalPausedMs": 0
+    },
+    {
+      "taskId": "78hltj",
+      "taskTitle": "Fetch chromosome data from Firebase Storage / Manifest",
+      "startedAt": "2026-05-07T16:04:26.845Z",
+      "pausedAt": null,
+      "totalPausedMs": 0
     }
   ]
 }

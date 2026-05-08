@@ -28,6 +28,7 @@ import '../../presentation/screens/specialist/sample_management_page.dart';
 import '../../presentation/screens/specialist/sample_detail_screen.dart';
 import '../../domain/usecases/specialist/update_chromosome_position.dart';
 import '../../domain/usecases/test_order/submit_analysis_result.dart';
+import '../../domain/repositories/workspace_repository.dart';
 
 // ── Route path constants ──────────────────────────────────────────────────────
 class AppRoutes {
@@ -227,6 +228,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     create: (_) => WorkspaceCubit(
                       updatePositionUsecase: getIt<UpdateChromosomePosition>(),
                       submitAnalysisUsecase: getIt<SubmitAnalysisResult>(),
+                      workspaceRepository: getIt<WorkspaceRepository>(),
                       orderId: orderId,
                     ),
                   ),

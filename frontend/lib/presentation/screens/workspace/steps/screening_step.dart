@@ -54,7 +54,7 @@ class _ScreeningStepState extends State<ScreeningStep> {
           ),
           const SizedBox(height: 8),
           const Text(
-            'Chọn 1-3 ảnh rõ nét nhất để tiến hành bóc tách. Upload ảnh mới nếu cần.',
+            'Chọn 1 ảnh rõ nét nhất để tiến hành bóc tách. Upload ảnh mới nếu cần.',
             style: TextStyle(color: Colors.black54),
           ),
           const SizedBox(height: 16),
@@ -177,19 +177,14 @@ class _ScreeningStepState extends State<ScreeningStep> {
                                   final isSelected = selectedIds.contains(
                                     imageId,
                                   );
-                                  final isMaxSelected = selectedIds.length >= 3;
-                                  final isDisabled =
-                                      isMaxSelected && !isSelected;
                                   final aiScore = image.aiScore ?? 0;
 
                                   return GestureDetector(
-                                    onTap: isDisabled
-                                        ? null
-                                        : () => context
+                                    onTap: () => context
                                               .read<WorkspaceCubit>()
                                               .toggleImageSelection(imageId),
                                     child: Opacity(
-                                      opacity: isDisabled ? 0.5 : 1.0,
+                                      opacity: 1.0,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(12),
                                         child: Container(

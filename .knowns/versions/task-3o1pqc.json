@@ -1,0 +1,155 @@
+{
+  "taskId": "3o1pqc",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "3o1pqc",
+      "version": 1,
+      "timestamp": "2026-05-07T16:02:44.4576929Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Modify `WorkspaceCubit` to only allow a maximum of 1 `selectedImageId`. If a user clicks a new image in Step 1, it replaces the currently selected image.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Limit image selection in Step 1"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "3o1pqc",
+      "version": 2,
+      "timestamp": "2026-05-07T16:02:53.7868445Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Update `toggleImageSelection` in WorkspaceCubit to select exactly 1 image."
+            },
+            {
+              "completed": false,
+              "text": "Update ScreeningStep UI to reflect single selection behavior (if any UI changes are needed)."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Update `toggleImageSelection` in WorkspaceCubit to select exactly 1 image."
+          },
+          {
+            "completed": false,
+            "text": "Update ScreeningStep UI to reflect single selection behavior (if any UI changes are needed)."
+          }
+        ],
+        "description": "Modify `WorkspaceCubit` to only allow a maximum of 1 `selectedImageId`. If a user clicks a new image in Step 1, it replaces the currently selected image.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Limit image selection in Step 1"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "3o1pqc",
+      "version": 3,
+      "timestamp": "2026-05-07T16:03:03.4468304Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Update `WorkspaceState` and `WorkspaceCubit` in `d:\\AI_Chromosome_App\\frontend\\lib\\logic\\bloc\\workspace\\workspace_cubit.dart`. Change `toggleImageSelection` to replace the list with just the selected image, instead of toggling/appending.\n2. Update `ScreeningStep` in `d:\\AI_Chromosome_App\\frontend\\lib\\presentation\\screens\\workspace\\steps\\screening_step.dart` if needed. (Currently it checks if list contains the image. That logic is still fine, it will just visually select only one at a time)."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Update `toggleImageSelection` in WorkspaceCubit to select exactly 1 image."
+          },
+          {
+            "completed": false,
+            "text": "Update ScreeningStep UI to reflect single selection behavior (if any UI changes are needed)."
+          }
+        ],
+        "description": "Modify `WorkspaceCubit` to only allow a maximum of 1 `selectedImageId`. If a user clicks a new image in Step 1, it replaces the currently selected image.",
+        "implementationPlan": "1. Update `WorkspaceState` and `WorkspaceCubit` in `d:\\AI_Chromosome_App\\frontend\\lib\\logic\\bloc\\workspace\\workspace_cubit.dart`. Change `toggleImageSelection` to replace the list with just the selected image, instead of toggling/appending.\n2. Update `ScreeningStep` in `d:\\AI_Chromosome_App\\frontend\\lib\\presentation\\screens\\workspace\\steps\\screening_step.dart` if needed. (Currently it checks if list contains the image. That logic is still fine, it will just visually select only one at a time).",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Limit image selection in Step 1"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "3o1pqc",
+      "version": 4,
+      "timestamp": "2026-05-07T16:04:08.3467239Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Updated WorkspaceCubit to use a single image list instead of toggling 3 max. Updated ScreeningStep UI text and disabled opacity logic."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Update `toggleImageSelection` in WorkspaceCubit to select exactly 1 image.",
+            "completed": true
+          },
+          {
+            "text": "Update ScreeningStep UI to reflect single selection behavior (if any UI changes are needed).",
+            "completed": true
+          }
+        ],
+        "description": "Modify `WorkspaceCubit` to only allow a maximum of 1 `selectedImageId`. If a user clicks a new image in Step 1, it replaces the currently selected image.",
+        "implementationNotes": "Updated WorkspaceCubit to use a single image list instead of toggling 3 max. Updated ScreeningStep UI text and disabled opacity logic.",
+        "implementationPlan": "1. Update `WorkspaceState` and `WorkspaceCubit` in `d:\\AI_Chromosome_App\\frontend\\lib\\logic\\bloc\\workspace\\workspace_cubit.dart`. Change `toggleImageSelection` to replace the list with just the selected image, instead of toggling/appending.\n2. Update `ScreeningStep` in `d:\\AI_Chromosome_App\\frontend\\lib\\presentation\\screens\\workspace\\steps\\screening_step.dart` if needed. (Currently it checks if list contains the image. That logic is still fine, it will just visually select only one at a time).",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Limit image selection in Step 1"
+      }
+    }
+  ]
+}

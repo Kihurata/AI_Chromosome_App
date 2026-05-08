@@ -1,0 +1,121 @@
+{
+  "taskId": "dua0ei",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "dua0ei",
+      "version": 1,
+      "timestamp": "2026-05-07T16:02:45.3965925Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Add `isDirty` boolean to `WorkspaceState`. Set to true on drag-and-drop. Use `NotificationFactory` to show `AlertDialog` if user attempts to change steps or leave while `isDirty` is true.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Implement Dirty State \u0026 Unsaved Changes Warning"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "dua0ei",
+      "version": 2,
+      "timestamp": "2026-05-07T16:02:54.1517767Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Add `isDirty` to WorkspaceState."
+            },
+            {
+              "completed": false,
+              "text": "Set `isDirty = true` in `assignChromosomeLabel`."
+            },
+            {
+              "completed": false,
+              "text": "Add `canPop` or warning mechanism using `NotificationFactory` when trying to change steps or go back while dirty."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Add `isDirty` to WorkspaceState."
+          },
+          {
+            "completed": false,
+            "text": "Set `isDirty = true` in `assignChromosomeLabel`."
+          },
+          {
+            "completed": false,
+            "text": "Add `canPop` or warning mechanism using `NotificationFactory` when trying to change steps or go back while dirty."
+          }
+        ],
+        "description": "Add `isDirty` boolean to `WorkspaceState`. Set to true on drag-and-drop. Use `NotificationFactory` to show `AlertDialog` if user attempts to change steps or leave while `isDirty` is true.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Implement Dirty State \u0026 Unsaved Changes Warning"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "dua0ei",
+      "version": 3,
+      "timestamp": "2026-05-07T16:12:09.040356Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Add `isDirty` to WorkspaceState.",
+            "completed": false
+          },
+          {
+            "text": "Set `isDirty = true` in `assignChromosomeLabel`.",
+            "completed": false
+          },
+          {
+            "text": "Add `canPop` or warning mechanism using `NotificationFactory` when trying to change steps or go back while dirty.",
+            "completed": false
+          }
+        ],
+        "description": "Add `isDirty` boolean to `WorkspaceState`. Set to true on drag-and-drop. Use `NotificationFactory` to show `AlertDialog` if user attempts to change steps or leave while `isDirty` is true.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Implement Dirty State \u0026 Unsaved Changes Warning"
+      }
+    }
+  ]
+}

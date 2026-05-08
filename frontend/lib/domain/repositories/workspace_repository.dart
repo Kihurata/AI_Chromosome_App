@@ -22,4 +22,15 @@ abstract class WorkspaceRepository {
   Stream<Either<Failure, List<MetaphaseImage>>> watchMetaphaseImages(String orderId);
   
   Future<Either<Failure, void>> triggerAiAnalysis(String orderId);
+
+  Future<Either<Failure, List<Chromosome>>> fetchChromosomesFromStorage(
+    String orderId,
+    String selectedImageId,
+  );
+
+  Future<Either<Failure, void>> saveKaryogram(
+    String orderId,
+    String selectedImageId,
+    List<Chromosome> chromosomes,
+  );
 }

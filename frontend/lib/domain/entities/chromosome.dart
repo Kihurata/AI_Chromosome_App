@@ -9,6 +9,7 @@ class Chromosome extends Equatable {
   final double height;
   final double rotation;
   final bool isFlipped;
+  final String? imageUrl;
 
   const Chromosome({
     required this.id,
@@ -19,6 +20,7 @@ class Chromosome extends Equatable {
     required this.height,
     required this.rotation,
     required this.isFlipped,
+    this.imageUrl,
   });
 
   Chromosome copyWith({
@@ -30,6 +32,7 @@ class Chromosome extends Equatable {
     double? height,
     double? rotation,
     bool? isFlipped,
+    String? imageUrl,
   }) {
     return Chromosome(
       id: id ?? this.id,
@@ -40,6 +43,7 @@ class Chromosome extends Equatable {
       height: height ?? this.height,
       rotation: rotation ?? this.rotation,
       isFlipped: isFlipped ?? this.isFlipped,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -53,5 +57,6 @@ class Chromosome extends Equatable {
         height,
         rotation,
         isFlipped,
+        imageUrl,
       ];
 }

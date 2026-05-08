@@ -1,0 +1,181 @@
+{
+  "taskId": "78hltj",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "78hltj",
+      "version": 1,
+      "timestamp": "2026-05-07T16:02:45.3918581Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Fetch chromosome data by primarily attempting to download `manifest.json`. If unavailable, fallback to listing files in Firebase Storage directory `test_orders/{orderId}/ai_predict/{selectedImageId}/`, ignoring `*_detection.jpg`. Read chromosome label from Custom Metadata (`current_label`) and map to local `Chromosome` entities. Show loading state in KaryogramStep.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Fetch chromosome data from Firebase Storage / Manifest"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "78hltj",
+      "version": 2,
+      "timestamp": "2026-05-07T16:02:54.1279467Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Add Firebase Storage dependency/repository."
+            },
+            {
+              "completed": false,
+              "text": "Implement JSON Manifest fetching method."
+            },
+            {
+              "completed": false,
+              "text": "Implement fallback Storage directory listing method and Metadata parsing."
+            },
+            {
+              "completed": false,
+              "text": "Call fetch method when navigating to Step 3 and show loading state."
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Add Firebase Storage dependency/repository."
+          },
+          {
+            "completed": false,
+            "text": "Implement JSON Manifest fetching method."
+          },
+          {
+            "completed": false,
+            "text": "Implement fallback Storage directory listing method and Metadata parsing."
+          },
+          {
+            "completed": false,
+            "text": "Call fetch method when navigating to Step 3 and show loading state."
+          }
+        ],
+        "description": "Fetch chromosome data by primarily attempting to download `manifest.json`. If unavailable, fallback to listing files in Firebase Storage directory `test_orders/{orderId}/ai_predict/{selectedImageId}/`, ignoring `*_detection.jpg`. Read chromosome label from Custom Metadata (`current_label`) and map to local `Chromosome` entities. Show loading state in KaryogramStep.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Fetch chromosome data from Firebase Storage / Manifest"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "78hltj",
+      "version": 3,
+      "timestamp": "2026-05-07T16:04:26.7672332Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Create `FirebaseStorageRepository` (if not exists) or add method to `WorkspaceRepository` to fetch chromosomes. Let's add it to `WorkspaceRepository` for simplicity, or maybe a dedicated class. Let's check `WorkspaceRepository`.\n2. Add a `fetchChromosomesFromStorage(String orderId, String selectedImageId)` method. It should try to fetch `manifest.json`. If it fails, fallback to `Reference.listAll()` ignoring `_detection.jpg` and parsing CustomMetadata `current_label`.\n3. Create `KaryogramCubit` or update `WorkspaceCubit` to handle loading chromosomes for Step 3. Let's see how Step 3 was currently planned to fetch data.\n4. Update `KaryogramStep` to call this fetch method when it builds or is visible."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Add Firebase Storage dependency/repository."
+          },
+          {
+            "completed": false,
+            "text": "Implement JSON Manifest fetching method."
+          },
+          {
+            "completed": false,
+            "text": "Implement fallback Storage directory listing method and Metadata parsing."
+          },
+          {
+            "completed": false,
+            "text": "Call fetch method when navigating to Step 3 and show loading state."
+          }
+        ],
+        "description": "Fetch chromosome data by primarily attempting to download `manifest.json`. If unavailable, fallback to listing files in Firebase Storage directory `test_orders/{orderId}/ai_predict/{selectedImageId}/`, ignoring `*_detection.jpg`. Read chromosome label from Custom Metadata (`current_label`) and map to local `Chromosome` entities. Show loading state in KaryogramStep.",
+        "implementationPlan": "1. Create `FirebaseStorageRepository` (if not exists) or add method to `WorkspaceRepository` to fetch chromosomes. Let's add it to `WorkspaceRepository` for simplicity, or maybe a dedicated class. Let's check `WorkspaceRepository`.\n2. Add a `fetchChromosomesFromStorage(String orderId, String selectedImageId)` method. It should try to fetch `manifest.json`. If it fails, fallback to `Reference.listAll()` ignoring `_detection.jpg` and parsing CustomMetadata `current_label`.\n3. Create `KaryogramCubit` or update `WorkspaceCubit` to handle loading chromosomes for Step 3. Let's see how Step 3 was currently planned to fetch data.\n4. Update `KaryogramStep` to call this fetch method when it builds or is visible.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Fetch chromosome data from Firebase Storage / Manifest"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "78hltj",
+      "version": 4,
+      "timestamp": "2026-05-07T16:11:54.2111915Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Add Firebase Storage dependency/repository.",
+            "completed": false
+          },
+          {
+            "text": "Implement JSON Manifest fetching method.",
+            "completed": false
+          },
+          {
+            "text": "Implement fallback Storage directory listing method and Metadata parsing.",
+            "completed": false
+          },
+          {
+            "text": "Call fetch method when navigating to Step 3 and show loading state.",
+            "completed": false
+          }
+        ],
+        "description": "Fetch chromosome data by primarily attempting to download `manifest.json`. If unavailable, fallback to listing files in Firebase Storage directory `test_orders/{orderId}/ai_predict/{selectedImageId}/`, ignoring `*_detection.jpg`. Read chromosome label from Custom Metadata (`current_label`) and map to local `Chromosome` entities. Show loading state in KaryogramStep.",
+        "implementationPlan": "1. Create `FirebaseStorageRepository` (if not exists) or add method to `WorkspaceRepository` to fetch chromosomes. Let's add it to `WorkspaceRepository` for simplicity, or maybe a dedicated class. Let's check `WorkspaceRepository`.\n2. Add a `fetchChromosomesFromStorage(String orderId, String selectedImageId)` method. It should try to fetch `manifest.json`. If it fails, fallback to `Reference.listAll()` ignoring `_detection.jpg` and parsing CustomMetadata `current_label`.\n3. Create `KaryogramCubit` or update `WorkspaceCubit` to handle loading chromosomes for Step 3. Let's see how Step 3 was currently planned to fetch data.\n4. Update `KaryogramStep` to call this fetch method when it builds or is visible.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Fetch chromosome data from Firebase Storage / Manifest"
+      }
+    }
+  ]
+}

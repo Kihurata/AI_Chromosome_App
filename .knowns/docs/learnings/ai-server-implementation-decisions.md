@@ -2,7 +2,7 @@
 title: AI Server Implementation Decisions
 description: Learnings and decisions from setting up the External AI Server integration.
 createdAt: '2026-05-02T07:14:11.199Z'
-updatedAt: '2026-05-07T07:55:43.087Z'
+updatedAt: '2026-05-07T15:24:28.167Z'
 tags:
   - learning
   - ai-server
@@ -73,3 +73,22 @@ tags:
 - **What went wrong:** Firebase SDK failed to initialize (`ValueError: The default Firebase app does not exist`).
 - **Root cause:** `serviceAccountKey.json` was missing or named incorrectly in the `backend/` root folder.
 - **Prevention:** Ensure the key file is present and matches the `FIREBASE_KEY_PATH` env variable.
+## Patterns (Updated 2026-05-07 - AI Score and Orchestration)
+
+### Sequential Background Analysis
+- **What:** Backend processes images sequentially within a background task (`asyncio.create_task`), rather than parallel `asyncio.gather`, to prevent GPU resource exhaustion on the AI Server and avoid `DioException` timeouts on the frontend.
+- **When to use:** When triggering batch processing of images against a resource-constrained Colab/GPU server.
+- **Source:** Recent refactor of `OrchestratorService`.
+
+### AI Score Normalization & Delegation
+- **What:** The AI Server returns a raw `confidence` float (0-1.0). The backend `OrchestratorService` converts this to an `ai_score` integer (0-100) and writes it directly to the `metaphase_images` document in Firestore. The UI then listens to this field.
+- **When to use:** When bridging raw ML inference output with UI-friendly display metrics.
+
+## Decisions (Updated 2026-05-07)
+
+### Backend-Centric Firestore Updates
+- **Chose:** The AI Server returns JSON results (`confidence`, `shapes`, `ai_image_url`) back to the Backend API, which then updates Firestore.
+- **Over:** Having the AI Server write directly to Firestore.
+- **Tag:** GOOD_CALL
+- **Outcome:** The Colab AI Server remains a stateless inference engine and doesn't require `serviceAccountKey.json` credentials. This improves security and keeps business logic centralized in the FastAPI backend.
+- **Recommendation:** Never pass Firebase Admin credentials to external/Colab environments. Always use the internal backend as a proxy for database writes.
