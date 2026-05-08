@@ -13,6 +13,7 @@ abstract class TestOrderRemoteDataSource {
   Stream<List<TestOrderModel>> watchTestOrdersByPatient(String patientId);
   Future<List<TestOrderModel>> getTestOrdersByPatient(String patientId);
   Future<void> updateOrderSpecialist(String orderId, String specialistId);
+  Future<void> updateReportContent(String orderId, String reportContent);
 }
 
 @Injectable(as: TestOrderRemoteDataSource)
@@ -137,6 +138,14 @@ class FirebaseTestOrderRemoteDataSource implements TestOrderRemoteDataSource {
     final specialistRef = _firestore.collection('users').doc(specialistId);
     await _firestore.collection('test_orders').doc(orderId).update({
       'specialist_id': specialistRef,
+      'updated_at': FieldValue.serverTimestamp(),
+    });
+  }
+
+  @override
+  Future<void> updateReportContent(String orderId, String reportContent) async {
+    await _firestore.collection('test_orders').doc(orderId).update({
+      'report_content': reportContent,
       'updated_at': FieldValue.serverTimestamp(),
     });
   }

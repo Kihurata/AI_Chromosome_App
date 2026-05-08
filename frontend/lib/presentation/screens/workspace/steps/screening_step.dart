@@ -61,6 +61,7 @@ class _ScreeningStepState extends State<ScreeningStep> {
           // Upload button row
           BlocConsumer<AiAnalysisCubit, AiAnalysisState>(
             listener: (context, state) {
+              if (!context.mounted) return;
               if (state is AiAnalysisUploadCompleted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(

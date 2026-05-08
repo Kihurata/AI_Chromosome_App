@@ -1,0 +1,80 @@
+{
+  "taskId": "7dojgc",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "7dojgc",
+      "version": 1,
+      "timestamp": "2026-05-08T04:57:18.1537402Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Xoa muc 'Phong Lab AI' khoi danh sach appNavItems trong file app_nav_items.dart.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Remove Lab Tab from app_nav_items.dart"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "7dojgc",
+      "version": 2,
+      "timestamp": "2026-05-08T04:57:30.0651593Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "description": "Xoa muc 'Phong Lab AI' khoi danh sach appNavItems trong file app_nav_items.dart.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Remove Lab Tab from app_nav_items.dart"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "7dojgc",
+      "version": 3,
+      "timestamp": "2026-05-08T04:57:41.0251581Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "description": "Xoa muc 'Phong Lab AI' khoi danh sach appNavItems trong file app_nav_items.dart.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Remove Lab Tab from app_nav_items.dart"
+      }
+    }
+  ]
+}

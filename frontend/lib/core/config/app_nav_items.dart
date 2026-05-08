@@ -43,13 +43,7 @@ const List<NavItem> appNavItems = [
     allowedRoles: [AppRole.clinician],
     tooltip: 'Danh sách lịch khám',
   ),
-  NavItem(
-    label: 'Phòng Lab AI',
-    icon: LucideIcons.microscope,
-    routePath: '/clinician/lab',
-    allowedRoles: [AppRole.specialist], // Bỏ Clinician, chỉ giữ lại Specialist
-    tooltip: 'Phòng Lab AI phân tích NST',
-  ),
+
 
   // ── SPECIALIST ────────────────────────────────────────────────────────────
   NavItem(

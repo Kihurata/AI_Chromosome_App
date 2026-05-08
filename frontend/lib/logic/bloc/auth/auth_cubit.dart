@@ -51,9 +51,14 @@ class AuthCubit extends Cubit<AuthState> {
       if (user != null) {
         try {
           // Fetch role from Firestore
-          final doc = await _db.collection('users').doc(user.uid).get();
+          print("AuthCubit: Project ID: ${_db.app.options.projectId}");
+          print("AuthCubit: Fetching role for ${user.uid}");
+          // Force fetch from server to avoid stale cache on F5
+          final doc = await _db.collection('users').doc(user.uid).get(const GetOptions(source: Source.server));
           if (doc.exists) {
+            print("AuthCubit: Document data: ${doc.data()}");
             final role = doc.data()?['role'] ?? 'user';
+            print("AuthCubit: Role fetched: '$role'");
             emit(Authenticated(user, role));
           } else {
             // No profile found, logout and error

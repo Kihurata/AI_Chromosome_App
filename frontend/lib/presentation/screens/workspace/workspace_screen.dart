@@ -20,6 +20,7 @@ class WorkspaceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AiAnalysisCubit, AiAnalysisState>(
       listener: (context, state) {
+        if (!context.mounted) return;
         if (state is AiAnalysisCompleted) {
           // Do not navigate automatically as per new Spec
           ScaffoldMessenger.of(context).showSnackBar(
@@ -49,6 +50,7 @@ class WorkspaceScreen extends StatelessWidget {
                 (previous.currentStep != current.currentStep && current.currentStep == 3) ||
                 (previous.status != current.status),
               listener: (context, workspaceState) {
+                if (!context.mounted) return;
                 if (workspaceState.currentStep == 3 && workspaceState.chromosomes.isEmpty && workspaceState.status != WorkspaceStatus.loading) {
                   context.read<WorkspaceCubit>().fetchChromosomesForStep3();
                 }

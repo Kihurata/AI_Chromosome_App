@@ -1,0 +1,98 @@
+{
+  "taskId": "6e83jp",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "6e83jp",
+      "version": 1,
+      "timestamp": "2026-05-08T04:08:40.6705432Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Thêm if (!context.mounted) return; trước ScaffoldMessenger.of(context)"
+          }
+        ],
+        "description": "Sửa file screening_step.dart để bảo vệ các lệnh gọi ScaffoldMessenger bằng if (!context.mounted) return;.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Add mounted check in ScreeningStep listener"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "6e83jp",
+      "version": 2,
+      "timestamp": "2026-05-08T04:09:36.7969854Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Thêm if (!context.mounted) return; trước ScaffoldMessenger.of(context)"
+          }
+        ],
+        "description": "Sửa file screening_step.dart để bảo vệ các lệnh gọi ScaffoldMessenger bằng if (!context.mounted) return;.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Add mounted check in ScreeningStep listener"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "6e83jp",
+      "version": 3,
+      "timestamp": "2026-05-08T04:10:06.215677Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Thêm if (!context.mounted) return; trước ScaffoldMessenger.of(context)",
+            "completed": true
+          }
+        ],
+        "description": "Sửa file screening_step.dart để bảo vệ các lệnh gọi ScaffoldMessenger bằng if (!context.mounted) return;.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Add mounted check in ScreeningStep listener"
+      }
+    }
+  ]
+}

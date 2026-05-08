@@ -124,3 +124,29 @@ Wrap in `LayoutBuilder` -> `SingleChildScrollView` -> `ConstrainedBox(minHeight:
 3. Cấu hình URL linh hoạt qua Firestore thay vì hardcode để thích ứng với URL động của Ngrok.
 
 **Full entry:** @doc/learnings/ai-server-implementation-decisions
+
+---
+
+## [2026-05-08] Flutter Quill v11 Integration & Localizations
+**Category:** failure → pattern
+**Source:** @task-czqb0h, @task-lw3fkv
+**Tags:** [flutter, quill, localizations, report]
+
+*   **API Changes**: In `flutter_quill` v11, `QuillProvider` is optional. Pass `config` directly to `QuillSimpleToolbar` and `QuillEditor.basic`.
+*   **ReadOnly**: The `readOnly` property is no longer in `QuillEditorConfig`. Set it directly on the `QuillController` instance: `_controller.readOnly = true;`.
+*   **Localizations**: Always add `FlutterQuillLocalizations.delegate` to `MaterialApp.router`'s `localizationsDelegates` to avoid `UnimplementedError` on red screen.
+
+**Full entry:** @doc/learnings/learning-final-report-and-quill-integration
+
+---
+
+## [2026-05-08] Auth Role Reset on F5: Firestore Cache & Race Condition
+**Category:** failure → pattern
+**Source:** Current session
+**Tags:** [auth, firestore, role, f5, race-condition]
+
+Refreshing the page (F5) in a Flutter Web app with Firebase Auth can cause the user's role to revert to a default fallback (e.g., 'user' -> 'receptionist') due to:
+1. **Stale Cache**: Firestore reads may return cached data before syncing with the server. Fix: Use `GetOptions(source: Source.server)` in `get()` calls for critical path operations like role checking.
+2. **Race Condition**: `NotificationCubit` updating the FCM token with `.set(..., SetOptions(merge: true))` on startup may trigger *before* `AuthCubit` reads the document. If the document was empty or didn't exist in cache, `set()` creates a partial document with ONLY `fcm_token`, causing `AuthCubit` to fall back to the default role!
+
+**Full entry:** @doc/learnings/learning-auth-role-f5-issue

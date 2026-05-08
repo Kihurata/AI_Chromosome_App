@@ -1,0 +1,152 @@
+{
+  "taskId": "czqb0h",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "czqb0h",
+      "version": 1,
+      "timestamp": "2026-05-08T05:26:59.4066517Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo Widget KaryotypeGrid với 4 hàng cố định"
+          },
+          {
+            "completed": false,
+            "text": "Tích hợp KaryotypeGrid vào report_step.dart"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị đúng vị trí dưới ISCN và trên Mô tả chi tiết"
+          }
+        ],
+        "description": "Tạo widget KaryotypeGrid chia thành 4 hàng và tích hợp vào phần Preview của báo cáo.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Xây dựng Widget hiển thị Karyotype theo chuẩn y tế"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "czqb0h",
+      "version": 2,
+      "timestamp": "2026-05-08T05:27:15.9187635Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Tạo Widget KaryotypeGrid trong file mới hoặc trong report_step.dart\n2. Cập nhật phần Preview trong report_step.dart để chèn KaryotypeGrid vào giữa\n3. Xác minh hiển thị với dữ liệu mẫu"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo Widget KaryotypeGrid với 4 hàng cố định"
+          },
+          {
+            "completed": false,
+            "text": "Tích hợp KaryotypeGrid vào report_step.dart"
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị đúng vị trí dưới ISCN và trên Mô tả chi tiết"
+          }
+        ],
+        "description": "Tạo widget KaryotypeGrid chia thành 4 hàng và tích hợp vào phần Preview của báo cáo.",
+        "implementationPlan": "1. Tạo Widget KaryotypeGrid trong file mới hoặc trong report_step.dart\n2. Cập nhật phần Preview trong report_step.dart để chèn KaryotypeGrid vào giữa\n3. Xác minh hiển thị với dữ liệu mẫu",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Xây dựng Widget hiển thị Karyotype theo chuẩn y tế"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "czqb0h",
+      "version": 3,
+      "timestamp": "2026-05-08T05:28:25.851021Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Tạo Widget KaryotypeGrid với 4 hàng cố định"
+          },
+          {
+            "completed": true,
+            "text": "Tích hợp KaryotypeGrid vào report_step.dart"
+          },
+          {
+            "completed": true,
+            "text": "Hiển thị đúng vị trí dưới ISCN và trên Mô tả chi tiết"
+          }
+        ],
+        "description": "Tạo widget KaryotypeGrid chia thành 4 hàng và tích hợp vào phần Preview của báo cáo.",
+        "implementationPlan": "1. Tạo Widget KaryotypeGrid trong file mới hoặc trong report_step.dart\n2. Cập nhật phần Preview trong report_step.dart để chèn KaryotypeGrid vào giữa\n3. Xác minh hiển thị với dữ liệu mẫu",
+        "priority": "medium",
+        "status": "done",
+        "title": "Xây dựng Widget hiển thị Karyotype theo chuẩn y tế"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "czqb0h",
+      "version": 4,
+      "timestamp": "2026-05-08T05:33:00.8298691Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "📚 Extracted to @doc/learnings/learning-final-report-and-quill-integration"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Tạo Widget KaryotypeGrid với 4 hàng cố định",
+            "completed": true
+          },
+          {
+            "text": "Tích hợp KaryotypeGrid vào report_step.dart",
+            "completed": true
+          },
+          {
+            "text": "Hiển thị đúng vị trí dưới ISCN và trên Mô tả chi tiết",
+            "completed": true
+          }
+        ],
+        "description": "Tạo widget KaryotypeGrid chia thành 4 hàng và tích hợp vào phần Preview của báo cáo.",
+        "implementationNotes": "📚 Extracted to @doc/learnings/learning-final-report-and-quill-integration",
+        "implementationPlan": "1. Tạo Widget KaryotypeGrid trong file mới hoặc trong report_step.dart\n2. Cập nhật phần Preview trong report_step.dart để chèn KaryotypeGrid vào giữa\n3. Xác minh hiển thị với dữ liệu mẫu",
+        "priority": "medium",
+        "status": "done",
+        "title": "Xây dựng Widget hiển thị Karyotype theo chuẩn y tế"
+      }
+    }
+  ]
+}

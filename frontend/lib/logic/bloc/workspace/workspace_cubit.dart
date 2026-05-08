@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/entities/chromosome.dart';
 import '../../../domain/usecases/specialist/update_chromosome_position.dart';
 import '../../../domain/usecases/test_order/submit_analysis_result.dart';
+import '../../../domain/usecases/test_order/update_report_content.dart';
 import '../../../domain/repositories/workspace_repository.dart';
 import '../../../domain/entities/metaphase_image.dart';
 
@@ -58,20 +59,20 @@ class WorkspaceState {
 class WorkspaceCubit extends Cubit<WorkspaceState> {
   final UpdateChromosomePosition updatePositionUsecase;
   final SubmitAnalysisResult submitAnalysisUsecase;
+  final UpdateReportContent updateReportContentUsecase;
   final WorkspaceRepository workspaceRepository;
   final String orderId;
 
   WorkspaceCubit({
     required this.updatePositionUsecase,
     required this.submitAnalysisUsecase,
+    required this.updateReportContentUsecase,
     required this.workspaceRepository,
     required this.orderId,
   }) : super(WorkspaceState(chromosomes: []));
 
   // Sync with Riverpod raw stream
   void syncFromStream(List<Chromosome> streamData) {
-    // Priority: If we are not currently dragging something, 
-    // or we want to overwrite local state with DB source.
     emit(state.copyWith(chromosomes: streamData));
   }
 
@@ -91,7 +92,6 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
         errorMessage: failure.message,
       )),
       (chromosomes) async {
-        // Also fetch image metadata for suggestions
         final imageResult = await workspaceRepository.getMetaphaseImage(
           orderId,
           selectedImageId,
@@ -99,7 +99,7 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
 
         List<DiagnosisSuggestion> suggestions = [];
         imageResult.fold(
-          (_) => null, // Ignore error for metadata, just empty suggestions
+          (_) => null,
           (image) => suggestions = image.aiSuggestions,
         );
 
@@ -138,7 +138,6 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
     );
   }
 
-  // Handle local dragging/rotation (Temporary state + background sync)
   void updatePosition(String id, double newX, double newY) {
     Chromosome? updatedChromosome;
     final updatedList = state.chromosomes.map((item) {
@@ -149,10 +148,8 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
       return item;
     }).toList();
 
-    // 1. Immediate UI update for smooth dragging
     emit(state.copyWith(chromosomes: updatedList, selectedId: id, isDirty: true));
 
-    // 2. Background sync to Firestore
     if (updatedChromosome != null && state.selectedImageIds.isNotEmpty) {
       final selectedImageId = state.selectedImageIds.first;
       updatePositionUsecase(orderId, selectedImageId, updatedChromosome!);
@@ -209,13 +206,24 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
     }
   }
 
-  Future<void> submitAnalysis() async {
+  Future<void> submitAnalysis(String reportContent) async {
     emit(state.copyWith(status: WorkspaceStatus.loading));
-    final result = await submitAnalysisUsecase(orderId);
-    result.fold(
-      (failure) => emit(state.copyWith(status: WorkspaceStatus.error, errorMessage: failure.message)),
-      (_) => emit(state.copyWith(status: WorkspaceStatus.success)),
+    
+    // 1. Save report content
+    final saveResult = await updateReportContentUsecase(orderId, reportContent);
+    
+    await saveResult.fold(
+      (failure) async {
+        emit(state.copyWith(status: WorkspaceStatus.error, errorMessage: failure.message));
+      },
+      (_) async {
+        // 2. Submit analysis
+        final result = await submitAnalysisUsecase(orderId);
+        result.fold(
+          (failure) => emit(state.copyWith(status: WorkspaceStatus.error, errorMessage: failure.message)),
+          (_) => emit(state.copyWith(status: WorkspaceStatus.success)),
+        );
+      },
     );
   }
 }
-

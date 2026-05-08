@@ -1,0 +1,161 @@
+{
+  "taskId": "6z8y14",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "6z8y14",
+      "version": 1,
+      "timestamp": "2026-05-08T04:56:13.9885186Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Cập nhật Data Model để hỗ trợ trường nội dung báo cáo (Delta JSON)."
+          },
+          {
+            "completed": false,
+            "text": "Lưu dữ liệu khi nhấn Lưu hoặc khi hoàn thành."
+          },
+          {
+            "completed": false,
+            "text": "Lấy dữ liệu cũ nếu có khi mở màn hình."
+          }
+        ],
+        "description": "Lưu trữ và lấy dữ liệu Delta JSON từ Firestore cho TestOrder hiện tại.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Tích hợp lưu trữ Delta JSON vào Firestore"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "6z8y14",
+      "version": 2,
+      "timestamp": "2026-05-08T05:00:39.4200581Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Cập nhật Data Model để hỗ trợ trường nội dung báo cáo (Delta JSON)."
+          },
+          {
+            "completed": false,
+            "text": "Lưu dữ liệu khi nhấn Lưu hoặc khi hoàn thành."
+          },
+          {
+            "completed": false,
+            "text": "Lấy dữ liệu cũ nếu có khi mở màn hình."
+          }
+        ],
+        "description": "Lưu trữ và lấy dữ liệu Delta JSON từ Firestore cho TestOrder hiện tại.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Tích hợp lưu trữ Delta JSON vào Firestore"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "6z8y14",
+      "version": 3,
+      "timestamp": "2026-05-08T05:00:47.9715094Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Cập nhật Data Model để hỗ trợ trường report_content (Delta JSON).\n2. Cập nhật WorkspaceCubit để lưu report_content khi submit.\n3. Cập nhật report_step.dart để đọc/ghi dữ liệu từ Cubit."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Cập nhật Data Model để hỗ trợ trường nội dung báo cáo (Delta JSON)."
+          },
+          {
+            "completed": false,
+            "text": "Lưu dữ liệu khi nhấn Lưu hoặc khi hoàn thành."
+          },
+          {
+            "completed": false,
+            "text": "Lấy dữ liệu cũ nếu có khi mở màn hình."
+          }
+        ],
+        "description": "Lưu trữ và lấy dữ liệu Delta JSON từ Firestore cho TestOrder hiện tại.",
+        "implementationPlan": "1. Cập nhật Data Model để hỗ trợ trường report_content (Delta JSON).\n2. Cập nhật WorkspaceCubit để lưu report_content khi submit.\n3. Cập nhật report_step.dart để đọc/ghi dữ liệu từ Cubit.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Tích hợp lưu trữ Delta JSON vào Firestore"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "6z8y14",
+      "version": 4,
+      "timestamp": "2026-05-08T05:03:28.1680645Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Cập nhật Data Model để hỗ trợ trường nội dung báo cáo (Delta JSON).",
+            "completed": false
+          },
+          {
+            "text": "Lưu dữ liệu khi nhấn Lưu hoặc khi hoàn thành.",
+            "completed": false
+          },
+          {
+            "text": "Lấy dữ liệu cũ nếu có khi mở màn hình.",
+            "completed": false
+          }
+        ],
+        "description": "Lưu trữ và lấy dữ liệu Delta JSON từ Firestore cho TestOrder hiện tại.",
+        "implementationPlan": "1. Cập nhật Data Model để hỗ trợ trường report_content (Delta JSON).\n2. Cập nhật WorkspaceCubit để lưu report_content khi submit.\n3. Cập nhật report_step.dart để đọc/ghi dữ liệu từ Cubit.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Tích hợp lưu trữ Delta JSON vào Firestore"
+      }
+    }
+  ]
+}

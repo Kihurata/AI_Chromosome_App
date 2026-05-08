@@ -82,6 +82,7 @@ import '../../domain/usecases/test_order/assign_order_to_specialist.dart'
 import '../../domain/usecases/test_order/get_test_order_by_id.dart' as _i205;
 import '../../domain/usecases/test_order/reject_karyotype_result.dart' as _i749;
 import '../../domain/usecases/test_order/submit_analysis_result.dart' as _i906;
+import '../../domain/usecases/test_order/update_report_content.dart' as _i939;
 import '../../domain/usecases/test_order/watch_all_orders.dart' as _i1069;
 import '../../domain/usecases/update_sample_note_usecase.dart' as _i589;
 import '../../logic/bloc/appointment/appointment_cubit.dart' as _i618;
@@ -289,6 +290,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i906.SubmitAnalysisResult>(
       () => _i906.SubmitAnalysisResult(gh<_i655.TestOrderRepository>()),
+    );
+    gh.factory<_i939.UpdateReportContent>(
+      () => _i939.UpdateReportContent(gh<_i655.TestOrderRepository>()),
     );
     gh.factory<_i1069.WatchAllOrders>(
       () => _i1069.WatchAllOrders(gh<_i655.TestOrderRepository>()),

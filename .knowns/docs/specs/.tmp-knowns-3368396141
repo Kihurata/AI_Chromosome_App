@@ -1,0 +1,26 @@
+---
+title: 'Specialist Workspace Final Report nhật.\n\n## Acceptance Criteria\n- [ ] AC-1: Chuyên viên có thể gõ văn bản và định dạng ở khung bên trái.\n- [ ] AC-2: Khi bấm nút cập nhật, khung bên phải hiển thị đúng nội dung đã gõ.\n- [ ] AC-3: Dữ liệu lưu xuống Firestore là chuỗi JSON Delta.\n- [ ] AC-4: Thông tin ISCN và bệnh nhân không thể sửa.'
+description: Spec for Final Report
+createdAt: '2026-05-08T03:46:44.371Z'
+updatedAt: '2026-05-08T03:46:44.371Z'
+tags:
+  - spec
+  - draft
+---
+
+## Overview
+
+Màn hình tạo báo cáo final trong Workspace của Specialist.
+
+## Locked Decisions
+- D1: Sử dụng định dạng Delta (JSON) cho nội dung soạn thảo.
+- D2: Xem trước chỉ cập nhật khi bấm nút.
+- D3: Các thông tin khác (ISCN, Patient info) là chỉ đọc.
+- D4: Không hiển thị phần thông tin bác sĩ và nút ký số ở góc dưới bên trái.
+
+## Requirements
+### Functional Requirements
+- FR-1: Hiển thị trình soạn thảo Rich Text ở bên trái.
+- FR-2: Lưu trữ nội dung soạn thảo dưới dạng Delta JSON trong Firestore.
+- FR-3: Hiển thị thông tin bệnh nhân và công thức ISCN ở dạng chỉ đọc.
+- FR-4: Cập nhật vùng xem trước bên phải khi bấm nút Cập

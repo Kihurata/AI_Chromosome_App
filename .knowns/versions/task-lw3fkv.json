@@ -1,0 +1,111 @@
+{
+  "taskId": "lw3fkv",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "lw3fkv",
+      "version": 1,
+      "timestamp": "2026-05-08T05:27:05.1379092Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Lấy danh sách chromosomes từ WorkspaceCubit"
+          },
+          {
+            "completed": false,
+            "text": "Truyền dữ liệu vào KaryotypeGrid"
+          },
+          {
+            "completed": false,
+            "text": "Xử lý hiển thị ảnh hoặc placeholder"
+          }
+        ],
+        "description": "Truyền danh sách nhiễm sắc thể từ state vào Widget KaryotypeGrid để hiển thị ảnh thực tế.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Kết nối dữ liệu từ WorkspaceCubit vào Widget Karyotype"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "lw3fkv",
+      "version": 2,
+      "timestamp": "2026-05-08T05:28:29.4496501Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Lấy danh sách chromosomes từ WorkspaceCubit"
+          },
+          {
+            "completed": true,
+            "text": "Truyền dữ liệu vào KaryotypeGrid"
+          },
+          {
+            "completed": true,
+            "text": "Xử lý hiển thị ảnh hoặc placeholder"
+          }
+        ],
+        "description": "Truyền danh sách nhiễm sắc thể từ state vào Widget KaryotypeGrid để hiển thị ảnh thực tế.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Kết nối dữ liệu từ WorkspaceCubit vào Widget Karyotype"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "lw3fkv",
+      "version": 3,
+      "timestamp": "2026-05-08T05:33:03.7805183Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "📚 Extracted to @doc/learnings/learning-final-report-and-quill-integration"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Lấy danh sách chromosomes từ WorkspaceCubit",
+            "completed": true
+          },
+          {
+            "text": "Truyền dữ liệu vào KaryotypeGrid",
+            "completed": true
+          },
+          {
+            "text": "Xử lý hiển thị ảnh hoặc placeholder",
+            "completed": true
+          }
+        ],
+        "description": "Truyền danh sách nhiễm sắc thể từ state vào Widget KaryotypeGrid để hiển thị ảnh thực tế.",
+        "implementationNotes": "📚 Extracted to @doc/learnings/learning-final-report-and-quill-integration",
+        "priority": "medium",
+        "status": "done",
+        "title": "Kết nối dữ liệu từ WorkspaceCubit vào Widget Karyotype"
+      }
+    }
+  ]
+}

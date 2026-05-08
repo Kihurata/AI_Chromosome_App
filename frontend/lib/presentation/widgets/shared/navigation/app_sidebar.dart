@@ -18,7 +18,7 @@ class AppSidebar extends StatelessWidget {
       SidebarItemData(icon: LucideIcons.layoutGrid, title: 'Danh sách BN', index: 0),
       SidebarItemData(icon: LucideIcons.users, title: 'Bệnh nhân', index: 1),
       SidebarItemData(icon: LucideIcons.calendar, title: 'Lịch hẹn', index: 2),
-      SidebarItemData(icon: LucideIcons.microscope, title: 'Phòng Lab AI', index: 3),
+
       SidebarItemData(icon: LucideIcons.fileText, title: 'Hồ sơ y tế', index: 4),
       SidebarItemData(icon: LucideIcons.settings, title: 'Cài đặt', index: 5),
     ];

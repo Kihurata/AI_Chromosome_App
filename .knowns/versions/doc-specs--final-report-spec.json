@@ -1,0 +1,103 @@
+{
+  "docPath": "specs/final-report-spec",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "specs/final-report-spec",
+      "version": 1,
+      "timestamp": "2026-05-08T03:46:50.4523927Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Final Report Spec"
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "spec",
+            "draft"
+          ]
+        }
+      ],
+      "snapshot": {
+        "tags": [
+          "spec",
+          "draft"
+        ],
+        "title": "Final Report Spec"
+      }
+    },
+    {
+      "id": "v2",
+      "docPath": "specs/final-report-spec",
+      "version": 2,
+      "timestamp": "2026-05-08T03:47:03.3845829Z",
+      "changes": [
+        {
+          "field": "content",
+          "oldValue": null,
+          "newValue": "## Overview\n\nMàn hình tạo báo cáo final trong Workspace của Specialist.\n\n## Locked Decisions\n- D1: Sử dụng định dạng Delta (JSON) cho nội dung soạn thảo.\n- D2: Xem trước chỉ cập nhật khi bấm nút.\n- D3: Các thông tin khác (ISCN, Patient info) là chỉ đọc.\n- D4: Không hiển thị phần thông tin bác sĩ và nút ký số ở góc dưới bên trái."
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\n\nMàn hình tạo báo cáo final trong Workspace của Specialist.\n\n## Locked Decisions\n- D1: Sử dụng định dạng Delta (JSON) cho nội dung soạn thảo.\n- D2: Xem trước chỉ cập nhật khi bấm nút.\n- D3: Các thông tin khác (ISCN, Patient info) là chỉ đọc.\n- D4: Không hiển thị phần thông tin bác sĩ và nút ký số ở góc dưới bên trái.",
+        "tags": [
+          "spec",
+          "draft"
+        ],
+        "title": "Final Report Spec"
+      }
+    },
+    {
+      "id": "v3",
+      "docPath": "specs/final-report-spec",
+      "version": 3,
+      "timestamp": "2026-05-08T03:47:21.7060051Z",
+      "changes": [
+        {
+          "field": "content",
+          "oldValue": "## Overview\n\nMàn hình tạo báo cáo final trong Workspace của Specialist.\n\n## Locked Decisions\n- D1: Sử dụng định dạng Delta (JSON) cho nội dung soạn thảo.\n- D2: Xem trước chỉ cập nhật khi bấm nút.\n- D3: Các thông tin khác (ISCN, Patient info) là chỉ đọc.\n- D4: Không hiển thị phần thông tin bác sĩ và nút ký số ở góc dưới bên trái.",
+          "newValue": "## Overview\nĐặc tả màn hình tạo báo cáo final trong Workspace của Specialist. Màn hình chia làm 2 phần: Bên trái là trình soạn thảo văn bản (Delta format), bên phải là xem trước (A4 layout).\n\n## Locked Decisions\n- D1: Sử dụng định dạng Delta (JSON) cho nội dung soạn thảo.\n- D2: Xem trước chỉ cập nhật khi bấm nút.\n- D3: Các thông tin khác (ISCN, Patient info) là chỉ đọc.\n- D4: Không hiển thị phần thông tin bác sĩ và nút ký số ở góc dưới bên trái.\n\n## Requirements\n### Functional Requirements\n- FR-1: Hiển thị trình soạn thảo Rich Text ở bên trái (hỗ trợ B, I, List, Link).\n- FR-2: Lưu trữ nội dung soạn thảo dưới dạng Delta JSON trong Firestore.\n- FR-3: Hiển thị thông tin bệnh nhân và công thức ISCN ở dạng chỉ đọc.\n- FR-4: Cập nhật vùng xem trước bên phải khi bấm nút \"Cập nhật\".\n- FR-5: Không hiển thị phần ký số ở góc dưới bên trái.\n\n### Non-Functional Requirements\n- NFR-1: Trình soạn thảo mượt mà, hỗ trợ các định dạng cơ bản.\n- NFR-2: Xem trước hiển thị đúng định dạng A4.\n\n## Acceptance Criteria\n- [ ] AC-1: Chuyên viên có thể gõ văn bản và định dạng ở khung bên trái.\n- [ ] AC-2: Khi bấm nút cập nhật, khung bên phải hiển thị đúng nội dung đã gõ.\n- [ ] AC-3: Dữ liệu lưu xuống Firestore là chuỗi JSON Delta.\n- [ ] AC-4: Thông tin ISCN và bệnh nhân không thể sửa."
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\nĐặc tả màn hình tạo báo cáo final trong Workspace của Specialist. Màn hình chia làm 2 phần: Bên trái là trình soạn thảo văn bản (Delta format), bên phải là xem trước (A4 layout).\n\n## Locked Decisions\n- D1: Sử dụng định dạng Delta (JSON) cho nội dung soạn thảo.\n- D2: Xem trước chỉ cập nhật khi bấm nút.\n- D3: Các thông tin khác (ISCN, Patient info) là chỉ đọc.\n- D4: Không hiển thị phần thông tin bác sĩ và nút ký số ở góc dưới bên trái.\n\n## Requirements\n### Functional Requirements\n- FR-1: Hiển thị trình soạn thảo Rich Text ở bên trái (hỗ trợ B, I, List, Link).\n- FR-2: Lưu trữ nội dung soạn thảo dưới dạng Delta JSON trong Firestore.\n- FR-3: Hiển thị thông tin bệnh nhân và công thức ISCN ở dạng chỉ đọc.\n- FR-4: Cập nhật vùng xem trước bên phải khi bấm nút \"Cập nhật\".\n- FR-5: Không hiển thị phần ký số ở góc dưới bên trái.\n\n### Non-Functional Requirements\n- NFR-1: Trình soạn thảo mượt mà, hỗ trợ các định dạng cơ bản.\n- NFR-2: Xem trước hiển thị đúng định dạng A4.\n\n## Acceptance Criteria\n- [ ] AC-1: Chuyên viên có thể gõ văn bản và định dạng ở khung bên trái.\n- [ ] AC-2: Khi bấm nút cập nhật, khung bên phải hiển thị đúng nội dung đã gõ.\n- [ ] AC-3: Dữ liệu lưu xuống Firestore là chuỗi JSON Delta.\n- [ ] AC-4: Thông tin ISCN và bệnh nhân không thể sửa.",
+        "tags": [
+          "spec",
+          "draft"
+        ],
+        "title": "Final Report Spec"
+      }
+    },
+    {
+      "id": "v4",
+      "docPath": "specs/final-report-spec",
+      "version": 4,
+      "timestamp": "2026-05-08T03:53:26.7702115Z",
+      "changes": [
+        {
+          "field": "tags",
+          "oldValue": [
+            "spec",
+            "draft"
+          ],
+          "newValue": [
+            "spec",
+            "approved"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "## Overview\nĐặc tả màn hình tạo báo cáo final trong Workspace của Specialist. Màn hình chia làm 2 phần: Bên trái là trình soạn thảo văn bản (Delta format), bên phải là xem trước (A4 layout).\n\n## Locked Decisions\n- D1: Sử dụng định dạng Delta (JSON) cho nội dung soạn thảo.\n- D2: Xem trước chỉ cập nhật khi bấm nút.\n- D3: Các thông tin khác (ISCN, Patient info) là chỉ đọc.\n- D4: Không hiển thị phần thông tin bác sĩ và nút ký số ở góc dưới bên trái.\n\n## Requirements\n### Functional Requirements\n- FR-1: Hiển thị trình soạn thảo Rich Text ở bên trái (hỗ trợ B, I, List, Link).\n- FR-2: Lưu trữ nội dung soạn thảo dưới dạng Delta JSON trong Firestore.\n- FR-3: Hiển thị thông tin bệnh nhân và công thức ISCN ở dạng chỉ đọc.\n- FR-4: Cập nhật vùng xem trước bên phải khi bấm nút \"Cập nhật\".\n- FR-5: Không hiển thị phần ký số ở góc dưới bên trái.\n\n### Non-Functional Requirements\n- NFR-1: Trình soạn thảo mượt mà, hỗ trợ các định dạng cơ bản.\n- NFR-2: Xem trước hiển thị đúng định dạng A4.\n\n## Acceptance Criteria\n- [ ] AC-1: Chuyên viên có thể gõ văn bản và định dạng ở khung bên trái.\n- [ ] AC-2: Khi bấm nút cập nhật, khung bên phải hiển thị đúng nội dung đã gõ.\n- [ ] AC-3: Dữ liệu lưu xuống Firestore là chuỗi JSON Delta.\n- [ ] AC-4: Thông tin ISCN và bệnh nhân không thể sửa.",
+        "tags": [
+          "spec",
+          "approved"
+        ],
+        "title": "Final Report Spec"
+      }
+    }
+  ]
+}

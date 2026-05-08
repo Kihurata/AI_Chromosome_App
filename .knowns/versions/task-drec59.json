@@ -1,0 +1,177 @@
+{
+  "taskId": "drec59",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "drec59",
+      "version": 1,
+      "timestamp": "2026-05-08T04:56:09.5697444Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo giao diện chia đôi (split screen)."
+          },
+          {
+            "completed": false,
+            "text": "Tích hợp Flutter Quill làm editor bên trái."
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị thông tin bệnh nhân và ISCN dạng chỉ đọc."
+          },
+          {
+            "completed": false,
+            "text": "Nút cập nhật kích hoạt render lại bên phải."
+          }
+        ],
+        "description": "Xây dựng layout chia đôi, bên trái là Rich Text Editor (Quill) và bên phải là Preview A4. Hiển thị thông tin ISCN và bệnh nhân dạng chỉ đọc.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Xây dựng giao diện Editor và Preview cho Báo cáo Final"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "drec59",
+      "version": 2,
+      "timestamp": "2026-05-08T04:56:24.9066342Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo giao diện chia đôi (split screen)."
+          },
+          {
+            "completed": false,
+            "text": "Tích hợp Flutter Quill làm editor bên trái."
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị thông tin bệnh nhân và ISCN dạng chỉ đọc."
+          },
+          {
+            "completed": false,
+            "text": "Nút cập nhật kích hoạt render lại bên phải."
+          }
+        ],
+        "description": "Xây dựng layout chia đôi, bên trái là Rich Text Editor (Quill) và bên phải là Preview A4. Hiển thị thông tin ISCN và bệnh nhân dạng chỉ đọc.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Xây dựng giao diện Editor và Preview cho Báo cáo Final"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "drec59",
+      "version": 3,
+      "timestamp": "2026-05-08T04:56:34.0391816Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Tìm file màn hình Workspace và xác định vị trí bước tạo báo cáo.\n2. Thiết kế layout chia đôi (Split Screen).\n3. Tích hợp thư viện flutter_quill làm editor.\n4. Hiển thị thông tin bệnh nhân và ISCN dạng chỉ đọc.\n5. Xử lý sự kiện bấm nút Cập nhật để render preview."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Tạo giao diện chia đôi (split screen)."
+          },
+          {
+            "completed": false,
+            "text": "Tích hợp Flutter Quill làm editor bên trái."
+          },
+          {
+            "completed": false,
+            "text": "Hiển thị thông tin bệnh nhân và ISCN dạng chỉ đọc."
+          },
+          {
+            "completed": false,
+            "text": "Nút cập nhật kích hoạt render lại bên phải."
+          }
+        ],
+        "description": "Xây dựng layout chia đôi, bên trái là Rich Text Editor (Quill) và bên phải là Preview A4. Hiển thị thông tin ISCN và bệnh nhân dạng chỉ đọc.",
+        "implementationPlan": "1. Tìm file màn hình Workspace và xác định vị trí bước tạo báo cáo.\n2. Thiết kế layout chia đôi (Split Screen).\n3. Tích hợp thư viện flutter_quill làm editor.\n4. Hiển thị thông tin bệnh nhân và ISCN dạng chỉ đọc.\n5. Xử lý sự kiện bấm nút Cập nhật để render preview.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Xây dựng giao diện Editor và Preview cho Báo cáo Final"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "drec59",
+      "version": 4,
+      "timestamp": "2026-05-08T05:00:35.0994478Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Tạo giao diện chia đôi (split screen).",
+            "completed": false
+          },
+          {
+            "text": "Tích hợp Flutter Quill làm editor bên trái.",
+            "completed": false
+          },
+          {
+            "text": "Hiển thị thông tin bệnh nhân và ISCN dạng chỉ đọc.",
+            "completed": false
+          },
+          {
+            "text": "Nút cập nhật kích hoạt render lại bên phải.",
+            "completed": false
+          }
+        ],
+        "description": "Xây dựng layout chia đôi, bên trái là Rich Text Editor (Quill) và bên phải là Preview A4. Hiển thị thông tin ISCN và bệnh nhân dạng chỉ đọc.",
+        "implementationPlan": "1. Tìm file màn hình Workspace và xác định vị trí bước tạo báo cáo.\n2. Thiết kế layout chia đôi (Split Screen).\n3. Tích hợp thư viện flutter_quill làm editor.\n4. Hiển thị thông tin bệnh nhân và ISCN dạng chỉ đọc.\n5. Xử lý sự kiện bấm nút Cập nhật để render preview.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Xây dựng giao diện Editor và Preview cho Báo cáo Final"
+      }
+    }
+  ]
+}

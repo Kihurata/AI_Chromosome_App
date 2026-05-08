@@ -225,11 +225,17 @@ class _KaryotypeSlot extends StatelessWidget {
                 child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
                   builder: (context, state) {
                     final matched = state.chromosomes.where((c) => c.label == label).toList();
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    return Wrap(
+                      spacing: 4,
+                      runSpacing: 4,
+                      alignment: WrapAlignment.spaceEvenly,
                       children: matched.map((chromo) => Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: _DraggableChromosome(chromosome: chromo),
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: SizedBox(
+                          width: 30,
+                          height: 60,
+                          child: _DraggableChromosome(chromosome: chromo),
+                        ),
                       )).toList(),
                     );
                   },

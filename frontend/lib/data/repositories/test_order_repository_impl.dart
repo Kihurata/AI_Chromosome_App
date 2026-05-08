@@ -152,4 +152,14 @@ class TestOrderRepositoryImpl implements TestOrderRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> updateReportContent(String orderId, String reportContent) async {
+    try {
+      await remoteDataSource.updateReportContent(orderId, reportContent);
+      return const Right(null);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

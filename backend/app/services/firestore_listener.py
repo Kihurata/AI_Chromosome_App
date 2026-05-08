@@ -92,9 +92,9 @@ async def start_order_listener():
                     elif new_status in ['ANALYZING', 'IN_PROGRESS']:
                         print(f"DEBUG: Starting analysis trigger for {order_id}")
                         if loop.is_running():
-                            loop.create_task(orchestrator_service.trigger_analysis_for_order(order_id))
+                            loop.create_task(orchestrator_service.analyze_order(order_id))
                         else:
-                            asyncio.run(orchestrator_service.trigger_analysis_for_order(order_id))
+                            asyncio.run(orchestrator_service.analyze_order(order_id))
                     elif new_status == 'WAITING_APPROVAL':
                         print(f"DEBUG: Notify: Analysis ready for {order_id}")
                         notification_service.notify_analysis_ready(order_id, patient_name)

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:go_router/go_router.dart';
-import '../../../../core/router/app_router.dart';
 import '../../../../core/di/injection.dart';
 import '../../../../core/providers/auth_provider.dart';
 import '../../../../core/providers/drawer_provider.dart';
@@ -87,7 +85,7 @@ class _SpecialistDashboardPageState
 
   @override
   void dispose() {
-    FocusScope.of(context).unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
     Future.microtask(() {
       _container.read(drawerProvider.notifier).clear();
     });
@@ -103,17 +101,6 @@ class _SpecialistDashboardPageState
       value: _cubit,
       child: MultiBlocListener(
         listeners: [
-          BlocListener<SpecialistDashboardCubit, SpecialistDashboardState>(
-            listenWhen: (previous, current) => current.lastStartedOrderId != null,
-            listener: (context, state) {
-              if (state.lastStartedOrderId != null) {
-                if (!context.mounted) return;
-                final orderId = state.lastStartedOrderId!;
-                _cubit.clearNavigation();
-                context.push('${AppRoutes.specialistAnalysis}/$orderId');
-              }
-            },
-          ),
           BlocListener<NotificationCubit, NotificationState>(
             listener: (context, state) {
               if (state is NotificationActionRequested && (state.type == 'ORDER_ASSIGNED' || state.type == 'ORDER_REJECTED')) {
