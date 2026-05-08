@@ -132,14 +132,20 @@ class SampleManagementCubit extends Cubit<SampleManagementState> {
     return filtered;
   }
 
-  Future<void> updateStatus(String sampleId, SampleStatus status) async {
+  Future<void> updateStatus(String sampleId, String orderId, SampleStatus status) async {
     final result = await _repository.updateSampleStatus(sampleId, status);
     result.fold(
       (failure) => emit(state.copyWith(
         status: SampleManagementStatus.error,
         errorMessage: failure.message,
       )),
-      (_) => null,
+      (_) async {
+        if (status == SampleStatus.culturing) {
+          await _updateOrderStatus(orderId, TestOrderStatus.culturing);
+        } else if (status == SampleStatus.harvested) {
+          await _updateOrderStatus(orderId, TestOrderStatus.analyzing);
+        }
+      },
     );
   }
 

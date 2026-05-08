@@ -1,0 +1,145 @@
+{
+  "taskId": "iu5hqc",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "iu5hqc",
+      "version": 1,
+      "timestamp": "2026-05-08T02:43:57.4682151Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Cập nhật SampleCard để gọi phương thức cập nhật test_order"
+          },
+          {
+            "completed": false,
+            "text": "Đảm bảo trạng thái test_order chuyển thành CULTURING"
+          }
+        ],
+        "description": "Khi nhấn 'Bắt đầu nuôi cấy', cập nhật trạng thái của test_order thành CULTURING.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Update 'Bắt đầu nuôi cấy' logic to update TestOrder status"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "iu5hqc",
+      "version": 2,
+      "timestamp": "2026-05-08T02:44:27.4259615Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Cập nhật SampleCard để gọi phương thức cập nhật test_order"
+          },
+          {
+            "completed": false,
+            "text": "Đảm bảo trạng thái test_order chuyển thành CULTURING"
+          }
+        ],
+        "description": "Khi nhấn 'Bắt đầu nuôi cấy', cập nhật trạng thái của test_order thành CULTURING.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Update 'Bắt đầu nuôi cấy' logic to update TestOrder status"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "iu5hqc",
+      "version": 3,
+      "timestamp": "2026-05-08T02:45:05.7160157Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "1. Cap nhat SampleManagementCubit.updateStatus nhan them orderId.\n2. Goi _updateOrderStatus trong updateStatus khi chuyen sang culturing hoac harvested.\n3. Cap nhat sample_management_page.dart de truyen orderId vao updateStatus."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Cập nhật SampleCard để gọi phương thức cập nhật test_order"
+          },
+          {
+            "completed": false,
+            "text": "Đảm bảo trạng thái test_order chuyển thành CULTURING"
+          }
+        ],
+        "description": "Khi nhấn 'Bắt đầu nuôi cấy', cập nhật trạng thái của test_order thành CULTURING.",
+        "implementationPlan": "1. Cap nhat SampleManagementCubit.updateStatus nhan them orderId.\n2. Goi _updateOrderStatus trong updateStatus khi chuyen sang culturing hoac harvested.\n3. Cap nhat sample_management_page.dart de truyen orderId vao updateStatus.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Update 'Bắt đầu nuôi cấy' logic to update TestOrder status"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "iu5hqc",
+      "version": 4,
+      "timestamp": "2026-05-08T02:45:26.952684Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Cập nhật SampleCard để gọi phương thức cập nhật test_order",
+            "completed": true
+          },
+          {
+            "text": "Đảm bảo trạng thái test_order chuyển thành CULTURING",
+            "completed": true
+          }
+        ],
+        "description": "Khi nhấn 'Bắt đầu nuôi cấy', cập nhật trạng thái của test_order thành CULTURING.",
+        "implementationPlan": "1. Cap nhat SampleManagementCubit.updateStatus nhan them orderId.\n2. Goi _updateOrderStatus trong updateStatus khi chuyen sang culturing hoac harvested.\n3. Cap nhat sample_management_page.dart de truyen orderId vao updateStatus.",
+        "labels": [
+          "from-spec",
+          "go-mode"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Update 'Bắt đầu nuôi cấy' logic to update TestOrder status"
+      }
+    }
+  ]
+}

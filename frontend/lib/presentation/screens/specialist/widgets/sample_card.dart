@@ -3,11 +3,6 @@ import 'package:intl/intl.dart';
 import '../../../../domain/entities/sample.dart';
 import 'package:go_router/go_router.dart';
 import 'failure_reason_dialog.dart';
-import 'bulk_upload_dialog.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../logic/bloc/specialist/ai_analysis_cubit.dart';
-import '../../../../logic/bloc/specialist/sample_management_cubit.dart';
-import '../../../../core/di/injection.dart';
 
 class SampleCard extends StatelessWidget {
   final Sample sample;
@@ -125,8 +120,8 @@ class SampleCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton.icon(
-                onPressed: () => _openBulkUpload(context),
-                icon: const Icon(Icons.cloud_upload_outlined, size: 16),
+                onPressed: () => _confirmHarvest(context),
+                icon: const Icon(Icons.check_circle_outline, size: 16),
                 label:
                     const Text('Thu hoạch', style: TextStyle(fontSize: 12)),
                 style: ElevatedButton.styleFrom(
@@ -162,9 +157,12 @@ class SampleCard extends StatelessWidget {
       case SampleStatus.harvested:
         return _AbsorbingWidget(
           child: ElevatedButton.icon(
-            onPressed: () => context
-                .read<SampleManagementCubit>()
-                .startAnalysis(sample.testOrderId),
+            onPressed: () {
+              context.goNamed(
+                'specialist-analysis',
+                pathParameters: {'orderId': sample.testOrderId},
+              );
+            },
             icon: const Icon(Icons.analytics_outlined, size: 16),
             label: const Text('Bắt đầu Phân tích',
                 style: TextStyle(fontSize: 12)),
@@ -239,14 +237,47 @@ class SampleCard extends StatelessWidget {
     }
   }
 
-  void _openBulkUpload(BuildContext context) {
-    showDialog(
+  Future<void> _confirmHarvest(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => BlocProvider(
-        create: (_) => getIt<AiAnalysisCubit>(),
-        child: BulkUploadDialog(sample: sample),
+      builder: (ctx) => AlertDialog(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Row(
+          children: [
+            Icon(Icons.check_circle_outline, color: Colors.green),
+            SizedBox(width: 10),
+            Text('Thu hoạch mẫu',
+                style:
+                    TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+          ],
+        ),
+        content: const Text(
+          'Bạn có chắc chắn muốn thu hoạch mẫu này?\nTrạng thái mẫu sẽ chuyển sang "Đã thu hoạch" và TestOrder sẽ chuyển sang "Đang phân tích".',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text('Huỷ',
+                style: TextStyle(color: Colors.grey.shade600)),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green.shade600,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+            ),
+            child: const Text('Xác nhận'),
+          ),
+        ],
       ),
     );
+
+    if (confirmed == true) {
+      onStatusUpdate(SampleStatus.harvested);
+    }
   }
 }
 

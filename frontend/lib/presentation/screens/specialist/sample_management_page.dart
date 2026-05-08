@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import '../../../../core/router/app_router.dart';
 import '../../../../core/providers/drawer_provider.dart';
 import '../../../../core/models/filter_options.dart';
 import '../../../../domain/entities/sample.dart';
@@ -87,17 +85,12 @@ class _SampleManagementPageState extends ConsumerState<SampleManagementPage> {
     final cubit = context.read<SampleManagementCubit>();
 
     return BlocListener<SampleManagementCubit, SampleManagementState>(
-      listenWhen: (p, c) => c.lastStartedOrderId != null || (p.status != c.status && c.status == SampleManagementStatus.error),
+      listenWhen: (p, c) => p.status != c.status && c.status == SampleManagementStatus.error,
       listener: (context, state) {
         if (!context.mounted) return;
 
         if (state.status == SampleManagementStatus.error && state.errorMessage != null) {
           NotificationFactory.showError(context, state.errorMessage!);
-        }
-        if (state.lastStartedOrderId != null) {
-          final orderId = state.lastStartedOrderId!;
-          cubit.clearNavigation();
-          context.push('${AppRoutes.specialistAnalysis}/$orderId');
         }
       },
       child: MainListLayout(
@@ -355,6 +348,7 @@ class _SampleManagementPageState extends ConsumerState<SampleManagementPage> {
                       onStatusUpdate: (status) {
                         context.read<SampleManagementCubit>().updateStatus(
                           sample.id,
+                          sample.testOrderId,
                           status,
                         );
                       },

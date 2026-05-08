@@ -1,0 +1,41 @@
+{
+  "docPath": "specs/update-sample-management-workflow",
+  "currentVersion": 1,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "specs/update-sample-management-workflow",
+      "version": 1,
+      "timestamp": "2026-05-08T02:31:58.0325621Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Update Sample Management Workflow"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Specification for updating Sample Management workflow in Specialist module"
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "spec",
+            "draft"
+          ]
+        }
+      ],
+      "snapshot": {
+        "content": "Drafting spec...",
+        "description": "Specification for updating Sample Management workflow in Specialist module",
+        "tags": [
+          "spec",
+          "draft"
+        ],
+        "title": "Update Sample Management Workflow"
+      }
+    }
+  ]
+}
