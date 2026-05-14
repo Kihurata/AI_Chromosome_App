@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import '../../../../logic/bloc/manager/approval/manager_approval_cubit.dart';
 import '../../../../logic/bloc/manager/approval/manager_approval_state.dart';
@@ -9,6 +8,7 @@ import '../../../../logic/bloc/workspace/workspace_cubit.dart';
 import '../../../widgets/shared/form/app_buttons.dart';
 import '../../workspace/widgets/karyotype_grid.dart';
 import '../../../../core/di/injection.dart';
+import '../../../widgets/shared/layouts/base_layout.dart';
 
 class ManagerApprovalScreen extends StatelessWidget {
   final String orderId;
@@ -75,15 +75,11 @@ class _ManagerApprovalViewState extends State<_ManagerApprovalView> {
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text('Phê duyệt báo cáo: #${widget.orderId}'),
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () => context.pop(),
-            ),
-          ),
-          body: state.status == WorkspaceStatus.loading
+        return BaseLayout(
+          title: 'Phê duyệt báo cáo',
+          subtitle: 'Mã hồ sơ: #${widget.orderId}',
+          showBackButton: true,
+          child: state.status == WorkspaceStatus.loading
               ? const Center(child: CircularProgressIndicator())
               : Padding(
                   padding: const EdgeInsets.all(24.0),

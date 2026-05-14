@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../navigation/app_header.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/providers/header_provider.dart';
 import '../../../../core/theme/app_colors.dart';
 
-class BaseLayout extends StatelessWidget {
+class BaseLayout extends ConsumerWidget {
   final String title;
   final String subtitle;
   final List<Widget>? headerActions;
@@ -25,7 +26,19 @@ class BaseLayout extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Dynamically update the global AppHeader in MainShell
+    Future.microtask(() {
+      if (context.mounted) {
+        ref.read(headerProvider.notifier).update(
+          title: title,
+          subtitle: subtitle,
+          actions: headerActions,
+          showBackButton: showBackButton,
+        );
+      }
+    });
+
     Widget content = padding != null 
         ? Padding(padding: padding!, child: child) 
         : child;
@@ -36,24 +49,12 @@ class BaseLayout extends StatelessWidget {
       );
     }
 
-    return Column(
+    return Stack(
       children: [
-        AppHeader(
-          title: title,
-          subtitle: subtitle,
-          actions: headerActions,
-          showBackButton: showBackButton,
-        ),
-        Expanded(
-          child: Stack(
-            children: [
-              // Background layer
-              background ?? Container(color: AppColors.background),
-              // Content layer
-              SizedBox.expand(child: content),
-            ],
-          ),
-        ),
+        // Background layer
+        background ?? Container(color: AppColors.background),
+        // Content layer
+        SizedBox.expand(child: content),
       ],
     );
   }
