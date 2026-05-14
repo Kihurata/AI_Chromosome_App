@@ -44,7 +44,7 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
 
   @override
   void dispose() {
-    FocusScope.of(context).unfocus();
+    // NOTE: Do NOT call FocusScope.of(context) here — context is deactivated.
     _noteController.dispose();
     _sampleDateCtrl.dispose();
     _sampleTimeCtrl.dispose();

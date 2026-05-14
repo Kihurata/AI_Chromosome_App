@@ -60,11 +60,10 @@ class _DoctorDashboardPageState extends ConsumerState<DoctorDashboardPage> {
   @override
   void initState() {
     super.initState();
-    // Clear drawer from previous pages before registering new one
-    ref.read(drawerProvider.notifier).clear();
-    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
+      // Clear drawer from previous pages (deferred to avoid Riverpod mutation during build)
+      ref.read(drawerProvider.notifier).clear();
       final cubit = context.read<AppointmentCubit>();
       _registerDrawer(ref, cubit);
     });
@@ -80,7 +79,7 @@ class _DoctorDashboardPageState extends ConsumerState<DoctorDashboardPage> {
 
   @override
   void dispose() {
-    FocusScope.of(context).unfocus();
+    // NOTE: Do NOT call FocusScope.of(context) here — context is deactivated.
     Future.microtask(() {
       _container.read(drawerProvider.notifier).clear();
     });
