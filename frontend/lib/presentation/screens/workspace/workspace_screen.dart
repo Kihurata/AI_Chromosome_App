@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../../../logic/bloc/workspace/workspace_cubit.dart';
 import 'steps/screening_step.dart';
 import 'steps/slicing_step.dart';
@@ -46,22 +47,31 @@ class WorkspaceScreen extends StatelessWidget {
         return Stack(
           children: [
             BlocListener<WorkspaceCubit, WorkspaceState>(
-              listenWhen: (previous, current) => 
-                (previous.currentStep != current.currentStep && current.currentStep == 3) ||
-                (previous.status != current.status),
+              listenWhen: (previous, current) =>
+                  (previous.currentStep != current.currentStep &&
+                      current.currentStep == 3) ||
+                  (previous.status != current.status),
               listener: (context, workspaceState) {
                 if (!context.mounted) return;
-                if (workspaceState.currentStep == 3 && workspaceState.chromosomes.isEmpty && workspaceState.status != WorkspaceStatus.loading) {
+                if (workspaceState.currentStep == 3 &&
+                    workspaceState.chromosomes.isEmpty &&
+                    workspaceState.status != WorkspaceStatus.loading) {
                   context.read<WorkspaceCubit>().fetchChromosomesForStep3();
                 }
-                
+
                 if (workspaceState.status == WorkspaceStatus.success) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Thành công'), backgroundColor: Colors.green),
+                    const SnackBar(
+                      content: Text('Thành công'),
+                      backgroundColor: Colors.green,
+                    ),
                   );
                 } else if (workspaceState.status == WorkspaceStatus.error) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Lỗi: ${workspaceState.errorMessage}'), backgroundColor: Colors.red),
+                    SnackBar(
+                      content: Text('Lỗi: ${workspaceState.errorMessage}'),
+                      backgroundColor: Colors.red,
+                    ),
                   );
                 }
               },
@@ -69,131 +79,153 @@ class WorkspaceScreen extends StatelessWidget {
                 backgroundColor: const Color(0xFFF8F9FA),
                 body: Column(
                   children: [
-                  // Stepper Header
-                  Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 16,
+                    // Stepper Header
+                    Container(
+                      color: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 16,
+                      ),
+                      child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
+                        builder: (context, state) {
+                          return Row(
+                            children: [
+                              _buildStepIndicator(
+                                1,
+                                'Sàng lọc',
+                                state,
+                                context,
+                              ),
+                              _buildLine(1, state.maxReachedStep),
+                              _buildStepIndicator(
+                                2,
+                                'Tách NST',
+                                state,
+                                context,
+                              ),
+                              _buildLine(2, state.maxReachedStep),
+                              _buildStepIndicator(
+                                3,
+                                'Lập NST đồ',
+                                state,
+                                context,
+                              ),
+                              _buildLine(3, state.maxReachedStep),
+                              _buildStepIndicator(
+                                4,
+                                'Phê duyệt QC',
+                                state,
+                                context,
+                              ),
+                              _buildLine(4, state.maxReachedStep),
+                              _buildStepIndicator(5, 'Báo cáo', state, context),
+                            ],
+                          );
+                        },
+                      ),
                     ),
-                    child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
+
+                    // Main Content Area
+                    Expanded(
+                      child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
+                        builder: (context, state) {
+                          switch (state.currentStep) {
+                            case 1:
+                              return ScreeningStep(orderId: orderId);
+                            case 2:
+                              return const SlicingStep();
+                            case 3:
+                              return const KaryogramStep();
+                            case 4:
+                              return const QcDiagnosticStep();
+                            case 5:
+                              return const ReportStep();
+                            default:
+                              return const Center(child: Text('Unknown Step'));
+                          }
+                        },
+                      ),
+                    ),
+
+                    // Navigation Controls
+                    BlocBuilder<WorkspaceCubit, WorkspaceState>(
                       builder: (context, state) {
-                        return Row(
-                          children: [
-                            _buildStepIndicator(
-                              1,
-                              'Sàng lọc',
-                              state,
-                              context,
-                            ),
-                            _buildLine(1, state.maxReachedStep),
-                            _buildStepIndicator(
-                              2,
-                              'Tách NST',
-                              state,
-                              context,
-                            ),
-                            _buildLine(2, state.maxReachedStep),
-                            _buildStepIndicator(
-                              3,
-                              'Lập NST đồ',
-                              state,
-                              context,
-                            ),
-                            _buildLine(3, state.maxReachedStep),
-                            _buildStepIndicator(
-                              4,
-                              'Phê duyệt QC',
-                              state,
-                              context,
-                            ),
-                            _buildLine(4, state.maxReachedStep),
-                            _buildStepIndicator(
-                              5,
-                              'Báo cáo',
-                              state,
-                              context,
-                            ),
-                          ],
+                        final isStep1 = state.currentStep == 1;
+                        final hasSelection = state.selectedImageIds.isNotEmpty;
+                        final canProceed = !isStep1 || hasSelection;
+
+                        return Container(
+                          color: Colors.white,
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              AppSecondaryButton(
+                                text: 'Quay lại',
+                                onPressed: () {
+                                  if (state.currentStep > 1) {
+                                    _handleNavigation(
+                                      context,
+                                      state,
+                                      () => context
+                                          .read<WorkspaceCubit>()
+                                          .previousStep(),
+                                    );
+                                  } else {
+                                    context.goNamed('specialist-samples');
+                                  }
+                                },
+                              ),
+                              Row(
+                                children: [
+                                  if (state.currentStep == 3 && state.isDirty)
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 16.0,
+                                      ),
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.orange,
+                                          foregroundColor: Colors.white,
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 24,
+                                            vertical: 12,
+                                          ),
+                                        ),
+                                        onPressed: () => context
+                                            .read<WorkspaceCubit>()
+                                            .saveKaryogram(),
+                                        child: const Text(
+                                          'Lưu lại',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  AppPrimaryButton(
+                                    text: 'Tiếp tục',
+                                    onPressed: canProceed
+                                        ? () => _handleNavigation(
+                                            context,
+                                            state,
+                                            () => context
+                                                .read<WorkspaceCubit>()
+                                                .nextStep(),
+                                          )
+                                        : null,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),
-                  ),
-
-                  // Main Content Area
-                  Expanded(
-                    child: BlocBuilder<WorkspaceCubit, WorkspaceState>(
-                      builder: (context, state) {
-                        switch (state.currentStep) {
-                          case 1:
-                            return ScreeningStep(orderId: orderId);
-                          case 2:
-                            return const SlicingStep();
-                          case 3:
-                            return const KaryogramStep();
-                          case 4:
-                            return const QcDiagnosticStep();
-                          case 5:
-                            return const ReportStep();
-                          default:
-                            return const Center(child: Text('Unknown Step'));
-                        }
-                      },
-                    ),
-                  ),
-
-                  // Navigation Controls
-                  BlocBuilder<WorkspaceCubit, WorkspaceState>(
-                    builder: (context, state) {
-                      final isStep1 = state.currentStep == 1;
-                      final hasSelection = state.selectedImageIds.isNotEmpty;
-                      final canProceed = !isStep1 || hasSelection;
-
-                      return Container(
-                        color: Colors.white,
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            AppSecondaryButton(
-                              text: 'Quay lại',
-                              onPressed: state.currentStep > 1
-                                  ? () => _handleNavigation(context, state, () => context.read<WorkspaceCubit>().previousStep())
-                                  : null,
-                            ),
-                            Row(
-                              children: [
-                                if (state.currentStep == 3 && state.isDirty)
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 16.0),
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.orange,
-                                        foregroundColor: Colors.white,
-                                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                                      ),
-                                      onPressed: () => context.read<WorkspaceCubit>().saveKaryogram(),
-                                      child: const Text('Lưu lại', style: TextStyle(fontWeight: FontWeight.bold)),
-                                    ),
-                                  ),
-                                AppPrimaryButton(
-                                  text: 'Tiếp tục',
-                                  onPressed: canProceed
-                                      ? () => _handleNavigation(context, state, () => context.read<WorkspaceCubit>().nextStep())
-                                      : null,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
             ), // Close BlocListener
-
             // Full-screen Loading Overlay
             if (isAnalyzing)
               Container(
@@ -225,13 +257,19 @@ class WorkspaceScreen extends StatelessWidget {
     );
   }
 
-  void _handleNavigation(BuildContext context, WorkspaceState state, VoidCallback navigate) {
+  void _handleNavigation(
+    BuildContext context,
+    WorkspaceState state,
+    VoidCallback navigate,
+  ) {
     if (state.currentStep == 3 && state.isDirty) {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
           title: const Text('Cảnh báo thay đổi chưa lưu'),
-          content: const Text('Bạn có thay đổi ở bước này. Bạn có chắc chắn muốn rời khỏi?'),
+          content: const Text(
+            'Bạn có thay đổi ở bước này. Bạn có chắc chắn muốn rời khỏi?',
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx),
@@ -242,7 +280,10 @@ class WorkspaceScreen extends StatelessWidget {
                 Navigator.pop(ctx);
                 navigate();
               },
-              child: const Text('Tiếp tục', style: TextStyle(color: Colors.red)),
+              child: const Text(
+                'Tiếp tục',
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
         ),
@@ -270,7 +311,11 @@ class WorkspaceScreen extends StatelessWidget {
 
     return GestureDetector(
       onTap: isClickable
-          ? () => _handleNavigation(context, state, () => context.read<WorkspaceCubit>().goToStep(step))
+          ? () => _handleNavigation(
+              context,
+              state,
+              () => context.read<WorkspaceCubit>().goToStep(step),
+            )
           : null,
       child: Row(
         children: [
