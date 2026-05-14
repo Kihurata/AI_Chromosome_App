@@ -2,7 +2,7 @@
 title: Cấu trúc thư mục lib và Kiến trúc ứng dụng
 description: Tài liệu chi tiết về cấu trúc thư mục lib, vai trò của từng file/folder và mô hình Clean Architecture kết hợp Hybrid State Management.
 createdAt: '2026-05-13T07:43:46.970Z'
-updatedAt: '2026-05-13T14:54:48.851Z'
+updatedAt: '2026-05-14T07:17:16.683Z'
 tags:
   - architecture
   - folder-structure
@@ -33,6 +33,9 @@ Chứa các thành phần cốt lõi, cấu hình và tiện ích dùng chung ch
 - 📁 `router/`: Cấu hình định tuyến cho ứng dụng (Sử dụng `go_router`).
 - 📁 `services/`: Các dịch vụ độc lập như `AuthService` (xác thực) hoặc `NotificationFactory` (hiển thị thông báo).
 - 📁 `theme/`: Định nghĩa hệ thống Design System (Màu sắc, Typography, Dark/Light mode).
+
+> [!NOTE]
+> Chi tiết về các file và thư mục con trong lớp Core, xem tại @doc/presentation/chi-tit-lp-core-libcore.
 
 ### 📁 `lib/data`
 Lớp Dữ liệu (Data Layer) trong Clean Architecture. Chịu trách nhiệm giao tiếp với thế giới bên ngoài (APIs, Firebase Firestore).
@@ -74,3 +77,6 @@ Lớp Giao diện (Presentation Layer). Chứa toàn bộ mã nguồn liên quan
 ## 3. Các quy tắc phát triển quan trọng (Conventions)
 1. **Không import Firestore vào Presentation**: Tuyệt đối không gọi trực tiếp Firestore trong các file thuộc `presentation/`. Mọi dữ liệu phải đi qua Cubit hoặc Riverpod.
 2. **Sự kết hợp giữa Cubit và Riverpod**: Cubit xử lý hành động (Action/Event), trong khi Riverpod lắng nghe dữ liệu thời gian thực (Stream) từ Firestore để đẩy về UI.
+
+## 4. Quy trình phát triển tính năng mới
+Để biết chi tiết từng bước triển khai một tính năng mới (tạo file nào trước, file nào sau), xem tại @doc/presentation/quy-trnh-trin-khai-tnh-nng-mi-step-by-step.
