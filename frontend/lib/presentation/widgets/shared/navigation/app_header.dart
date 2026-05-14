@@ -59,7 +59,13 @@ class AppHeader extends ConsumerWidget {
           if (effectiveShowBackButton) ...[
             IconButton(
               icon: const Icon(LucideIcons.arrowLeft, size: 20),
-              onPressed: onBack ?? () => Navigator.of(context).pop(),
+              onPressed: onBack ?? () {
+                if (GoRouter.of(context).canPop()) {
+                  context.pop();
+                } else {
+                  Navigator.of(context).pop();
+                }
+              },
               color: AppColors.textSecondary,
             ),
             const SizedBox(width: 8),

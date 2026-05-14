@@ -13,6 +13,7 @@ import '../../widgets/shared/form/app_text_field.dart';
 import '../../widgets/shared/form/app_buttons.dart';
 import '../../widgets/shared/form/app_dropdown.dart';
 import 'package:intl/intl.dart';
+import 'package:go_router/go_router.dart';
 
 class SampleDetailScreen extends StatefulWidget {
   final String sampleId; // In creation mode, this is testOrderId
@@ -94,7 +95,7 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
                 backgroundColor: Colors.green,
               ),
             );
-            Navigator.pop(context);
+            context.pop();
           } else if (state is SampleDetailError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -168,7 +169,7 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
                   children: [
                     AppSecondaryButton(
                       text: 'Hủy',
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => context.pop(),
                     ),
                     const SizedBox(width: 12),
                     AppPrimaryButton(
