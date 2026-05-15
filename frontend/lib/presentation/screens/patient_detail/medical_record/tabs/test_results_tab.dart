@@ -27,11 +27,10 @@ class _TestResultsTabState extends ConsumerState<TestResultsTab> {
   @override
   void initState() {
     super.initState();
-    // Clear drawer from previous pages
-    ref.read(drawerProvider.notifier).clear();
-    
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
+      // Clear drawer from previous pages (must be after frame to avoid Riverpod mutation during build)
+      ref.read(drawerProvider.notifier).clear();
       final cubit = context.read<ClinicianOrderCubit>();
       cubit.loadTestOrders(widget.patientId);
       _registerDrawer(ref, cubit);

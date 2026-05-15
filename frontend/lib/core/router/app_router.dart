@@ -21,6 +21,7 @@ import '../../presentation/screens/workspace/workspace_screen.dart';
 import '../../presentation/screens/manager/lab_manager_dashboard_page.dart';
 import '../../presentation/screens/manager/approval/manager_approval_screen.dart';
 import '../../presentation/screens/patient_detail/test_result_detail_page.dart';
+import '../../logic/bloc/clinician/test_result/test_result_detail_cubit.dart';
 import '../../logic/bloc/specialist/ai_analysis_cubit.dart';
 import '../../logic/bloc/workspace/workspace_cubit.dart';
 import '../../logic/bloc/specialist/sample_management_cubit.dart';
@@ -190,8 +191,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/clinician/test-result/:id',
             name: 'clinician-test-result',
-            builder: (context, state) => TestResultDetailPage(
-              id: state.pathParameters['id'] ?? '',
+            builder: (context, state) => BlocProvider(
+              create: (context) => getIt<TestResultDetailCubit>()..loadData(state.pathParameters['id'] ?? ''),
+              child: TestResultDetailPage(
+                id: state.pathParameters['id'] ?? '',
+              ),
             ),
           ),
           GoRoute(

@@ -90,6 +90,8 @@ import '../../logic/bloc/appointment/appointment_cubit.dart' as _i618;
 import '../../logic/bloc/auth/auth_cubit.dart' as _i579;
 import '../../logic/bloc/clinician/clinician_order_cubit.dart' as _i108;
 import '../../logic/bloc/clinician/examination_cubit.dart' as _i41;
+import '../../logic/bloc/clinician/test_result/test_result_detail_cubit.dart'
+    as _i248;
 import '../../logic/bloc/layout/layout_cubit.dart' as _i556;
 import '../../logic/bloc/manager/approval/manager_approval_cubit.dart' as _i331;
 import '../../logic/bloc/manager/manager_approval_cubit.dart' as _i429;
@@ -331,6 +333,12 @@ extension GetItInjectableX on _i174.GetIt {
         approveKaryotypeResultUsecase: gh<_i63.ApproveKaryotypeResult>(),
         rejectKaryotypeResultUsecase: gh<_i749.RejectKaryotypeResult>(),
         updateReportContentUsecase: gh<_i939.UpdateReportContent>(),
+        workspaceRepository: gh<_i77.WorkspaceRepository>(),
+      ),
+    );
+    gh.factory<_i248.TestResultDetailCubit>(
+      () => _i248.TestResultDetailCubit(
+        getOrderByIdUsecase: gh<_i598.GetOrderById>(),
         workspaceRepository: gh<_i77.WorkspaceRepository>(),
       ),
     );

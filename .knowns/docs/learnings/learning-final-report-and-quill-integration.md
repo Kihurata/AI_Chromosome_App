@@ -1,8 +1,12 @@
 ---
-title: "Learning: Final Report and Quill Integration"
-description: "Learnings from implementing final report editor, preview and flutter_quill v11 integration."
-folder: learnings
-tags: [learning, flutter, quill]
+title: 'Learning: Final Report and Quill Integration'
+description: Learnings from implementing final report editor, preview and flutter_quill v11 integration.
+createdAt: '2026-05-08T07:42:26.471Z'
+updatedAt: '2026-05-08T07:42:26.466Z'
+tags:
+  - learning
+  - flutter
+  - quill
 ---
 
 ## Patterns
@@ -46,3 +50,9 @@ tags: [learning, flutter, quill]
 - **Root cause:** Used fixed width `60` and `Row` for images, which doesn't wrap.
 - **Time lost:** ~5 minutes.
 - **Prevention:** Use `Wrap` instead of `Row` for dynamic lists of widgets in confined spaces, and use `BoxConstraints` (min/max) instead of fixed dimensions.
+
+
+### [2026-05-08] QuillEditor readOnly property
+- **Issue:** In `flutter_quill` v11, passing `readOnly: true` to `QuillEditorConfig` (or `QuillEditorConfigurations`) results in a compilation error: `The named parameter 'readOnly' isn't defined`.
+- **Root cause:** The `readOnly` state is now managed directly by the `QuillController`.
+- **Fix:** Set `readOnly = true` on the `QuillController` instance (e.g., `_controller = QuillController.basic()..readOnly = true;`) and remove the parameter from the editor configuration.

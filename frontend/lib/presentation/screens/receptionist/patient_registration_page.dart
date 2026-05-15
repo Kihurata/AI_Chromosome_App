@@ -64,7 +64,7 @@ class _PatientRegistrationPageState extends State<PatientRegistrationPage> {
 
   @override
   void dispose() {
-    FocusScope.of(context).unfocus();
+    // NOTE: Do NOT call FocusScope.of(context) here — context is deactivated.
     _fullNameController.dispose();
     _identityCardController.dispose();
     _dobController.dispose();

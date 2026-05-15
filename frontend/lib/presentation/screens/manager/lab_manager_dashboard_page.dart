@@ -44,7 +44,7 @@ class _LabManagerDashboardPageState extends ConsumerState<LabManagerDashboardPag
 
   @override
   void dispose() {
-    FocusScope.of(context).unfocus();
+    // NOTE: Do NOT call FocusScope.of(context) here — context is deactivated.
     Future.microtask(() {
       _container.read(drawerProvider.notifier).clear();
     });

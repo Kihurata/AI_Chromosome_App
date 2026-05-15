@@ -1,0 +1,49 @@
+{
+  "taskId": "t9giq9",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "t9giq9",
+      "version": 1,
+      "timestamp": "2026-05-14T18:38:38.0777824Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Loại bỏ header dư thừa bằng cách refactor BaseLayout để sử dụng headerProvider thay vì tự render AppHeader. Đảm bảo TestResultDetailPage hiển thị đúng 1 header.",
+        "priority": "high",
+        "status": "todo",
+        "title": "Fix Double Header UI trong TestResultDetailPage"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "t9giq9",
+      "version": 2,
+      "timestamp": "2026-05-14T18:41:12.8803325Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "description": "Loại bỏ header dư thừa bằng cách refactor BaseLayout để sử dụng headerProvider thay vì tự render AppHeader. Đảm bảo TestResultDetailPage hiển thị đúng 1 header.",
+        "priority": "high",
+        "status": "done",
+        "title": "Fix Double Header UI trong TestResultDetailPage"
+      }
+    }
+  ]
+}

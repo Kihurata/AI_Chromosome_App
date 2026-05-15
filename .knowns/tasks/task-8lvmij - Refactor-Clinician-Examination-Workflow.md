@@ -5,7 +5,7 @@ status: in-progress
 priority: high
 labels: []
 createdAt: '2026-05-04T11:59:32.487Z'
-updatedAt: '2026-05-04T11:59:41.092Z'
+updatedAt: '2026-05-08T08:06:24.862Z'
 timeSpent: 0
 assignee: '@me'
 ---
@@ -49,4 +49,10 @@ Refactor clinician forms, fix saving logic, and improve data visibility.
 2. Update `HistoryTab` to trigger `ExaminationCubit` to load examinations for the patient if needed.
 3. Verify `ManagerDashboardCubit` picks up new orders correctly.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Researched test_result_detail_page and lab_result_review_page to reuse UI and remove QuillEditor dependency. Formulating plan for user approval.
+<!-- SECTION:NOTES:END -->
 

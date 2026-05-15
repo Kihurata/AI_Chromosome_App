@@ -47,7 +47,9 @@ class _ReceptionistDashboardBodyState extends ConsumerState<ReceptionistDashboar
 
   @override
   void dispose() {
-    FocusScope.of(context).unfocus();
+    // NOTE: Do NOT call FocusScope.of(context) here — context is already
+    // deactivated during dispose(), causing "Looking up a deactivated widget's
+    // ancestor is unsafe". Flutter unfocuses automatically on navigation.
     Future.microtask(() {
       _container.read(drawerProvider.notifier).clear();
     });

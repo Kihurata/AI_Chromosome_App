@@ -1,0 +1,640 @@
+{
+  "taskId": "p2bzc8",
+  "currentVersion": 9,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "p2bzc8",
+      "version": 1,
+      "timestamp": "2026-05-08T07:31:12.0451704Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Cập nhật màn hình `TestResultDetailPage` (route `/clinician/test-result/:id`) để lấy kết quả xét nghiệm thực tế (báo cáo Quill và bộ NST) thay vì sử dụng dữ liệu tĩnh (hardcoded).",
+        "priority": "high",
+        "status": "todo",
+        "title": "Update TestResultDetailPage to display real test results"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "p2bzc8",
+      "version": 2,
+      "timestamp": "2026-05-08T07:31:26.6945956Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Cập nhật màn hình `TestResultDetailPage` (route `/clinician/test-result/:id`) để lấy kết quả xét nghiệm thực tế (báo cáo Quill và bộ NST) thay vì sử dụng dữ liệu tĩnh (hardcoded).",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Update TestResultDetailPage to display real test results"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "p2bzc8",
+      "version": 3,
+      "timestamp": "2026-05-08T07:31:26.9147344Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+            },
+            {
+              "completed": false,
+              "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+            },
+            {
+              "completed": false,
+              "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+            },
+            {
+              "completed": false,
+              "text": "Use `flutter_quill` read-only to display `reportContent`."
+            },
+            {
+              "completed": false,
+              "text": "Use `KaryotypeGrid` to display chromosomes."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Create `TestResultDetailCubit` \u0026 State**\n   - Create logic layer `frontend/lib/logic/bloc/clinician/test_result/test_result_detail_cubit.dart` (and state).\n   - Inject `GetOrderById` and `WorkspaceRepository`.\n   - Implement `loadData(String orderId)` to fetch order and chromosomes (similar pattern to `ManagerApprovalCubit`).\n2. **Update Routing**\n   - Update `app_router.dart` to wrap `TestResultDetailPage` with `BlocProvider(create: (_) =\u003e getIt\u003cTestResultDetailCubit\u003e())`.\n3. **Refactor UI in `TestResultDetailPage`**\n   - Convert to `StatefulWidget` to manage `QuillController`.\n   - Consume `TestResultDetailCubit` via `BlocConsumer` / `BlocBuilder`.\n   - Replace placeholder image with KaryotypeGrid (`KaryotypeGrid(chromosomes: state.chromosomes)`).\n   - Display `testOrder.reportContent` using `flutter_quill` (`QuillEditor.basic` with read-only config).\n   - Replace dummy patient data with `state.testOrder.patientName`, `patientCode`, etc.\n   - Handle loading and error states appropriately."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+          },
+          {
+            "completed": false,
+            "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+          },
+          {
+            "completed": false,
+            "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+          },
+          {
+            "completed": false,
+            "text": "Use `flutter_quill` read-only to display `reportContent`."
+          },
+          {
+            "completed": false,
+            "text": "Use `KaryotypeGrid` to display chromosomes."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Cập nhật màn hình `TestResultDetailPage` (route `/clinician/test-result/:id`) để lấy kết quả xét nghiệm thực tế (báo cáo Quill và bộ NST) thay vì sử dụng dữ liệu tĩnh (hardcoded).",
+        "implementationPlan": "## Implementation Plan\n1. **Create `TestResultDetailCubit` \u0026 State**\n   - Create logic layer `frontend/lib/logic/bloc/clinician/test_result/test_result_detail_cubit.dart` (and state).\n   - Inject `GetOrderById` and `WorkspaceRepository`.\n   - Implement `loadData(String orderId)` to fetch order and chromosomes (similar pattern to `ManagerApprovalCubit`).\n2. **Update Routing**\n   - Update `app_router.dart` to wrap `TestResultDetailPage` with `BlocProvider(create: (_) =\u003e getIt\u003cTestResultDetailCubit\u003e())`.\n3. **Refactor UI in `TestResultDetailPage`**\n   - Convert to `StatefulWidget` to manage `QuillController`.\n   - Consume `TestResultDetailCubit` via `BlocConsumer` / `BlocBuilder`.\n   - Replace placeholder image with KaryotypeGrid (`KaryotypeGrid(chromosomes: state.chromosomes)`).\n   - Display `testOrder.reportContent` using `flutter_quill` (`QuillEditor.basic` with read-only config).\n   - Replace dummy patient data with `state.testOrder.patientName`, `patientCode`, etc.\n   - Handle loading and error states appropriately.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Update TestResultDetailPage to display real test results"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "p2bzc8",
+      "version": 4,
+      "timestamp": "2026-05-08T07:32:36.6903033Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Created TestResultDetailCubit and state files. Running build_runner for DI."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+          },
+          {
+            "completed": false,
+            "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+          },
+          {
+            "completed": false,
+            "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+          },
+          {
+            "completed": false,
+            "text": "Use `flutter_quill` read-only to display `reportContent`."
+          },
+          {
+            "completed": false,
+            "text": "Use `KaryotypeGrid` to display chromosomes."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Cập nhật màn hình `TestResultDetailPage` (route `/clinician/test-result/:id`) để lấy kết quả xét nghiệm thực tế (báo cáo Quill và bộ NST) thay vì sử dụng dữ liệu tĩnh (hardcoded).",
+        "implementationNotes": "Created TestResultDetailCubit and state files. Running build_runner for DI.",
+        "implementationPlan": "## Implementation Plan\n1. **Create `TestResultDetailCubit` \u0026 State**\n   - Create logic layer `frontend/lib/logic/bloc/clinician/test_result/test_result_detail_cubit.dart` (and state).\n   - Inject `GetOrderById` and `WorkspaceRepository`.\n   - Implement `loadData(String orderId)` to fetch order and chromosomes (similar pattern to `ManagerApprovalCubit`).\n2. **Update Routing**\n   - Update `app_router.dart` to wrap `TestResultDetailPage` with `BlocProvider(create: (_) =\u003e getIt\u003cTestResultDetailCubit\u003e())`.\n3. **Refactor UI in `TestResultDetailPage`**\n   - Convert to `StatefulWidget` to manage `QuillController`.\n   - Consume `TestResultDetailCubit` via `BlocConsumer` / `BlocBuilder`.\n   - Replace placeholder image with KaryotypeGrid (`KaryotypeGrid(chromosomes: state.chromosomes)`).\n   - Display `testOrder.reportContent` using `flutter_quill` (`QuillEditor.basic` with read-only config).\n   - Replace dummy patient data with `state.testOrder.patientName`, `patientCode`, etc.\n   - Handle loading and error states appropriately.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Update TestResultDetailPage to display real test results"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "p2bzc8",
+      "version": 5,
+      "timestamp": "2026-05-08T07:37:21.6056718Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Created TestResultDetailCubit and state files. Running build_runner for DI.",
+          "newValue": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+          },
+          {
+            "completed": true,
+            "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+          },
+          {
+            "completed": true,
+            "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+          },
+          {
+            "completed": true,
+            "text": "Use `flutter_quill` read-only to display `reportContent`."
+          },
+          {
+            "completed": true,
+            "text": "Use `KaryotypeGrid` to display chromosomes."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Cập nhật màn hình `TestResultDetailPage` (route `/clinician/test-result/:id`) để lấy kết quả xét nghiệm thực tế (báo cáo Quill và bộ NST) thay vì sử dụng dữ liệu tĩnh (hardcoded).",
+        "implementationNotes": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully.",
+        "implementationPlan": "## Implementation Plan\n1. **Create `TestResultDetailCubit` \u0026 State**\n   - Create logic layer `frontend/lib/logic/bloc/clinician/test_result/test_result_detail_cubit.dart` (and state).\n   - Inject `GetOrderById` and `WorkspaceRepository`.\n   - Implement `loadData(String orderId)` to fetch order and chromosomes (similar pattern to `ManagerApprovalCubit`).\n2. **Update Routing**\n   - Update `app_router.dart` to wrap `TestResultDetailPage` with `BlocProvider(create: (_) =\u003e getIt\u003cTestResultDetailCubit\u003e())`.\n3. **Refactor UI in `TestResultDetailPage`**\n   - Convert to `StatefulWidget` to manage `QuillController`.\n   - Consume `TestResultDetailCubit` via `BlocConsumer` / `BlocBuilder`.\n   - Replace placeholder image with KaryotypeGrid (`KaryotypeGrid(chromosomes: state.chromosomes)`).\n   - Display `testOrder.reportContent` using `flutter_quill` (`QuillEditor.basic` with read-only config).\n   - Replace dummy patient data with `state.testOrder.patientName`, `patientCode`, etc.\n   - Handle loading and error states appropriately.",
+        "priority": "high",
+        "status": "done",
+        "title": "Update TestResultDetailPage to display real test results"
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "p2bzc8",
+      "version": 6,
+      "timestamp": "2026-05-14T09:52:03.0643922Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "done",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": true,
+              "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+            },
+            {
+              "completed": true,
+              "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+            },
+            {
+              "completed": true,
+              "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+            },
+            {
+              "completed": true,
+              "text": "Use `flutter_quill` read-only to display `reportContent`."
+            },
+            {
+              "completed": true,
+              "text": "Use `KaryotypeGrid` to display chromosomes."
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+            },
+            {
+              "completed": true,
+              "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+            },
+            {
+              "completed": true,
+              "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+            },
+            {
+              "completed": true,
+              "text": "Use `flutter_quill` read-only to display `reportContent`."
+            },
+            {
+              "completed": true,
+              "text": "Use `KaryotypeGrid` to display chromosomes."
+            },
+            {
+              "completed": false,
+              "text": "Audit Trail: Display who approved the report and when."
+            },
+            {
+              "completed": false,
+              "text": "UI Refinement: Implement 'Expanded View' for KaryotypeGrid (Zoom on click)."
+            },
+            {
+              "completed": false,
+              "text": "Data Verification: Ensure all properties used in the UI match the TestOrder and Chromosome entities exactly."
+            },
+            {
+              "completed": false,
+              "text": "Implement 'Print Report' functionality (Web/Direct)."
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully.",
+          "newValue": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully.\nReopened to expand UI features and ensure data property alignment with the Data layer."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+          },
+          {
+            "completed": true,
+            "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+          },
+          {
+            "completed": true,
+            "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+          },
+          {
+            "completed": true,
+            "text": "Use `flutter_quill` read-only to display `reportContent`."
+          },
+          {
+            "completed": true,
+            "text": "Use `KaryotypeGrid` to display chromosomes."
+          },
+          {
+            "completed": false,
+            "text": "Audit Trail: Display who approved the report and when."
+          },
+          {
+            "completed": false,
+            "text": "UI Refinement: Implement 'Expanded View' for KaryotypeGrid (Zoom on click)."
+          },
+          {
+            "completed": false,
+            "text": "Data Verification: Ensure all properties used in the UI match the TestOrder and Chromosome entities exactly."
+          },
+          {
+            "completed": false,
+            "text": "Implement 'Print Report' functionality (Web/Direct)."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Cập nhật màn hình `TestResultDetailPage` (route `/clinician/test-result/:id`) để lấy kết quả xét nghiệm thực tế (báo cáo Quill và bộ NST) thay vì sử dụng dữ liệu tĩnh (hardcoded).",
+        "implementationNotes": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully.\nReopened to expand UI features and ensure data property alignment with the Data layer.",
+        "implementationPlan": "## Implementation Plan\n1. **Create `TestResultDetailCubit` \u0026 State**\n   - Create logic layer `frontend/lib/logic/bloc/clinician/test_result/test_result_detail_cubit.dart` (and state).\n   - Inject `GetOrderById` and `WorkspaceRepository`.\n   - Implement `loadData(String orderId)` to fetch order and chromosomes (similar pattern to `ManagerApprovalCubit`).\n2. **Update Routing**\n   - Update `app_router.dart` to wrap `TestResultDetailPage` with `BlocProvider(create: (_) =\u003e getIt\u003cTestResultDetailCubit\u003e())`.\n3. **Refactor UI in `TestResultDetailPage`**\n   - Convert to `StatefulWidget` to manage `QuillController`.\n   - Consume `TestResultDetailCubit` via `BlocConsumer` / `BlocBuilder`.\n   - Replace placeholder image with KaryotypeGrid (`KaryotypeGrid(chromosomes: state.chromosomes)`).\n   - Display `testOrder.reportContent` using `flutter_quill` (`QuillEditor.basic` with read-only config).\n   - Replace dummy patient data with `state.testOrder.patientName`, `patientCode`, etc.\n   - Handle loading and error states appropriately.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Update TestResultDetailPage to display real test results"
+      }
+    },
+    {
+      "id": "v7",
+      "taskId": "p2bzc8",
+      "version": 7,
+      "timestamp": "2026-05-14T09:54:09.5458656Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": true,
+              "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+            },
+            {
+              "completed": true,
+              "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+            },
+            {
+              "completed": true,
+              "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+            },
+            {
+              "completed": true,
+              "text": "Use `flutter_quill` read-only to display `reportContent`."
+            },
+            {
+              "completed": true,
+              "text": "Use `KaryotypeGrid` to display chromosomes."
+            },
+            {
+              "completed": false,
+              "text": "Audit Trail: Display who approved the report and when."
+            },
+            {
+              "completed": false,
+              "text": "UI Refinement: Implement 'Expanded View' for KaryotypeGrid (Zoom on click)."
+            },
+            {
+              "completed": false,
+              "text": "Data Verification: Ensure all properties used in the UI match the TestOrder and Chromosome entities exactly."
+            },
+            {
+              "completed": false,
+              "text": "Implement 'Print Report' functionality (Web/Direct)."
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+            },
+            {
+              "completed": true,
+              "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+            },
+            {
+              "completed": true,
+              "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+            },
+            {
+              "completed": true,
+              "text": "Use `flutter_quill` read-only to display `reportContent`."
+            },
+            {
+              "completed": true,
+              "text": "Use `KaryotypeGrid` to display chromosomes."
+            }
+          ]
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully.\nReopened to expand UI features and ensure data property alignment with the Data layer.",
+          "newValue": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully.\nReopened to expand UI features and ensure data property alignment with the Data layer.\nRevised plan: Focus on data accuracy and UI polish using existing fields. Removed new data fetching requirements (Audit Trail)."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+          },
+          {
+            "completed": true,
+            "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+          },
+          {
+            "completed": true,
+            "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+          },
+          {
+            "completed": true,
+            "text": "Use `flutter_quill` read-only to display `reportContent`."
+          },
+          {
+            "completed": true,
+            "text": "Use `KaryotypeGrid` to display chromosomes."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Cập nhật màn hình `TestResultDetailPage` (route `/clinician/test-result/:id`) để lấy kết quả xét nghiệm thực tế (báo cáo Quill và bộ NST) thay vì sử dụng dữ liệu tĩnh (hardcoded).",
+        "implementationNotes": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully.\nReopened to expand UI features and ensure data property alignment with the Data layer.\nRevised plan: Focus on data accuracy and UI polish using existing fields. Removed new data fetching requirements (Audit Trail).",
+        "implementationPlan": "## Implementation Plan\n1. **Create `TestResultDetailCubit` \u0026 State**\n   - Create logic layer `frontend/lib/logic/bloc/clinician/test_result/test_result_detail_cubit.dart` (and state).\n   - Inject `GetOrderById` and `WorkspaceRepository`.\n   - Implement `loadData(String orderId)` to fetch order and chromosomes (similar pattern to `ManagerApprovalCubit`).\n2. **Update Routing**\n   - Update `app_router.dart` to wrap `TestResultDetailPage` with `BlocProvider(create: (_) =\u003e getIt\u003cTestResultDetailCubit\u003e())`.\n3. **Refactor UI in `TestResultDetailPage`**\n   - Convert to `StatefulWidget` to manage `QuillController`.\n   - Consume `TestResultDetailCubit` via `BlocConsumer` / `BlocBuilder`.\n   - Replace placeholder image with KaryotypeGrid (`KaryotypeGrid(chromosomes: state.chromosomes)`).\n   - Display `testOrder.reportContent` using `flutter_quill` (`QuillEditor.basic` with read-only config).\n   - Replace dummy patient data with `state.testOrder.patientName`, `patientCode`, etc.\n   - Handle loading and error states appropriately.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Update TestResultDetailPage to display real test results"
+      }
+    },
+    {
+      "id": "v8",
+      "taskId": "p2bzc8",
+      "version": 8,
+      "timestamp": "2026-05-14T09:54:15.4924785Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": [
+            {
+              "completed": true,
+              "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+            },
+            {
+              "completed": true,
+              "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+            },
+            {
+              "completed": true,
+              "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+            },
+            {
+              "completed": true,
+              "text": "Use `flutter_quill` read-only to display `reportContent`."
+            },
+            {
+              "completed": true,
+              "text": "Use `KaryotypeGrid` to display chromosomes."
+            }
+          ],
+          "newValue": [
+            {
+              "completed": true,
+              "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+            },
+            {
+              "completed": true,
+              "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+            },
+            {
+              "completed": true,
+              "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+            },
+            {
+              "completed": true,
+              "text": "Use `flutter_quill` read-only to display `reportContent`."
+            },
+            {
+              "completed": true,
+              "text": "Use `KaryotypeGrid` to display chromosomes."
+            },
+            {
+              "completed": false,
+              "text": "Data Accuracy: Cross-verify all UI fields (patientName, patientCode, status, reportContent) with TestOrder entity."
+            },
+            {
+              "completed": false,
+              "text": "Data Accuracy: Ensure Chromosome list properties (imageUrl, label) are mapped correctly in the Grid."
+            },
+            {
+              "completed": false,
+              "text": "UI Polish: Apply Design System tokens (AppColors.primaryBlue, AppColors.textSecondary) consistently."
+            },
+            {
+              "completed": false,
+              "text": "Interactive UI: Add a simple tap-to-zoom dialog for chromosomes using existing data."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": "## Implementation Plan\n1. **Create `TestResultDetailCubit` \u0026 State**\n   - Create logic layer `frontend/lib/logic/bloc/clinician/test_result/test_result_detail_cubit.dart` (and state).\n   - Inject `GetOrderById` and `WorkspaceRepository`.\n   - Implement `loadData(String orderId)` to fetch order and chromosomes (similar pattern to `ManagerApprovalCubit`).\n2. **Update Routing**\n   - Update `app_router.dart` to wrap `TestResultDetailPage` with `BlocProvider(create: (_) =\u003e getIt\u003cTestResultDetailCubit\u003e())`.\n3. **Refactor UI in `TestResultDetailPage`**\n   - Convert to `StatefulWidget` to manage `QuillController`.\n   - Consume `TestResultDetailCubit` via `BlocConsumer` / `BlocBuilder`.\n   - Replace placeholder image with KaryotypeGrid (`KaryotypeGrid(chromosomes: state.chromosomes)`).\n   - Display `testOrder.reportContent` using `flutter_quill` (`QuillEditor.basic` with read-only config).\n   - Replace dummy patient data with `state.testOrder.patientName`, `patientCode`, etc.\n   - Handle loading and error states appropriately.",
+          "newValue": "## Revised Implementation Plan (Focus: Accuracy \\u0026 Existing Data)\n1. **Property Audit**:\n   - Review `test_result_detail_page.dart` and ensure all data access uses fields from `TestOrder` and `Chromosome` entities.\n   - Use `order.patientName`, `order.patientCode`, `order.id`, `order.createdAt`, and `order.status.displayName`.\n2. **Karyotype Zoom**:\n   - Wrap `KaryotypeGrid` with a widget that detects taps.\n   - Implement `_showChromosomePreview(Chromosome c)` using `showDialog` to display the `imageUrl` and `label`.\n3. **UI Finalization**:\n   - Ensure `AppCard` and `BaseLayout` are used for consistent spacing and shadows.\n   - Check text styles against the `UI Design System` (Page Title 24px, Card Titles 16px).\n4. **Validation**:\n   - Run `dart analyze` to ensure no property naming errors.\n   - Verify the screen loads and displays all data for a completed order."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`."
+          },
+          {
+            "completed": true,
+            "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`."
+          },
+          {
+            "completed": true,
+            "text": "Refactor `TestResultDetailPage` to display dynamic patient info."
+          },
+          {
+            "completed": true,
+            "text": "Use `flutter_quill` read-only to display `reportContent`."
+          },
+          {
+            "completed": true,
+            "text": "Use `KaryotypeGrid` to display chromosomes."
+          },
+          {
+            "completed": false,
+            "text": "Data Accuracy: Cross-verify all UI fields (patientName, patientCode, status, reportContent) with TestOrder entity."
+          },
+          {
+            "completed": false,
+            "text": "Data Accuracy: Ensure Chromosome list properties (imageUrl, label) are mapped correctly in the Grid."
+          },
+          {
+            "completed": false,
+            "text": "UI Polish: Apply Design System tokens (AppColors.primaryBlue, AppColors.textSecondary) consistently."
+          },
+          {
+            "completed": false,
+            "text": "Interactive UI: Add a simple tap-to-zoom dialog for chromosomes using existing data."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Cập nhật màn hình `TestResultDetailPage` (route `/clinician/test-result/:id`) để lấy kết quả xét nghiệm thực tế (báo cáo Quill và bộ NST) thay vì sử dụng dữ liệu tĩnh (hardcoded).",
+        "implementationNotes": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully.\nReopened to expand UI features and ensure data property alignment with the Data layer.\nRevised plan: Focus on data accuracy and UI polish using existing fields. Removed new data fetching requirements (Audit Trail).",
+        "implementationPlan": "## Revised Implementation Plan (Focus: Accuracy \\u0026 Existing Data)\n1. **Property Audit**:\n   - Review `test_result_detail_page.dart` and ensure all data access uses fields from `TestOrder` and `Chromosome` entities.\n   - Use `order.patientName`, `order.patientCode`, `order.id`, `order.createdAt`, and `order.status.displayName`.\n2. **Karyotype Zoom**:\n   - Wrap `KaryotypeGrid` with a widget that detects taps.\n   - Implement `_showChromosomePreview(Chromosome c)` using `showDialog` to display the `imageUrl` and `label`.\n3. **UI Finalization**:\n   - Ensure `AppCard` and `BaseLayout` are used for consistent spacing and shadows.\n   - Check text styles against the `UI Design System` (Page Title 24px, Card Titles 16px).\n4. **Validation**:\n   - Run `dart analyze` to ensure no property naming errors.\n   - Verify the screen loads and displays all data for a completed order.",
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Update TestResultDetailPage to display real test results"
+      }
+    },
+    {
+      "id": "v9",
+      "taskId": "p2bzc8",
+      "version": 9,
+      "timestamp": "2026-05-14T10:03:43.716648Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully.\nReopened to expand UI features and ensure data property alignment with the Data layer.\nRevised plan: Focus on data accuracy and UI polish using existing fields. Removed new data fetching requirements (Audit Trail).",
+          "newValue": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully.\nReopened to expand UI features and ensure data property alignment with the Data layer.\nRevised plan: Focus on data accuracy and UI polish using existing fields. Removed new data fetching requirements (Audit Trail).\nUI polish complete: replaced dynamic with TestOrder/Chromosome types, added AppCard padding, added tappable karyotype cells with zoom dialog, added rejected status handling in approval widget. dart analyze: No issues found."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Create `TestResultDetailCubit` to load `TestOrder` and `chromosomes`.",
+            "completed": true
+          },
+          {
+            "text": "Update `app_router.dart` to provide the cubit to `TestResultDetailPage`.",
+            "completed": true
+          },
+          {
+            "text": "Refactor `TestResultDetailPage` to display dynamic patient info.",
+            "completed": true
+          },
+          {
+            "text": "Use `flutter_quill` read-only to display `reportContent`.",
+            "completed": true
+          },
+          {
+            "text": "Use `KaryotypeGrid` to display chromosomes.",
+            "completed": true
+          },
+          {
+            "text": "Data Accuracy: Cross-verify all UI fields (patientName, patientCode, status, reportContent) with TestOrder entity.",
+            "completed": true
+          },
+          {
+            "text": "Data Accuracy: Ensure Chromosome list properties (imageUrl, label) are mapped correctly in the Grid.",
+            "completed": true
+          },
+          {
+            "text": "UI Polish: Apply Design System tokens (AppColors.primaryBlue, AppColors.textSecondary) consistently.",
+            "completed": true
+          },
+          {
+            "text": "Interactive UI: Add a simple tap-to-zoom dialog for chromosomes using existing data.",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Cập nhật màn hình `TestResultDetailPage` (route `/clinician/test-result/:id`) để lấy kết quả xét nghiệm thực tế (báo cáo Quill và bộ NST) thay vì sử dụng dữ liệu tĩnh (hardcoded).",
+        "implementationNotes": "Created TestResultDetailCubit and state files. Running build_runner for DI.\nImplementation complete. Refactored TestResultDetailPage and created TestResultDetailCubit. Build runner completed successfully.\nReopened to expand UI features and ensure data property alignment with the Data layer.\nRevised plan: Focus on data accuracy and UI polish using existing fields. Removed new data fetching requirements (Audit Trail).\nUI polish complete: replaced dynamic with TestOrder/Chromosome types, added AppCard padding, added tappable karyotype cells with zoom dialog, added rejected status handling in approval widget. dart analyze: No issues found.",
+        "implementationPlan": "## Revised Implementation Plan (Focus: Accuracy \\u0026 Existing Data)\n1. **Property Audit**:\n   - Review `test_result_detail_page.dart` and ensure all data access uses fields from `TestOrder` and `Chromosome` entities.\n   - Use `order.patientName`, `order.patientCode`, `order.id`, `order.createdAt`, and `order.status.displayName`.\n2. **Karyotype Zoom**:\n   - Wrap `KaryotypeGrid` with a widget that detects taps.\n   - Implement `_showChromosomePreview(Chromosome c)` using `showDialog` to display the `imageUrl` and `label`.\n3. **UI Finalization**:\n   - Ensure `AppCard` and `BaseLayout` are used for consistent spacing and shadows.\n   - Check text styles against the `UI Design System` (Page Title 24px, Card Titles 16px).\n4. **Validation**:\n   - Run `dart analyze` to ensure no property naming errors.\n   - Verify the screen loads and displays all data for a completed order.",
+        "priority": "high",
+        "status": "done",
+        "title": "Update TestResultDetailPage to display real test results"
+      }
+    }
+  ]
+}

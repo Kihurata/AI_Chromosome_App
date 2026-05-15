@@ -167,9 +167,11 @@ class AppSideRail extends ConsumerWidget {
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
           onTap: () => context.go(item.routePath),
-          child: Container(
+          child: AnimatedContainer(
+            duration: _animDuration,
+            curve: Curves.easeInOut,
             height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: EdgeInsets.symmetric(horizontal: isCollapsed ? 0 : 8),
             decoration: BoxDecoration(
               color: isActive ? AppColors.activeBackground : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
@@ -181,7 +183,7 @@ class AppSideRail extends ConsumerWidget {
                 AnimatedContainer(
                   duration: _animDuration,
                   curve: Curves.easeInOut,
-                  width: isCollapsed ? 56 : 36,
+                  width: isCollapsed ? 55 : 36,
                   alignment: Alignment.center,
                   child: Icon(
                     isActive ? (item.activeIcon ?? item.icon) : item.icon,
@@ -190,23 +192,22 @@ class AppSideRail extends ConsumerWidget {
                   ),
                 ),
                 // Label — hiển thị khi KHÔNG thu gọn
-                if (!isCollapsed)
-                  Expanded(
-                    child: AnimatedOpacity(
-                      opacity: isCollapsed ? 0.0 : 1.0,
-                      duration: const Duration(milliseconds: 200),
-                      child: Text(
-                        item.label,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                          color: isActive ? AppColors.primaryBlue : AppColors.textSecondary,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                Expanded(
+                  child: AnimatedOpacity(
+                    opacity: isCollapsed ? 0.0 : 1.0,
+                    duration: const Duration(milliseconds: 200),
+                    child: Text(
+                      item.label,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+                        color: isActive ? AppColors.primaryBlue : AppColors.textSecondary,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
+                ),
               ],
             ),
           ),
