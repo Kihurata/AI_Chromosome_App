@@ -28,11 +28,15 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
   final _noteController = TextEditingController();
   final _sampleDateCtrl = TextEditingController();
   final _sampleTimeCtrl = TextEditingController();
+  final _expectedDateCtrl = TextEditingController();
+  final _expectedTimeCtrl = TextEditingController();
   late final SampleDetailCubit _cubit;
   
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedTime = TimeOfDay.now();
   String _selectedSampleType = 'Máu ngoại vi';
+  DateTime? _expectedHarvestDate;
+  TimeOfDay? _expectedHarvestTime;
 
   @override
   void initState() {
@@ -40,6 +44,44 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
     _cubit = getIt<SampleDetailCubit>();
     // In our new flow, specialist enters this screen to CREATE a sample for an ORDER
     _cubit.loadTestOrder(widget.sampleId);
+    _calculateExpectedHarvestTime();
+  }
+
+  void _calculateExpectedHarvestTime() {
+    final collectedAt = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+      _selectedTime.hour,
+      _selectedTime.minute,
+    );
+
+    Duration cultureDuration;
+    switch (_selectedSampleType) {
+      case 'Máu ngoại vi':
+      case 'Máu cuống rốn':
+        cultureDuration = const Duration(hours: 72);
+        break;
+      case 'Tủy xương':
+        cultureDuration = const Duration(hours: 48);
+        break;
+      case 'Dịch ối':
+      case 'Gai nhau':
+        cultureDuration = const Duration(days: 14);
+        break;
+      case 'Sinh thiết da':
+      case 'Mô sảy thai':
+        cultureDuration = const Duration(days: 21);
+        break;
+      default:
+        cultureDuration = const Duration(hours: 72);
+    }
+
+    final expectedTime = collectedAt.add(cultureDuration);
+    setState(() {
+      _expectedHarvestDate = expectedTime;
+      _expectedHarvestTime = TimeOfDay.fromDateTime(expectedTime);
+    });
   }
 
   @override
@@ -48,6 +90,8 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
     _noteController.dispose();
     _sampleDateCtrl.dispose();
     _sampleTimeCtrl.dispose();
+    _expectedDateCtrl.dispose();
+    _expectedTimeCtrl.dispose();
     _cubit.close();
     super.dispose();
   }
@@ -67,6 +111,17 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
       _selectedTime.minute,
     );
 
+    DateTime? expectedHarvest;
+    if (_expectedHarvestDate != null && _expectedHarvestTime != null) {
+      expectedHarvest = DateTime(
+        _expectedHarvestDate!.year,
+        _expectedHarvestDate!.month,
+        _expectedHarvestDate!.day,
+        _expectedHarvestTime!.hour,
+        _expectedHarvestTime!.minute,
+      );
+    }
+
     final sample = Sample(
       id: const Uuid().v4(),
       testOrderId: widget.sampleId,
@@ -75,6 +130,7 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
       sampleType: _selectedSampleType,
       collectedBy: specialistId,
       collectedAt: collectedAt,
+      expectedHarvestTime: expectedHarvest,
       notes: _noteController.text,
       status: SampleStatus.collected,
     );
@@ -148,8 +204,21 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
                           DropdownMenuItem(value: 'Mô sảy thai', child: Text('Mô sảy thai')),
                         ],
                         onChanged: (v) {
-                          if (v != null) setState(() => _selectedSampleType = v);
+                          if (v != null) {
+                            setState(() {
+                              _selectedSampleType = v;
+                              _calculateExpectedHarvestTime();
+                            });
+                          }
                         },
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(child: _buildExpectedDateSelector()),
+                          const SizedBox(width: 16),
+                          Expanded(child: _buildExpectedTimeSelector()),
+                        ],
                       ),
                       const SizedBox(height: 20),
                       AppTextField(
@@ -229,7 +298,12 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
           lastDate: DateTime.now().add(const Duration(days: 7)),
           locale: const Locale('vi', 'VN'),
         );
-        if (picked != null) setState(() => _selectedDate = picked);
+        if (picked != null) {
+          setState(() {
+            _selectedDate = picked;
+            _calculateExpectedHarvestTime();
+          });
+        }
       },
     );
   }
@@ -244,7 +318,52 @@ class _SampleDetailScreenState extends State<SampleDetailScreen> {
       readOnly: true,
       onTap: () async {
         final t = await showTimePicker(context: context, initialTime: _selectedTime);
-        if (t != null) setState(() => _selectedTime = t);
+        if (t != null) {
+          setState(() {
+            _selectedTime = t;
+            _calculateExpectedHarvestTime();
+          });
+        }
+      },
+    );
+  }
+
+  Widget _buildExpectedDateSelector() {
+    if (_expectedHarvestDate != null) {
+      _expectedDateCtrl.text = DateFormat('dd/MM/yyyy').format(_expectedHarvestDate!);
+    }
+    return AppTextField(
+      labelText: 'Ngày thu hoạch (dự kiến)',
+      hintText: 'dd/MM/yyyy',
+      controller: _expectedDateCtrl,
+      prefixIcon: LucideIcons.calendar,
+      readOnly: true,
+      onTap: () async {
+        final picked = await showDatePicker(
+          context: context,
+          initialDate: _expectedHarvestDate ?? DateTime.now(),
+          firstDate: DateTime.now().subtract(const Duration(days: 30)),
+          lastDate: DateTime.now().add(const Duration(days: 60)),
+          locale: const Locale('vi', 'VN'),
+        );
+        if (picked != null) setState(() => _expectedHarvestDate = picked);
+      },
+    );
+  }
+
+  Widget _buildExpectedTimeSelector() {
+    if (_expectedHarvestTime != null) {
+      _expectedTimeCtrl.text = '${_expectedHarvestTime!.hour.toString().padLeft(2, '0')}:${_expectedHarvestTime!.minute.toString().padLeft(2, '0')}';
+    }
+    return AppTextField(
+      labelText: 'Giờ thu hoạch (dự kiến)',
+      hintText: 'hh:mm',
+      controller: _expectedTimeCtrl,
+      prefixIcon: LucideIcons.clock,
+      readOnly: true,
+      onTap: () async {
+        final t = await showTimePicker(context: context, initialTime: _expectedHarvestTime ?? TimeOfDay.now());
+        if (t != null) setState(() => _expectedHarvestTime = t);
       },
     );
   }

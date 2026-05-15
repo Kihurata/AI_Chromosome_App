@@ -12,6 +12,8 @@ class SampleModel extends Sample {
     required super.collectedAt,
     super.status,
     super.notes,
+    super.expectedHarvestTime,
+    super.actualHarvestTime,
   });
 
   Map<String, dynamic> toFirestore() {
@@ -26,6 +28,8 @@ class SampleModel extends Sample {
       'collected_at': Timestamp.fromDate(collectedAt),
       'status': status.toFirestoreString(),
       'notes': notes,
+      if (expectedHarvestTime != null) 'expected_harvest_time': Timestamp.fromDate(expectedHarvestTime!),
+      if (actualHarvestTime != null) 'actual_harvest_time': Timestamp.fromDate(actualHarvestTime!),
       'updated_at': FieldValue.serverTimestamp(),
     };
   }
@@ -52,6 +56,12 @@ class SampleModel extends Sample {
           : (data['collection_time'] as Timestamp?)?.toDate() ?? DateTime.now(),
       status: SampleStatus.fromString(data['status'] ?? 'COLLECTED'),
       notes: data['notes'] as String?,
+      expectedHarvestTime: data['expected_harvest_time'] != null
+          ? (data['expected_harvest_time'] as Timestamp).toDate()
+          : null,
+      actualHarvestTime: data['actual_harvest_time'] != null
+          ? (data['actual_harvest_time'] as Timestamp).toDate()
+          : null,
     );
   }
 
@@ -66,6 +76,8 @@ class SampleModel extends Sample {
       collectedAt: sample.collectedAt,
       status: sample.status,
       notes: sample.notes,
+      expectedHarvestTime: sample.expectedHarvestTime,
+      actualHarvestTime: sample.actualHarvestTime,
     );
   }
 }
