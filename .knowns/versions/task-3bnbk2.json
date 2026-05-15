@@ -1,0 +1,258 @@
+{
+  "taskId": "3bnbk2",
+  "currentVersion": 6,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "3bnbk2",
+      "version": 1,
+      "timestamp": "2026-05-13T07:56:26.3677236Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Thực hiện chức năng khi click vào button Thông báo trên thanh header sẽ hiển thị một list các thông báo vừa được gửi tới. Cần cập nhật NotificationCubit để lưu trữ danh sách thông báo trong session.",
+        "labels": [
+          "ui",
+          "logic",
+          "notification"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Implement Notification List on Header Bell Click"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "3bnbk2",
+      "version": 2,
+      "timestamp": "2026-05-13T07:56:29.0301007Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Thực hiện chức năng khi click vào button Thông báo trên thanh header sẽ hiển thị một list các thông báo vừa được gửi tới. Cần cập nhật NotificationCubit để lưu trữ danh sách thông báo trong session.",
+        "labels": [
+          "ui",
+          "logic",
+          "notification"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Implement Notification List on Header Bell Click"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "3bnbk2",
+      "version": 3,
+      "timestamp": "2026-05-13T07:58:45.8731519Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Update NotificationCubit State**: Add a list to store received notifications in the current session.\n2. **Update NotificationCubit Logic**: Append new messages to the list in `_handleMessage`.\n3. **Refactor AppHeader's `_buildNotificationBell()`**:\n    - Listen to `NotificationCubit` for the notification list.\n    - Display the actual count of notifications on the badge.\n    - Show a list of notifications (title, body) in a dropdown or popup when clicked.\n4. **Verification**: Simulate receiving a notification and verify the list displays correctly."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Thực hiện chức năng khi click vào button Thông báo trên thanh header sẽ hiển thị một list các thông báo vừa được gửi tới. Cần cập nhật NotificationCubit để lưu trữ danh sách thông báo trong session.",
+        "implementationPlan": "## Implementation Plan\n1. **Update NotificationCubit State**: Add a list to store received notifications in the current session.\n2. **Update NotificationCubit Logic**: Append new messages to the list in `_handleMessage`.\n3. **Refactor AppHeader's `_buildNotificationBell()`**:\n    - Listen to `NotificationCubit` for the notification list.\n    - Display the actual count of notifications on the badge.\n    - Show a list of notifications (title, body) in a dropdown or popup when clicked.\n4. **Verification**: Simulate receiving a notification and verify the list displays correctly.",
+        "labels": [
+          "ui",
+          "logic",
+          "notification"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Implement Notification List on Header Bell Click"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "3bnbk2",
+      "version": 4,
+      "timestamp": "2026-05-13T08:12:30.8069628Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Update NotificationState to include a notifications list and unread count"
+            },
+            {
+              "completed": false,
+              "text": "Update NotificationCubit._handleMessage to append to the list without resetting it"
+            },
+            {
+              "completed": false,
+              "text": "Update AppHeader._buildNotificationBell to use BlocBuilder and show badge count"
+            },
+            {
+              "completed": false,
+              "text": "Show notification dropdown/popup with title and body when bell is clicked"
+            },
+            {
+              "completed": false,
+              "text": "Verify badge count updates when new notification arrives"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Update NotificationState to include a notifications list and unread count"
+          },
+          {
+            "completed": false,
+            "text": "Update NotificationCubit._handleMessage to append to the list without resetting it"
+          },
+          {
+            "completed": false,
+            "text": "Update AppHeader._buildNotificationBell to use BlocBuilder and show badge count"
+          },
+          {
+            "completed": false,
+            "text": "Show notification dropdown/popup with title and body when bell is clicked"
+          },
+          {
+            "completed": false,
+            "text": "Verify badge count updates when new notification arrives"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Thực hiện chức năng khi click vào button Thông báo trên thanh header sẽ hiển thị một list các thông báo vừa được gửi tới. Cần cập nhật NotificationCubit để lưu trữ danh sách thông báo trong session.",
+        "implementationPlan": "## Implementation Plan\n1. **Update NotificationCubit State**: Add a list to store received notifications in the current session.\n2. **Update NotificationCubit Logic**: Append new messages to the list in `_handleMessage`.\n3. **Refactor AppHeader's `_buildNotificationBell()`**:\n    - Listen to `NotificationCubit` for the notification list.\n    - Display the actual count of notifications on the badge.\n    - Show a list of notifications (title, body) in a dropdown or popup when clicked.\n4. **Verification**: Simulate receiving a notification and verify the list displays correctly.",
+        "labels": [
+          "ui",
+          "logic",
+          "notification"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Implement Notification List on Header Bell Click"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "3bnbk2",
+      "version": 5,
+      "timestamp": "2026-05-13T14:54:27.1986587Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented notification list feature:\n- notification_state.dart: Added abstract NotificationState base, NotificationItem model, NotificationListState (accumulates session list + unreadCount), kept NotificationReceived as one-shot trigger\n- notification_cubit.dart: _sessionNotifications list accumulates messages, _handleMessage appends then emits NotificationReceived momentarily before restoring NotificationListState. Added markAllRead() method.\n- app_header.dart: _buildNotificationBell refactored to PopupMenuButton showing _NotificationDropdown panel. Badge shows live unread count, cleared when panel opens. _NotificationDropdown has header row, empty state, and scrollable list. _NotificationTile shows colored dot by type, title, body (2 lines), and relative time.\ndart analyze: No issues found."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Update NotificationState to include a notifications list and unread count"
+          },
+          {
+            "completed": true,
+            "text": "Update NotificationCubit._handleMessage to append to the list without resetting it"
+          },
+          {
+            "completed": true,
+            "text": "Update AppHeader._buildNotificationBell to use BlocBuilder and show badge count"
+          },
+          {
+            "completed": true,
+            "text": "Show notification dropdown/popup with title and body when bell is clicked"
+          },
+          {
+            "completed": true,
+            "text": "Verify badge count updates when new notification arrives"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Thực hiện chức năng khi click vào button Thông báo trên thanh header sẽ hiển thị một list các thông báo vừa được gửi tới. Cần cập nhật NotificationCubit để lưu trữ danh sách thông báo trong session.",
+        "implementationNotes": "Implemented notification list feature:\n- notification_state.dart: Added abstract NotificationState base, NotificationItem model, NotificationListState (accumulates session list + unreadCount), kept NotificationReceived as one-shot trigger\n- notification_cubit.dart: _sessionNotifications list accumulates messages, _handleMessage appends then emits NotificationReceived momentarily before restoring NotificationListState. Added markAllRead() method.\n- app_header.dart: _buildNotificationBell refactored to PopupMenuButton showing _NotificationDropdown panel. Badge shows live unread count, cleared when panel opens. _NotificationDropdown has header row, empty state, and scrollable list. _NotificationTile shows colored dot by type, title, body (2 lines), and relative time.\ndart analyze: No issues found.",
+        "implementationPlan": "## Implementation Plan\n1. **Update NotificationCubit State**: Add a list to store received notifications in the current session.\n2. **Update NotificationCubit Logic**: Append new messages to the list in `_handleMessage`.\n3. **Refactor AppHeader's `_buildNotificationBell()`**:\n    - Listen to `NotificationCubit` for the notification list.\n    - Display the actual count of notifications on the badge.\n    - Show a list of notifications (title, body) in a dropdown or popup when clicked.\n4. **Verification**: Simulate receiving a notification and verify the list displays correctly.",
+        "labels": [
+          "ui",
+          "logic",
+          "notification"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Implement Notification List on Header Bell Click"
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "3bnbk2",
+      "version": 6,
+      "timestamp": "2026-05-13T14:54:40.7369832Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Update NotificationState to include a notifications list and unread count",
+            "completed": true
+          },
+          {
+            "text": "Update NotificationCubit._handleMessage to append to the list without resetting it",
+            "completed": true
+          },
+          {
+            "text": "Update AppHeader._buildNotificationBell to use BlocBuilder and show badge count",
+            "completed": true
+          },
+          {
+            "text": "Show notification dropdown/popup with title and body when bell is clicked",
+            "completed": true
+          },
+          {
+            "text": "Verify badge count updates when new notification arrives",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Thực hiện chức năng khi click vào button Thông báo trên thanh header sẽ hiển thị một list các thông báo vừa được gửi tới. Cần cập nhật NotificationCubit để lưu trữ danh sách thông báo trong session.",
+        "implementationNotes": "Implemented notification list feature:\n- notification_state.dart: Added abstract NotificationState base, NotificationItem model, NotificationListState (accumulates session list + unreadCount), kept NotificationReceived as one-shot trigger\n- notification_cubit.dart: _sessionNotifications list accumulates messages, _handleMessage appends then emits NotificationReceived momentarily before restoring NotificationListState. Added markAllRead() method.\n- app_header.dart: _buildNotificationBell refactored to PopupMenuButton showing _NotificationDropdown panel. Badge shows live unread count, cleared when panel opens. _NotificationDropdown has header row, empty state, and scrollable list. _NotificationTile shows colored dot by type, title, body (2 lines), and relative time.\ndart analyze: No issues found.",
+        "implementationPlan": "## Implementation Plan\n1. **Update NotificationCubit State**: Add a list to store received notifications in the current session.\n2. **Update NotificationCubit Logic**: Append new messages to the list in `_handleMessage`.\n3. **Refactor AppHeader's `_buildNotificationBell()`**:\n    - Listen to `NotificationCubit` for the notification list.\n    - Display the actual count of notifications on the badge.\n    - Show a list of notifications (title, body) in a dropdown or popup when clicked.\n4. **Verification**: Simulate receiving a notification and verify the list displays correctly.",
+        "labels": [
+          "ui",
+          "logic",
+          "notification"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Implement Notification List on Header Bell Click"
+      }
+    }
+  ]
+}

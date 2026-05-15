@@ -1,0 +1,88 @@
+{
+  "docPath": "presentation/chi-tit-lp-core-libcore",
+  "currentVersion": 3,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "presentation/chi-tit-lp-core-libcore",
+      "version": 1,
+      "timestamp": "2026-05-14T07:08:26.6901444Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Chi tiết lớp Core (lib/core)"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Tài liệu chi tiết về lớp Core (lib/core), bao gồm Config, Providers, Router, và Services."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "architecture",
+            "core-layer",
+            "clean-architecture"
+          ]
+        }
+      ],
+      "snapshot": {
+        "description": "Tài liệu chi tiết về lớp Core (lib/core), bao gồm Config, Providers, Router, và Services.",
+        "tags": [
+          "architecture",
+          "core-layer",
+          "clean-architecture"
+        ],
+        "title": "Chi tiết lớp Core (lib/core)"
+      }
+    },
+    {
+      "id": "v2",
+      "docPath": "presentation/chi-tit-lp-core-libcore",
+      "version": 2,
+      "timestamp": "2026-05-14T07:08:35.6090238Z",
+      "changes": [
+        {
+          "field": "content",
+          "oldValue": null,
+          "newValue": "# Chi tiết lớp Core (`lib/core`)\n\n## 1. Vai trò\nLớp Core chứa các thành phần cốt lõi, cấu hình và tiện ích dùng chung cho toàn bộ ứng dụng. Đây là nơi tập trung các đoạn code không thuộc về một nghiệp vụ (Domain) cụ thể nào nhưng lại cần thiết để ứng dụng có thể vận hành trơn tru.\n\n## 2. Cấu trúc chi tiết\n\n### 📁 `config/`\nChứa các file cấu hình hệ thống mang tính toàn cục.\n- **Ví dụ thực tế**: `app_nav_items.dart` định nghĩa danh sách các menu điều hướng, icon và route tương ứng cho từng vai trò người dùng (Receptionist, Clinician, Specialist, Manager).\n\n### 📁 `providers/`\nChứa các Riverpod providers. Đây là nơi quản lý các trạng thái toàn cục đơn giản, hỗ trợ kiến trúc Hybrid State Management.\n- **Ví dụ thực tế**:\n  - `auth_provider.dart`: Cung cấp trạng thái xác thực và thông tin người dùng hiện tại.\n  - `header_provider.dart`: Quản lý tiêu đề (Title), phụ đề (Subtitle) và các action trên thanh AppBar một cách linh hoạt.\n  - `nav_provider.dart`: Quản lý mục menu đang được chọn.\n\n### 📁 `router/`\nQuản lý luồng điều hướng của toàn bộ ứng dụng.\n- **File tiêu biểu**: `app_router.dart`.\n- Sử dụng thư viện `go_router` để định nghĩa cây thư mục route.\n- Xử lý logic chuyển trang và phân quyền truy cập (Guard/Redirect) dựa trên trạng thái đăng nhập và Role của người dùng.\n\n### 📁 `services/`\nChứa các dịch vụ độc lập, thực hiện các tác vụ kỹ thuật cụ thể và thường có tính chất Singleton.\n- **Ví dụ thực tế**:\n  - `auth_service.dart`: Xử lý logic giao tiếp với Firebase Auth.\n  - `connectivity_service.dart`: Theo dõi và thông báo trạng thái kết nối mạng (Wifi/Cellular).\n  - `notification_factory.dart`: Xử lý hiển thị thông báo đẩy (Push Notification) và âm thanh cảnh báo.\n\n### 📁 Các thư mục hỗ trợ khác\n- 📁 `di/`: Quản lý Dependency Injection (Sử dụng `get_it` và `injectable` để khởi tạo các service).\n- 📁 `errors/`: Định nghĩa các lỗi (Failures) và Exception chuẩn hóa để bắt lỗi nhất quán.\n- 📁 `firebase/`: Các cấu hình hoặc helper riêng phục vụ cho Firebase.\n- 📁 `models/`: Các Data Model mang tính toàn cục (ví dụ: định nghĩa cấu trúc `NavItem`).\n- 📁 `theme/`: Định nghĩa hệ thống Design System (Màu sắc `AppColors`, Typography, Dark/Light mode).\n\n---\nTài liệu này bổ sung chi tiết cho mục `lib/core` trong @doc/presentation/cu-trc-th-mc-lib-v-kin-trc-ng-dng."
+        }
+      ],
+      "snapshot": {
+        "content": "# Chi tiết lớp Core (`lib/core`)\n\n## 1. Vai trò\nLớp Core chứa các thành phần cốt lõi, cấu hình và tiện ích dùng chung cho toàn bộ ứng dụng. Đây là nơi tập trung các đoạn code không thuộc về một nghiệp vụ (Domain) cụ thể nào nhưng lại cần thiết để ứng dụng có thể vận hành trơn tru.\n\n## 2. Cấu trúc chi tiết\n\n### 📁 `config/`\nChứa các file cấu hình hệ thống mang tính toàn cục.\n- **Ví dụ thực tế**: `app_nav_items.dart` định nghĩa danh sách các menu điều hướng, icon và route tương ứng cho từng vai trò người dùng (Receptionist, Clinician, Specialist, Manager).\n\n### 📁 `providers/`\nChứa các Riverpod providers. Đây là nơi quản lý các trạng thái toàn cục đơn giản, hỗ trợ kiến trúc Hybrid State Management.\n- **Ví dụ thực tế**:\n  - `auth_provider.dart`: Cung cấp trạng thái xác thực và thông tin người dùng hiện tại.\n  - `header_provider.dart`: Quản lý tiêu đề (Title), phụ đề (Subtitle) và các action trên thanh AppBar một cách linh hoạt.\n  - `nav_provider.dart`: Quản lý mục menu đang được chọn.\n\n### 📁 `router/`\nQuản lý luồng điều hướng của toàn bộ ứng dụng.\n- **File tiêu biểu**: `app_router.dart`.\n- Sử dụng thư viện `go_router` để định nghĩa cây thư mục route.\n- Xử lý logic chuyển trang và phân quyền truy cập (Guard/Redirect) dựa trên trạng thái đăng nhập và Role của người dùng.\n\n### 📁 `services/`\nChứa các dịch vụ độc lập, thực hiện các tác vụ kỹ thuật cụ thể và thường có tính chất Singleton.\n- **Ví dụ thực tế**:\n  - `auth_service.dart`: Xử lý logic giao tiếp với Firebase Auth.\n  - `connectivity_service.dart`: Theo dõi và thông báo trạng thái kết nối mạng (Wifi/Cellular).\n  - `notification_factory.dart`: Xử lý hiển thị thông báo đẩy (Push Notification) và âm thanh cảnh báo.\n\n### 📁 Các thư mục hỗ trợ khác\n- 📁 `di/`: Quản lý Dependency Injection (Sử dụng `get_it` và `injectable` để khởi tạo các service).\n- 📁 `errors/`: Định nghĩa các lỗi (Failures) và Exception chuẩn hóa để bắt lỗi nhất quán.\n- 📁 `firebase/`: Các cấu hình hoặc helper riêng phục vụ cho Firebase.\n- 📁 `models/`: Các Data Model mang tính toàn cục (ví dụ: định nghĩa cấu trúc `NavItem`).\n- 📁 `theme/`: Định nghĩa hệ thống Design System (Màu sắc `AppColors`, Typography, Dark/Light mode).\n\n---\nTài liệu này bổ sung chi tiết cho mục `lib/core` trong @doc/presentation/cu-trc-th-mc-lib-v-kin-trc-ng-dng.",
+        "description": "Tài liệu chi tiết về lớp Core (lib/core), bao gồm Config, Providers, Router, và Services.",
+        "tags": [
+          "architecture",
+          "core-layer",
+          "clean-architecture"
+        ],
+        "title": "Chi tiết lớp Core (lib/core)"
+      }
+    },
+    {
+      "id": "v3",
+      "docPath": "presentation/chi-tit-lp-core-libcore",
+      "version": 3,
+      "timestamp": "2026-05-14T08:02:51.3157371Z",
+      "changes": [
+        {
+          "field": "content",
+          "oldValue": "# Chi tiết lớp Core (`lib/core`)\n\n## 1. Vai trò\nLớp Core chứa các thành phần cốt lõi, cấu hình và tiện ích dùng chung cho toàn bộ ứng dụng. Đây là nơi tập trung các đoạn code không thuộc về một nghiệp vụ (Domain) cụ thể nào nhưng lại cần thiết để ứng dụng có thể vận hành trơn tru.\n\n## 2. Cấu trúc chi tiết\n\n### 📁 `config/`\nChứa các file cấu hình hệ thống mang tính toàn cục.\n- **Ví dụ thực tế**: `app_nav_items.dart` định nghĩa danh sách các menu điều hướng, icon và route tương ứng cho từng vai trò người dùng (Receptionist, Clinician, Specialist, Manager).\n\n### 📁 `providers/`\nChứa các Riverpod providers. Đây là nơi quản lý các trạng thái toàn cục đơn giản, hỗ trợ kiến trúc Hybrid State Management.\n- **Ví dụ thực tế**:\n  - `auth_provider.dart`: Cung cấp trạng thái xác thực và thông tin người dùng hiện tại.\n  - `header_provider.dart`: Quản lý tiêu đề (Title), phụ đề (Subtitle) và các action trên thanh AppBar một cách linh hoạt.\n  - `nav_provider.dart`: Quản lý mục menu đang được chọn.\n\n### 📁 `router/`\nQuản lý luồng điều hướng của toàn bộ ứng dụng.\n- **File tiêu biểu**: `app_router.dart`.\n- Sử dụng thư viện `go_router` để định nghĩa cây thư mục route.\n- Xử lý logic chuyển trang và phân quyền truy cập (Guard/Redirect) dựa trên trạng thái đăng nhập và Role của người dùng.\n\n### 📁 `services/`\nChứa các dịch vụ độc lập, thực hiện các tác vụ kỹ thuật cụ thể và thường có tính chất Singleton.\n- **Ví dụ thực tế**:\n  - `auth_service.dart`: Xử lý logic giao tiếp với Firebase Auth.\n  - `connectivity_service.dart`: Theo dõi và thông báo trạng thái kết nối mạng (Wifi/Cellular).\n  - `notification_factory.dart`: Xử lý hiển thị thông báo đẩy (Push Notification) và âm thanh cảnh báo.\n\n### 📁 Các thư mục hỗ trợ khác\n- 📁 `di/`: Quản lý Dependency Injection (Sử dụng `get_it` và `injectable` để khởi tạo các service).\n- 📁 `errors/`: Định nghĩa các lỗi (Failures) và Exception chuẩn hóa để bắt lỗi nhất quán.\n- 📁 `firebase/`: Các cấu hình hoặc helper riêng phục vụ cho Firebase.\n- 📁 `models/`: Các Data Model mang tính toàn cục (ví dụ: định nghĩa cấu trúc `NavItem`).\n- 📁 `theme/`: Định nghĩa hệ thống Design System (Màu sắc `AppColors`, Typography, Dark/Light mode).\n\n---\nTài liệu này bổ sung chi tiết cho mục `lib/core` trong @doc/presentation/cu-trc-th-mc-lib-v-kin-trc-ng-dng.",
+          "newValue": "# Chi tiết lớp Core (`lib/core`)\n\n## 1. Vai trò\nLớp Core chứa các thành phần cốt lõi, cấu hình và tiện ích dùng chung cho toàn bộ ứng dụng. Đây là nơi tập trung các đoạn code không thuộc về một nghiệp vụ (Domain) cụ thể nào nhưng lại cần thiết để ứng dụng có thể vận hành trơn tru.\n\n## 2. Cấu trúc chi tiết\n\n### 📁 `config/`\nChứa các file cấu hình hệ thống mang tính toàn cục.\n- **Ví dụ thực tế**: `app_nav_items.dart` định nghĩa danh sách các menu điều hướng, icon và route tương ứng cho từng vai trò người dùng (Receptionist, Clinician, Specialist, Manager).\n\n### 📁 `providers/`\nChứa các Riverpod providers. Đây là nơi quản lý các trạng thái toàn cục đơn giản, hỗ trợ kiến trúc Hybrid State Management.\n- **Ví dụ thực tế**:\n  - `auth_provider.dart`: Cung cấp trạng thái xác thực và thông tin người dùng hiện tại.\n  - `header_provider.dart`: Quản lý tiêu đề (Title), phụ đề (Subtitle) và các action trên thanh AppBar một cách linh hoạt.\n  - `nav_provider.dart`: Quản lý mục menu đang được chọn.\n\n### 📁 `router/`\nQuản lý luồng điều hướng của toàn bộ ứng dụng.\n- **File tiêu biểu**: `app_router.dart`.\n- Sử dụng thư viện `go_router` để định nghĩa cây thư mục route.\n- Xử lý logic chuyển trang và phân quyền truy cập (Guard/Redirect) dựa trên trạng thái đăng nhập và Role của người dùng.\n\n### 📁 `services/`\nChứa các dịch vụ độc lập, thực hiện các tác vụ kỹ thuật cụ thể và thường có tính chất Singleton.\n- **Ví dụ thực tế**:\n  - `auth_service.dart`: Xử lý logic giao tiếp với Firebase Auth.\n  - `connectivity_service.dart`: Theo dõi và thông báo trạng thái kết nối mạng (Wifi/Cellular).\n  - `notification_factory.dart`: Xử lý hiển thị thông báo đẩy (Push Notification) và âm thanh cảnh báo.\n\n### 📁 Các thư mục hỗ trợ khác\n- 📁 `di/`: Quản lý Dependency Injection (Sử dụng `get_it` và `injectable` để khởi tạo các service).\n  \u003e [!NOTE]\n  \u003e Chi tiết về cách hoạt động của Dependency Injection trong dự án, xem tại @doc/presentation/dependency-injection-di-trong-d-n.\n- 📁 `errors/`: Định nghĩa các lỗi (Failures) và Exception chuẩn hóa để bắt lỗi nhất quán.\n- 📁 `firebase/`: Các cấu hình hoặc helper riêng phục vụ cho Firebase.\n- 📁 `models/`: Các Data Model mang tính toàn cục (ví dụ: định nghĩa cấu trúc `NavItem`).\n- 📁 `theme/`: Định nghĩa hệ thống Design System (Màu sắc `AppColors`, Typography, Dark/Light mode).\n\n---\nTài liệu này bổ sung chi tiết cho mục `lib/core` trong @doc/presentation/cu-trc-th-mc-lib-v-kin-trc-ng-dng."
+        }
+      ],
+      "snapshot": {
+        "content": "# Chi tiết lớp Core (`lib/core`)\n\n## 1. Vai trò\nLớp Core chứa các thành phần cốt lõi, cấu hình và tiện ích dùng chung cho toàn bộ ứng dụng. Đây là nơi tập trung các đoạn code không thuộc về một nghiệp vụ (Domain) cụ thể nào nhưng lại cần thiết để ứng dụng có thể vận hành trơn tru.\n\n## 2. Cấu trúc chi tiết\n\n### 📁 `config/`\nChứa các file cấu hình hệ thống mang tính toàn cục.\n- **Ví dụ thực tế**: `app_nav_items.dart` định nghĩa danh sách các menu điều hướng, icon và route tương ứng cho từng vai trò người dùng (Receptionist, Clinician, Specialist, Manager).\n\n### 📁 `providers/`\nChứa các Riverpod providers. Đây là nơi quản lý các trạng thái toàn cục đơn giản, hỗ trợ kiến trúc Hybrid State Management.\n- **Ví dụ thực tế**:\n  - `auth_provider.dart`: Cung cấp trạng thái xác thực và thông tin người dùng hiện tại.\n  - `header_provider.dart`: Quản lý tiêu đề (Title), phụ đề (Subtitle) và các action trên thanh AppBar một cách linh hoạt.\n  - `nav_provider.dart`: Quản lý mục menu đang được chọn.\n\n### 📁 `router/`\nQuản lý luồng điều hướng của toàn bộ ứng dụng.\n- **File tiêu biểu**: `app_router.dart`.\n- Sử dụng thư viện `go_router` để định nghĩa cây thư mục route.\n- Xử lý logic chuyển trang và phân quyền truy cập (Guard/Redirect) dựa trên trạng thái đăng nhập và Role của người dùng.\n\n### 📁 `services/`\nChứa các dịch vụ độc lập, thực hiện các tác vụ kỹ thuật cụ thể và thường có tính chất Singleton.\n- **Ví dụ thực tế**:\n  - `auth_service.dart`: Xử lý logic giao tiếp với Firebase Auth.\n  - `connectivity_service.dart`: Theo dõi và thông báo trạng thái kết nối mạng (Wifi/Cellular).\n  - `notification_factory.dart`: Xử lý hiển thị thông báo đẩy (Push Notification) và âm thanh cảnh báo.\n\n### 📁 Các thư mục hỗ trợ khác\n- 📁 `di/`: Quản lý Dependency Injection (Sử dụng `get_it` và `injectable` để khởi tạo các service).\n  \u003e [!NOTE]\n  \u003e Chi tiết về cách hoạt động của Dependency Injection trong dự án, xem tại @doc/presentation/dependency-injection-di-trong-d-n.\n- 📁 `errors/`: Định nghĩa các lỗi (Failures) và Exception chuẩn hóa để bắt lỗi nhất quán.\n- 📁 `firebase/`: Các cấu hình hoặc helper riêng phục vụ cho Firebase.\n- 📁 `models/`: Các Data Model mang tính toàn cục (ví dụ: định nghĩa cấu trúc `NavItem`).\n- 📁 `theme/`: Định nghĩa hệ thống Design System (Màu sắc `AppColors`, Typography, Dark/Light mode).\n\n---\nTài liệu này bổ sung chi tiết cho mục `lib/core` trong @doc/presentation/cu-trc-th-mc-lib-v-kin-trc-ng-dng.",
+        "description": "Tài liệu chi tiết về lớp Core (lib/core), bao gồm Config, Providers, Router, và Services.",
+        "tags": [
+          "architecture",
+          "core-layer",
+          "clean-architecture"
+        ],
+        "title": "Chi tiết lớp Core (lib/core)"
+      }
+    }
+  ]
+}

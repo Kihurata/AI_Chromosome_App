@@ -1,0 +1,165 @@
+{
+  "taskId": "5p4l7d",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "5p4l7d",
+      "version": 1,
+      "timestamp": "2026-05-14T08:23:03.7622555Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Cho phép nút Quay lại ở Step 1 hoạt động và về màn hình Quản lý mẫu. Ẩn Sidebar khi đang ở màn hình Workspace.",
+        "labels": [
+          "workspace",
+          "ui"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Sửa nút Quay lại ở Step 1 và ẩn Sidebar trong Workspace"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "5p4l7d",
+      "version": 2,
+      "timestamp": "2026-05-14T08:23:05.8826405Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Cho phép nút Quay lại ở Step 1 hoạt động và về màn hình Quản lý mẫu. Ẩn Sidebar khi đang ở màn hình Workspace.",
+        "labels": [
+          "workspace",
+          "ui"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Sửa nút Quay lại ở Step 1 và ẩn Sidebar trong Workspace"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "5p4l7d",
+      "version": 3,
+      "timestamp": "2026-05-14T08:23:18.7525127Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Ẩn Sidebar thành công khi ở màn hình Workspace"
+            },
+            {
+              "completed": false,
+              "text": "Nút Quay lại ở Step 1 hoạt động và về màn hình Quản lý mẫu"
+            },
+            {
+              "completed": false,
+              "text": "Không có lỗi compile"
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Kế hoạch chi tiết (Dành cho User tự thực hiện)\n\nBạn sẽ thực hiện chỉnh sửa ở 2 file. Tôi sẽ hướng dẫn chi tiết từng bước.\n\n### Phần 1: Ẩn Sidebar trong Workspace\nChúng ta sẽ sửa file `MainShell` để ẩn sidebar khi đường dẫn là Workspace.\n\n- **File cần sửa**: `frontend/lib/presentation/widgets/shared/navigation/main_shell.dart`\n- **Bước 1.1**: Thêm các import cần thiết vào đầu file (nếu chưa có):\n  ```dart\n  import 'package:go_router/go_router.dart';\n  import '../../../../core/router/app_router.dart';\n  ```\n- **Bước 1.2**: Trong hàm `build`, lấy đường dẫn hiện tại và kiểm tra xem có phải là Workspace không:\n  ```dart\n  @override\n  Widget build(BuildContext context, WidgetRef ref) {\n    final drawerState = ref.watch(drawerProvider);\n    \n    // Thêm 2 dòng này:\n    final location = GoRouterState.of(context).matchedLocation;\n    final isWorkspace = location.startsWith(AppRoutes.specialistAnalysis);\n\n    return Scaffold(\n      // ... giữ nguyên ...\n  ```\n- **Bước 1.3**: Ở phần `body: Row`, thêm điều kiện để chỉ hiển thị `AppSideRail` khi không phải Workspace:\n  ```dart\n        children: [\n          // Sửa dòng này:\n          if (!isWorkspace) const AppSideRail(),\n          \n          // Right: Content Area ...\n  ```\n\n---\n\n### Phần 2: Sửa nút \"Quay lại\" ở Step 1\nChúng ta sẽ sửa file `WorkspaceScreen` để nút \"Quay lại\" hoạt động ở Step 1.\n\n- **File cần sửa**: `frontend/lib/presentation/screens/workspace/workspace_screen.dart`\n- **Bước 2.1**: Thêm import `go_router` vào đầu file (nếu chưa có):\n  ```dart\n  import 'package:go_router/go_router.dart';\n  ```\n- **Bước 2.2**: Tìm đến đoạn code hiển thị nút \"Quay lại\" (khoảng dòng 158) và sửa lại `onPressed`:\n  ```dart\n  // Tìm đoạn này:\n  AppSecondaryButton(\n    text: 'Quay lại',\n    onPressed: state.currentStep \u003e 1\n        ? () =\u003e _handleNavigation(context, state, () =\u003e context.read\u003cWorkspaceCubit\u003e().previousStep())\n        : null,\n  ),\n  \n  // Sửa thành:\n  AppSecondaryButton(\n    text: 'Quay lại',\n    onPressed: () {\n      if (state.currentStep \u003e 1) {\n        _handleNavigation(context, state, () =\u003e context.read\u003cWorkspaceCubit\u003e().previousStep());\n      } else {\n        context.goNamed('specialist-samples');\n      }\n    },\n  ),\n  ```\n\n---\n### Bước 3: Kiểm tra\n- Sau khi sửa xong, hãy báo cho tôi để tôi chạy `dart analyze` kiểm tra lỗi giúp bạn.\n\nBạn hãy bắt đầu với **Phần 1** nhé! Khá nhiều bước nên cứ thong thả làm từng file một."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Ẩn Sidebar thành công khi ở màn hình Workspace"
+          },
+          {
+            "completed": false,
+            "text": "Nút Quay lại ở Step 1 hoạt động và về màn hình Quản lý mẫu"
+          },
+          {
+            "completed": false,
+            "text": "Không có lỗi compile"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Cho phép nút Quay lại ở Step 1 hoạt động và về màn hình Quản lý mẫu. Ẩn Sidebar khi đang ở màn hình Workspace.",
+        "implementationPlan": "## Kế hoạch chi tiết (Dành cho User tự thực hiện)\n\nBạn sẽ thực hiện chỉnh sửa ở 2 file. Tôi sẽ hướng dẫn chi tiết từng bước.\n\n### Phần 1: Ẩn Sidebar trong Workspace\nChúng ta sẽ sửa file `MainShell` để ẩn sidebar khi đường dẫn là Workspace.\n\n- **File cần sửa**: `frontend/lib/presentation/widgets/shared/navigation/main_shell.dart`\n- **Bước 1.1**: Thêm các import cần thiết vào đầu file (nếu chưa có):\n  ```dart\n  import 'package:go_router/go_router.dart';\n  import '../../../../core/router/app_router.dart';\n  ```\n- **Bước 1.2**: Trong hàm `build`, lấy đường dẫn hiện tại và kiểm tra xem có phải là Workspace không:\n  ```dart\n  @override\n  Widget build(BuildContext context, WidgetRef ref) {\n    final drawerState = ref.watch(drawerProvider);\n    \n    // Thêm 2 dòng này:\n    final location = GoRouterState.of(context).matchedLocation;\n    final isWorkspace = location.startsWith(AppRoutes.specialistAnalysis);\n\n    return Scaffold(\n      // ... giữ nguyên ...\n  ```\n- **Bước 1.3**: Ở phần `body: Row`, thêm điều kiện để chỉ hiển thị `AppSideRail` khi không phải Workspace:\n  ```dart\n        children: [\n          // Sửa dòng này:\n          if (!isWorkspace) const AppSideRail(),\n          \n          // Right: Content Area ...\n  ```\n\n---\n\n### Phần 2: Sửa nút \"Quay lại\" ở Step 1\nChúng ta sẽ sửa file `WorkspaceScreen` để nút \"Quay lại\" hoạt động ở Step 1.\n\n- **File cần sửa**: `frontend/lib/presentation/screens/workspace/workspace_screen.dart`\n- **Bước 2.1**: Thêm import `go_router` vào đầu file (nếu chưa có):\n  ```dart\n  import 'package:go_router/go_router.dart';\n  ```\n- **Bước 2.2**: Tìm đến đoạn code hiển thị nút \"Quay lại\" (khoảng dòng 158) và sửa lại `onPressed`:\n  ```dart\n  // Tìm đoạn này:\n  AppSecondaryButton(\n    text: 'Quay lại',\n    onPressed: state.currentStep \u003e 1\n        ? () =\u003e _handleNavigation(context, state, () =\u003e context.read\u003cWorkspaceCubit\u003e().previousStep())\n        : null,\n  ),\n  \n  // Sửa thành:\n  AppSecondaryButton(\n    text: 'Quay lại',\n    onPressed: () {\n      if (state.currentStep \u003e 1) {\n        _handleNavigation(context, state, () =\u003e context.read\u003cWorkspaceCubit\u003e().previousStep());\n      } else {\n        context.goNamed('specialist-samples');\n      }\n    },\n  ),\n  ```\n\n---\n### Bước 3: Kiểm tra\n- Sau khi sửa xong, hãy báo cho tôi để tôi chạy `dart analyze` kiểm tra lỗi giúp bạn.\n\nBạn hãy bắt đầu với **Phần 1** nhé! Khá nhiều bước nên cứ thong thả làm từng file một.",
+        "labels": [
+          "workspace",
+          "ui"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Sửa nút Quay lại ở Step 1 và ẩn Sidebar trong Workspace"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "5p4l7d",
+      "version": 4,
+      "timestamp": "2026-05-14T09:11:41.0246729Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: User implemented the changes to hide sidebar in Workspace and enable back button in Step 1. Verified with dart analyze."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Ẩn Sidebar thành công khi ở màn hình Workspace",
+            "completed": true
+          },
+          {
+            "text": "Nút Quay lại ở Step 1 hoạt động và về màn hình Quản lý mẫu",
+            "completed": true
+          },
+          {
+            "text": "Không có lỗi compile",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Cho phép nút Quay lại ở Step 1 hoạt động và về màn hình Quản lý mẫu. Ẩn Sidebar khi đang ở màn hình Workspace.",
+        "implementationNotes": "Done: User implemented the changes to hide sidebar in Workspace and enable back button in Step 1. Verified with dart analyze.",
+        "implementationPlan": "## Kế hoạch chi tiết (Dành cho User tự thực hiện)\n\nBạn sẽ thực hiện chỉnh sửa ở 2 file. Tôi sẽ hướng dẫn chi tiết từng bước.\n\n### Phần 1: Ẩn Sidebar trong Workspace\nChúng ta sẽ sửa file `MainShell` để ẩn sidebar khi đường dẫn là Workspace.\n\n- **File cần sửa**: `frontend/lib/presentation/widgets/shared/navigation/main_shell.dart`\n- **Bước 1.1**: Thêm các import cần thiết vào đầu file (nếu chưa có):\n  ```dart\n  import 'package:go_router/go_router.dart';\n  import '../../../../core/router/app_router.dart';\n  ```\n- **Bước 1.2**: Trong hàm `build`, lấy đường dẫn hiện tại và kiểm tra xem có phải là Workspace không:\n  ```dart\n  @override\n  Widget build(BuildContext context, WidgetRef ref) {\n    final drawerState = ref.watch(drawerProvider);\n    \n    // Thêm 2 dòng này:\n    final location = GoRouterState.of(context).matchedLocation;\n    final isWorkspace = location.startsWith(AppRoutes.specialistAnalysis);\n\n    return Scaffold(\n      // ... giữ nguyên ...\n  ```\n- **Bước 1.3**: Ở phần `body: Row`, thêm điều kiện để chỉ hiển thị `AppSideRail` khi không phải Workspace:\n  ```dart\n        children: [\n          // Sửa dòng này:\n          if (!isWorkspace) const AppSideRail(),\n          \n          // Right: Content Area ...\n  ```\n\n---\n\n### Phần 2: Sửa nút \"Quay lại\" ở Step 1\nChúng ta sẽ sửa file `WorkspaceScreen` để nút \"Quay lại\" hoạt động ở Step 1.\n\n- **File cần sửa**: `frontend/lib/presentation/screens/workspace/workspace_screen.dart`\n- **Bước 2.1**: Thêm import `go_router` vào đầu file (nếu chưa có):\n  ```dart\n  import 'package:go_router/go_router.dart';\n  ```\n- **Bước 2.2**: Tìm đến đoạn code hiển thị nút \"Quay lại\" (khoảng dòng 158) và sửa lại `onPressed`:\n  ```dart\n  // Tìm đoạn này:\n  AppSecondaryButton(\n    text: 'Quay lại',\n    onPressed: state.currentStep \u003e 1\n        ? () =\u003e _handleNavigation(context, state, () =\u003e context.read\u003cWorkspaceCubit\u003e().previousStep())\n        : null,\n  ),\n  \n  // Sửa thành:\n  AppSecondaryButton(\n    text: 'Quay lại',\n    onPressed: () {\n      if (state.currentStep \u003e 1) {\n        _handleNavigation(context, state, () =\u003e context.read\u003cWorkspaceCubit\u003e().previousStep());\n      } else {\n        context.goNamed('specialist-samples');\n      }\n    },\n  ),\n  ```\n\n---\n### Bước 3: Kiểm tra\n- Sau khi sửa xong, hãy báo cho tôi để tôi chạy `dart analyze` kiểm tra lỗi giúp bạn.\n\nBạn hãy bắt đầu với **Phần 1** nhé! Khá nhiều bước nên cứ thong thả làm từng file một.",
+        "labels": [
+          "workspace",
+          "ui"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Sửa nút Quay lại ở Step 1 và ẩn Sidebar trong Workspace"
+      }
+    }
+  ]
+}

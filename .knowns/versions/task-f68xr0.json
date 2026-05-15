@@ -1,0 +1,180 @@
+{
+  "taskId": "f68xr0",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "f68xr0",
+      "version": 1,
+      "timestamp": "2026-05-13T07:08:27.406856Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Fix the issue where refreshing the page (F5) resets the user's role to Receptionist. Implement Approach A: Use update() instead of set(merge: true) in NotificationCubit to prevent partial document writes on startup/F5.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Fix Auth Role Reset on F5"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "f68xr0",
+      "version": 2,
+      "timestamp": "2026-05-13T07:08:31.9750086Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Fix the issue where refreshing the page (F5) resets the user's role to Receptionist. Implement Approach A: Use update() instead of set(merge: true) in NotificationCubit to prevent partial document writes on startup/F5.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Fix Auth Role Reset on F5"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "f68xr0",
+      "version": 3,
+      "timestamp": "2026-05-13T07:08:46.0379999Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "NotificationCubit uses update() instead of set(merge: true) for FCM token update."
+            },
+            {
+              "completed": false,
+              "text": "Graceful handling if user document does not exist yet (log warning instead of erroring out)."
+            },
+            {
+              "completed": false,
+              "text": "No regression in existing functionality."
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. Modify `d:\\AI_Chromosome_App\\frontend\\lib\\logic\\bloc\notification\notification_cubit.dart` line 55: change `.set({'fcm_token': token}, SetOptions(merge: true))` to `.update({'fcm_token': token})`.\n2. Wrap the `update` call in a try-catch block specifically catching `FirebaseException` to handle `not-found` error if the document doesn't exist on the server yet.\n3. Verify the change by running `flutter build web` or checking for lint errors.\n4. Update `learnings/learning-auth-role-f5-issue` to reflect that the fix has been applied."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "NotificationCubit uses update() instead of set(merge: true) for FCM token update."
+          },
+          {
+            "completed": false,
+            "text": "Graceful handling if user document does not exist yet (log warning instead of erroring out)."
+          },
+          {
+            "completed": false,
+            "text": "No regression in existing functionality."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Fix the issue where refreshing the page (F5) resets the user's role to Receptionist. Implement Approach A: Use update() instead of set(merge: true) in NotificationCubit to prevent partial document writes on startup/F5.",
+        "implementationPlan": "## Implementation Plan\n1. Modify `d:\\AI_Chromosome_App\\frontend\\lib\\logic\\bloc\notification\notification_cubit.dart` line 55: change `.set({'fcm_token': token}, SetOptions(merge: true))` to `.update({'fcm_token': token})`.\n2. Wrap the `update` call in a try-catch block specifically catching `FirebaseException` to handle `not-found` error if the document doesn't exist on the server yet.\n3. Verify the change by running `flutter build web` or checking for lint errors.\n4. Update `learnings/learning-auth-role-f5-issue` to reflect that the fix has been applied.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Fix Auth Role Reset on F5"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "f68xr0",
+      "version": 4,
+      "timestamp": "2026-05-13T07:32:04.8250575Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Replaced set(merge: true) with update() in _updateUserToken. Added FirebaseException(not-found) catch to log a warning and skip the update instead of creating a partial document. flutter analyze: no issues. Learning doc updated."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "NotificationCubit uses update() instead of set(merge: true) for FCM token update."
+          },
+          {
+            "completed": true,
+            "text": "Graceful handling if user document does not exist yet (log warning instead of erroring out)."
+          },
+          {
+            "completed": true,
+            "text": "No regression in existing functionality."
+          }
+        ],
+        "assignee": "@me",
+        "description": "Fix the issue where refreshing the page (F5) resets the user's role to Receptionist. Implement Approach A: Use update() instead of set(merge: true) in NotificationCubit to prevent partial document writes on startup/F5.",
+        "implementationNotes": "Replaced set(merge: true) with update() in _updateUserToken. Added FirebaseException(not-found) catch to log a warning and skip the update instead of creating a partial document. flutter analyze: no issues. Learning doc updated.",
+        "implementationPlan": "## Implementation Plan\n1. Modify `d:\\AI_Chromosome_App\\frontend\\lib\\logic\\bloc\notification\notification_cubit.dart` line 55: change `.set({'fcm_token': token}, SetOptions(merge: true))` to `.update({'fcm_token': token})`.\n2. Wrap the `update` call in a try-catch block specifically catching `FirebaseException` to handle `not-found` error if the document doesn't exist on the server yet.\n3. Verify the change by running `flutter build web` or checking for lint errors.\n4. Update `learnings/learning-auth-role-f5-issue` to reflect that the fix has been applied.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Fix Auth Role Reset on F5"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "f68xr0",
+      "version": 5,
+      "timestamp": "2026-05-13T07:32:16.224543Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "NotificationCubit uses update() instead of set(merge: true) for FCM token update.",
+            "completed": true
+          },
+          {
+            "text": "Graceful handling if user document does not exist yet (log warning instead of erroring out).",
+            "completed": true
+          },
+          {
+            "text": "No regression in existing functionality.",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Fix the issue where refreshing the page (F5) resets the user's role to Receptionist. Implement Approach A: Use update() instead of set(merge: true) in NotificationCubit to prevent partial document writes on startup/F5.",
+        "implementationNotes": "Replaced set(merge: true) with update() in _updateUserToken. Added FirebaseException(not-found) catch to log a warning and skip the update instead of creating a partial document. flutter analyze: no issues. Learning doc updated.",
+        "implementationPlan": "## Implementation Plan\n1. Modify `d:\\AI_Chromosome_App\\frontend\\lib\\logic\\bloc\notification\notification_cubit.dart` line 55: change `.set({'fcm_token': token}, SetOptions(merge: true))` to `.update({'fcm_token': token})`.\n2. Wrap the `update` call in a try-catch block specifically catching `FirebaseException` to handle `not-found` error if the document doesn't exist on the server yet.\n3. Verify the change by running `flutter build web` or checking for lint errors.\n4. Update `learnings/learning-auth-role-f5-issue` to reflect that the fix has been applied.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Fix Auth Role Reset on F5"
+      }
+    }
+  ]
+}

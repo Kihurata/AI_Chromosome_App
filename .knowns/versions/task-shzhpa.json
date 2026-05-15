@@ -1,0 +1,196 @@
+{
+  "taskId": "shzhpa",
+  "currentVersion": 5,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "shzhpa",
+      "version": 1,
+      "timestamp": "2026-05-14T09:38:41.953383Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "1. Thêm expectedHarvestTime và actualHarvestTime vào Sample entity và SampleModel.\n2. Cập nhật SampleDetailScreen: tự động tính expectedHarvestTime dựa trên Loại mẫu (Máu: 72h, Tủy xương: 48h, Dịch ối/Gai nhau: 14 ngày, Sinh thiết da: 21 ngày) tính từ collectedAt.\n3. Cho phép Specialist tùy chỉnh lại expectedHarvestTime thông qua DatePicker/TimePicker.\n4. Tích hợp Notification để báo cho Specialist khi sắp đến thời gian thu hoạch.",
+        "priority": "medium",
+        "status": "todo",
+        "title": "Cập nhật tính năng theo dõi thời gian thu hoạch mẫu"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "shzhpa",
+      "version": 2,
+      "timestamp": "2026-05-14T09:38:48.5874939Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "1. Thêm expectedHarvestTime và actualHarvestTime vào Sample entity và SampleModel.\n2. Cập nhật SampleDetailScreen: tự động tính expectedHarvestTime dựa trên Loại mẫu (Máu: 72h, Tủy xương: 48h, Dịch ối/Gai nhau: 14 ngày, Sinh thiết da: 21 ngày) tính từ collectedAt.\n3. Cho phép Specialist tùy chỉnh lại expectedHarvestTime thông qua DatePicker/TimePicker.\n4. Tích hợp Notification để báo cho Specialist khi sắp đến thời gian thu hoạch.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Cập nhật tính năng theo dõi thời gian thu hoạch mẫu"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "shzhpa",
+      "version": 3,
+      "timestamp": "2026-05-14T09:39:05.418341Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Cập nhật entity Sample và SampleModel để lưu trữ expectedHarvestTime và actualHarvestTime"
+            },
+            {
+              "completed": false,
+              "text": "Thêm phần UI hiển thị và cho phép chỉnh sửa expectedHarvestTime trong SampleDetailScreen"
+            },
+            {
+              "completed": false,
+              "text": "Tự động tính toán expectedHarvestTime khi thay đổi Loại mẫu hoặc Thời gian lấy mẫu"
+            },
+            {
+              "completed": false,
+              "text": "Tích hợp NotificationFactory cảnh báo thời gian thu hoạch"
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Model Update**: \n   - Sửa file `lib/domain/entities/sample.dart` để thêm `DateTime? expectedHarvestTime` và `DateTime? actualHarvestTime`.\n   - Sửa file `lib/data/models/sample_model.dart` để parse 2 trường này từ Firestore (map với `expected_harvest_time` và `actual_harvest_time`).\n2. **UI Update (SampleDetailScreen)**:\n   - Trong `lib/presentation/screens/specialist/sample_detail_screen.dart`, thêm biến `_expectedHarvestDate` và `_expectedHarvestTime`.\n   - Viết logic `_calculateExpectedHarvestTime(sampleType, collectedAt)` để tự động gán giá trị khi user chọn xong \"Loại mẫu\" và \"Ngày giờ lấy mẫu\".\n   - Thêm UI Section hiển thị DatePicker và TimePicker cho \"Thời gian thu hoạch dự kiến\" để Specialist có thể chỉnh sửa thủ công.\n3. **Logic Update**:\n   - Khi gọi `_submitSample`, gom các thông tin này vào object `Sample` và lưu xuống Firestore thông qua `SampleDetailCubit`.\n4. **Notification**:\n   - Tích hợp gọi `NotificationFactory.instance.showNotification` (trong một logic timer hoặc poll định kỳ ở Dashboard) khi có mẫu sắp đến giờ `expectedHarvestTime`."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Cập nhật entity Sample và SampleModel để lưu trữ expectedHarvestTime và actualHarvestTime"
+          },
+          {
+            "completed": false,
+            "text": "Thêm phần UI hiển thị và cho phép chỉnh sửa expectedHarvestTime trong SampleDetailScreen"
+          },
+          {
+            "completed": false,
+            "text": "Tự động tính toán expectedHarvestTime khi thay đổi Loại mẫu hoặc Thời gian lấy mẫu"
+          },
+          {
+            "completed": false,
+            "text": "Tích hợp NotificationFactory cảnh báo thời gian thu hoạch"
+          }
+        ],
+        "assignee": "@me",
+        "description": "1. Thêm expectedHarvestTime và actualHarvestTime vào Sample entity và SampleModel.\n2. Cập nhật SampleDetailScreen: tự động tính expectedHarvestTime dựa trên Loại mẫu (Máu: 72h, Tủy xương: 48h, Dịch ối/Gai nhau: 14 ngày, Sinh thiết da: 21 ngày) tính từ collectedAt.\n3. Cho phép Specialist tùy chỉnh lại expectedHarvestTime thông qua DatePicker/TimePicker.\n4. Tích hợp Notification để báo cho Specialist khi sắp đến thời gian thu hoạch.",
+        "implementationPlan": "## Implementation Plan\n1. **Model Update**: \n   - Sửa file `lib/domain/entities/sample.dart` để thêm `DateTime? expectedHarvestTime` và `DateTime? actualHarvestTime`.\n   - Sửa file `lib/data/models/sample_model.dart` để parse 2 trường này từ Firestore (map với `expected_harvest_time` và `actual_harvest_time`).\n2. **UI Update (SampleDetailScreen)**:\n   - Trong `lib/presentation/screens/specialist/sample_detail_screen.dart`, thêm biến `_expectedHarvestDate` và `_expectedHarvestTime`.\n   - Viết logic `_calculateExpectedHarvestTime(sampleType, collectedAt)` để tự động gán giá trị khi user chọn xong \"Loại mẫu\" và \"Ngày giờ lấy mẫu\".\n   - Thêm UI Section hiển thị DatePicker và TimePicker cho \"Thời gian thu hoạch dự kiến\" để Specialist có thể chỉnh sửa thủ công.\n3. **Logic Update**:\n   - Khi gọi `_submitSample`, gom các thông tin này vào object `Sample` và lưu xuống Firestore thông qua `SampleDetailCubit`.\n4. **Notification**:\n   - Tích hợp gọi `NotificationFactory.instance.showNotification` (trong một logic timer hoặc poll định kỳ ở Dashboard) khi có mẫu sắp đến giờ `expectedHarvestTime`.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Cập nhật tính năng theo dõi thời gian thu hoạch mẫu"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "shzhpa",
+      "version": 4,
+      "timestamp": "2026-05-14T09:42:56.5593976Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Implemented expectedHarvestTime calculation in SampleDetailScreen, updated Sample and SampleModel to persist it. Added a timer in SampleManagementCubit to show an info notification when a sample is close to harvest."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Cập nhật entity Sample và SampleModel để lưu trữ expectedHarvestTime và actualHarvestTime"
+          },
+          {
+            "completed": true,
+            "text": "Thêm phần UI hiển thị và cho phép chỉnh sửa expectedHarvestTime trong SampleDetailScreen"
+          },
+          {
+            "completed": true,
+            "text": "Tự động tính toán expectedHarvestTime khi thay đổi Loại mẫu hoặc Thời gian lấy mẫu"
+          },
+          {
+            "completed": true,
+            "text": "Tích hợp NotificationFactory cảnh báo thời gian thu hoạch"
+          }
+        ],
+        "assignee": "@me",
+        "description": "1. Thêm expectedHarvestTime và actualHarvestTime vào Sample entity và SampleModel.\n2. Cập nhật SampleDetailScreen: tự động tính expectedHarvestTime dựa trên Loại mẫu (Máu: 72h, Tủy xương: 48h, Dịch ối/Gai nhau: 14 ngày, Sinh thiết da: 21 ngày) tính từ collectedAt.\n3. Cho phép Specialist tùy chỉnh lại expectedHarvestTime thông qua DatePicker/TimePicker.\n4. Tích hợp Notification để báo cho Specialist khi sắp đến thời gian thu hoạch.",
+        "implementationNotes": "Implemented expectedHarvestTime calculation in SampleDetailScreen, updated Sample and SampleModel to persist it. Added a timer in SampleManagementCubit to show an info notification when a sample is close to harvest.",
+        "implementationPlan": "## Implementation Plan\n1. **Model Update**: \n   - Sửa file `lib/domain/entities/sample.dart` để thêm `DateTime? expectedHarvestTime` và `DateTime? actualHarvestTime`.\n   - Sửa file `lib/data/models/sample_model.dart` để parse 2 trường này từ Firestore (map với `expected_harvest_time` và `actual_harvest_time`).\n2. **UI Update (SampleDetailScreen)**:\n   - Trong `lib/presentation/screens/specialist/sample_detail_screen.dart`, thêm biến `_expectedHarvestDate` và `_expectedHarvestTime`.\n   - Viết logic `_calculateExpectedHarvestTime(sampleType, collectedAt)` để tự động gán giá trị khi user chọn xong \"Loại mẫu\" và \"Ngày giờ lấy mẫu\".\n   - Thêm UI Section hiển thị DatePicker và TimePicker cho \"Thời gian thu hoạch dự kiến\" để Specialist có thể chỉnh sửa thủ công.\n3. **Logic Update**:\n   - Khi gọi `_submitSample`, gom các thông tin này vào object `Sample` và lưu xuống Firestore thông qua `SampleDetailCubit`.\n4. **Notification**:\n   - Tích hợp gọi `NotificationFactory.instance.showNotification` (trong một logic timer hoặc poll định kỳ ở Dashboard) khi có mẫu sắp đến giờ `expectedHarvestTime`.",
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Cập nhật tính năng theo dõi thời gian thu hoạch mẫu"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "shzhpa",
+      "version": 5,
+      "timestamp": "2026-05-14T09:43:11.323228Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Cập nhật entity Sample và SampleModel để lưu trữ expectedHarvestTime và actualHarvestTime",
+            "completed": true
+          },
+          {
+            "text": "Thêm phần UI hiển thị và cho phép chỉnh sửa expectedHarvestTime trong SampleDetailScreen",
+            "completed": true
+          },
+          {
+            "text": "Tự động tính toán expectedHarvestTime khi thay đổi Loại mẫu hoặc Thời gian lấy mẫu",
+            "completed": true
+          },
+          {
+            "text": "Tích hợp NotificationFactory cảnh báo thời gian thu hoạch",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "1. Thêm expectedHarvestTime và actualHarvestTime vào Sample entity và SampleModel.\n2. Cập nhật SampleDetailScreen: tự động tính expectedHarvestTime dựa trên Loại mẫu (Máu: 72h, Tủy xương: 48h, Dịch ối/Gai nhau: 14 ngày, Sinh thiết da: 21 ngày) tính từ collectedAt.\n3. Cho phép Specialist tùy chỉnh lại expectedHarvestTime thông qua DatePicker/TimePicker.\n4. Tích hợp Notification để báo cho Specialist khi sắp đến thời gian thu hoạch.",
+        "implementationNotes": "Implemented expectedHarvestTime calculation in SampleDetailScreen, updated Sample and SampleModel to persist it. Added a timer in SampleManagementCubit to show an info notification when a sample is close to harvest.",
+        "implementationPlan": "## Implementation Plan\n1. **Model Update**: \n   - Sửa file `lib/domain/entities/sample.dart` để thêm `DateTime? expectedHarvestTime` và `DateTime? actualHarvestTime`.\n   - Sửa file `lib/data/models/sample_model.dart` để parse 2 trường này từ Firestore (map với `expected_harvest_time` và `actual_harvest_time`).\n2. **UI Update (SampleDetailScreen)**:\n   - Trong `lib/presentation/screens/specialist/sample_detail_screen.dart`, thêm biến `_expectedHarvestDate` và `_expectedHarvestTime`.\n   - Viết logic `_calculateExpectedHarvestTime(sampleType, collectedAt)` để tự động gán giá trị khi user chọn xong \"Loại mẫu\" và \"Ngày giờ lấy mẫu\".\n   - Thêm UI Section hiển thị DatePicker và TimePicker cho \"Thời gian thu hoạch dự kiến\" để Specialist có thể chỉnh sửa thủ công.\n3. **Logic Update**:\n   - Khi gọi `_submitSample`, gom các thông tin này vào object `Sample` và lưu xuống Firestore thông qua `SampleDetailCubit`.\n4. **Notification**:\n   - Tích hợp gọi `NotificationFactory.instance.showNotification` (trong một logic timer hoặc poll định kỳ ở Dashboard) khi có mẫu sắp đến giờ `expectedHarvestTime`.",
+        "priority": "medium",
+        "status": "done",
+        "title": "Cập nhật tính năng theo dõi thời gian thu hoạch mẫu"
+      }
+    }
+  ]
+}

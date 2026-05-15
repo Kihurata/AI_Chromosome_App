@@ -1,13 +1,13 @@
 ---
 id: ljp8lq
 title: 'Implement AI Trigger & Processing State in Workspace Step 1'
-status: in-progress
+status: done
 priority: medium
 labels:
   - from-spec
   - go-mode
 createdAt: '2026-05-06T09:20:44.940Z'
-updatedAt: '2026-05-06T09:31:05.275Z'
+updatedAt: '2026-05-13T07:39:21.994Z'
 timeSpent: 0
 spec: specs/specialist-dashboard-ai-trigger
 fulfills:

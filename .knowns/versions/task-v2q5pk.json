@@ -1,0 +1,165 @@
+{
+  "taskId": "v2q5pk",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "v2q5pk",
+      "version": 1,
+      "timestamp": "2026-05-14T07:31:56.9501573Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Khi dùng pushNamed để sang trang chi tiết, trang Dashboard không bị hủy. Khi pop về, Dashboard không rebuild nên Header giữ nguyên tiêu đề của trang chi tiết. Cần cập nhật lại Header sau khi pushNamed hoàn thành.",
+        "labels": [
+          "bug",
+          "navigation"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Sửa lỗi không cập nhật Header khi back về Dashboard"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "v2q5pk",
+      "version": 2,
+      "timestamp": "2026-05-14T07:32:00.3733668Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Khi dùng pushNamed để sang trang chi tiết, trang Dashboard không bị hủy. Khi pop về, Dashboard không rebuild nên Header giữ nguyên tiêu đề của trang chi tiết. Cần cập nhật lại Header sau khi pushNamed hoàn thành.",
+        "labels": [
+          "bug",
+          "navigation"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Sửa lỗi không cập nhật Header khi back về Dashboard"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "v2q5pk",
+      "version": 3,
+      "timestamp": "2026-05-14T07:32:05.6404563Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Chuyển đổi SpecialistOrderCard thành ConsumerWidget thành công"
+            },
+            {
+              "completed": false,
+              "text": "Cập nhật Header về trạng thái Dashboard sau khi back từ trang chi tiết"
+            },
+            {
+              "completed": false,
+              "text": "Không có lỗi lint hay compile"
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Convert SpecialistOrderCard to ConsumerWidget**: Chuyển đổi `specialist_order_card.dart` từ `StatelessWidget` sang `ConsumerWidget` để có thể sử dụng `ref`.\n2. **Update navigation logic in SpecialistOrderCard**:\n   - Thêm `await` trước `context.pushNamed(...)` trong callback `onTap`.\n   - Sau khi `await` hoàn tất, sử dụng `ref.read(authNotifierProvider)` để lấy tên người dùng.\n   - Gọi `ref.read(headerProvider.notifier).update(...)` để khôi phục tiêu đề 'Bảng điều khiển' và phụ đề 'Chào mừng trở lại, ...'.\n3. **Verify**: Kiểm tra luồng điều hướng và đảm bảo Header hiển thị đúng sau khi back."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Chuyển đổi SpecialistOrderCard thành ConsumerWidget thành công"
+          },
+          {
+            "completed": false,
+            "text": "Cập nhật Header về trạng thái Dashboard sau khi back từ trang chi tiết"
+          },
+          {
+            "completed": false,
+            "text": "Không có lỗi lint hay compile"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Khi dùng pushNamed để sang trang chi tiết, trang Dashboard không bị hủy. Khi pop về, Dashboard không rebuild nên Header giữ nguyên tiêu đề của trang chi tiết. Cần cập nhật lại Header sau khi pushNamed hoàn thành.",
+        "implementationPlan": "## Implementation Plan\n1. **Convert SpecialistOrderCard to ConsumerWidget**: Chuyển đổi `specialist_order_card.dart` từ `StatelessWidget` sang `ConsumerWidget` để có thể sử dụng `ref`.\n2. **Update navigation logic in SpecialistOrderCard**:\n   - Thêm `await` trước `context.pushNamed(...)` trong callback `onTap`.\n   - Sau khi `await` hoàn tất, sử dụng `ref.read(authNotifierProvider)` để lấy tên người dùng.\n   - Gọi `ref.read(headerProvider.notifier).update(...)` để khôi phục tiêu đề 'Bảng điều khiển' và phụ đề 'Chào mừng trở lại, ...'.\n3. **Verify**: Kiểm tra luồng điều hướng và đảm bảo Header hiển thị đúng sau khi back.",
+        "labels": [
+          "bug",
+          "navigation"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Sửa lỗi không cập nhật Header khi back về Dashboard"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "v2q5pk",
+      "version": 4,
+      "timestamp": "2026-05-14T07:54:20.3536248Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Converted SpecialistOrderCard to ConsumerWidget and updated onTap to restore header state."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Chuyển đổi SpecialistOrderCard thành ConsumerWidget thành công",
+            "completed": true
+          },
+          {
+            "text": "Cập nhật Header về trạng thái Dashboard sau khi back từ trang chi tiết",
+            "completed": true
+          },
+          {
+            "text": "Không có lỗi lint hay compile",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Khi dùng pushNamed để sang trang chi tiết, trang Dashboard không bị hủy. Khi pop về, Dashboard không rebuild nên Header giữ nguyên tiêu đề của trang chi tiết. Cần cập nhật lại Header sau khi pushNamed hoàn thành.",
+        "implementationNotes": "Done: Converted SpecialistOrderCard to ConsumerWidget and updated onTap to restore header state.",
+        "implementationPlan": "## Implementation Plan\n1. **Convert SpecialistOrderCard to ConsumerWidget**: Chuyển đổi `specialist_order_card.dart` từ `StatelessWidget` sang `ConsumerWidget` để có thể sử dụng `ref`.\n2. **Update navigation logic in SpecialistOrderCard**:\n   - Thêm `await` trước `context.pushNamed(...)` trong callback `onTap`.\n   - Sau khi `await` hoàn tất, sử dụng `ref.read(authNotifierProvider)` để lấy tên người dùng.\n   - Gọi `ref.read(headerProvider.notifier).update(...)` để khôi phục tiêu đề 'Bảng điều khiển' và phụ đề 'Chào mừng trở lại, ...'.\n3. **Verify**: Kiểm tra luồng điều hướng và đảm bảo Header hiển thị đúng sau khi back.",
+        "labels": [
+          "bug",
+          "navigation"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Sửa lỗi không cập nhật Header khi back về Dashboard"
+      }
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "taskId": "0hhyyq",
+  "currentVersion": 4,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "0hhyyq",
+      "version": 1,
+      "timestamp": "2026-05-14T08:04:14.0505816Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "medium"
+        }
+      ],
+      "snapshot": {
+        "description": "Khi vào Step 3, hệ thống tự động fetch dữ liệu và trả về trạng thái success, kích hoạt snackbar 'Thành công'. Cần tách biệt trạng thái fetch thành công để không hiện snackbar.",
+        "labels": [
+          "bug",
+          "workspace"
+        ],
+        "priority": "medium",
+        "status": "todo",
+        "title": "Sửa lỗi Notification luôn hiển thị khi vào Step 3"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "0hhyyq",
+      "version": 2,
+      "timestamp": "2026-05-14T08:04:17.8668183Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Khi vào Step 3, hệ thống tự động fetch dữ liệu và trả về trạng thái success, kích hoạt snackbar 'Thành công'. Cần tách biệt trạng thái fetch thành công để không hiện snackbar.",
+        "labels": [
+          "bug",
+          "workspace"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Sửa lỗi Notification luôn hiển thị khi vào Step 3"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "0hhyyq",
+      "version": 3,
+      "timestamp": "2026-05-14T08:04:25.6329072Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Thêm trạng thái loaded vào WorkspaceStatus thành công"
+            },
+            {
+              "completed": false,
+              "text": "Cập nhật fetchChromosomesForStep3 để dùng trạng thái loaded"
+            },
+            {
+              "completed": false,
+              "text": "Không hiển thị Snackbar 'Thành công' khi vào Step 3"
+            },
+            {
+              "completed": false,
+              "text": "Không có lỗi compile"
+            }
+          ]
+        },
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Kế hoạch chi tiết (Dành cho User tự thực hiện)\n\nBạn sẽ là người trực tiếp sửa code. Tôi sẽ hướng dẫn từng bước và hỗ trợ kiểm tra lỗi.\n\n### Bước 1: Thêm trạng thái `loaded` vào Enum `WorkspaceStatus`\n- **File cần sửa**: `frontend/lib/logic/bloc/workspace/workspace_cubit.dart`\n- **Vị trí**: Dòng 9.\n- **Hành động**: Thêm `loaded` vào enum `WorkspaceStatus`.\n  ```dart\n  enum WorkspaceStatus { initial, loading, success, error, loaded }\n  ```\n\n### Bước 2: Cập nhật `WorkspaceCubit` để dùng trạng thái `loaded` khi fetch dữ liệu\n- **File cần sửa**: `frontend/lib/logic/bloc/workspace/workspace_cubit.dart`\n- **Vị trí**: Hàm `fetchChromosomesForStep3()` (khoảng dòng 106).\n- **Hành động**: Đổi `status: WorkspaceStatus.success` thành `status: WorkspaceStatus.loaded`.\n  ```dart\n  emit(state.copyWith(\n    status: WorkspaceStatus.loaded, // Sửa ở đây\n    chromosomes: chromosomes,\n    suggestions: suggestions,\n    isDirty: false,\n  ));\n  ```\n\n### Bước 3: Kiểm tra và xác nhận\n- Sau khi bạn sửa xong 2 bước trên, hãy báo cho tôi biết.\n- Tôi sẽ chạy lệnh `dart analyze` để kiểm tra lỗi cú pháp giúp bạn.\n- Bạn có thể tải lại trang web để kiểm tra xem Notification \"Thành công\" đã biến mất khi vào Step 3 chưa.\n\n---\nBạn đã sẵn sàng chưa? Hãy bắt đầu với **Bước 1** nhé!"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Thêm trạng thái loaded vào WorkspaceStatus thành công"
+          },
+          {
+            "completed": false,
+            "text": "Cập nhật fetchChromosomesForStep3 để dùng trạng thái loaded"
+          },
+          {
+            "completed": false,
+            "text": "Không hiển thị Snackbar 'Thành công' khi vào Step 3"
+          },
+          {
+            "completed": false,
+            "text": "Không có lỗi compile"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Khi vào Step 3, hệ thống tự động fetch dữ liệu và trả về trạng thái success, kích hoạt snackbar 'Thành công'. Cần tách biệt trạng thái fetch thành công để không hiện snackbar.",
+        "implementationPlan": "## Kế hoạch chi tiết (Dành cho User tự thực hiện)\n\nBạn sẽ là người trực tiếp sửa code. Tôi sẽ hướng dẫn từng bước và hỗ trợ kiểm tra lỗi.\n\n### Bước 1: Thêm trạng thái `loaded` vào Enum `WorkspaceStatus`\n- **File cần sửa**: `frontend/lib/logic/bloc/workspace/workspace_cubit.dart`\n- **Vị trí**: Dòng 9.\n- **Hành động**: Thêm `loaded` vào enum `WorkspaceStatus`.\n  ```dart\n  enum WorkspaceStatus { initial, loading, success, error, loaded }\n  ```\n\n### Bước 2: Cập nhật `WorkspaceCubit` để dùng trạng thái `loaded` khi fetch dữ liệu\n- **File cần sửa**: `frontend/lib/logic/bloc/workspace/workspace_cubit.dart`\n- **Vị trí**: Hàm `fetchChromosomesForStep3()` (khoảng dòng 106).\n- **Hành động**: Đổi `status: WorkspaceStatus.success` thành `status: WorkspaceStatus.loaded`.\n  ```dart\n  emit(state.copyWith(\n    status: WorkspaceStatus.loaded, // Sửa ở đây\n    chromosomes: chromosomes,\n    suggestions: suggestions,\n    isDirty: false,\n  ));\n  ```\n\n### Bước 3: Kiểm tra và xác nhận\n- Sau khi bạn sửa xong 2 bước trên, hãy báo cho tôi biết.\n- Tôi sẽ chạy lệnh `dart analyze` để kiểm tra lỗi cú pháp giúp bạn.\n- Bạn có thể tải lại trang web để kiểm tra xem Notification \"Thành công\" đã biến mất khi vào Step 3 chưa.\n\n---\nBạn đã sẵn sàng chưa? Hãy bắt đầu với **Bước 1** nhé!",
+        "labels": [
+          "bug",
+          "workspace"
+        ],
+        "priority": "medium",
+        "status": "in-progress",
+        "title": "Sửa lỗi Notification luôn hiển thị khi vào Step 3"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "0hhyyq",
+      "version": 4,
+      "timestamp": "2026-05-14T08:12:19.9448172Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        },
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: User implemented the changes to add 'loaded' status and use it in fetchChromosomesForStep3. Verified with dart analyze."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Thêm trạng thái loaded vào WorkspaceStatus thành công",
+            "completed": true
+          },
+          {
+            "text": "Cập nhật fetchChromosomesForStep3 để dùng trạng thái loaded",
+            "completed": true
+          },
+          {
+            "text": "Không hiển thị Snackbar 'Thành công' khi vào Step 3",
+            "completed": true
+          },
+          {
+            "text": "Không có lỗi compile",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Khi vào Step 3, hệ thống tự động fetch dữ liệu và trả về trạng thái success, kích hoạt snackbar 'Thành công'. Cần tách biệt trạng thái fetch thành công để không hiện snackbar.",
+        "implementationNotes": "Done: User implemented the changes to add 'loaded' status and use it in fetchChromosomesForStep3. Verified with dart analyze.",
+        "implementationPlan": "## Kế hoạch chi tiết (Dành cho User tự thực hiện)\n\nBạn sẽ là người trực tiếp sửa code. Tôi sẽ hướng dẫn từng bước và hỗ trợ kiểm tra lỗi.\n\n### Bước 1: Thêm trạng thái `loaded` vào Enum `WorkspaceStatus`\n- **File cần sửa**: `frontend/lib/logic/bloc/workspace/workspace_cubit.dart`\n- **Vị trí**: Dòng 9.\n- **Hành động**: Thêm `loaded` vào enum `WorkspaceStatus`.\n  ```dart\n  enum WorkspaceStatus { initial, loading, success, error, loaded }\n  ```\n\n### Bước 2: Cập nhật `WorkspaceCubit` để dùng trạng thái `loaded` khi fetch dữ liệu\n- **File cần sửa**: `frontend/lib/logic/bloc/workspace/workspace_cubit.dart`\n- **Vị trí**: Hàm `fetchChromosomesForStep3()` (khoảng dòng 106).\n- **Hành động**: Đổi `status: WorkspaceStatus.success` thành `status: WorkspaceStatus.loaded`.\n  ```dart\n  emit(state.copyWith(\n    status: WorkspaceStatus.loaded, // Sửa ở đây\n    chromosomes: chromosomes,\n    suggestions: suggestions,\n    isDirty: false,\n  ));\n  ```\n\n### Bước 3: Kiểm tra và xác nhận\n- Sau khi bạn sửa xong 2 bước trên, hãy báo cho tôi biết.\n- Tôi sẽ chạy lệnh `dart analyze` để kiểm tra lỗi cú pháp giúp bạn.\n- Bạn có thể tải lại trang web để kiểm tra xem Notification \"Thành công\" đã biến mất khi vào Step 3 chưa.\n\n---\nBạn đã sẵn sàng chưa? Hãy bắt đầu với **Bước 1** nhé!",
+        "labels": [
+          "bug",
+          "workspace"
+        ],
+        "priority": "medium",
+        "status": "done",
+        "title": "Sửa lỗi Notification luôn hiển thị khi vào Step 3"
+      }
+    }
+  ]
+}

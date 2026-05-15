@@ -1,0 +1,204 @@
+{
+  "taskId": "vj699i",
+  "currentVersion": 6,
+  "versions": [
+    {
+      "id": "v1",
+      "taskId": "vj699i",
+      "version": 1,
+      "timestamp": "2026-05-14T07:04:32.2654054Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": null,
+          "newValue": "todo"
+        },
+        {
+          "field": "priority",
+          "oldValue": null,
+          "newValue": "high"
+        }
+      ],
+      "snapshot": {
+        "description": "Nghiên cứu cho thấy lỗi xảy ra do dùng lẫn lộn GoRouter và Navigator.pop dẫn đến mất đồng bộ state. Cần cập nhật AppHeader và SampleDetailScreen để dùng GoRouter pop.",
+        "labels": [
+          "bug",
+          "navigation"
+        ],
+        "priority": "high",
+        "status": "todo",
+        "title": "Sửa lỗi crash khi back từ trang Chi tiết Mẫu bệnh phẩm"
+      }
+    },
+    {
+      "id": "v2",
+      "taskId": "vj699i",
+      "version": 2,
+      "timestamp": "2026-05-14T07:04:36.5343816Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "todo",
+          "newValue": "in-progress"
+        },
+        {
+          "field": "assignee",
+          "oldValue": null,
+          "newValue": "@me"
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Nghiên cứu cho thấy lỗi xảy ra do dùng lẫn lộn GoRouter và Navigator.pop dẫn đến mất đồng bộ state. Cần cập nhật AppHeader và SampleDetailScreen để dùng GoRouter pop.",
+        "labels": [
+          "bug",
+          "navigation"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Sửa lỗi crash khi back từ trang Chi tiết Mẫu bệnh phẩm"
+      }
+    },
+    {
+      "id": "v3",
+      "taskId": "vj699i",
+      "version": 3,
+      "timestamp": "2026-05-14T07:04:43.3082755Z",
+      "changes": [
+        {
+          "field": "implementationPlan",
+          "oldValue": null,
+          "newValue": "## Implementation Plan\n1. **Refactor AppHeader back button logic**: Cập nhật `app_header.dart` tại dòng 62 để ưu tiên dùng `context.pop()` nếu `GoRouter.of(context).canPop()` trả về true, ngược lại mới dùng `Navigator.of(context).pop()`.\n2. **Refactor SampleDetailScreen navigation**: Cập nhật `sample_detail_screen.dart` tại các dòng 97 và 171 để dùng `context.pop()` thay vì `Navigator.pop(context)`.\n3. **Verify**: Chạy lại ứng dụng và kiểm tra luồng điều hướng: Dashboard -\u003e Click Row -\u003e Chi tiết -\u003e Bấm Back/Hủy -\u003e Kiểm tra xem Dashboard có hoạt động bình thường không."
+        }
+      ],
+      "snapshot": {
+        "assignee": "@me",
+        "description": "Nghiên cứu cho thấy lỗi xảy ra do dùng lẫn lộn GoRouter và Navigator.pop dẫn đến mất đồng bộ state. Cần cập nhật AppHeader và SampleDetailScreen để dùng GoRouter pop.",
+        "implementationPlan": "## Implementation Plan\n1. **Refactor AppHeader back button logic**: Cập nhật `app_header.dart` tại dòng 62 để ưu tiên dùng `context.pop()` nếu `GoRouter.of(context).canPop()` trả về true, ngược lại mới dùng `Navigator.of(context).pop()`.\n2. **Refactor SampleDetailScreen navigation**: Cập nhật `sample_detail_screen.dart` tại các dòng 97 và 171 để dùng `context.pop()` thay vì `Navigator.pop(context)`.\n3. **Verify**: Chạy lại ứng dụng và kiểm tra luồng điều hướng: Dashboard -\u003e Click Row -\u003e Chi tiết -\u003e Bấm Back/Hủy -\u003e Kiểm tra xem Dashboard có hoạt động bình thường không.",
+        "labels": [
+          "bug",
+          "navigation"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Sửa lỗi crash khi back từ trang Chi tiết Mẫu bệnh phẩm"
+      }
+    },
+    {
+      "id": "v4",
+      "taskId": "vj699i",
+      "version": 4,
+      "timestamp": "2026-05-14T07:07:50.945747Z",
+      "changes": [
+        {
+          "field": "acceptanceCriteria",
+          "oldValue": null,
+          "newValue": [
+            {
+              "completed": false,
+              "text": "Refactor AppHeader back button logic"
+            },
+            {
+              "completed": false,
+              "text": "Refactor SampleDetailScreen navigation"
+            }
+          ]
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": false,
+            "text": "Refactor AppHeader back button logic"
+          },
+          {
+            "completed": false,
+            "text": "Refactor SampleDetailScreen navigation"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Nghiên cứu cho thấy lỗi xảy ra do dùng lẫn lộn GoRouter và Navigator.pop dẫn đến mất đồng bộ state. Cần cập nhật AppHeader và SampleDetailScreen để dùng GoRouter pop.",
+        "implementationPlan": "## Implementation Plan\n1. **Refactor AppHeader back button logic**: Cập nhật `app_header.dart` tại dòng 62 để ưu tiên dùng `context.pop()` nếu `GoRouter.of(context).canPop()` trả về true, ngược lại mới dùng `Navigator.of(context).pop()`.\n2. **Refactor SampleDetailScreen navigation**: Cập nhật `sample_detail_screen.dart` tại các dòng 97 và 171 để dùng `context.pop()` thay vì `Navigator.pop(context)`.\n3. **Verify**: Chạy lại ứng dụng và kiểm tra luồng điều hướng: Dashboard -\u003e Click Row -\u003e Chi tiết -\u003e Bấm Back/Hủy -\u003e Kiểm tra xem Dashboard có hoạt động bình thường không.",
+        "labels": [
+          "bug",
+          "navigation"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Sửa lỗi crash khi back từ trang Chi tiết Mẫu bệnh phẩm"
+      }
+    },
+    {
+      "id": "v5",
+      "taskId": "vj699i",
+      "version": 5,
+      "timestamp": "2026-05-14T07:07:57.5251818Z",
+      "changes": [
+        {
+          "field": "implementationNotes",
+          "oldValue": null,
+          "newValue": "Done: Refactored AppHeader and SampleDetailScreen to use GoRouter's context.pop()."
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "completed": true,
+            "text": "Refactor AppHeader back button logic"
+          },
+          {
+            "completed": true,
+            "text": "Refactor SampleDetailScreen navigation"
+          }
+        ],
+        "assignee": "@me",
+        "description": "Nghiên cứu cho thấy lỗi xảy ra do dùng lẫn lộn GoRouter và Navigator.pop dẫn đến mất đồng bộ state. Cần cập nhật AppHeader và SampleDetailScreen để dùng GoRouter pop.",
+        "implementationNotes": "Done: Refactored AppHeader and SampleDetailScreen to use GoRouter's context.pop().",
+        "implementationPlan": "## Implementation Plan\n1. **Refactor AppHeader back button logic**: Cập nhật `app_header.dart` tại dòng 62 để ưu tiên dùng `context.pop()` nếu `GoRouter.of(context).canPop()` trả về true, ngược lại mới dùng `Navigator.of(context).pop()`.\n2. **Refactor SampleDetailScreen navigation**: Cập nhật `sample_detail_screen.dart` tại các dòng 97 và 171 để dùng `context.pop()` thay vì `Navigator.pop(context)`.\n3. **Verify**: Chạy lại ứng dụng và kiểm tra luồng điều hướng: Dashboard -\u003e Click Row -\u003e Chi tiết -\u003e Bấm Back/Hủy -\u003e Kiểm tra xem Dashboard có hoạt động bình thường không.",
+        "labels": [
+          "bug",
+          "navigation"
+        ],
+        "priority": "high",
+        "status": "in-progress",
+        "title": "Sửa lỗi crash khi back từ trang Chi tiết Mẫu bệnh phẩm"
+      }
+    },
+    {
+      "id": "v6",
+      "taskId": "vj699i",
+      "version": 6,
+      "timestamp": "2026-05-14T07:08:16.4558812Z",
+      "changes": [
+        {
+          "field": "status",
+          "oldValue": "in-progress",
+          "newValue": "done"
+        }
+      ],
+      "snapshot": {
+        "acceptanceCriteria": [
+          {
+            "text": "Refactor AppHeader back button logic",
+            "completed": true
+          },
+          {
+            "text": "Refactor SampleDetailScreen navigation",
+            "completed": true
+          }
+        ],
+        "assignee": "@me",
+        "description": "Nghiên cứu cho thấy lỗi xảy ra do dùng lẫn lộn GoRouter và Navigator.pop dẫn đến mất đồng bộ state. Cần cập nhật AppHeader và SampleDetailScreen để dùng GoRouter pop.",
+        "implementationNotes": "Done: Refactored AppHeader and SampleDetailScreen to use GoRouter's context.pop().",
+        "implementationPlan": "## Implementation Plan\n1. **Refactor AppHeader back button logic**: Cập nhật `app_header.dart` tại dòng 62 để ưu tiên dùng `context.pop()` nếu `GoRouter.of(context).canPop()` trả về true, ngược lại mới dùng `Navigator.of(context).pop()`.\n2. **Refactor SampleDetailScreen navigation**: Cập nhật `sample_detail_screen.dart` tại các dòng 97 và 171 để dùng `context.pop()` thay vì `Navigator.pop(context)`.\n3. **Verify**: Chạy lại ứng dụng và kiểm tra luồng điều hướng: Dashboard -\u003e Click Row -\u003e Chi tiết -\u003e Bấm Back/Hủy -\u003e Kiểm tra xem Dashboard có hoạt động bình thường không.",
+        "labels": [
+          "bug",
+          "navigation"
+        ],
+        "priority": "high",
+        "status": "done",
+        "title": "Sửa lỗi crash khi back từ trang Chi tiết Mẫu bệnh phẩm"
+      }
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "docPath": "presentation/chi-tit-lp-presentation-libpresentation",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "presentation/chi-tit-lp-presentation-libpresentation",
+      "version": 1,
+      "timestamp": "2026-05-13T14:53:54.8150024Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Chi tiết lớp Presentation (lib/presentation)"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Tài liệu chi tiết về lớp Presentation (lib/presentation), bao gồm Screens, Widgets, và Utils."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "architecture",
+            "presentation-layer",
+            "clean-architecture",
+            "ui"
+          ]
+        }
+      ],
+      "snapshot": {
+        "description": "Tài liệu chi tiết về lớp Presentation (lib/presentation), bao gồm Screens, Widgets, và Utils.",
+        "tags": [
+          "architecture",
+          "presentation-layer",
+          "clean-architecture",
+          "ui"
+        ],
+        "title": "Chi tiết lớp Presentation (lib/presentation)"
+      }
+    },
+    {
+      "id": "v2",
+      "docPath": "presentation/chi-tit-lp-presentation-libpresentation",
+      "version": 2,
+      "timestamp": "2026-05-13T14:54:13.1612825Z",
+      "changes": [
+        {
+          "field": "content",
+          "oldValue": null,
+          "newValue": "# Chi tiết lớp Presentation (`lib/presentation`)\n\n## 1. Vai trò\nLớp Presentation (Giao diện) chịu trách nhiệm hiển thị thông tin cho người dùng và tiếp nhận các sự kiện tương tác (chạm, lướt, nhập liệu...). Đây là lớp **duy nhất** trong mô hình Clean Architecture phụ thuộc trực tiếp vào Flutter framework (UI widgets).\n\nNguyên tắc quan trọng: Lớp này **không** thực hiện tính toán nghiệp vụ hay lưu trữ dữ liệu trực tiếp. Thay vào đó, nó lắng nghe trạng thái từ lớp Logic (qua Cubit hoặc Riverpod) để vẽ màn hình và gọi hàm của Cubit khi cần xử lý hành động.\n\n## 2. Cấu trúc chi tiết\n\n### 📁 `screens/`\nThư mục này chứa các màn hình (Pages/Screens) hoàn chỉnh của ứng dụng. Mỗi file thường đại diện cho một trang có thể điều hướng tới (chứa `Scaffold`).\nCác màn hình được tổ chức theo module tính năng hoặc vai trò (Role) người dùng:\n- `auth/`: Màn hình liên quan đến xác thực (Đăng nhập, Forgot Password).\n- `clinician/`, `manager/`, `receptionist/`, `specialist/`: Màn hình Dashboard và chức năng cụ thể tương ứng với từng vai trò.\n- `workspace/`: Luồng màn hình phục vụ cho không gian làm việc chuyên biệt (ví dụ: các bước phân tích NST của Specialist).\n- `patient_detail/`: Màn hình hiển thị chi tiết hồ sơ bệnh nhân.\n\n### 📁 `widgets/`\nChứa các thành phần giao diện nhỏ (UI Components), có tính độc lập cao và dễ dàng tái sử dụng. Việc tách widget giúp code màn hình ngắn gọn, dễ bảo trì hơn.\nCũng giống `screens`, `widgets` được chia nhóm một cách logic:\n- `shared/`: Chứa các widget được tái sử dụng trên toàn hệ thống (Custom Buttons, Text Fields, Cards, Loading Indicators...).\n- `dashboard/`: Các widget chung phục vụ cho cấu trúc của màn hình Dashboard.\n- `manager/`, `receptionist/`, `specialist/`: Các widget đặc thù, chỉ hiển thị trong màn hình của một vai trò nhất định (ví dụ: Biểu đồ thống kê riêng của Manager).\n\n### 📁 `utils/`\nChứa các file định nghĩa hàm tiện ích (Helper functions) phục vụ riêng cho tầng UI.\n- File tiêu biểu: `ui_utils.dart`.\n- Có thể chứa các hàm hỗ trợ như:\n  - Hiển thị Toast thông báo, Snackbar, hay Dialog cảnh báo.\n  - Xử lý định dạng dữ liệu (Formatting) để hiển thị (chuyển đổi định dạng ngày tháng, tiền tệ...).\n  - Helper xử lý kích thước (Responsive dimensions).\n\n---\nTài liệu này bổ sung chi tiết cho mục `lib/presentation` trong @doc/presentation/cu-trc-th-mc-lib-v-kin-trc-ng-dng."
+        }
+      ],
+      "snapshot": {
+        "content": "# Chi tiết lớp Presentation (`lib/presentation`)\n\n## 1. Vai trò\nLớp Presentation (Giao diện) chịu trách nhiệm hiển thị thông tin cho người dùng và tiếp nhận các sự kiện tương tác (chạm, lướt, nhập liệu...). Đây là lớp **duy nhất** trong mô hình Clean Architecture phụ thuộc trực tiếp vào Flutter framework (UI widgets).\n\nNguyên tắc quan trọng: Lớp này **không** thực hiện tính toán nghiệp vụ hay lưu trữ dữ liệu trực tiếp. Thay vào đó, nó lắng nghe trạng thái từ lớp Logic (qua Cubit hoặc Riverpod) để vẽ màn hình và gọi hàm của Cubit khi cần xử lý hành động.\n\n## 2. Cấu trúc chi tiết\n\n### 📁 `screens/`\nThư mục này chứa các màn hình (Pages/Screens) hoàn chỉnh của ứng dụng. Mỗi file thường đại diện cho một trang có thể điều hướng tới (chứa `Scaffold`).\nCác màn hình được tổ chức theo module tính năng hoặc vai trò (Role) người dùng:\n- `auth/`: Màn hình liên quan đến xác thực (Đăng nhập, Forgot Password).\n- `clinician/`, `manager/`, `receptionist/`, `specialist/`: Màn hình Dashboard và chức năng cụ thể tương ứng với từng vai trò.\n- `workspace/`: Luồng màn hình phục vụ cho không gian làm việc chuyên biệt (ví dụ: các bước phân tích NST của Specialist).\n- `patient_detail/`: Màn hình hiển thị chi tiết hồ sơ bệnh nhân.\n\n### 📁 `widgets/`\nChứa các thành phần giao diện nhỏ (UI Components), có tính độc lập cao và dễ dàng tái sử dụng. Việc tách widget giúp code màn hình ngắn gọn, dễ bảo trì hơn.\nCũng giống `screens`, `widgets` được chia nhóm một cách logic:\n- `shared/`: Chứa các widget được tái sử dụng trên toàn hệ thống (Custom Buttons, Text Fields, Cards, Loading Indicators...).\n- `dashboard/`: Các widget chung phục vụ cho cấu trúc của màn hình Dashboard.\n- `manager/`, `receptionist/`, `specialist/`: Các widget đặc thù, chỉ hiển thị trong màn hình của một vai trò nhất định (ví dụ: Biểu đồ thống kê riêng của Manager).\n\n### 📁 `utils/`\nChứa các file định nghĩa hàm tiện ích (Helper functions) phục vụ riêng cho tầng UI.\n- File tiêu biểu: `ui_utils.dart`.\n- Có thể chứa các hàm hỗ trợ như:\n  - Hiển thị Toast thông báo, Snackbar, hay Dialog cảnh báo.\n  - Xử lý định dạng dữ liệu (Formatting) để hiển thị (chuyển đổi định dạng ngày tháng, tiền tệ...).\n  - Helper xử lý kích thước (Responsive dimensions).\n\n---\nTài liệu này bổ sung chi tiết cho mục `lib/presentation` trong @doc/presentation/cu-trc-th-mc-lib-v-kin-trc-ng-dng.",
+        "description": "Tài liệu chi tiết về lớp Presentation (lib/presentation), bao gồm Screens, Widgets, và Utils.",
+        "tags": [
+          "architecture",
+          "presentation-layer",
+          "clean-architecture",
+          "ui"
+        ],
+        "title": "Chi tiết lớp Presentation (lib/presentation)"
+      }
+    }
+  ]
+}

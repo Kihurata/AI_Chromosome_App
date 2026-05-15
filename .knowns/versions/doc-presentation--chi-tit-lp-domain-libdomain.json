@@ -1,0 +1,65 @@
+{
+  "docPath": "presentation/chi-tit-lp-domain-libdomain",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "presentation/chi-tit-lp-domain-libdomain",
+      "version": 1,
+      "timestamp": "2026-05-13T07:54:15.5579328Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Chi tiết lớp Domain (lib/domain)"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Tài liệu chi tiết về lớp Domain (lib/domain), bao gồm Entities, Repositories (Interface) và UseCases."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "architecture",
+            "domain-layer",
+            "clean-architecture"
+          ]
+        }
+      ],
+      "snapshot": {
+        "description": "Tài liệu chi tiết về lớp Domain (lib/domain), bao gồm Entities, Repositories (Interface) và UseCases.",
+        "tags": [
+          "architecture",
+          "domain-layer",
+          "clean-architecture"
+        ],
+        "title": "Chi tiết lớp Domain (lib/domain)"
+      }
+    },
+    {
+      "id": "v2",
+      "docPath": "presentation/chi-tit-lp-domain-libdomain",
+      "version": 2,
+      "timestamp": "2026-05-13T07:54:24.8804865Z",
+      "changes": [
+        {
+          "field": "content",
+          "oldValue": null,
+          "newValue": "# Chi tiết lớp Domain (`lib/domain`)\n\n## 1. Vai trò\nLớp Domain (Domain Layer) là trung tâm của kiến trúc Clean Architecture. Nó chứa các quy tắc nghiệp vụ (Business Rules) thuần túy nhất của ứng dụng, không phụ thuộc vào bất kỳ framework (như Flutter), cơ sở dữ liệu (như Firestore), hay thư viện bên ngoài nào.\nMục đích là để logic nghiệp vụ có thể dễ dàng kiểm thử (Unit Test) và không bị ảnh hưởng khi công nghệ thay đổi.\n\n## 2. Cấu trúc chi tiết\n\n### 📁 `entities/`\nChứa các đối tượng dữ liệu cốt lõi (Core Business Objects) của ứng dụng.\n- Đây là các class Dart thuần túy, định nghĩa các thuộc tính và phương thức nghiệp vụ.\n- Không chứa các hàm factory liên quan đến JSON hay Firestore (đó là việc của Model ở lớp Data).\n- Ví dụ thực tế trong dự án:\n  - `patient.dart`: Thực thể Bệnh nhân.\n  - `sample.dart`: Thực thể Mẫu bệnh phẩm.\n  - `test_order.dart`: Thực thể Lệnh xét nghiệm.\n  - `metaphase_image.dart`: Thực thể Ảnh kỳ giữa (Chromosome).\n\n### 📁 `repositories/`\nChứa các **Abstract Class** (Interface) định nghĩa các hành động lấy/ghi dữ liệu.\n- Lớp này không chứa code triển khai cụ thể (Implementation). Code triển khai thực tế nằm ở `lib/data/repositories`.\n- Giúp lớp Domain không bị phụ thuộc vào cách thức dữ liệu được lưu trữ.\n\n### 📁 `usecases/`\nChứa các trường hợp sử dụng (Use Cases) cụ thể của ứng dụng. Mỗi Use Case thường chỉ thực hiện một hành động nghiệp vụ duy nhất (Single Responsibility).\n- Đóng vai trò là cầu nối giữa lớp UI/Logic (Cubit) và lớp Repository.\n- Ví dụ thực tế trong dự án:\n  - `get_sample_by_id_usecase.dart`: Lấy thông tin mẫu bằng ID.\n  - `update_sample_note_usecase.dart`: Cập nhật ghi chú mẫu.\n  - Các thư mục con chia theo module như `appointment/`, `patient/`, `specialist/`.\n\n---\nTài liệu này bổ sung chi tiết cho mục `lib/domain` trong @doc/presentation/cu-trc-th-mc-lib-v-kin-trc-ng-dng.\n"
+        }
+      ],
+      "snapshot": {
+        "content": "# Chi tiết lớp Domain (`lib/domain`)\n\n## 1. Vai trò\nLớp Domain (Domain Layer) là trung tâm của kiến trúc Clean Architecture. Nó chứa các quy tắc nghiệp vụ (Business Rules) thuần túy nhất của ứng dụng, không phụ thuộc vào bất kỳ framework (như Flutter), cơ sở dữ liệu (như Firestore), hay thư viện bên ngoài nào.\nMục đích là để logic nghiệp vụ có thể dễ dàng kiểm thử (Unit Test) và không bị ảnh hưởng khi công nghệ thay đổi.\n\n## 2. Cấu trúc chi tiết\n\n### 📁 `entities/`\nChứa các đối tượng dữ liệu cốt lõi (Core Business Objects) của ứng dụng.\n- Đây là các class Dart thuần túy, định nghĩa các thuộc tính và phương thức nghiệp vụ.\n- Không chứa các hàm factory liên quan đến JSON hay Firestore (đó là việc của Model ở lớp Data).\n- Ví dụ thực tế trong dự án:\n  - `patient.dart`: Thực thể Bệnh nhân.\n  - `sample.dart`: Thực thể Mẫu bệnh phẩm.\n  - `test_order.dart`: Thực thể Lệnh xét nghiệm.\n  - `metaphase_image.dart`: Thực thể Ảnh kỳ giữa (Chromosome).\n\n### 📁 `repositories/`\nChứa các **Abstract Class** (Interface) định nghĩa các hành động lấy/ghi dữ liệu.\n- Lớp này không chứa code triển khai cụ thể (Implementation). Code triển khai thực tế nằm ở `lib/data/repositories`.\n- Giúp lớp Domain không bị phụ thuộc vào cách thức dữ liệu được lưu trữ.\n\n### 📁 `usecases/`\nChứa các trường hợp sử dụng (Use Cases) cụ thể của ứng dụng. Mỗi Use Case thường chỉ thực hiện một hành động nghiệp vụ duy nhất (Single Responsibility).\n- Đóng vai trò là cầu nối giữa lớp UI/Logic (Cubit) và lớp Repository.\n- Ví dụ thực tế trong dự án:\n  - `get_sample_by_id_usecase.dart`: Lấy thông tin mẫu bằng ID.\n  - `update_sample_note_usecase.dart`: Cập nhật ghi chú mẫu.\n  - Các thư mục con chia theo module như `appointment/`, `patient/`, `specialist/`.\n\n---\nTài liệu này bổ sung chi tiết cho mục `lib/domain` trong @doc/presentation/cu-trc-th-mc-lib-v-kin-trc-ng-dng.\n",
+        "description": "Tài liệu chi tiết về lớp Domain (lib/domain), bao gồm Entities, Repositories (Interface) và UseCases.",
+        "tags": [
+          "architecture",
+          "domain-layer",
+          "clean-architecture"
+        ],
+        "title": "Chi tiết lớp Domain (lib/domain)"
+      }
+    }
+  ]
+}

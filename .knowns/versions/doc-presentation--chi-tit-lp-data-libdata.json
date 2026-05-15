@@ -1,0 +1,65 @@
+{
+  "docPath": "presentation/chi-tit-lp-data-libdata",
+  "currentVersion": 2,
+  "versions": [
+    {
+      "id": "v1",
+      "docPath": "presentation/chi-tit-lp-data-libdata",
+      "version": 1,
+      "timestamp": "2026-05-13T07:50:48.6855284Z",
+      "changes": [
+        {
+          "field": "title",
+          "oldValue": null,
+          "newValue": "Chi tiết lớp Data (lib/data)"
+        },
+        {
+          "field": "description",
+          "oldValue": null,
+          "newValue": "Tài liệu chi tiết về lớp Data (lib/data), bao gồm DataSources, Models và Repository Implementations."
+        },
+        {
+          "field": "tags",
+          "oldValue": null,
+          "newValue": [
+            "architecture",
+            "data-layer",
+            "clean-architecture"
+          ]
+        }
+      ],
+      "snapshot": {
+        "description": "Tài liệu chi tiết về lớp Data (lib/data), bao gồm DataSources, Models và Repository Implementations.",
+        "tags": [
+          "architecture",
+          "data-layer",
+          "clean-architecture"
+        ],
+        "title": "Chi tiết lớp Data (lib/data)"
+      }
+    },
+    {
+      "id": "v2",
+      "docPath": "presentation/chi-tit-lp-data-libdata",
+      "version": 2,
+      "timestamp": "2026-05-13T07:50:54.9481955Z",
+      "changes": [
+        {
+          "field": "content",
+          "oldValue": null,
+          "newValue": "# Chi tiết lớp Data (`lib/data`)\n\n## 1. Vai trò\nLớp Data (Data Layer) chịu trách nhiệm giao tiếp với các nguồn dữ liệu bên ngoài (External Data Sources) như Firebase Firestore, Firebase Storage, hoặc các REST API. \nNó hiện thực hóa (implement) các abstract interface được định nghĩa ở lớp Domain và chuyển đổi dữ liệu thô thành các đối tượng có cấu trúc.\n\n## 2. Cấu trúc chi tiết\n\n### 📁 `datasources/`\nĐây là nơi thực hiện các truy vấn thô (Raw Queries) đến DB hoặc API. Các file ở đây không chứa logic nghiệp vụ mà chỉ tập trung vào việc lấy dữ liệu về.\n- Sử dụng `FirebaseFirestore.instance` để get/set dữ liệu.\n- Ví dụ thực tế trong dự án:\n  - `patient_remote_datasource.dart`: Truy vấn thông tin bệnh nhân.\n  - `sample_remote_datasource.dart`: Truy vấn thông tin mẫu bệnh phẩm.\n  - `test_order_remote_datasource.dart`: Quản lý các lệnh xét nghiệm.\n\n### 📁 `models/`\nChứa các Data Model. Các model này thường \"extends\" hoặc implements các Entity từ lớp Domain nhưng được bổ sung thêm các phương thức hỗ trợ Serialization/Deserialization.\n- Chứa các hàm factory như `fromFirestore()`, `fromMap()`, `toJson()`.\n- Mục đích: Cách ly lớp Domain khỏi cách thức dữ liệu được lưu trữ (ví dụ: Firestore dùng Map, API dùng JSON).\n\n### 📁 `repositories/`\nChứa các file triển khai cụ thể (Implementation) của các Repository Interface từ lớp Domain.\n- Tên file luôn kết thúc bằng `_impl.dart` (ví dụ: `patient_repository_impl.dart`).\n- Nhiệm vụ: Gọi đến các Data Source tương ứng, bắt lỗi (Exception), chuyển đổi dữ liệu thành Model/Entity và trả về cho lớp Logic hoặc Domain.\n- Ví dụ thực tế trong dự án:\n  - `patient_repository_impl.dart`\n  - `sample_repository_impl.dart`\n  - `workspace_repository_impl.dart` (Chứa logic xử lý nặng ký cho Workspace của Specialist).\n\n---\nTài liệu này bổ sung chi tiết cho mục `lib/data` trong @doc/presentation/cu-trc-th-mc-lib-v-kin-trc-ng-dng.\n"
+        }
+      ],
+      "snapshot": {
+        "content": "# Chi tiết lớp Data (`lib/data`)\n\n## 1. Vai trò\nLớp Data (Data Layer) chịu trách nhiệm giao tiếp với các nguồn dữ liệu bên ngoài (External Data Sources) như Firebase Firestore, Firebase Storage, hoặc các REST API. \nNó hiện thực hóa (implement) các abstract interface được định nghĩa ở lớp Domain và chuyển đổi dữ liệu thô thành các đối tượng có cấu trúc.\n\n## 2. Cấu trúc chi tiết\n\n### 📁 `datasources/`\nĐây là nơi thực hiện các truy vấn thô (Raw Queries) đến DB hoặc API. Các file ở đây không chứa logic nghiệp vụ mà chỉ tập trung vào việc lấy dữ liệu về.\n- Sử dụng `FirebaseFirestore.instance` để get/set dữ liệu.\n- Ví dụ thực tế trong dự án:\n  - `patient_remote_datasource.dart`: Truy vấn thông tin bệnh nhân.\n  - `sample_remote_datasource.dart`: Truy vấn thông tin mẫu bệnh phẩm.\n  - `test_order_remote_datasource.dart`: Quản lý các lệnh xét nghiệm.\n\n### 📁 `models/`\nChứa các Data Model. Các model này thường \"extends\" hoặc implements các Entity từ lớp Domain nhưng được bổ sung thêm các phương thức hỗ trợ Serialization/Deserialization.\n- Chứa các hàm factory như `fromFirestore()`, `fromMap()`, `toJson()`.\n- Mục đích: Cách ly lớp Domain khỏi cách thức dữ liệu được lưu trữ (ví dụ: Firestore dùng Map, API dùng JSON).\n\n### 📁 `repositories/`\nChứa các file triển khai cụ thể (Implementation) của các Repository Interface từ lớp Domain.\n- Tên file luôn kết thúc bằng `_impl.dart` (ví dụ: `patient_repository_impl.dart`).\n- Nhiệm vụ: Gọi đến các Data Source tương ứng, bắt lỗi (Exception), chuyển đổi dữ liệu thành Model/Entity và trả về cho lớp Logic hoặc Domain.\n- Ví dụ thực tế trong dự án:\n  - `patient_repository_impl.dart`\n  - `sample_repository_impl.dart`\n  - `workspace_repository_impl.dart` (Chứa logic xử lý nặng ký cho Workspace của Specialist).\n\n---\nTài liệu này bổ sung chi tiết cho mục `lib/data` trong @doc/presentation/cu-trc-th-mc-lib-v-kin-trc-ng-dng.\n",
+        "description": "Tài liệu chi tiết về lớp Data (lib/data), bao gồm DataSources, Models và Repository Implementations.",
+        "tags": [
+          "architecture",
+          "data-layer",
+          "clean-architecture"
+        ],
+        "title": "Chi tiết lớp Data (lib/data)"
+      }
+    }
+  ]
+}
