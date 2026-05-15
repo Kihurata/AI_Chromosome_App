@@ -14,6 +14,7 @@ class SampleManagementState extends Equatable {
   final AppDateRangePreset dateRangePreset;
   final String? errorMessage;
   final String? lastStartedOrderId;
+  final String? notificationMessage;
 
   const SampleManagementState({
     this.status = SampleManagementStatus.initial,
@@ -25,6 +26,7 @@ class SampleManagementState extends Equatable {
     this.dateRangePreset = AppDateRangePreset.all,
     this.errorMessage,
     this.lastStartedOrderId,
+    this.notificationMessage,
   });
 
   SampleManagementState copyWith({
@@ -39,6 +41,8 @@ class SampleManagementState extends Equatable {
     String? errorMessage,
     String? lastStartedOrderId,
     bool clearLastStartedOrderId = false,
+    String? notificationMessage,
+    bool clearNotificationMessage = false,
   }) {
     return SampleManagementState(
       status: status ?? this.status,
@@ -50,6 +54,7 @@ class SampleManagementState extends Equatable {
       dateRangePreset: dateRangePreset ?? this.dateRangePreset,
       errorMessage: errorMessage ?? this.errorMessage,
       lastStartedOrderId: clearLastStartedOrderId ? null : (lastStartedOrderId ?? this.lastStartedOrderId),
+      notificationMessage: clearNotificationMessage ? null : (notificationMessage ?? this.notificationMessage),
     );
   }
 
@@ -64,5 +69,6 @@ class SampleManagementState extends Equatable {
         dateRangePreset,
         errorMessage,
         lastStartedOrderId,
+        notificationMessage,
       ];
 }

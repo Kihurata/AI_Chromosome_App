@@ -44,7 +44,6 @@ const List<NavItem> appNavItems = [
     tooltip: 'Danh sách lịch khám',
   ),
 
-
   // ── SPECIALIST ────────────────────────────────────────────────────────────
   NavItem(
     label: 'Tổng quan',
@@ -52,13 +51,6 @@ const List<NavItem> appNavItems = [
     routePath: '/specialist/dashboard',
     allowedRoles: [AppRole.specialist],
     tooltip: 'Trang tổng quan chuyên khoa',
-  ),
-  NavItem(
-    label: 'Phân tích NST',
-    icon: LucideIcons.dna,
-    routePath: '/specialist/analysis',
-    allowedRoles: [AppRole.specialist],
-    tooltip: 'Phân tích karyotype',
   ),
   NavItem(
     label: 'Quản lý mẫu',
@@ -119,4 +111,3 @@ String defaultRouteForRole(AppRole role) {
       return '/manager/dashboard';
   }
 }
-

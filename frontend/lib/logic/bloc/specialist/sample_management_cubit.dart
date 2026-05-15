@@ -12,11 +12,52 @@ import 'sample_management_state.dart';
 class SampleManagementCubit extends Cubit<SampleManagementState> {
   final SampleRepository _repository;
   final UpdateOrderStatus _updateOrderStatus;
+  Timer? _notificationTimer;
+  final Set<String> _notifiedSampleIds = {};
 
   SampleManagementCubit(
     this._repository,
     this._updateOrderStatus,
   ) : super(const SampleManagementState());
+
+  @override
+  Future<void> close() {
+    _notificationTimer?.cancel();
+    return super.close();
+  }
+
+  void _startNotificationTimer() {
+    _notificationTimer?.cancel();
+    _notificationTimer = Timer.periodic(const Duration(minutes: 15), (_) {
+      _checkHarvestTimes();
+    });
+    // check immediately
+    _checkHarvestTimes();
+  }
+
+  void _checkHarvestTimes() {
+    if (state.allSamples.isEmpty) return;
+    final now = DateTime.now();
+    for (final sample in state.allSamples) {
+      if (sample.status == SampleStatus.culturing && sample.expectedHarvestTime != null) {
+        if (_notifiedSampleIds.contains(sample.id)) continue;
+        
+        final timeDiff = sample.expectedHarvestTime!.difference(now);
+        // If harvest time is within 4 hours
+        if (timeDiff.inHours >= 0 && timeDiff.inHours <= 4) {
+          _notifiedSampleIds.add(sample.id);
+          emit(state.copyWith(
+            notificationMessage: 'Mẫu ${sample.patientName} (${sample.sampleType}) sắp đến thời gian thu hoạch!',
+          ));
+          Future.delayed(const Duration(milliseconds: 100), () {
+            if (!isClosed) {
+              emit(state.copyWith(clearNotificationMessage: true));
+            }
+          });
+        }
+      }
+    }
+  }
 
   Future<void> loadSamples() async {
     emit(state.copyWith(status: SampleManagementStatus.loading));
@@ -43,6 +84,12 @@ class SampleManagementCubit extends Cubit<SampleManagementState> {
               allSamples: samples,
               filteredSamples: filtered,
             ));
+
+            if (_notificationTimer == null) {
+              _startNotificationTimer();
+            } else {
+              _checkHarvestTimes();
+            }
           },
         );
       }

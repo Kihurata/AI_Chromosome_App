@@ -85,12 +85,18 @@ class _SampleManagementPageState extends ConsumerState<SampleManagementPage> {
     final cubit = context.read<SampleManagementCubit>();
 
     return BlocListener<SampleManagementCubit, SampleManagementState>(
-      listenWhen: (p, c) => p.status != c.status && c.status == SampleManagementStatus.error,
+      listenWhen: (p, c) => 
+          (p.status != c.status && c.status == SampleManagementStatus.error) ||
+          p.notificationMessage != c.notificationMessage,
       listener: (context, state) {
         if (!context.mounted) return;
 
         if (state.status == SampleManagementStatus.error && state.errorMessage != null) {
           NotificationFactory.showError(context, state.errorMessage!);
+        }
+
+        if (state.notificationMessage != null && state.notificationMessage!.isNotEmpty) {
+          NotificationFactory.showInfo(context, state.notificationMessage!);
         }
       },
       child: MainListLayout(

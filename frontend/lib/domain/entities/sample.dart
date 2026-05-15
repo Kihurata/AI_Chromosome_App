@@ -45,6 +45,8 @@ class Sample extends Equatable {
   final DateTime collectedAt;
   final SampleStatus status;
   final String? notes;
+  final DateTime? expectedHarvestTime;
+  final DateTime? actualHarvestTime;
 
   const Sample({
     required this.id,
@@ -56,6 +58,8 @@ class Sample extends Equatable {
     required this.collectedAt,
     this.status = SampleStatus.collected,
     this.notes,
+    this.expectedHarvestTime,
+    this.actualHarvestTime,
   });
 
   @override
@@ -69,5 +73,7 @@ class Sample extends Equatable {
         collectedAt,
         status,
         notes,
+        expectedHarvestTime,
+        actualHarvestTime,
       ];
 }
