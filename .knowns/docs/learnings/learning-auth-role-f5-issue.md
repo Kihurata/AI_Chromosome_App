@@ -1,8 +1,12 @@
 ---
 title: 'Learning: Auth Role Reset on F5'
 description: Learnings from debugging role reset on page refresh
-folder: learnings
-tags: [learning, auth, firestore]
+createdAt: '2026-05-13T07:31:51.891Z'
+updatedAt: '2026-05-13T07:31:51.891Z'
+tags:
+  - learning
+  - auth
+  - firestore
 ---
 
 ## Patterns
@@ -28,3 +32,12 @@ tags: [learning, auth, firestore]
 - **Root cause:** `NotificationCubit` called `set({'fcm_token': token}, SetOptions(merge: true))` on startup. This triggered *before* `AuthCubit` read the document. If the document didn't exist or was empty in the cache/server at that split second (or due to race condition), `set()` created a document with ONLY `fcm_token`. `AuthCubit` then read this partial document and defaulted to `'user'`.
 - **Time lost:** 1 hour
 - **Prevention:** Do not perform writes that can create partial documents on startup without verifying existence, or ensure the read is completed first. Better yet, handle missing fields gracefully and don't default to a valid role if data is incomplete.
+
+
+## Fix Applied
+
+### Approach A: Use `update()` instead of `set(merge: true)` — DONE (2026-05-13)
+- **File:** `frontend/lib/logic/bloc/notification/notification_cubit.dart`
+- **Change:** Replaced `.set({'fcm_token': token}, SetOptions(merge: true))` with `.update({'fcm_token': token})`
+- **Reason:** `set(merge: true)` creates a partial document if cache is empty, leaving a document with only `fcm_token`. `AuthCubit` then reads `role: null → 'user'` which maps to `AppRole.receptionist` fallback.
+- **Error handling:** `FirebaseException(code: 'not-found')` is caught and logged as a warning. No partial document is created.

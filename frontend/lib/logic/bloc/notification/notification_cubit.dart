@@ -14,7 +14,11 @@ class NotificationCubit extends Cubit<NotificationState> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   StreamSubscription? _onMessageSubscription;
 
-  NotificationCubit() : super(NotificationInitial());
+  // Internal session list maintained independently of state for persistence
+  final List<NotificationItem> _sessionNotifications = [];
+  int _unreadCount = 0;
+
+  NotificationCubit() : super(const NotificationListState());
 
   Future<void> initialize() async {
     // 1. Request Permission
@@ -39,7 +43,7 @@ class NotificationCubit extends Cubit<NotificationState> {
           }
         }
       });
-      
+
       // 3. Listen to Foreground Messages
       _onMessageSubscription = FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         _handleMessage(message);
@@ -52,10 +56,18 @@ class NotificationCubit extends Cubit<NotificationState> {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(uid)
-          .set({'fcm_token': token}, SetOptions(merge: true));
+          .update({'fcm_token': token});
       debugPrint("Successfully updated FCM token in Firestore for user: $uid");
+    } on FirebaseException catch (e) {
+      if (e.code == 'not-found') {
+        // Document doesn't exist yet — skip silently to avoid partial writes
+        // that would reset the user's role to the fallback (Receptionist).
+        debugPrint("NotificationCubit: User doc not found for $uid. Skipping FCM token update.");
+      } else {
+        debugPrint("NotificationCubit: FirebaseException updating FCM token: ${e.code} - ${e.message}");
+      }
     } catch (e) {
-      debugPrint("Error updating user token in Firestore: $e");
+      debugPrint("NotificationCubit: Error updating FCM token in Firestore: $e");
     }
   }
 
@@ -69,18 +81,45 @@ class NotificationCubit extends Cubit<NotificationState> {
     final String type = data['type'] ?? 'DEFAULT';
 
     if (title.isNotEmpty) {
+      // Append to session list
+      final item = NotificationItem(
+        title: title,
+        body: body,
+        type: type,
+        relatedId: data['relatedId'],
+        receivedAt: DateTime.now(),
+      );
+      _sessionNotifications.insert(0, item); // newest first
+      _unreadCount++;
+
       // Play Sound
       _playSound(type);
 
+      // 1. Emit one-shot trigger for Snackbar/BlocListener in main.dart
       emit(NotificationReceived(
         title: title,
         body: body,
         type: type,
         relatedId: data['relatedId'],
       ));
-      
-      emit(NotificationInitial());
+
+      // 2. Immediately restore list state so bell badge updates
+      _emitListState();
     }
+  }
+
+  /// Call this when the user opens the notification panel to clear unread count.
+  void markAllRead() {
+    _unreadCount = 0;
+    _emitListState();
+  }
+
+  void _emitListState() {
+    if (isClosed) return;
+    emit(NotificationListState(
+      notifications: List.unmodifiable(_sessionNotifications),
+      unreadCount: _unreadCount,
+    ));
   }
 
   void _playSound(String type) async {
@@ -111,8 +150,8 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   void onActionPressed(String relatedId, String type) {
     emit(NotificationActionRequested(relatedId: relatedId, type: type));
-    // Immediately return to initial to allow same action to be triggered again if needed
-    emit(NotificationInitial());
+    // Immediately return to list state to allow same action to be triggered again
+    _emitListState();
   }
 
   @override

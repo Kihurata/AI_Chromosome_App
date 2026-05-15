@@ -4,8 +4,10 @@ import 'package:go_router/go_router.dart';
 import '../../../../domain/entities/test_order.dart';
 import '../../../widgets/shared/form/app_buttons.dart';
 import '../../../../core/theme/app_colors.dart';
-
-class SpecialistOrderCard extends StatelessWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/providers/auth_provider.dart';
+import '../../../../core/providers/header_provider.dart';
+class SpecialistOrderCard extends ConsumerWidget {
   final TestOrder order;
   final bool isFocused;
 
@@ -16,7 +18,7 @@ class SpecialistOrderCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
       decoration: BoxDecoration(
@@ -37,10 +39,19 @@ class SpecialistOrderCard extends StatelessWidget {
         ],
       ),
       child: InkWell(
-        onTap: () => context.pushNamed(
-          'specialist-sample-detail',
-          pathParameters: {'id': order.id},
-        ),
+        onTap: () async {
+          await context.pushNamed(
+            'specialist-sample-detail',
+            pathParameters: {'id': order.id},
+          );
+          if (context.mounted) {
+            final authState = ref.read(authNotifierProvider);
+            ref.read(headerProvider.notifier).update(
+              title: 'Bảng điều khiển',
+              subtitle: 'Chào mừng trở lại, ${authState.displayName}',
+            );
+          }
+        },
         hoverColor: Colors.blue.shade50.withValues(alpha: 0.5),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),

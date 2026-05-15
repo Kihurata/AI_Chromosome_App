@@ -6,7 +6,7 @@ import '../../../domain/usecases/test_order/update_report_content.dart';
 import '../../../domain/repositories/workspace_repository.dart';
 import '../../../domain/entities/metaphase_image.dart';
 
-enum WorkspaceStatus { initial, loading, success, error }
+enum WorkspaceStatus { initial, loading, success, error, loaded }
 
 class WorkspaceState {
   final List<Chromosome> chromosomes;
@@ -78,19 +78,21 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
 
   Future<void> fetchChromosomesForStep3() async {
     if (state.selectedImageIds.isEmpty) return;
-    
+
     emit(state.copyWith(status: WorkspaceStatus.loading));
     final selectedImageId = state.selectedImageIds.first;
     final result = await workspaceRepository.fetchChromosomesFromStorage(
       orderId,
       selectedImageId,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: WorkspaceStatus.error,
-        errorMessage: failure.message,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          status: WorkspaceStatus.error,
+          errorMessage: failure.message,
+        ),
+      ),
       (chromosomes) async {
         final imageResult = await workspaceRepository.getMetaphaseImage(
           orderId,
@@ -103,38 +105,44 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
           (image) => suggestions = image.aiSuggestions,
         );
 
-        emit(state.copyWith(
-          status: WorkspaceStatus.success,
-          chromosomes: chromosomes,
-          suggestions: suggestions,
-          isDirty: false,
-        ));
+        emit(
+          state.copyWith(
+            status: WorkspaceStatus.loaded,
+            chromosomes: chromosomes,
+            suggestions: suggestions,
+            isDirty: false,
+          ),
+        );
       },
     );
   }
 
   Future<void> saveKaryogram() async {
     if (state.selectedImageIds.isEmpty) return;
-    
+
     emit(state.copyWith(status: WorkspaceStatus.loading));
     final selectedImageId = state.selectedImageIds.first;
-    
+
     final result = await workspaceRepository.saveKaryogram(
       orderId,
       selectedImageId,
       state.chromosomes,
     );
-    
+
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: WorkspaceStatus.error,
-        errorMessage: failure.message,
-      )),
-      (suggestions) => emit(state.copyWith(
-        status: WorkspaceStatus.success,
-        suggestions: suggestions,
-        isDirty: false,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          status: WorkspaceStatus.error,
+          errorMessage: failure.message,
+        ),
+      ),
+      (suggestions) => emit(
+        state.copyWith(
+          status: WorkspaceStatus.success,
+          suggestions: suggestions,
+          isDirty: false,
+        ),
+      ),
     );
   }
 
@@ -148,7 +156,9 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
       return item;
     }).toList();
 
-    emit(state.copyWith(chromosomes: updatedList, selectedId: id, isDirty: true));
+    emit(
+      state.copyWith(chromosomes: updatedList, selectedId: id, isDirty: true),
+    );
 
     if (updatedChromosome != null && state.selectedImageIds.isNotEmpty) {
       final selectedImageId = state.selectedImageIds.first;
@@ -166,7 +176,9 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
       return item;
     }).toList();
 
-    emit(state.copyWith(chromosomes: updatedList, selectedId: id, isDirty: true));
+    emit(
+      state.copyWith(chromosomes: updatedList, selectedId: id, isDirty: true),
+    );
 
     if (updatedChromosome != null && state.selectedImageIds.isNotEmpty) {
       final selectedImageId = state.selectedImageIds.first;
@@ -208,19 +220,29 @@ class WorkspaceCubit extends Cubit<WorkspaceState> {
 
   Future<void> submitAnalysis(String reportContent) async {
     emit(state.copyWith(status: WorkspaceStatus.loading));
-    
+
     // 1. Save report content
     final saveResult = await updateReportContentUsecase(orderId, reportContent);
-    
+
     await saveResult.fold(
       (failure) async {
-        emit(state.copyWith(status: WorkspaceStatus.error, errorMessage: failure.message));
+        emit(
+          state.copyWith(
+            status: WorkspaceStatus.error,
+            errorMessage: failure.message,
+          ),
+        );
       },
       (_) async {
         // 2. Submit analysis
         final result = await submitAnalysisUsecase(orderId);
         result.fold(
-          (failure) => emit(state.copyWith(status: WorkspaceStatus.error, errorMessage: failure.message)),
+          (failure) => emit(
+            state.copyWith(
+              status: WorkspaceStatus.error,
+              errorMessage: failure.message,
+            ),
+          ),
           (_) => emit(state.copyWith(status: WorkspaceStatus.success)),
         );
       },
